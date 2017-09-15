@@ -1,0 +1,1914 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Colors All 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div>
+    <div
+      className="sc-ifAKCX cFlEyZ sc-bdVaJa kdjLZs"
+      is={null}
+    >
+      <h3
+        className="sc-eNQAEJ bpjgLe sc-jKJlTe cAcSXe sc-ckVGcZ eyLfWl sc-dxgOiQ iRMEPR"
+        is={null}
+      >
+        primary
+         Colors
+      </h3>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat jtWIOA sc-bdVaJa iHSytp"
+        is={null}
+      >
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo jIuswY sc-iyvyFf jkxrbR sc-gzOgki dGNzDn"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              orange100
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f6921e
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo foSUML sc-iyvyFf jkxrbR sc-gzOgki ZuuBG"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              orange100Dark
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f1860a
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bZAVRy sc-iyvyFf jkxrbR sc-gzOgki cSffEg"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              orange32
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #fcdebb
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bCeXvs sc-iyvyFf jkxrbR sc-gzOgki eOOHHA"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              orange10
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #fff5ea
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bCTwwO sc-iyvyFf jkxrbR sc-gzOgki gvZopd"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blueDark
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #2cacbe
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo jzyhhy sc-iyvyFf jkxrbR sc-gzOgki fhEphH"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blue100
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #67babe
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo iSXfxd sc-iyvyFf jkxrbR sc-gzOgki kqWEWJ"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blue40
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #c2e3e5
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo WYQJB sc-iyvyFf jkxrbR sc-gzOgki bGyFyZ"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blue20
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #e1f1f2
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bbGplW sc-iyvyFf jkxrbR sc-gzOgki hzmeOr"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blue10
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f0f7f7
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-ifAKCX cFlEyZ sc-bdVaJa kdjLZs"
+      is={null}
+    >
+      <h3
+        className="sc-eNQAEJ bpjgLe sc-jKJlTe cAcSXe sc-ckVGcZ eyLfWl sc-dxgOiQ iRMEPR"
+        is={null}
+      >
+        linkInteractivity
+         Colors
+      </h3>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat jtWIOA sc-bdVaJa iHSytp"
+        is={null}
+      >
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo tEizR sc-iyvyFf jkxrbR sc-gzOgki hCbbsC"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blue170
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #007896
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo gEEHtN sc-iyvyFf jkxrbR sc-gzOgki cbtnCe"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blue160
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #048fa8
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-ifAKCX cFlEyZ sc-bdVaJa kdjLZs"
+      is={null}
+    >
+      <h3
+        className="sc-eNQAEJ bpjgLe sc-jKJlTe cAcSXe sc-ckVGcZ eyLfWl sc-dxgOiQ iRMEPR"
+        is={null}
+      >
+        auxiliary
+         Colors
+      </h3>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat jtWIOA sc-bdVaJa iHSytp"
+        is={null}
+      >
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo dYTFQf sc-iyvyFf jkxrbR sc-gzOgki kzMXNU"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              greenDark
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #4f8a11
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo lcHbJK sc-iyvyFf jkxrbR sc-gzOgki cwviAK"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              pink100
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f16d79
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo gpCxTZ sc-iyvyFf jkxrbR sc-gzOgki cTXsHY"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              pinkDark
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #b8414d
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo YLUSs sc-iyvyFf jkxrbR sc-gzOgki kLACsY"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              yellow100
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f3c51b
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo diBifD sc-iyvyFf jkxrbR sc-gzOgki bYAVCK"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              green100
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #84c341
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo gGJfOr sc-iyvyFf jkxrbR sc-gzOgki foGHdg"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              green30
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #dbefc6
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bcimIi sc-iyvyFf jkxrbR sc-gzOgki gguiyR"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              green10
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f3faec
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo gkpqMh sc-iyvyFf jkxrbR sc-gzOgki gJpaki"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              pink30
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #fcd4d8
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo dhQqAl sc-iyvyFf jkxrbR sc-gzOgki bYrFsS"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              pink10
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #fef1f2
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo iCOkU sc-iyvyFf jkxrbR sc-gzOgki bpRfFi"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              yellow60
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #fbf483
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo iiKEjA sc-iyvyFf jkxrbR sc-gzOgki dZayHd"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              yellow10
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #fefbd6
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo eFOHUf sc-iyvyFf jkxrbR sc-gzOgki ikxIJG"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              yellowDark
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #998634
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-ifAKCX cFlEyZ sc-bdVaJa kdjLZs"
+      is={null}
+    >
+      <h3
+        className="sc-eNQAEJ bpjgLe sc-jKJlTe cAcSXe sc-ckVGcZ eyLfWl sc-dxgOiQ iRMEPR"
+        is={null}
+      >
+        greyScale
+         Colors
+      </h3>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat jtWIOA sc-bdVaJa iHSytp"
+        is={null}
+      >
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo jeAjol sc-iyvyFf jkxrbR sc-gzOgki jwCDVH"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              15
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #ddd
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo jPrEvD sc-iyvyFf jkxrbR sc-gzOgki ceTsbc"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              38
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #aaa
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo cwfsxq sc-iyvyFf jkxrbR sc-gzOgki gleDnP"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              51
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #888
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo dFRmOL sc-iyvyFf jkxrbR sc-gzOgki bjbmWt"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              64
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #666
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo uGEmK sc-iyvyFf jkxrbR sc-gzOgki GXusb"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              73
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #444
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bQbjYS sc-iyvyFf jkxrbR sc-gzOgki ekzATg"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              black
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #000
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo fBwvgA sc-iyvyFf jkxrbR sc-gzOgki bqhJrv"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              07
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #eee
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo igYojg sc-iyvyFf jkxrbR sc-gzOgki iqfbXI"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              03
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f9f9f9
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bzOkoK sc-iyvyFf jkxrbR sc-gzOgki kqsTPw"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              white
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #fff
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo NIajM sc-iyvyFf jkxrbR sc-gzOgki eQPRrZ"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              transparent
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              rgba(0, 0, 0, 0)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-ifAKCX cFlEyZ sc-bdVaJa kdjLZs"
+      is={null}
+    >
+      <h3
+        className="sc-eNQAEJ bpjgLe sc-jKJlTe cAcSXe sc-ckVGcZ eyLfWl sc-dxgOiQ iRMEPR"
+        is={null}
+      >
+        context
+         Colors
+      </h3>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat jtWIOA sc-bdVaJa iHSytp"
+        is={null}
+      >
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo gpCxTZ sc-iyvyFf jkxrbR sc-gzOgki cTXsHY"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              error
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #b8414d
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo lcHbJK sc-iyvyFf jkxrbR sc-gzOgki cwviAK"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              errorBorder
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f16d79
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo dYTFQf sc-iyvyFf jkxrbR sc-gzOgki kzMXNU"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              success
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #4f8a11
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo YLUSs sc-iyvyFf jkxrbR sc-gzOgki kLACsY"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              warning
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f3c51b
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="sc-ifAKCX cFlEyZ sc-bdVaJa kdjLZs"
+      is={null}
+    >
+      <h3
+        className="sc-eNQAEJ bpjgLe sc-jKJlTe cAcSXe sc-ckVGcZ eyLfWl sc-dxgOiQ iRMEPR"
+        is={null}
+      >
+        avatar
+         Colors
+      </h3>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat jtWIOA sc-bdVaJa iHSytp"
+        is={null}
+      >
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo fXJTDQ sc-iyvyFf jkxrbR sc-gzOgki hWXnou"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              green
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #a5d6a7
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo fLkfs sc-iyvyFf jkxrbR sc-gzOgki jZJEBF"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              red
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #ef9a9a
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo hStAOg sc-iyvyFf jkxrbR sc-gzOgki eLaOzY"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              pink
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #f48fb1
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo jLQwiy sc-iyvyFf jkxrbR sc-gzOgki gySZKV"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              indigo
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #9fa8da
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo bLUCUh sc-iyvyFf jkxrbR sc-gzOgki kFosPW"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              purple
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #ce93d8
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo qmGwS sc-iyvyFf jkxrbR sc-gzOgki hgaffW"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              cyan
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #80deea
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo jXEpuD sc-iyvyFf jkxrbR sc-gzOgki bSJqBJ"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              teal
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #80cbc4
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo dEOFRN sc-iyvyFf jkxrbR sc-gzOgki dgccSG"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              lime
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #e6ee9c
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo jFmepY sc-iyvyFf jkxrbR sc-gzOgki eUHljD"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              orange
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #ffcc80
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo hxOaWO sc-iyvyFf jkxrbR sc-gzOgki gVqBwl"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blueGrey
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #b0bec5
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo cEVpoI sc-iyvyFf jkxrbR sc-gzOgki juLFnc"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              blue
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #90caf9
+            </p>
+          </div>
+        </div>
+        <div
+          className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa ccoBRh"
+          is={null}
+        >
+          <div
+            className="sc-kPVwWT dqybjI sc-hwwEjo dMPuBZ sc-iyvyFf jkxrbR sc-gzOgki fXsqAW"
+            is={null}
+          />
+          <div
+            className="sc-ifAKCX cFlEyZ sc-bdVaJa eBoTiH"
+            is={null}
+          >
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ kCpFEe"
+              is={null}
+            >
+              grey
+            </p>
+            <p
+              className="sc-ckVGcZ chmjaS sc-dxgOiQ ifqmVY"
+              is={null}
+            >
+              #bdbdbd
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Typography All 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div
+    className="sc-bxivhb bUZGRr sc-htpNat ezbtlb sc-bdVaJa iHZvIS"
+    is={null}
+  >
+    <h3
+      className="sc-kEYyzF gfWKdx sc-hMqMXs gdbeMS sc-eNQAEJ bpjgLe sc-jKJlTe ckzJsy sc-ckVGcZ eyLfWl sc-dxgOiQ bwRFdG"
+      is={null}
+    >
+      Typography
+    </h3>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <h1
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          h1
+        </h1>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <h1
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Serif Pro, serif
+        </h1>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          45
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          300
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <h2
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          h2
+        </h2>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <h2
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Serif Pro, serif
+        </h2>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          32
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          300
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <h3
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          h3
+        </h3>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <h3
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Serif Pro, serif
+        </h3>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          24
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          300
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <h4
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          h4
+        </h4>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <h4
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Serif Pro, serif
+        </h4>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          19
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          300
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <h5
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          h5
+        </h5>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <h5
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Sans Pro, sans-serif
+        </h5>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          16
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          600
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <h6
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          h6
+        </h6>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <h6
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Sans Pro, sans-serif
+        </h6>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          12
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          600
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <p
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          p
+        </p>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <p
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Sans Pro, sans-serif
+        </p>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          16
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          400
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <label
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          label
+        </label>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <label
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Sans Pro, sans-serif
+        </label>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          14
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          600
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <caption
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          caption
+        </caption>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <caption
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Sans Pro, sans-serif
+        </caption>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          14
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          400
+        </small>
+      </div>
+    </div>
+    <div
+      className="sc-bxivhb bUZGRr sc-htpNat iSNGhk sc-bdVaJa cmhUNN"
+      is={null}
+    >
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa hQjYIB"
+        is={null}
+      >
+        <li
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          li
+        </li>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa kYmYWE"
+        is={null}
+      >
+        <li
+          className="sc-ckVGcZ chmjaS sc-dxgOiQ kMqakB"
+          is={null}
+        >
+          Source Sans Pro, sans-serif
+        </li>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-size: 
+          16
+        </small>
+      </div>
+      <div
+        className="sc-bxivhb bUZGRr sc-htpNat eLQHN sc-bdVaJa dYmHol"
+        is={null}
+      >
+        <small
+          className="sc-iAyFgw gPlgsX sc-kkGfuU kzFeiw sc-ckVGcZ chmjaS sc-dxgOiQ kAySVu"
+          is={null}
+        >
+          font-weight: 
+          400
+        </small>
+      </div>
+    </div>
+  </div>
+</div>
+`;

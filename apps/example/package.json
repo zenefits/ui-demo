@@ -1,0 +1,41 @@
+{
+  "name": "z-frontend-example",
+  "version": "0.1.0",
+  "scripts": {
+    "prestart": "cd ../../ && yarn check --integrity",
+    "start": "PORT=3020 z-frontend-webpack start",
+    "lint": "yarn tslint && yarn eslint",
+    "tslint": "tslint src/**/*.{ts,tsx} --type-check --project ./",
+    "eslint":
+      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx"
+  },
+  "private": true,
+  "engines": {
+    "yarn": "^1.0.1",
+    "node": "^8.1.4"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-apollo": "^1.4.11",
+    "react-dom": "^15.6.1",
+    "react-intl": "^2.3.0",
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.2",
+    "rebass": "^1.0.3",
+    "redux": "^3.7.2",
+    "z-frontend-app-bootstrap": "1.0.0",
+    "z-frontend-theme": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.38",
+    "@types/react-dom": "^15.5.1",
+    "@types/react-intl": "^2.3.1",
+    "@types/react-redux": "^4.4.47",
+    "@types/redux": "^3.6.0",
+    "react-hot-loader": "next",
+    "tslint": "^5.5.0",
+    "tslint-config-z-frontend": "*",
+    "typescript": "^2.4.2",
+    "z-frontend-webpack": "*"
+  }
+}

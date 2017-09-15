@@ -1,0 +1,39 @@
+end_state: EndState
+state_machine:
+  EndState:
+    status_checks: []
+    on_success:
+      transition_state: EndState
+    on_failure:
+      transition_state: EndState
+  CodeReviewState:
+    status_checks:
+      - LGTM:
+          default:
+            sticky: true
+            keywords:
+              - ':+1:'
+              - LGTM
+          UI-INFRA:
+            sticky: true
+            approved_team_names:
+              - ui-eng
+            keywords:
+              - ':+1:'
+              - LGTM
+      - merge-label:
+          label_name: 'SAURON-BOT: Merge It!'
+      - gh/continuous-integration/travis-ci/pr: {}
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: QueuedState
+  QueuedState:
+    status_checks:
+      - merged: {}
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: EndState
+initial_state: CodeReviewState
+merged_state: EndState

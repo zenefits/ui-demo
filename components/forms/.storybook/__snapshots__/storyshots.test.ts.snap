@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Button Primary disabled and normal states 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div>
+    <h1>
+      Basic Buttons 
+    </h1>
+    <h3>
+      Primary Button
+    </h3>
+    <button
+      className="sc-emmjRN bKGrpC sc-eerKOB dPMMGC"
+      disabled={false}
+      is={null}
+      onClick={[Function]}
+    >
+      <i>
+        Click Me !
+      </i>
+      
+    </button>
+    <h3>
+      Disabled Button
+    </h3>
+    <button
+      className="sc-emmjRN bKGrpC sc-eerKOB kbiXjv"
+      disabled={true}
+      is={null}
+      onClick={[Function]}
+    >
+      Can't touch this
+      
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Button Show progress indicator 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div>
+    <h1>
+      Progress Indicator
+    </h1>
+    <button
+      className="sc-emmjRN bKGrpC sc-eerKOB kbiXjv"
+      disabled={false}
+      is={null}
+      onClick={[Function]}
+    >
+      Click me
+      
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Checkbox Disabled State 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <input
+    checked={undefined}
+    className="Checkbox__StyledCheckbox-cicolx ksBdsz"
+    disabled={true}
+    onChange={[Function]}
+    type="checkbox"
+  />
+</div>
+`;
+
+exports[`Storyshots Checkbox default 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <input
+    checked={undefined}
+    className="Checkbox__StyledCheckbox-cicolx ksBdsz"
+    disabled={false}
+    onChange={[Function]}
+    type="checkbox"
+  />
+</div>
+`;
+
+exports[`Storyshots DatePicker Date range 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots DatePicker Select date 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots DatePicker States 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Input with value 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <input
+    className="Input__StyledInput-gzbIwR eteTUg"
+    onChange={[Function]}
+    type="text"
+    value="Airat"
+  />
+</div>
+`;
+
+exports[`Storyshots Radio Button default 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Radio Button states 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Rating Default 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Select Accessibility 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Select States 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Select Typeahead 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Slider Basic 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Slider Dynamic range 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots TextArea Default 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;
+
+exports[`Storyshots Toggle Button Basic 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div />
+</div>
+`;

@@ -1,0 +1,28 @@
+---
+language: node_js
+node_js:
+  - "8"
+
+sudo: false
+
+cache:
+  yarn: true
+
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn global add lerna
+
+install:
+  - lerna bootstrap
+
+script:
+  - lerna run lint
+  - lerna run test
+  - lerna run build
+
+branches:
+  only:
+    - master
+    - beta
+    - alpha

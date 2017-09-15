@@ -1,0 +1,37 @@
+{
+  "name": "z-frontend-app-bootstrap",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "lint": "yarn tslint && yarn eslint",
+    "tslint": "tslint src/**/*.{ts,tsx} --type-check --project ./",
+    "eslint":
+      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx"
+  },
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-apollo": "^1.4.12",
+    "react-dom": "^15.6.1",
+    "react-intl": "^2.3.0",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.1.2",
+    "react-hot-loader": "next",
+    "redux": "^3.7.2"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.38",
+    "@types/react-dom": "^15.5.1",
+    "@types/react-intl": "^2.3.1",
+    "@types/react-redux": "^4.4.47",
+    "@types/redux": "^3.6.0",
+    "apollo-test-utils": "^0.3.2",
+    "graphql-tools": "^1.2.1",
+    "react-hot-loader": "next",
+    "tslint": "^5.5.0",
+    "tslint-config-z-frontend": "*",
+    "typescript": "^2.4.2",
+    "z-frontend-webpack": "*"
+  }
+}

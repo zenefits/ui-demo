@@ -1,0 +1,21 @@
+{
+  "name": "tslint-config-z-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "yarn": "^1.0.1",
+    "node": "^8.1.4"
+  },
+  "scripts": {
+    "lint": "yarn eslint",
+    "eslint":
+      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "tslint": "^5.5.0",
+    "tslint-config-airbnb": "^5.2.1",
+    "tslint-react": "^3.1.0",
+    "typescript": "^2.4.2"
+  }
+}

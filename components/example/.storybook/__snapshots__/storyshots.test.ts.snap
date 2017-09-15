@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots MyComponent example story 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <span
+    className="MyComponent__StyledSpan-ewiGUt ebIawD"
+  >
+    Hello
+  </span>
+</div>
+`;

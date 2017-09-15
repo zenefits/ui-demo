@@ -1,0 +1,13 @@
+{
+  "env": {
+    "development": {
+      "presets": ["z-frontend"]
+    },
+    "test": {
+      "presets": ["z-frontend/test"]
+    },
+    "production": {
+      "presets": ["z-frontend/prod"]
+    }
+  }
+}

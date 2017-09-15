@@ -1,0 +1,30 @@
+{
+  "name": "eslint-config-z-frontend",
+  "description": "Custom ESLint rules for Zenefits apps",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "yarn": "^1.0.1",
+    "node": "^8.1.4"
+  },
+  "main": "index.js",
+  "scripts": {
+    "lint": "yarn eslint",
+    "eslint":
+      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx",
+    "test": "mocha **/*.test.js --reporter dot"
+  },
+  "dependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.6.1",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.4"
+  }
+}

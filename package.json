@@ -1,0 +1,40 @@
+{
+  "name": "z-frontend",
+  "version": "0.1.0",
+  "devDependencies": {
+    "babel-preset-z-frontend": "*",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^4.6.1",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-config-z-frontend": "*",
+    "husky": "^0.14.3",
+    "lerna": "^2.0.0",
+    "lint-staged": "^4.0.2",
+    "prettier": "^1.6.1",
+    "tslint": "^5.5.0",
+    "tslint-config-z-frontend": "*",
+    "typescript": "^2.4.2"
+  },
+  "scripts": {
+    "preprettier": "yarn check --integrity",
+    "prelint": "yarn check --integrity",
+    "precommit": "lint-staged",
+    "preinstall": "node ./src/scripts/checkEngines.js",
+    "prettier": "prettier --write",
+    "prettify": "yarn run prettier -- {{src,apps,components,tools}/**,.}/*.{js,jsx,ts,tsx,graphql,json,css}",
+    "lerna-reset": "rm -rf yarn.lock **/**/yarn.lock && lerna clean --yes && lerna bootstrap",
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' ./src/**/*.{js,jsx}"
+  },
+  "lint-staged": {
+    "{{src,apps,components,tools}/**,.}/*.{js,jsx,ts,tsx,graphql,json,css}": ["yarn run prettier", "git add"]
+  },
+  "private": true,
+  "engines": {
+    "yarn": "^1.0.1",
+    "node": "^8.1.4"
+  },
+  "workspaces": ["apps/*", "components/*", "components/types/*", "tools/*"]
+}

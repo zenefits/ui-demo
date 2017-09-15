@@ -1,0 +1,38 @@
+{
+  "name": "z-frontend-jest",
+  "description": "Jest rules for Zenefits",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "yarn": "^1.0.1",
+    "node": "^8.1.4"
+  },
+  "main": "jest.config.js",
+  "scripts": {
+    "lint": "yarn eslint",
+    "eslint":
+      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx",
+    "test": "echo \"No tests configuration only\""
+  },
+  "dependencies": {
+    "@storybook/addon-storyshots": "^3.2.8",
+    "@types/jest": "^20.0.8",
+    "babel-jest": "^20.0.3",
+    "enzyme": "^2.9.1",
+    "jest": "^20.0.4",
+    "jest-enzyme": "^3.8.1",
+    "react-test-renderer": "^15.6.1",
+    "resolve": "^1.4.0",
+    "ts-jest": "^20.0.10"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "3",
+    "eslint-config-airbnb": "^15.0.2",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0"
+  }
+}
