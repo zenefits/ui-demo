@@ -1,5 +1,7 @@
 # z-frontend
 
+**NOTE:** as the name implies, this is for demo purposes. Use it for reference, but it may not be a a good idea to use as is. This project was extracted from what we use internally and may not be updated in a regular basis. If you're looking at it and find any issues, feeel free to open any issues. We would certainly appreciate your feedback and will give you some OS karma points in the form of an emoji. 
+
 This is the mono-repo for all (new) frontend apps at Zenefits. The mono-repo uses [lerna](github.com/lerna/lerna/) to help us run scripts across the different packages. Each package defines its own yarn dependencies and it can be developed, tested and deployed independently of other packages.
 
 The repo is broken into 3 main areas:
