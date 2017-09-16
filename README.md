@@ -51,4 +51,16 @@ Travis will also deploy to production as soon as we merge to master.
   * Running `yarn` or `yarn add` on some packages may fail since lerna is responsible of creating symlinks between packages in this repo. If that is the case, manually modify `package.json` as needed and run `lerna boostrap` to install the dependencies.
 
   * If lerna can't be found after installing, make sure you ran `yarn global add lerna` with node version `8.2.*`.
+  
+ ## Resources
+
+* [Flex](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+* [GraphQL](http://graphql.org/learn/queries/)
+* [React](https://facebook.github.io/react/docs)
+* [LoDash](https://lodash.com/docs)
+* [Apollo React](http://dev.apollodata.com/react)
+* [Apollo Server (Schema/Resolvers/Mocking)](http://dev.apollodata.com/tools/graphql-tools/resolvers.html)
+* [Rebass](http://jxnblk.com/rebass/getting-started)
+* [Faker](https://cdn.rawgit.com/Marak/faker.js/master/examples/browser/index.html) - random data generator
+
 
