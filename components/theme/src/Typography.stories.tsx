@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import styled, { withTheme } from 'styled-components';
+import { withTheme } from 'styled-components';
 import { Small, Subhead, Flex, Text } from 'rebass';
 
 import { fontInfo } from './fonts';

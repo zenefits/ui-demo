@@ -117,6 +117,6 @@ if (unmatchingEngines.length) {
     })
     .join('\n');
 
-  errorMessage += '\nPlease install required versions.\n\n';
+  errorMessage += '\nPlease install required versions. See z-frontend/README.md for details. \n\n';
   throw new Error(errorMessage);
 }

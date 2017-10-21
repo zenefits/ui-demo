@@ -1,0 +1,783 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots DataManager basic 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div
+    className="sc-ifAKCX cFlEyZ sc-bdVaJa iHSytp"
+    is={null}
+  >
+    <h3
+      className="sc-kEYyzF gfWKdx sc-hMqMXs gdbeMS sc-eNQAEJ bpjgLe sc-jKJlTe ckzJsy sc-ckVGcZ eyLfWl sc-dxgOiQ bwRFdG"
+      is={null}
+    >
+      Full List
+    </h3>
+    <ul>
+      <li>
+        Edison Keebler
+         (Dept: 
+        <i>
+          Clothing
+        </i>
+        )
+      </li>
+      <li>
+        Lonnie Deckow
+         (Dept: 
+        <i>
+          Beauty
+        </i>
+        )
+      </li>
+      <li>
+        Alene Keeling
+         (Dept: 
+        <i>
+          Grocery
+        </i>
+        )
+      </li>
+      <li>
+        Winona Feeney
+         (Dept: 
+        <i>
+          Shoes
+        </i>
+        )
+      </li>
+      <li>
+        Rodger Muller
+         (Dept: 
+        <i>
+          Sports
+        </i>
+        )
+      </li>
+      <li>
+        Joel Cronin
+         (Dept: 
+        <i>
+          Clothing
+        </i>
+        )
+      </li>
+      <li>
+        Larue Baumbach
+         (Dept: 
+        <i>
+          Tools
+        </i>
+        )
+      </li>
+      <li>
+        Emile Schowalter
+         (Dept: 
+        <i>
+          Grocery
+        </i>
+        )
+      </li>
+      <li>
+        Kelvin Gerhold
+         (Dept: 
+        <i>
+          Garden
+        </i>
+        )
+      </li>
+      <li>
+        Alek Grimes DDS
+         (Dept: 
+        <i>
+          Health
+        </i>
+        )
+      </li>
+      <li>
+        Guadalupe Kessler
+         (Dept: 
+        <i>
+          Shoes
+        </i>
+        )
+      </li>
+      <li>
+        Tabitha Walsh
+         (Dept: 
+        <i>
+          Health
+        </i>
+        )
+      </li>
+      <li>
+        Toni Maggio
+         (Dept: 
+        <i>
+          Home
+        </i>
+        )
+      </li>
+      <li>
+        Zelma Rolfson
+         (Dept: 
+        <i>
+          Music
+        </i>
+        )
+      </li>
+      <li>
+        Kaia Johns
+         (Dept: 
+        <i>
+          Computers
+        </i>
+        )
+      </li>
+      <li>
+        Gail Gutkowski
+         (Dept: 
+        <i>
+          Beauty
+        </i>
+        )
+      </li>
+      <li>
+        Immanuel Mitchell MD
+         (Dept: 
+        <i>
+          Electronics
+        </i>
+        )
+      </li>
+      <li>
+        Elisabeth Jacobs
+         (Dept: 
+        <i>
+          Tools
+        </i>
+        )
+      </li>
+      <li>
+        Alvis Schiller
+         (Dept: 
+        <i>
+          Outdoors
+        </i>
+        )
+      </li>
+      <li>
+        Laury Gorczany Jr.
+         (Dept: 
+        <i>
+          Books
+        </i>
+        )
+      </li>
+      <li>
+        Mr. Simeon Klein
+         (Dept: 
+        <i>
+          Automotive
+        </i>
+        )
+      </li>
+      <li>
+        Jovany Moen
+         (Dept: 
+        <i>
+          Garden
+        </i>
+        )
+      </li>
+      <li>
+        Erik Johns
+         (Dept: 
+        <i>
+          Clothing
+        </i>
+        )
+      </li>
+      <li>
+        Mariane Lubowitz I
+         (Dept: 
+        <i>
+          Shoes
+        </i>
+        )
+      </li>
+      <li>
+        Heidi Kohler PhD
+         (Dept: 
+        <i>
+          Garden
+        </i>
+        )
+      </li>
+      <li>
+        Hillard Welch
+         (Dept: 
+        <i>
+          Computers
+        </i>
+        )
+      </li>
+      <li>
+        Dr. Jude Quigley
+         (Dept: 
+        <i>
+          Toys
+        </i>
+        )
+      </li>
+      <li>
+        Valentina Considine
+         (Dept: 
+        <i>
+          Industrial
+        </i>
+        )
+      </li>
+      <li>
+        Rosalind Kiehn
+         (Dept: 
+        <i>
+          Automotive
+        </i>
+        )
+      </li>
+      <li>
+        Miss Angie Ankunding
+         (Dept: 
+        <i>
+          Automotive
+        </i>
+        )
+      </li>
+      <li>
+        Lucienne Gorczany
+         (Dept: 
+        <i>
+          Books
+        </i>
+        )
+      </li>
+      <li>
+        Verna Grant
+         (Dept: 
+        <i>
+          Music
+        </i>
+        )
+      </li>
+      <li>
+        Piper Trantow
+         (Dept: 
+        <i>
+          Jewelery
+        </i>
+        )
+      </li>
+      <li>
+        Nathan Kreiger
+         (Dept: 
+        <i>
+          Tools
+        </i>
+        )
+      </li>
+      <li>
+        Andreanne Upton
+         (Dept: 
+        <i>
+          Home
+        </i>
+        )
+      </li>
+      <li>
+        Conor Lockman
+         (Dept: 
+        <i>
+          Toys
+        </i>
+        )
+      </li>
+      <li>
+        Julianne Hammes
+         (Dept: 
+        <i>
+          Books
+        </i>
+        )
+      </li>
+      <li>
+        Royal Collier
+         (Dept: 
+        <i>
+          Jewelery
+        </i>
+        )
+      </li>
+      <li>
+        Monserrate Cartwright
+         (Dept: 
+        <i>
+          Grocery
+        </i>
+        )
+      </li>
+      <li>
+        Beaulah O'Kon
+         (Dept: 
+        <i>
+          Kids
+        </i>
+        )
+      </li>
+      <li>
+        Katrine Oberbrunner
+         (Dept: 
+        <i>
+          Games
+        </i>
+        )
+      </li>
+      <li>
+        Beaulah Mraz
+         (Dept: 
+        <i>
+          Shoes
+        </i>
+        )
+      </li>
+      <li>
+        Madie Rau DDS
+         (Dept: 
+        <i>
+          Games
+        </i>
+        )
+      </li>
+      <li>
+        Payton Hansen
+         (Dept: 
+        <i>
+          Jewelery
+        </i>
+        )
+      </li>
+      <li>
+        Juwan Durgan
+         (Dept: 
+        <i>
+          Health
+        </i>
+        )
+      </li>
+      <li>
+        Pedro Reynolds
+         (Dept: 
+        <i>
+          Beauty
+        </i>
+        )
+      </li>
+      <li>
+        Ryleigh Collins
+         (Dept: 
+        <i>
+          Computers
+        </i>
+        )
+      </li>
+      <li>
+        Demond Huels IV
+         (Dept: 
+        <i>
+          Books
+        </i>
+        )
+      </li>
+      <li>
+        Darlene Bruen
+         (Dept: 
+        <i>
+          Toys
+        </i>
+        )
+      </li>
+      <li>
+        Zander Fahey
+         (Dept: 
+        <i>
+          Sports
+        </i>
+        )
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DataManager with matchAny filter 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div
+    className="sc-ifAKCX cFlEyZ sc-bdVaJa iHSytp"
+    is={null}
+  >
+    <h3
+      className="sc-kEYyzF gfWKdx sc-hMqMXs gdbeMS sc-eNQAEJ bpjgLe sc-jKJlTe ckzJsy sc-ckVGcZ eyLfWl sc-dxgOiQ bwRFdG"
+      is={null}
+    >
+      Checkboxes (matchAny)
+    </h3>
+    <p>
+      Filter departments:
+       
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Clothing
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Beauty
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Grocery
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Shoes
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Sports
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Tools
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Garden
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Health
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Home
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Music
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Computers
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Electronics
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Outdoors
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Books
+      </label>
+      <label>
+        <input
+          checked={true}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Automotive
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Toys
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Industrial
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Jewelery
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Kids
+      </label>
+      <label>
+        <input
+          checked={false}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        Games
+      </label>
+    </p>
+    <b>
+      Results:
+    </b>
+    <ul>
+      <li>
+        Mr. Simeon Klein
+         (Dept: 
+        <i>
+          Automotive
+        </i>
+        )
+      </li>
+      <li>
+        Rosalind Kiehn
+         (Dept: 
+        <i>
+          Automotive
+        </i>
+        )
+      </li>
+      <li>
+        Miss Angie Ankunding
+         (Dept: 
+        <i>
+          Automotive
+        </i>
+        )
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Storyshots DataManager with stringContains filter 1`] = `
+<div
+  className="sc-EHOje eyUsub"
+>
+  <div
+    className="sc-ifAKCX cFlEyZ sc-bdVaJa iHSytp"
+    is={null}
+  >
+    <h3
+      className="sc-kEYyzF gfWKdx sc-hMqMXs gdbeMS sc-eNQAEJ bpjgLe sc-jKJlTe ckzJsy sc-ckVGcZ eyLfWl sc-dxgOiQ bwRFdG"
+      is={null}
+    >
+      Search (stringContains)
+    </h3>
+    <p>
+      Search names:
+       
+      <input
+        onChange={[Function]}
+        value="er"
+      />
+    </p>
+    <b>
+      Results:
+    </b>
+    <ul>
+      <li>
+        Edison Keebler
+         (Dept: 
+        <i>
+          Clothing
+        </i>
+        )
+      </li>
+      <li>
+        Rodger Muller
+         (Dept: 
+        <i>
+          Sports
+        </i>
+        )
+      </li>
+      <li>
+        Emile Schowalter
+         (Dept: 
+        <i>
+          Grocery
+        </i>
+        )
+      </li>
+      <li>
+        Kelvin Gerhold
+         (Dept: 
+        <i>
+          Garden
+        </i>
+        )
+      </li>
+      <li>
+        Guadalupe Kessler
+         (Dept: 
+        <i>
+          Shoes
+        </i>
+        )
+      </li>
+      <li>
+        Alvis Schiller
+         (Dept: 
+        <i>
+          Outdoors
+        </i>
+        )
+      </li>
+      <li>
+        Erik Johns
+         (Dept: 
+        <i>
+          Clothing
+        </i>
+        )
+      </li>
+      <li>
+        Heidi Kohler PhD
+         (Dept: 
+        <i>
+          Garden
+        </i>
+        )
+      </li>
+      <li>
+        Verna Grant
+         (Dept: 
+        <i>
+          Music
+        </i>
+        )
+      </li>
+      <li>
+        Piper Trantow
+         (Dept: 
+        <i>
+          Jewelery
+        </i>
+        )
+      </li>
+      <li>
+        Nathan Kreiger
+         (Dept: 
+        <i>
+          Tools
+        </i>
+        )
+      </li>
+      <li>
+        Royal Collier
+         (Dept: 
+        <i>
+          Jewelery
+        </i>
+        )
+      </li>
+      <li>
+        Monserrate Cartwright
+         (Dept: 
+        <i>
+          Grocery
+        </i>
+        )
+      </li>
+      <li>
+        Katrine Oberbrunner
+         (Dept: 
+        <i>
+          Games
+        </i>
+        )
+      </li>
+      <li>
+        Zander Fahey
+         (Dept: 
+        <i>
+          Sports
+        </i>
+        )
+      </li>
+    </ul>
+  </div>
+</div>
+`;

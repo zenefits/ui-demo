@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 
-// if (command === 'start')
-const devServer = require('../src/webpack');
+const checkDependencies = require('../../../src/scripts/checkDependencies');
+const webpackCommands = require('../src/webpack');
 
-devServer();
+const procArgs = process.argv.slice(2);
+const command = procArgs[0] || 'start';
+
+if (command !== 'build') {
+  checkDependencies();
+}
+
+webpackCommands[command]();

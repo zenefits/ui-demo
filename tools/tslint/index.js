@@ -5,6 +5,7 @@ module.exports = {
     'variable-name': false, // disabled because Classes should use PascalCase and this rule doesn't recognize them e.g. MyComponent = styled.div
     'max-line-length': 120,
     'jsx-boolean-value': [true, 'never'], // match airbnb jsx rule https://github.com/airbnb/javascript/tree/master/react#props
+    'jsx-no-lambda': false, // disable because it's a misconception about perf issues with lambdas in JSX
 
     // The following rules come from tslint-config-prettier (https://github.com/alexjoverm/tslint-config-prettier/blob/master/src/index.js)
     // We disabled some of them to provide better editor support

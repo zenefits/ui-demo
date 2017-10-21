@@ -1,3 +1,4 @@
+require('../../src/scripts/checkDependencies')();
 const path = require('path');
 const resolve = require('resolve');
 
@@ -26,7 +27,8 @@ module.exports = function() {
       'ts-jest': {
         useBabelrc: true,
       },
-      __MOCK_MODE__: true,
+      __CLIENT__: false,
+      __MOCK_MODE__: !!process.env.MOCK_MODE,
     },
   };
 };

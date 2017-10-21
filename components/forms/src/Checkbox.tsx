@@ -7,7 +7,7 @@ const checkboxDisabledOpacity = 0.5;
 const checkboxSize = '14px';
 const checkboxSizeIncludingBorders = '18px'; // checkboxSize + (2 * checkboxBorderSize)
 
-const StyledCheckbox = styled.input.attrs({
+export const StyledCheckbox = styled.input.attrs({
   type: 'checkbox',
 })`
   width: ${checkboxSizeIncludingBorders};

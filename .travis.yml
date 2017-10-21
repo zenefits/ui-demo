@@ -8,8 +8,11 @@ sudo: false
 cache:
   yarn: true
 
+env:
+  - MOCK_MODE=true
+
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.0.2
   - export PATH=$HOME/.yarn/bin:$PATH
   - yarn global add lerna
 
@@ -18,8 +21,8 @@ install:
 
 script:
   - lerna run lint
-  - lerna run test
-  - lerna run build
+  - lerna run test --parallel=false
+  - NODE_ENV=production lerna run build
 
 branches:
   only:

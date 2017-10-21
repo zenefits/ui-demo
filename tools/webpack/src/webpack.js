@@ -14,38 +14,42 @@ if (fs.existsSync(projectsWebPackConfigPath)) {
   getWebpackConfig = require(projectsWebPackConfigPath); // eslint-disable-line import/no-dynamic-require, global-require
 }
 
-module.exports = function run() {
-  const app = express();
+const getDefaultConfigOptions = () => ({ port: process.env.PORT || 3023 });
 
-  // const envVars = {
-  //   ENV: process.env.ENV,
-  //   NO_MAPS: process.env.NO_MAPS ? 1 : 0,
-  // }
+module.exports = {
+  start() {
+    const app = express();
+    const configOptions = getDefaultConfigOptions();
+    const webpackConfig = getWebpackConfig(configOptions);
+    const compiler = webpack(webpackConfig);
+    app.use(
+      webpackDev(compiler, {
+        stats: {
+          colors: true,
+          chunks: false,
+          chunkModules: false,
+          children: false,
+        },
+      }),
+    );
 
-  // const envVarsStr = Object.keys(envVars).map(v => `${v}:${envVars[v]}`).join('+');
+    app.use('/', express.static('public'));
+    app.use(webpackHot(compiler));
+    proxies.forEach(proxy => proxy(app));
 
-  const configsConfig = { port: process.env.PORT || 3023 };
-  const compiler = webpack(getWebpackConfig(configsConfig));
-  // compiler.run();
-  app.use(
-    webpackDev(compiler, {
-      // headers: {'Access-Control-Allow-Origin': '*'},
-      // noInfo: true,
-      // publicPath: '/assets/',
-      stats: {
-        colors: true,
-        chunks: false,
-        chunkModules: false,
-        children: false,
-      },
-    }),
-  );
+    app.listen(configOptions.port);
 
-  app.use('/', express.static('public'));
-  app.use(webpackHot(compiler));
-  proxies.forEach(proxy => proxy(app));
-
-  app.listen(configsConfig.port);
-
-  console.log(`dev server started on http://localhost:${configsConfig.port}`);
+    console.log(`dev server started on http://localhost:${configOptions.port}`);
+  },
+  build() {
+    const configOptions = getDefaultConfigOptions();
+    const webpackConfig = getWebpackConfig(configOptions);
+    const compiler = webpack(webpackConfig);
+    compiler.run(err => {
+      if (err) {
+        throw new Error(err);
+      }
+      console.log('Hunky-dory. Successfully built at', webpackConfig.output.path);
+    });
+  },
 };

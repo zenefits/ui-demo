@@ -2,12 +2,11 @@
   "name": "z-frontend-example",
   "version": "0.1.0",
   "scripts": {
-    "prestart": "cd ../../ && yarn check --integrity",
     "start": "PORT=3020 z-frontend-webpack start",
+    "build": "z-frontend-webpack build",
     "lint": "yarn tslint && yarn eslint",
     "tslint": "tslint src/**/*.{ts,tsx} --type-check --project ./",
-    "eslint":
-      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx"
+    "eslint": "z-frontend-eslint"
   },
   "private": true,
   "engines": {
@@ -27,11 +26,14 @@
     "z-frontend-theme": "*"
   },
   "devDependencies": {
+    "@types/node": "^8.0.17",
+    "@types/jest": "^20.0.8",
     "@types/react": "^15.0.38",
     "@types/react-dom": "^15.5.1",
-    "@types/react-intl": "^2.3.1",
     "@types/react-redux": "^4.4.47",
+    "@types/react-intl": "^2.3.1",
     "@types/redux": "^3.6.0",
+    "@types/redux-form": "^7.0.4",
     "react-hot-loader": "next",
     "tslint": "^5.5.0",
     "tslint-config-z-frontend": "*",
