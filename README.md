@@ -4,6 +4,8 @@
 
 **NOTE:** as the name implies, this is for demo purposes. Use it for reference, but it may not be a a good idea to use as is. This project was extracted from what we use internally and may not be updated in a regular basis. If you're looking at it and find any issues, feeel free to open any issues. We would certainly appreciate your feedback and will give you some OS karma points in the form of an emoji. 
 
+## Packages
+
 This is the mono-repo for all (new) frontend apps at Zenefits. The mono-repo uses [lerna](github.com/lerna/lerna/) to help us run scripts across the different packages. Each package defines its own yarn dependencies and it can be developed, tested and deployed independently of other packages.
 
 The repo is broken into 3 main areas:
@@ -27,7 +29,7 @@ At the root we also have another package, that contains global dependencies as w
 
 * Run `lerna bootstrap` at the root of the repo to install the node dependencies for all the packages in the mono-repo
 
-Each package has its own README.md and you can find specifics of working on each app there, but most of them share the following set of commands.
+Each [package](#packages) has its own README.md and you can find specifics of working on each app there, but most of them share the following set of commands.
 
 * `yarn start` and `MOCK_MODE=true yarn start`
 * `yarn build` and `NODE_ENV=production yarn build`
