@@ -2,11 +2,9 @@
   "name": "z-frontend-forms",
   "version": "0.1.0",
   "scripts": {
-    "prebuild": "cd ../../ && yarn check --integrity",
     "prestart": "cd ../../ && yarn check --integrity",
     "build": "build-storybook",
-    "eslint":
-      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx",
+    "eslint": "z-frontend-eslint",
     "lint": "yarn tslint && yarn eslint",
     "test": "jest",
     "tslint": "tslint src/**/*.{ts,tsx} --type-check --project ./",
@@ -21,6 +19,7 @@
     "material-design-iconic-font": "2.2.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-popover": "0.4.18",
     "react-redux": "^5.0.6",
     "rebass": "^1.0.3",
     "redux": "^3.7.2",

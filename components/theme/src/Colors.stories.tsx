@@ -8,7 +8,7 @@ const Page = props => {
   return (
     <div>
       {Object.keys(colors).map(category => (
-        <Box key={category} mb={4}>
+        <Box key={category} mb={5}>
           <Heading is="h3">{category} Colors</Heading>
           <Flex p={3} wrap>
             {Object.keys(colors[category]).map((colorKey, i) => (

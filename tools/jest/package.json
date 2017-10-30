@@ -10,8 +10,7 @@
   "main": "jest.config.js",
   "scripts": {
     "lint": "yarn eslint",
-    "eslint":
-      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx",
+    "eslint": "z-frontend-eslint",
     "test": "echo \"No tests configuration only\""
   },
   "dependencies": {
@@ -30,6 +29,7 @@
     "eslint": "3",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-config-prettier": "^2.3.0",
+    "eslint-config-z-frontend": "*",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",

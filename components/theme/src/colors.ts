@@ -1,78 +1,50 @@
-const greenDark = '#4f8a11';
-const pinkDark = '#b8414d';
-const yellow100 = '#f3c51b';
-const pink100 = '#f16d79';
-
 export default {
   primary: {
-    orange100: '#f6921e',
-    orange100Dark: '#f1860a',
-    orange32: '#fcdebb',
-    orange10: '#fff5ea',
-
-    blueDark: '#2cacbe',
-    blue100: '#67babe',
-    blue40: '#c2e3e5',
-    blue20: '#e1f1f2',
-    blue10: '#f0f7f7',
+    1: '#FF5745',
+    2: '#2FCDD0',
+    '2a': '#8BDDDF',
+    '2b': '#D3F3F3',
+    '2c': '#EAF9F9',
+    3: '#123466',
+    '3a': '#EAF9F9',
   },
-
-  linkInteractivity: {
-    blue170: '#007896', // used for link/icon active state
-    blue160: '#048fa8', // used for link/icon hover states
+  secondary: {
+    1: '#EEECE4',
+    '1a': '#145557',
+    2: '#EEECE4',
+    3: '#145557',
   },
-
-  auxiliary: {
-    greenDark,
-    pink100,
-    pinkDark,
-    yellow100,
-
-    green100: '#84c341',
-    green30: '#dbefc6',
-    green10: '#f3faec',
-
-    pink30: '#fcd4d8',
-    pink10: '#fef1f2',
-
-    yellow60: '#fbf483',
-    yellow10: '#fefbd6',
-    yellowDark: '#998634',
-  },
-
   greyScale: {
-    black: '#000',
-    73: '#444',
-    64: '#666',
-    51: '#888',
-    38: '#aaa',
-    15: '#ddd',
-    '07': '#eee',
-    '03': '#f9f9f9',
-
-    white: '#fff',
-    transparent: 'rgba(0, 0, 0, 0)',
+    1: '#333333',
+    2: '#777777',
+    3: '#AAAAAA',
+    4: '#DDDDDD',
+    5: '#f9f9f9', // this wasn't on the spec, but needed it for demo purposes
+    6: '#fff', // this wasn't on the spec, should we add it?
   },
-
-  context: {
-    error: pinkDark,
-    errorBorder: pink100,
-    success: greenDark,
-    warning: yellow100,
+  link: {
+    normal: '#12AED3',
+    hover: '#0081AA',
+    active: '#144E6F',
   },
-
-  avatar: {
-    green: '#a5d6a7',
-    red: '#ef9a9a',
-    pink: '#f48fb1',
-    indigo: '#9fa8da',
-    purple: '#ce93d8',
-    cyan: '#80deea',
-    teal: '#80cbc4',
-    lime: '#e6ee9c',
-    orange: '#ffcc80',
-    blueGrey: '#b0bec5',
-    blue: '#90caf9',
-    grey: '#bdbdbd',
+  // NOTE: missing bg blue gray since it doesn't have an obvious category ('#F1F7F9')
+  utility: {
+    // rename to actions?
+    approve: '#84C341',
+    deny: '#FF897C',
+  },
+  banners: {
+    successBorder: '#3B7101',
+    successBg: '#C3EB9B',
+    success: '#F0FFE0',
+    infoBorder: '#144E6F',
+    infoBg: '#A6E8F8',
+    info: '#DAF6FE',
+    warningBorder: '#6F5D0F',
+    warningBg: '#FDE66B',
+    warning: '#FFF9CD',
+    errorBorder: '#C00316',
+    errorBg: '#FFCBC6',
+    error: '#FEF1F0',
   },
 };

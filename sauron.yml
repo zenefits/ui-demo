@@ -14,13 +14,6 @@ state_machine:
             keywords:
               - ':+1:'
               - LGTM
-          UI-INFRA:
-            sticky: true
-            approved_team_names:
-              - ui-eng
-            keywords:
-              - ':+1:'
-              - LGTM
       - merge-label:
           label_name: 'SAURON-BOT: Merge It!'
       - gh/continuous-integration/travis-ci/pr: {}
@@ -37,3 +30,11 @@ state_machine:
       transition_state: EndState
 initial_state: CodeReviewState
 merged_state: EndState
+rule_engine:
+  add_comment_airat:
+    actions:
+      pr_comment:
+        comment_body: '@airato - a PR for z-fontend'
+    included_paths:
+      - ''
+    min_files: 1

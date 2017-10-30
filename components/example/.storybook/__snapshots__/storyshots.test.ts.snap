@@ -5,7 +5,7 @@ exports[`Storyshots MyComponent example story 1`] = `
   className="sc-EHOje eyUsub"
 >
   <span
-    className="MyComponent__StyledSpan-ewiGUt ebIawD"
+    className="MyComponent__StyledSpan-ewiGUt kgDNFE"
   >
     Hello
   </span>

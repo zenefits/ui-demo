@@ -8,8 +8,7 @@
   },
   "scripts": {
     "lint": "yarn eslint",
-    "eslint":
-      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx"
+    "eslint": "z-frontend-eslint"
   },
   "main": "index.js",
   "dependencies": {

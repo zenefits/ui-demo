@@ -4,7 +4,7 @@ import themeDecorator from '../src/themeDecorator';
 
 function loadStories() {
   addDecorator(themeDecorator);
-  const storiesContext = require.context('../src', true, /^(.*\.stories\.(tsx$))[^.]*$/gim);
+  const storiesContext = require.context('../src', true, /^\.\/.*\.stories\.tsx$/);
   storiesContext.keys().forEach(storiesContext);
 }
 

@@ -57,17 +57,23 @@ class App extends Component<Props> {
   }
   render() {
     const { loading, error, dashboard } = this.props.data;
-    const loaded = !(loading || error);
     const dragonsCount = 6;
+
+    if (loading) {
+      return <div>Loading...</div>;
+    } else if (error) {
+      return <div>{error.message}</div>;
+    }
+
     return (
       <div>
-        <Heading onClick={this.onClick}>{loaded && dashboard.company.name}</Heading>
-        {loaded && (
+        <Heading onClick={this.onClick}>{dashboard.company.name}</Heading>
+        {
           <Subhead>
             Welcome {dashboard.employee.first_name}! There are {dashboard.company.employees.length} employees in your
             company.
           </Subhead>
-        )}
+        }
         <div>
           <div>
             <FormattedRelative value="2017-09-02 14:33:23" />

@@ -6,8 +6,7 @@
   },
   "scripts": {
     "lint": "yarn eslint",
-    "eslint":
-      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx"
+    "eslint": "z-frontend-eslint"
   },
   "private": true,
   "engines": {
@@ -15,23 +14,27 @@
     "node": "^8.1.4"
   },
   "dependencies": {
+    "@types/webpack": "^3.0.13",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-z-frontend": "*",
     "clean-webpack-plugin": "^0.1.16",
+    "css-loader": "^0.28.7",
     "express": "^4.15.3",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
+    "glob": "^7.1.2",
     "html-webpack-plugin": "^2.29.0",
+    "http-proxy": "^1.16.2",
     "lodash": "^4.17.4",
+    "name-all-modules-plugin": "^1.0.1",
     "react-hot-loader": "next",
+    "style-loader": "^0.18.2",
     "ts-loader": "^2.3.1",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "webpack": "^3.3.0",
     "webpack-dev-middleware": "^1.11.0",
-    "webpack-hot-middleware": "^2.18.2",
-    "http-proxy": "^1.16.2",
-    "glob": "^7.1.2"
+    "webpack-hot-middleware": "^2.18.2"
   }
 }

@@ -1,6 +1,8 @@
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import { mockNetworkInterfaceWithSchema } from 'apollo-test-utils';
+import createReduxProvider from './createReduxProvider';
+import { Store } from 'react-redux';
 
 declare const __MOCK_MODE__: boolean;
 
@@ -88,7 +90,7 @@ function initializeNetworkInterface() {
   return networkInterface;
 }
 
-function initializeMockedNetworkInterface(typeDefs, resolvers, mocks) {
+export function initializeMockedNetworkInterface(typeDefs, resolvers, mocks) {
   const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
@@ -103,9 +105,13 @@ function initializeMockedNetworkInterface(typeDefs, resolvers, mocks) {
   return mockNetworkInterfaceWithSchema({ schema });
 }
 
+declare type ApolloClientCreatorProps = { client: ApolloClient; store?: Store<{}> };
+
 export default function createApolloClient(
   { mockConfig }: { mockConfig? } = {},
-): [typeof ApolloProvider, { client: ApolloClient }] {
+  reducers: {},
+  middleware?: any[],
+): [typeof ApolloProvider, ApolloClientCreatorProps] {
   let networkInterface = null;
   if (__MOCK_MODE__ && mockConfig) {
     const { typeDefs, resolvers, mocks } = mockConfig;
@@ -117,14 +123,14 @@ export default function createApolloClient(
   const client = new ApolloClient({
     networkInterface,
     addTypename: true,
-    dataIdFromObject: (result: any) => {
-      if (result.id && result.__typename) {
-        return result.__typename.concat + result.id.toString();
-      }
-      return null;
-    },
-    // shouldBatch: true,
   });
 
-  return [ApolloProvider, { client }];
+  const apollorProviderProps: ApolloClientCreatorProps = { client };
+  const reducersWithApollo = Object.assign({}, reducers, { apollo: client.reducer() });
+  const middlewareWithApollo = middleware || [];
+  middlewareWithApollo.push(client.middleware());
+  const [, { store }] = createReduxProvider(reducersWithApollo, middlewareWithApollo);
+  apollorProviderProps.store = store;
+
+  return [ApolloProvider, apollorProviderProps];
 }

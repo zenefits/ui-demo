@@ -2,11 +2,9 @@
   "name": "z-frontend-theme",
   "version": "0.1.0",
   "scripts": {
-    "prebuild": "cd ../../ && yarn check --integrity",
     "prestart": "cd ../../ && yarn check --integrity",
     "build": "build-storybook",
-    "eslint":
-      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx",
+    "eslint": "z-frontend-eslint",
     "lint": "yarn tslint && yarn eslint",
     "test": "jest",
     "tslint": "tslint src/**/*.{ts,tsx} --type-check --project ./",

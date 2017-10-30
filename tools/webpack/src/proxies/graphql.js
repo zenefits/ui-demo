@@ -1,7 +1,7 @@
 const createProxyServer = require('http-proxy').createProxyServer;
 
 module.exports = function graphqlProxy(app) {
-  // You can call ember s with `GRAPHQL_BASEURL=http://localhost:3000` to proxy
+  // You can call yarn start with `GRAPHQL_BASEURL=http://localhost:3000` to proxy
   // your local server instead of the host.
   const graphqlTarget = process.env.GRAPHQL_BASEURL || 'http://localhost:3000';
   const proxy = createProxyServer({

@@ -75,7 +75,7 @@ export const fontInfo = [
 const fontFaceRules = `
   @font-face {
     font-family: 'Material-Design-Iconic-Font';
-    src: url('/assets/fonts/Material-Design-Iconic-Font.woff2') format('woff2'), url('/assets/fonts/Material-Design-Iconic-Font.woff') format('woff'), url('/assets/fonts/Material-Design-Iconic-Font.ttf') format('truetype');
+    src: url('assets/fonts/Material-Design-Iconic-Font.woff2') format('woff2'), url('assets/fonts/Material-Design-Iconic-Font.woff') format('woff'), url('assets/fonts/Material-Design-Iconic-Font.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }

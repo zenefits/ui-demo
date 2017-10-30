@@ -8,10 +8,12 @@
     "node": "^8.1.4"
   },
   "main": "index.js",
+  "bin": {
+    "z-frontend-eslint": "./bin/z-frontend-eslint.js"
+  },
   "scripts": {
     "lint": "yarn eslint",
-    "eslint":
-      "../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx",
+    "eslint": "./bin/z-frontend-eslint.js",
     "test": "mocha **/*.test.js --reporter dot"
   },
   "dependencies": {

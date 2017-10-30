@@ -26,14 +26,14 @@ describe('Checkbox', () => {
     expect(onCheckboxChange.mock.calls[0][0]).toBeTruthy();
   });
 
-  // it('should not invoke callback when disabled', () => {
-  //   const onCheckboxChange = jest.fn();
-  //   const wrapper = mount(
-  //     <ThemeProvider>
-  //       <Checkbox isDisabled onChange={onCheckboxChange} />
-  //     </ThemeProvider>,
-  //   );
-  //   wrapper.find('Checkbox').simulate('change');
-  //   expect(onCheckboxChange).not.toBeCalled();
-  // });
+  it('should not invoke callback when disabled', () => {
+    const onCheckboxChange = jest.fn();
+    const wrapper = mount(
+      <ThemeProvider>
+        <Checkbox isDisabled onChange={onCheckboxChange} />
+      </ThemeProvider>,
+    );
+    wrapper.find('Checkbox').simulate('change');
+    expect(onCheckboxChange).not.toBeCalled();
+  });
 });

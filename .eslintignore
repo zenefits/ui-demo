@@ -1,0 +1,3 @@
+**/storybook-static/**
+**/node_modules/**
+tools/eslint/bin/z-frontend-eslint.js
