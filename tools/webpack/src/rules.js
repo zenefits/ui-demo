@@ -1,4 +1,4 @@
-const getTypescriptRule = () => ({
+const getTypescriptRule = isDevMode => ({
   test: /\.(ts|tsx)$/,
   use: [
     {
@@ -9,6 +9,11 @@ const getTypescriptRule = () => ({
     },
     {
       loader: require.resolve('ts-loader'),
+      options: {
+        compilerOptions: {
+          noUnusedLocals: !isDevMode,
+        },
+      },
     },
   ],
   exclude: [/node_modules/],
@@ -27,4 +32,9 @@ const getFontsRule = () => ({
   ],
 });
 
-module.exports = { getTypescriptRule, getFontsRule };
+const getCssRule = () => ({
+  test: /\.css$/,
+  use: ['style-loader', 'css-loader'],
+});
+
+module.exports = { getTypescriptRule, getFontsRule, getCssRule };

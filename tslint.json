@@ -1,3 +1,6 @@
 {
-  "extends": "tslint-config-z-frontend"
+  "extends": "tslint-config-z-frontend",
+  "linterOptions": {
+    "exclude": ["**/*.js", "**/*.jsx"]
+  }
 }

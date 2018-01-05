@@ -1,6 +1,19 @@
-export const fontSizes = [12, 14, 16, 19, 24, 32, 45];
-export const fonts = ['Source Sans Pro, sans-serif', 'Source Serif Pro, serif'];
-export const weights = [300, 400, 600];
+import get from 'lodash/get';
+import { ThemedCssFunction } from 'styled-components';
+
+export const fontSizes = [12, 14, 16, 19, 24, 32, 45, 48];
+export const fonts = ['Circular, serif'];
+export const weights = [400, 600, 700]; // TODO: update them to only the ones we support
+
+// import circular
+import './fonts/circular/lineto-circular-pro-book.eot';
+import './fonts/circular/lineto-circular-pro-book.svg';
+import './fonts/circular/lineto-circular-pro-book.ttf';
+import './fonts/circular/lineto-circular-pro-book.woff';
+import './fonts/circular/lineto-circular-pro-medium.eot';
+import './fonts/circular/lineto-circular-pro-medium.svg';
+import './fonts/circular/lineto-circular-pro-medium.ttf';
+import './fonts/circular/lineto-circular-pro-medium.woff';
 
 // import material design icons
 import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.eot';
@@ -9,68 +22,138 @@ import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.ttf';
 import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff';
 import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff2';
 
-export const fontInfo = [
-  {
-    tag: 'h1',
-    family: 1,
-    size: 6,
-    weight: 0,
+export const fontDescriptions = {
+  headings: {
+    xxl: {
+      fontFamily: 0,
+      fontSize: 7,
+      lineHeight: '1',
+      fontWeight: 1,
+    },
+    xl: {
+      fontFamily: 0,
+      fontSize: 5,
+      lineHeight: '1.25',
+      fontWeight: 2,
+    },
+    l: {
+      fontFamily: 0,
+      fontSize: 4,
+      lineHeight: '1.33',
+      fontWeight: 2,
+    },
+    m: {
+      fontFamily: 0,
+      fontSize: 3,
+      lineHeight: '1.26',
+      fontWeight: 2,
+    },
+    s: {
+      fontFamily: 0,
+      fontSize: 2,
+      lineHeight: '1.5',
+      fontWeight: 0,
+    },
+    xs: {
+      fontFamily: 0,
+      fontSize: 0,
+      lineHeight: '1.33',
+      fontWeight: 2,
+      uppercase: true,
+    },
   },
-  {
-    tag: 'h2',
-    family: 1,
-    size: 5,
-    weight: 0,
+  controls: {
+    xxl: {
+      fontFamily: 0,
+      fontSize: 4,
+      lineHeight: '1.17',
+      fontWeight: 1,
+    },
+    xl: {
+      fontFamily: 0,
+      fontSize: 3,
+      lineHeight: '1.26',
+      fontWeight: 1,
+    },
+    l: {
+      fontFamily: 0,
+      fontSize: 2,
+      lineHeight: '1.25',
+      fontWeight: 1,
+    },
+    m: {
+      fontFamily: 0,
+      fontSize: 1,
+      lineHeight: '1.14',
+      fontWeight: 1,
+    },
+    s: {
+      fontFamily: 0,
+      fontSize: 0,
+      lineHeight: '1',
+      fontWeight: 1,
+    },
   },
-  {
-    tag: 'h3',
-    family: 1,
-    size: 4,
-    weight: 0,
+  paragraphs: {
+    xxl: {
+      fontFamily: 0,
+      fontSize: 4,
+      lineHeight: '1.33',
+      fontWeight: 0,
+    },
+    xl: {
+      fontFamily: 0,
+      fontSize: 3,
+      lineHeight: '1.47',
+      fontWeight: 0,
+    },
+    l: {
+      fontFamily: 0,
+      fontSize: 2,
+      lineHeight: '1.5',
+      fontWeight: 0,
+    },
+    m: {
+      fontFamily: 0,
+      fontSize: 1,
+      lineHeight: '1.43',
+      fontWeight: 0,
+    },
+    s: {
+      fontFamily: 0,
+      fontSize: 0,
+      lineHeight: '1.33',
+      fontWeight: 0,
+    },
   },
-  {
-    tag: 'h4',
-    family: 1,
-    size: 3,
-    weight: 0,
-  },
-  {
-    tag: 'h5',
-    family: 0,
-    size: 2,
-    weight: 2,
-  },
-  {
-    tag: 'h6',
-    family: 0,
-    size: 0,
-    weight: 2,
-  },
-  {
-    tag: 'p',
-    family: 0,
-    size: 2,
-    weight: 1,
-  },
-  {
-    tag: 'label',
-    family: 0,
-    size: 1,
-    weight: 2,
-  },
-  {
-    tag: 'caption',
-    family: 0,
-    size: 1,
-    weight: 1,
-  },
-  {
-    tag: 'li',
-    family: 0,
-    size: 2,
-    weight: 1,
-  },
-];
+};
+
+export const fontStyles: { [key: string]: { [key: string]: ThemedCssFunction<any> } } = Object.keys(
+  fontDescriptions,
+).reduce((rules, categoryName) => {
+  const fontDescription = fontDescriptions[categoryName];
+  rules[categoryName] = Object.keys(fontDescription).reduce((sizeRules, sizeKey) => {
+    const sizeRule = fontDescription[sizeKey];
+    sizeRules[sizeKey] =
+      `
+      font-family: ${fonts[sizeRule.fontFamily]};
+      font-size: ${fontSizes[sizeRule.fontSize]}px;
+      line-height: ${sizeRule.lineHeight};
+      font-weight: ${weights[sizeRule.fontWeight]};
+    ` + (sizeRule.uppercase ? 'text-transform: uppercase;' : '');
+    return sizeRules;
+  }, {});
+  return rules;
+}, {});
+
+export const fontStyleTagMap = {
+  h1: 'headings.xxl',
+  h2: 'headings.xl',
+  h3: 'headings.l',
+  h4: 'headings.m',
+  h5: 'headings.s',
+  h6: 'headings.xs',
+};
 
 const fontFaceRules = `
   @font-face {
@@ -79,56 +162,36 @@ const fontFaceRules = `
     font-weight: normal;
     font-style: normal;
   }
-  /* vietnamese */
+
   @font-face {
-    font-family: 'Source Sans Pro';
+    font-family: 'Circular';
     font-style: normal;
-    font-weight: 400;
-    src: local('Source Sans Pro'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlCxe5Tewm2_XWfbGchcXw4g.woff2) format('woff2');
-    unicode-range: U+0102-0103, U+1EA0-1EF9, U+20AB;
-  }
-  /* latin-ext */
-  @font-face {
-    font-family: 'Source Sans Pro';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Source Sans Pro'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlIa1YDtoarzwSXxTHggEXMw.woff2) format('woff2');
-    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-  }
-  /* latin */
-  @font-face {
-    font-family: 'Source Sans Pro';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Source Sans Pro'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlJbPFduIYtoLzwST68uhz_Y.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    font-weight: 600;
+    src: url('assets/fonts/lineto-circular-pro-medium.eot') format('eot');
+    src: url('assets/fonts/lineto-circular-pro-medium.eot?#iefix') format('eot'),
+    url('assets/fonts/lineto-circular-pro-medium.woff') format('woff'),
+    url('assets/fonts/lineto-circular-pro-medium.ttf') format('truetype'),
+    url('assets/fonts/lineto-circular-pro-medium.svg') format('svg');
   }
 
-  /* latin-ext */
   @font-face {
-    font-family: 'Source Serif Pro';
-    font-style: normal;
+    font-family: 'Circular';
     font-weight: 400;
-    src: local('Source Serif Pro'), local('SourceSerifPro-Regular'), url(https://fonts.gstatic.com/s/sourceserifpro/v4/CeUM4np2c42DV49nanp55bjTNMXmj3xV6BEVxFZkUvg.woff2) format('woff2');
-    unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+    src: url('assets/fonts/lineto-circular-pro-book.eot') format('eot');
+    src: url('assets/fonts/lineto-circular-pro-book.eot?#iefix') format('eot'),
+    url('assets/fonts/lineto-circular-pro-book.woff') format('woff'),
+    url('assets/fonts/lineto-circular-pro-book.ttf') format('truetype'),
+    url('assets/fonts/lineto-circular-pro-book.svg') format('svg');
   }
-  /* latin */
-  @font-face {
-    font-family: 'Source Serif Pro';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Source Serif Pro'), local('SourceSerifPro-Regular'), url(https://fonts.gstatic.com/s/sourceserifpro/v4/CeUM4np2c42DV49nanp55fwyBZ-rE6leZUadLL2YbCE.woff2) format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 `;
-
-const elementRules = fontInfo
-  .map(
-    font =>
-      `${font.tag} {font-family: ${fonts[font.family]}; font-size: ${fontSizes[font.size]}px; font-weight: ${weights[
-        font.weight
-      ]};}`,
-  )
+const elementRules = Object.keys(fontStyleTagMap)
+  .map(tag => `${tag} { ${get(fontStyles, fontStyleTagMap[tag])} }`)
   .join('\n');
 
 export const typographyRules = fontFaceRules + elementRules;

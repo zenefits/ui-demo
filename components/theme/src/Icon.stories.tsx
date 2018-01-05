@@ -1,10 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import styled, { withTheme } from 'styled-components';
+import { withTheme } from './ThemeProvider';
 import Icon from './Icon';
-import { Flex, Heading, Box, Text } from 'rebass';
+import Heading from './Heading';
+import Text from './Text';
+import { Flex } from 'rebass';
 
-const Page = props => {
+const All = props => {
   const icons = props.theme.icons;
   return (
     <div>
@@ -20,7 +22,23 @@ const Page = props => {
     </div>
   );
 };
+const AllWithTheme = withTheme(All);
 
-const PageWithTheme = withTheme(Page);
+const Spin = props => (
+  <Flex w={[1, 1 / 2, 1 / 4]} mb={3} align="center" direction="column">
+    <Icon iconName="block" spin size={60} />
+    <Text mb={2}>Block</Text>
+    <Icon iconName="compass" spin size={60} />
+    <Text mb={2}>Compass</Text>
+    <Icon iconName="chart-donut" spin size={60} />
+    <Text mb={2}>Chart Donut</Text>
+    <Icon iconName="triangle-up" spin size={60} />
+    <Text mb={2}>Triangle Up</Text>
+    <Icon iconName="spinner" spin size={60} />
+    <Text mb={2}>Spinner</Text>
+  </Flex>
+);
 
-storiesOf('Icons', module).add('All', () => <PageWithTheme />);
+storiesOf('Icons', module)
+  .add('All', () => <AllWithTheme />)
+  .add('Spin', () => <Spin />);

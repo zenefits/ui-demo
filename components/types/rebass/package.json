@@ -1,5 +1,6 @@
 {
   "name": "z-rebass-types",
+  "private": true,
   "version": "1.0.3",
   "description": "TypeScript definitions for rebass",
   "main": "",

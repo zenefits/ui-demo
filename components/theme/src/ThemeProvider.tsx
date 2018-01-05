@@ -1,44 +1,47 @@
-import React from 'react';
-import { Provider } from 'rebass';
-import { injectGlobal } from 'styled-components';
+import React, { StatelessComponent } from 'react';
+/* tslint:disable:import-filter */
+import {
+  ThemedStyledComponentsModule,
+  keyframes as baseKeyframes,
+  injectGlobal as baseInjectGlobal,
+  default as baseStyled,
+  ThemeProvider as BaseThemeProvider,
+  css as baseCss,
+  withTheme as baseWithTheme,
+} from 'styled-components';
+/* tslint:enable:import-filter */
+import { theme, ThemeInterface } from './theme';
+import { typographyRules } from './fonts';
 import colors from './colors';
-import oldColors from './oldColors';
-import icons from './icons';
-import { fonts, fontSizes, weights, typographyRules } from './fonts';
 
-const useOldTheme = false;
+const { default: styled, css, withTheme, ThemeProvider, injectGlobal, keyframes } = {
+  default: baseStyled,
+  css: baseCss,
+  keyframes: baseKeyframes,
+  injectGlobal: baseInjectGlobal,
+  withTheme: baseWithTheme,
+  ThemeProvider: BaseThemeProvider,
+} as ThemedStyledComponentsModule<ThemeInterface>;
 
-export const opacities = [0.65];
-export const borderRadius = 3;
-
-// TODO: move to another place
-const images = {
-  logo:
-    'https://zenefits.imgix.net/a9e6497202003e81522e474adcb4db9199c34c20/static/out/8617341ddccd7354e0612989ebfd2f2c.svg',
-};
-export const theme = {
-  colors,
-  fontSizes,
-  fonts,
-  weights,
-  opacities,
-  icons,
-  images,
-  radius: borderRadius,
-  font: fonts[0],
-  space: [0, 4, 8, 16, 24, 32, 64, 128],
-};
-if (useOldTheme) {
-  theme.colors = oldColors;
-  theme.images.logo = 'http://secure.zenefits.com/static/img/zenefits-logo-bird.png';
-}
+const ZFrontendThemeProvider: StatelessComponent<{}> = ({ children }) => (
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+);
 
 injectGlobal`
-  * { box-sizing: border-box; }
-  body { margin: 0; background-color: ${colors.primary['3a']} }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background-color: ${colors.secondary.c};
+    font-family: ${theme.fonts[0]};
+  }
+
   ${typographyRules}
 `;
 
-export default function zFrontendThemeProvider({ children }) {
-  return <Provider theme={theme}>{children}</Provider>;
+function createThemeProvider() {
+  return [ZFrontendThemeProvider, {}];
 }
+
+export { ZFrontendThemeProvider, createThemeProvider, styled, css, withTheme, injectGlobal, keyframes };

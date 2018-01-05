@@ -1,14 +1,20 @@
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { Provider, Store } from 'react-redux';
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
-  }
+export interface ReduxProviderFactoryOptions {
+  reducers?: { [key: string]: any };
+  middleware?: any[];
+  composeFn?: (any) => any;
 }
 
-export default function createReduxProvider(reducers = {}, middleware = []): [typeof Provider, { store: Store<{}> }] {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+export declare type ReduxProviderFactoryResult = [typeof Provider, { store: Store<{}> }];
+
+export default function createReduxProvider({
+  reducers = { foo: (state = {}) => state },
+  middleware = [],
+  composeFn,
+}: ReduxProviderFactoryOptions = {}): ReduxProviderFactoryResult {
+  const composeEnhancers = composeFn || compose;
   const resultMiddleware = [].concat(middleware);
   const store = createStore(combineReducers(reducers), {}, composeEnhancers(applyMiddleware(...resultMiddleware)));
   return [Provider, { store }];

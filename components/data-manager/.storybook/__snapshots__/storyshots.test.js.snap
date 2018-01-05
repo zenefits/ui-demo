@@ -1,0 +1,1939 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots FilterManager basic 1`] = `
+.c0 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c5 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c4 {
+  font-weight: 600;
+}
+
+.c3 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c2 {
+  line-height: 1.25;
+}
+
+.c1 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+<div
+  className="c0"
+  is={null}
+>
+  <h3
+    className="c1 c2 c3 c4 c5"
+    is={null}
+  >
+    Full List (
+    50
+     employees)
+  </h3>
+  <ul>
+    <li>
+      Edison Keebler
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Henderson Satterfield
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Gregorio Heaney V
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Laurel Rippin
+       (Dept: 
+      <i>
+        Games
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Merritt Lemke
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Leonor Hermiston
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Darrin Greenholt
+       (Dept: 
+      <i>
+        Jewelery
+      </i>
+      )
+    </li>
+    <li>
+      Hipolito Daniel
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Hershel Rohan
+       (Dept: 
+      <i>
+        Beauty
+      </i>
+      )
+    </li>
+    <li>
+      Keon Buckridge
+       (Dept: 
+      <i>
+        Grocery
+      </i>
+      )
+    </li>
+    <li>
+      Terence Friesen
+       (Dept: 
+      <i>
+        Industrial
+      </i>
+      )
+    </li>
+    <li>
+      Hugh Moore
+       (Dept: 
+      <i>
+        Jewelery
+      </i>
+      )
+    </li>
+    <li>
+      Karley Kemmer
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Mario Strosin
+       (Dept: 
+      <i>
+        Baby
+      </i>
+      )
+    </li>
+    <li>
+      Rodger Muller
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Emerald Ruecker PhD
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Austin Leannon
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Jasen Medhurst
+       (Dept: 
+      <i>
+        Games
+      </i>
+      )
+    </li>
+    <li>
+      Norene Powlowski
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Cyrus Howell
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Gladys Baumbach
+       (Dept: 
+      <i>
+        Tools
+      </i>
+      )
+    </li>
+    <li>
+      Kaylie Ziemann
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Dr. Alphonso Pollich
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Everett Swift
+       (Dept: 
+      <i>
+        Toys
+      </i>
+      )
+    </li>
+    <li>
+      Mrs. Brenda Torp
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Rebeca Steuber
+       (Dept: 
+      <i>
+        Home
+      </i>
+      )
+    </li>
+    <li>
+      Santa D'Amore
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Jovani Mayert
+       (Dept: 
+      <i>
+        Books
+      </i>
+      )
+    </li>
+    <li>
+      Madge Ullrich
+       (Dept: 
+      <i>
+        Home
+      </i>
+      )
+    </li>
+    <li>
+      Earnestine Turcotte
+       (Dept: 
+      <i>
+        Computers
+      </i>
+      )
+    </li>
+    <li>
+      Joseph Schoen
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Catherine Miller
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Mrs. Hilbert Abshire
+       (Dept: 
+      <i>
+        Electronics
+      </i>
+      )
+    </li>
+    <li>
+      Dr. Eleonore Schumm
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Jared Robel
+       (Dept: 
+      <i>
+        Computers
+      </i>
+      )
+    </li>
+    <li>
+      Cassandre Schoen
+       (Dept: 
+      <i>
+        Home
+      </i>
+      )
+    </li>
+    <li>
+      Gunner Brown
+       (Dept: 
+      <i>
+        Outdoors
+      </i>
+      )
+    </li>
+    <li>
+      Guadalupe Kessler
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Dino Bogan
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Timmy Bednar
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Mark Stokes
+       (Dept: 
+      <i>
+        Automotive
+      </i>
+      )
+    </li>
+    <li>
+      Arlene Bode
+       (Dept: 
+      <i>
+        Tools
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Santina MacGyver
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Jan Walker
+       (Dept: 
+      <i>
+        Toys
+      </i>
+      )
+    </li>
+    <li>
+      Kendrick McClure
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Maryse Orn
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Nathan Hudson
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Dr. Madaline McGlynn
+       (Dept: 
+      <i>
+        Automotive
+      </i>
+      )
+    </li>
+    <li>
+      Miss Maximus Kulas
+       (Dept: 
+      <i>
+        Electronics
+      </i>
+      )
+    </li>
+    <li>
+      Herminia Heathcote
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots FilterManager with matchAny filter 1`] = `
+.c0 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c5 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c4 {
+  font-weight: 600;
+}
+
+.c3 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c2 {
+  line-height: 1.25;
+}
+
+.c1 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+<div
+  className="c0"
+  is={null}
+>
+  <h3
+    className="c1 c2 c3 c4 c5"
+    is={null}
+  >
+    Checkboxes (matchAny)
+  </h3>
+  <p>
+    Filter departments:
+     
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Clothing
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Health
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Movies
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Games
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Garden
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Jewelery
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Beauty
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Grocery
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Industrial
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Baby
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Sports
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Tools
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Shoes
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Toys
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Home
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Books
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Computers
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Electronics
+    </label>
+    <label>
+      <input
+        checked={false}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Outdoors
+    </label>
+    <label>
+      <input
+        checked={true}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Automotive
+    </label>
+  </p>
+  <b>
+    Results:
+  </b>
+  <ul>
+    <li>
+      Mark Stokes
+       (Dept: 
+      <i>
+        Automotive
+      </i>
+      )
+    </li>
+    <li>
+      Dr. Madaline McGlynn
+       (Dept: 
+      <i>
+        Automotive
+      </i>
+      )
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots FilterManager with stringContains filter 1`] = `
+.c0 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c5 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c4 {
+  font-weight: 600;
+}
+
+.c3 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c2 {
+  line-height: 1.25;
+}
+
+.c1 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+<div
+  className="c0"
+  is={null}
+>
+  <h3
+    className="c1 c2 c3 c4 c5"
+    is={null}
+  >
+    Search (stringContains)
+  </h3>
+  <p>
+    Search names:
+     
+    <input
+      onChange={[Function]}
+      value="er"
+    />
+  </p>
+  <b>
+    Results:
+  </b>
+  <ul>
+    <li>
+      Edison Keebler
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Henderson Satterfield
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Merritt Lemke
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Leonor Hermiston
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Hershel Rohan
+       (Dept: 
+      <i>
+        Beauty
+      </i>
+      )
+    </li>
+    <li>
+      Terence Friesen
+       (Dept: 
+      <i>
+        Industrial
+      </i>
+      )
+    </li>
+    <li>
+      Karley Kemmer
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Rodger Muller
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Emerald Ruecker PhD
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Everett Swift
+       (Dept: 
+      <i>
+        Toys
+      </i>
+      )
+    </li>
+    <li>
+      Rebeca Steuber
+       (Dept: 
+      <i>
+        Home
+      </i>
+      )
+    </li>
+    <li>
+      Jovani Mayert
+       (Dept: 
+      <i>
+        Books
+      </i>
+      )
+    </li>
+    <li>
+      Catherine Miller
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Mrs. Hilbert Abshire
+       (Dept: 
+      <i>
+        Electronics
+      </i>
+      )
+    </li>
+    <li>
+      Gunner Brown
+       (Dept: 
+      <i>
+        Outdoors
+      </i>
+      )
+    </li>
+    <li>
+      Guadalupe Kessler
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Santina MacGyver
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Jan Walker
+       (Dept: 
+      <i>
+        Toys
+      </i>
+      )
+    </li>
+    <li>
+      Herminia Heathcote
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Storyshots PageManager basic 1`] = `
+.c0 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c7 {
+  box-sizing: border-box;
+}
+
+.c8 {
+  box-sizing: border-box;
+  margin-left: 78px;
+  margin-right: 78px;
+  -webkit-order: 2;
+  -ms-flex-order: 2;
+  order: 2;
+}
+
+.c13 {
+  box-sizing: border-box;
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+}
+
+.c23 {
+  box-sizing: border-box;
+  -webkit-order: 3;
+  -ms-flex-order: 3;
+  order: 3;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c5 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c17 {
+  margin: 0px;
+}
+
+.c11 {
+  margin: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.c4 {
+  font-weight: 600;
+}
+
+.c10 {
+  font-weight: 400;
+}
+
+.c3 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c2 {
+  line-height: 1.25;
+}
+
+.c1 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c22 {
+  font-size: 24px;
+  color: inherit;
+}
+
+.c19 {
+  font-size: inherit;
+  color: inherit;
+}
+
+.c21::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f3ec';
+  -webkit-animation: zmdi-spin 1.5s infinite linear;
+  animation: zmdi-spin 1.5s infinite linear;
+}
+
+.c18::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f2fa';
+}
+
+.c25::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f2fb';
+}
+
+.c16 {
+  visibility: visible;
+}
+
+.c20 {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  display: inline-block;
+  margin-left: calc(50% - 12px);
+  padding-top: inherit;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.c15 {
+  margin-right: 4px;
+  background-color: #D6DEE9;
+  color: #53616E;
+}
+
+.c24 {
+  background-color: #D6DEE9;
+  color: #53616E;
+}
+
+.c14 {
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  border-radius: 2px;
+  outline: 0;
+  line-height: 1.43;
+  text-align: center;
+  height: 40px;
+  min-width: 40px;
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+.c14:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.c14:focus:not(:disabled),
+.c14:hover:not(:disabled) {
+  color: #53616E;
+  background-color: #C8D0DB;
+}
+
+.c14:active:not(:disabled) {
+  color: #53616E;
+  background-color: #BCC4CF;
+}
+
+.c14:focus:not(:disabled) {
+  box-shadow: 0 0 0 2px rgba(18,52,102,0.1);
+}
+
+.c9 {
+  font-family: Circular,serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+}
+
+.c12 {
+  color: #8D9BA7;
+}
+
+@media screen and (min-width:32em) {
+  .c8 {
+    margin-left: 0px;
+    margin-right: 8px;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c8 {
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c13 {
+    -webkit-order: 2;
+    -ms-flex-order: 2;
+    order: 2;
+  }
+}
+
+<div
+  className="c0"
+  is={null}
+>
+  <h3
+    className="c1 c2 c3 c4 c5"
+    is={null}
+  >
+    Paged List (page size: 
+    20
+    )
+  </h3>
+  <ul>
+    <li>
+      Edison Keebler
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Henderson Satterfield
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Gregorio Heaney V
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Laurel Rippin
+       (Dept: 
+      <i>
+        Games
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Merritt Lemke
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Leonor Hermiston
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Darrin Greenholt
+       (Dept: 
+      <i>
+        Jewelery
+      </i>
+      )
+    </li>
+    <li>
+      Hipolito Daniel
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Hershel Rohan
+       (Dept: 
+      <i>
+        Beauty
+      </i>
+      )
+    </li>
+    <li>
+      Keon Buckridge
+       (Dept: 
+      <i>
+        Grocery
+      </i>
+      )
+    </li>
+    <li>
+      Terence Friesen
+       (Dept: 
+      <i>
+        Industrial
+      </i>
+      )
+    </li>
+    <li>
+      Hugh Moore
+       (Dept: 
+      <i>
+        Jewelery
+      </i>
+      )
+    </li>
+    <li>
+      Karley Kemmer
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Mario Strosin
+       (Dept: 
+      <i>
+        Baby
+      </i>
+      )
+    </li>
+    <li>
+      Rodger Muller
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Emerald Ruecker PhD
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Austin Leannon
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Jasen Medhurst
+       (Dept: 
+      <i>
+        Games
+      </i>
+      )
+    </li>
+    <li>
+      Norene Powlowski
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Cyrus Howell
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+  </ul>
+  <div
+    className="c6 c7"
+    is={null}
+  >
+    <div
+      className="c8"
+      is={null}
+    >
+      <p
+        className="c9 c10 c11"
+        is={null}
+      >
+        1
+        -
+        20
+         
+        <span
+          className="c12"
+        >
+          (of 
+          50
+          )
+        </span>
+      </p>
+    </div>
+    <div
+      className="c13"
+      is={null}
+    >
+      <button
+        className="c14 c15"
+        disabled={true}
+        is={null}
+        mode="normal"
+        onClick={[Function]}
+        s="medium"
+        type="button"
+      >
+        <p
+          className="c16 c10 c17"
+          hide={false}
+          is={null}
+        >
+          <span
+            className="c18 c19"
+            icon="chevron-left"
+            is={null}
+          />
+        </p>
+        <span
+          className="c20 c21 c22"
+          hide={true}
+          icon="spinner"
+          is={null}
+          spin={true}
+        />
+      </button>
+    </div>
+    <div
+      className="c23"
+      is={null}
+    >
+      <button
+        className="c14 c24"
+        disabled={false}
+        is={null}
+        mode="normal"
+        onClick={[Function]}
+        s="medium"
+        type="button"
+      >
+        <p
+          className="c16 c10 c17"
+          hide={false}
+          is={null}
+        >
+          <span
+            className="c25 c19"
+            icon="chevron-right"
+            is={null}
+          />
+        </p>
+        <span
+          className="c20 c21 c22"
+          hide={true}
+          icon="spinner"
+          is={null}
+          spin={true}
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots SortManager basic 1`] = `
+.c0 {
+  box-sizing: border-box;
+  padding: 16px;
+}
+
+.c5 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c10 {
+  margin: 0px;
+}
+
+.c4 {
+  font-weight: 600;
+}
+
+.c9 {
+  font-weight: 400;
+}
+
+.c3 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c2 {
+  line-height: 1.25;
+}
+
+.c1 {
+  margin: 0px;
+  font-size: 24px;
+}
+
+.c13 {
+  font-size: 24px;
+  color: inherit;
+}
+
+.c12::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f3ec';
+  -webkit-animation: zmdi-spin 1.5s infinite linear;
+  animation: zmdi-spin 1.5s infinite linear;
+}
+
+.c8 {
+  visibility: visible;
+}
+
+.c11 {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  display: inline-block;
+  margin-left: calc(50% - 12px);
+  padding-top: inherit;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.c7 {
+  margin: 8px;
+  background-color: #D6DEE9;
+  color: #53616E;
+}
+
+.c6 {
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  border-radius: 2px;
+  outline: 0;
+  line-height: 1.43;
+  text-align: center;
+  height: 40px;
+  min-width: 40px;
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+.c6:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.c6:focus:not(:disabled),
+.c6:hover:not(:disabled) {
+  color: #53616E;
+  background-color: #C8D0DB;
+}
+
+.c6:active:not(:disabled) {
+  color: #53616E;
+  background-color: #BCC4CF;
+}
+
+.c6:focus:not(:disabled) {
+  box-shadow: 0 0 0 2px rgba(18,52,102,0.1);
+}
+
+<div
+  className="c0"
+  is={null}
+>
+  <h3
+    className="c1 c2 c3 c4 c5"
+    is={null}
+  >
+    Sorting a List by specific keys
+  </h3>
+  <button
+    className="c6 c7"
+    disabled={false}
+    is={null}
+    mode="normal"
+    onClick={[Function]}
+    s="medium"
+    type="button"
+  >
+    <p
+      className="c8 c9 c10"
+      hide={false}
+      is={null}
+    >
+      Sort by name
+    </p>
+    <span
+      className="c11 c12 c13"
+      hide={true}
+      icon="spinner"
+      is={null}
+      spin={true}
+    />
+  </button>
+  <button
+    className="c6 c7"
+    disabled={false}
+    is={null}
+    mode="normal"
+    onClick={[Function]}
+    s="medium"
+    type="button"
+  >
+    <p
+      className="c8 c9 c10"
+      hide={false}
+      is={null}
+    >
+      Sort by department
+    </p>
+    <span
+      className="c11 c12 c13"
+      hide={true}
+      icon="spinner"
+      is={null}
+      spin={true}
+    />
+  </button>
+  <ul>
+    <li>
+      Edison Keebler
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Henderson Satterfield
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Gregorio Heaney V
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Laurel Rippin
+       (Dept: 
+      <i>
+        Games
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Merritt Lemke
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Leonor Hermiston
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Darrin Greenholt
+       (Dept: 
+      <i>
+        Jewelery
+      </i>
+      )
+    </li>
+    <li>
+      Hipolito Daniel
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Hershel Rohan
+       (Dept: 
+      <i>
+        Beauty
+      </i>
+      )
+    </li>
+    <li>
+      Keon Buckridge
+       (Dept: 
+      <i>
+        Grocery
+      </i>
+      )
+    </li>
+    <li>
+      Terence Friesen
+       (Dept: 
+      <i>
+        Industrial
+      </i>
+      )
+    </li>
+    <li>
+      Hugh Moore
+       (Dept: 
+      <i>
+        Jewelery
+      </i>
+      )
+    </li>
+    <li>
+      Karley Kemmer
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Mario Strosin
+       (Dept: 
+      <i>
+        Baby
+      </i>
+      )
+    </li>
+    <li>
+      Rodger Muller
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Emerald Ruecker PhD
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Austin Leannon
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Jasen Medhurst
+       (Dept: 
+      <i>
+        Games
+      </i>
+      )
+    </li>
+    <li>
+      Norene Powlowski
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Cyrus Howell
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Gladys Baumbach
+       (Dept: 
+      <i>
+        Tools
+      </i>
+      )
+    </li>
+    <li>
+      Kaylie Ziemann
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Dr. Alphonso Pollich
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Everett Swift
+       (Dept: 
+      <i>
+        Toys
+      </i>
+      )
+    </li>
+    <li>
+      Mrs. Brenda Torp
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Rebeca Steuber
+       (Dept: 
+      <i>
+        Home
+      </i>
+      )
+    </li>
+    <li>
+      Santa D'Amore
+       (Dept: 
+      <i>
+        Garden
+      </i>
+      )
+    </li>
+    <li>
+      Jovani Mayert
+       (Dept: 
+      <i>
+        Books
+      </i>
+      )
+    </li>
+    <li>
+      Madge Ullrich
+       (Dept: 
+      <i>
+        Home
+      </i>
+      )
+    </li>
+    <li>
+      Earnestine Turcotte
+       (Dept: 
+      <i>
+        Computers
+      </i>
+      )
+    </li>
+    <li>
+      Joseph Schoen
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Catherine Miller
+       (Dept: 
+      <i>
+        Sports
+      </i>
+      )
+    </li>
+    <li>
+      Mrs. Hilbert Abshire
+       (Dept: 
+      <i>
+        Electronics
+      </i>
+      )
+    </li>
+    <li>
+      Dr. Eleonore Schumm
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Jared Robel
+       (Dept: 
+      <i>
+        Computers
+      </i>
+      )
+    </li>
+    <li>
+      Cassandre Schoen
+       (Dept: 
+      <i>
+        Home
+      </i>
+      )
+    </li>
+    <li>
+      Gunner Brown
+       (Dept: 
+      <i>
+        Outdoors
+      </i>
+      )
+    </li>
+    <li>
+      Guadalupe Kessler
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Dino Bogan
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Timmy Bednar
+       (Dept: 
+      <i>
+        Shoes
+      </i>
+      )
+    </li>
+    <li>
+      Mark Stokes
+       (Dept: 
+      <i>
+        Automotive
+      </i>
+      )
+    </li>
+    <li>
+      Arlene Bode
+       (Dept: 
+      <i>
+        Tools
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Santina MacGyver
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Jan Walker
+       (Dept: 
+      <i>
+        Toys
+      </i>
+      )
+    </li>
+    <li>
+      Kendrick McClure
+       (Dept: 
+      <i>
+        Clothing
+      </i>
+      )
+    </li>
+    <li>
+      Maryse Orn
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+    <li>
+      Ms. Nathan Hudson
+       (Dept: 
+      <i>
+        Movies
+      </i>
+      )
+    </li>
+    <li>
+      Dr. Madaline McGlynn
+       (Dept: 
+      <i>
+        Automotive
+      </i>
+      )
+    </li>
+    <li>
+      Miss Maximus Kulas
+       (Dept: 
+      <i>
+        Electronics
+      </i>
+      )
+    </li>
+    <li>
+      Herminia Heathcote
+       (Dept: 
+      <i>
+        Health
+      </i>
+      )
+    </li>
+  </ul>
+</div>
+`;

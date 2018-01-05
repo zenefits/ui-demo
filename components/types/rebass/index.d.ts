@@ -5,7 +5,8 @@
 // TypeScript Version: 2.4.2
 
 type prop = number | string | [number | string];
-export interface RebassProps<C> extends React.HTMLProps<C> {
+
+export interface RebassOnlyProps {
   // bg?: any;
   // tagName?: string;
   // className?: string;
@@ -32,3 +33,5 @@ export interface RebassProps<C> extends React.HTMLProps<C> {
   w?: prop;
   width?: prop;
 }
+
+export interface RebassProps<C> extends RebassOnlyProps, React.HTMLProps<C> {}

@@ -1,31 +1,45 @@
 ---
 language: node_js
 node_js:
-  - "8"
+  - "9"
 
 sudo: false
 
 cache:
-  yarn: true
-
-env:
-  - MOCK_MODE=true
+  directories:
+  - node_modules
+  - $HOME/.cache/yarn
 
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.0.2
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.3.2
   - export PATH=$HOME/.yarn/bin:$PATH
   - yarn global add lerna
 
 install:
-  - lerna bootstrap
+  - lerna bootstrap -- --pure-lockfile
 
 script:
-  - lerna run lint
-  - lerna run test --parallel=false
-  - NODE_ENV=production lerna run build
+  # NOTE: HEAD~1 assumes a merge commit to master or production
+  - if [ $TRAVIS_PULL_REQUEST ] && [ $TRAVIS_PULL_REQUEST = "false" ]; then export RUN_SINCE="HEAD~1"; else export RUN_SINCE="$TRAVIS_BRANCH" && git fetch origin $TRAVIS_BRANCH:$TRAVIS_BRANCH --depth=1; fi
+  - echo RUN_SINCE=$RUN_SINCE
+  - lerna updated --since $RUN_SINCE --loglevel=error || true # swallow errors if there is nothing to build
+  - lerna run lint --since $RUN_SINCE
+  - lerna run test --parallel=false --since $RUN_SINCE
+  # the following two commands are together since we don't want to deploy if the build failed
+  - NODE_ENV=production lerna run build --parallel=false --since $RUN_SINCE && lerna run deploy --since $RUN_SINCE
+  - 'if [ $TRAVIS_PULL_REQUEST ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_BRANCH = "production" ]; then
+      echo "Activating $TRAVIS_COMMIT for production build for the following packages:\n `lerna updated --since $RUN_SINCE --loglevel=error`";
+      lerna run activate --since $RUN_SINCE;
+    else
+      echo "Deployed, but didnt activate anything";
+    fi'
 
 branches:
   only:
+    # git-flow branches
     - master
-    - beta
-    - alpha
+    - production # this is the branch we activate
+    # Note: we don't build release and hotfix branches directly since we
+    # always create PRs from those to production.
+    # - release*
+    # - hotfix*

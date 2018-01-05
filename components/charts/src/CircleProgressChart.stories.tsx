@@ -1,18 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 import CircleProgressChart from './CircleProgressChart';
-import { Flex, Box, Heading, Text } from 'rebass';
+import { Box } from 'rebass';
 
-storiesOf('Circle Progress', module).add('all', () => (
-  <Box>
-    <Flex>
-      <Heading is="h2" f={3}>
-        This is an example of a circle progress chart
-      </Heading>
-      <Box p={3}>
-        <CircleProgressChart percentage={25} />
-      </Box>
-    </Flex>
+storiesOf('Circle Progress', module).add('default', () => (
+  <Box p={3}>
+    <CircleProgressChart percentage={0} />
+    <CircleProgressChart percentage={1} />
+    <CircleProgressChart percentage={25} />
+    <CircleProgressChart percentage={99} />
+    <CircleProgressChart percentage={100} />
   </Box>
 ));

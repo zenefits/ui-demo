@@ -8,7 +8,7 @@ declare global {
     React: any;
   }
 }
-declare const __DEVELOPMENT__;
+
 declare const module;
 interface AppSettingsType {
   App: any;

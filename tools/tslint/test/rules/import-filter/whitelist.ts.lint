@@ -1,0 +1,57 @@
+import defaultExport from 'module2';
+
+import defaultExport from 'module3';
+       ~~~~~~~~~~~~~                          [Importing a default from module 'module3' is not allowed.]
+
+
+import * as name from 'module2';
+       ~~~~~~~~~                              [Importing the namespace from module 'module2' is not allowed.]
+
+
+
+import { foo } from 'module2';
+         ~~~                                      [Importing 'foo' from module 'module2' is not allowed.]
+
+import { foo } from 'module3';
+
+
+
+import { foo as alias } from 'module2';
+         ~~~~~~~~~~~~                           [Importing 'foo' from module 'module2' is not allowed.]
+
+import { foo as alias } from 'module3';
+
+
+
+import { foo, bar } from 'module2';
+         ~~~                                   [Importing 'foo' from module 'module2' is not allowed.]
+
+import { foo, bar } from 'module3';
+
+
+
+import { foo , bar as alias2 } from 'module2';
+         ~~~                                   [Importing 'foo' from module 'module2' is not allowed.]
+
+import { foo as alias1 , bar as alias2 } from 'module2';
+         ~~~~~~~~~~~~~                                   [Importing 'foo' from module 'module2' is not allowed.]
+
+
+import { foo , bar as alias2 } from 'module3';
+import { foo as alias1 , bar as alias2 } from 'module3';
+
+
+
+import defaultExport, { foo, bar } from 'module2';
+                        ~~~                            [Importing 'foo' from module 'module2' is not allowed.]
+
+import defaultExport, { foo, bar } from 'module3';
+       ~~~~~~~~~~~~~                                       [Importing a default from module 'module3' is not allowed.]
+
+
+
+import defaultExport, * as name from 'module2';
+                      ~~~~~~~~~                 [Importing the namespace from module 'module2' is not allowed.]
+
+import 'module2';
+~~~~~~~~~~~~~~~~~                         [Importing the module 'module2' is not allowed.]

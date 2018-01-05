@@ -6,13 +6,14 @@
   "license": "MIT",
   "scripts": {
     "lint": "yarn tslint && yarn eslint",
-    "tslint": "tslint src/**/*.{ts,tsx} --type-check --project ./",
+    "tslint": "tslint --project ./",
     "eslint": "z-frontend-eslint"
   },
   "dependencies": {
-    "react": "^15.6.1",
-    "react-apollo": "^1.4.12",
-    "react-dom": "^15.6.1",
+    "lodash": "^4.17.4",
+    "react": "^16.2.0",
+    "react-apollo": "^1.4.15",
+    "react-dom": "^16.2.0",
     "react-intl": "^2.3.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.2",
@@ -20,18 +21,20 @@
     "redux": "^3.7.2"
   },
   "devDependencies": {
-    "@types/react": "^15.0.38",
-    "@types/react-dom": "^15.5.1",
+    "@types/lodash": "^4.14.80",
+    "@types/react": "^16.0.25",
+    "@types/react-dom": "^16.0.3",
     "@types/react-intl": "^2.3.1",
-    "@types/react-redux": "^4.4.47",
+    "@types/react-redux": "^5.0.14",
     "@types/react-router-dom": "^4.0.8",
     "@types/redux": "^3.6.0",
     "apollo-test-utils": "^0.3.2",
     "graphql-tools": "^1.2.1",
+    "eslint-config-z-frontend": "*",
     "react-hot-loader": "next",
-    "tslint": "^5.5.0",
-    "tslint-config-z-frontend": "*",
-    "typescript": "^2.4.2",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1",
+    "z-frontend-global-types": "*",
     "z-frontend-webpack": "*"
   }
 }

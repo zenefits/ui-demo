@@ -1,6 +1,7 @@
 # Installation
 
-This is a private package meant to be installed via lerna
+This is a private package meant to be installed via lerna.
 
 # Summary
-This package contains type definitions for React (https://github.com/jxnblk/rebass).
+
+This package contains type definitions for Rebass (https://github.com/jxnblk/rebass).

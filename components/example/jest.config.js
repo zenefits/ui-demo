@@ -1,1 +1,1 @@
-module.exports = require('z-frontend-jest')();
+module.exports = require('z-frontend-jest')({ throwOnConsoleError: true });

@@ -38,7 +38,7 @@ module.exports = function ypProxy(app) {
   });
 
   app.all(
-    ['/accounts/login', '/accounts/login', '/accounts/logout', '/companySelector', '/companySelector', '/dashboard/'],
+    ['/accounts/login*', '/accounts/logout', '/companySelector', '/companySelector', '/dashboard/', '/console'],
     (req, res) => {
       proxy.web(req, res, {});
     },

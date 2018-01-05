@@ -8,7 +8,10 @@ import { combineReducers } from 'redux';
 import reducers from './reducers';
 import apolloMockConfig from '../mock';
 
-const apolloMockDecorator = createApolloDecorator({ mockConfig: apolloMockConfig }, reducers);
+const apolloMockDecorator = createApolloDecorator({
+  apolloClientOptions: { mockConfig: apolloMockConfig },
+  reducers,
+});
 
 function loadStories() {
   addDecorator(apolloMockDecorator);

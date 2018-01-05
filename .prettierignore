@@ -1,1 +1,3 @@
 src/scripts/checkEngines.js
+src/scripts/lib/semver.js
+checkEngines.js

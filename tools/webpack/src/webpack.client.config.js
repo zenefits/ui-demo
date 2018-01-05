@@ -7,17 +7,14 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const rules = require('./rules');
+const plugins = require('./plugins');
+const getAppName = require('./getAppName');
 
-const packageJson = require(path.join(process.cwd(), '/package.json')); // eslint-disable-line import/no-dynamic-require
-
-const ENV = process.env.NODE_ENV;
+const ENV = process.env.NODE_ENV || 'development';
 const IS_PROD = ENV === 'production';
 const NO_MAPS = !!process.env.NO_MAPS;
-const appName = packageJson.name.replace('z-frontend-', '');
-// TODO: Miguel. Once we fix our deployment environment for yp3/graphql, make sure prod envs can't accidentally end up using mocks
-// const MOCK_MODE = IS_PROD ? null : process.env.MOCK_MODE;
-const MOCK_MODE = process.env.MOCK_MODE;
-const DIST_PATH = path.join(process.cwd(), `/dist/app/${appName}`);
+const appName = getAppName();
+const DIST_PATH = path.join(process.cwd(), `/dist`);
 
 module.exports = function getConfig() {
   return {
@@ -26,7 +23,7 @@ module.exports = function getConfig() {
         IS_PROD && require.resolve('babel-polyfill'),
         !IS_PROD && 'react-hot-loader/patch',
         './src/index',
-        !IS_PROD && require.resolve(`webpack-hot-middleware/client`),
+        !IS_PROD && `${require.resolve(`webpack-hot-middleware/client`)}?path=/app/${appName}/__webpack_hmr`,
       ]),
       'vendor-static': ['react', 'lodash', 'styled-components', 'rebass'],
     },
@@ -36,7 +33,7 @@ module.exports = function getConfig() {
       // and https://webpack.js.org/guides/caching/
       filename: `[name].${IS_PROD ? '[chunkhash]' : 'chunkhash-will-be-here'}.js`,
       // chunkFilename: 'app/name/[name].bundle-[chunkhash].js',
-      publicPath: IS_PROD ? `/app/${appName}/` : `/`,
+      publicPath: `/app/${appName}/`,
     },
     devtool: NO_MAPS ? false : 'source-map',
     // devtool: NO_MAPS ? false : 'cheap-module-source-map',
@@ -56,9 +53,9 @@ module.exports = function getConfig() {
               },
             },
           ],
-          exclude: [/node_modules/],
+          exclude: [/node_modules\/(?!zen-js)/],
         },
-        rules.getTypescriptRule(),
+        rules.getTypescriptRule(!IS_PROD),
         {
           test: /\.(png|jpg|gif)$/,
           use: [
@@ -69,10 +66,7 @@ module.exports = function getConfig() {
           ],
         },
         rules.getFontsRule(),
-        {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader'],
-        },
+        rules.getCssRule(),
         {
           test: /\.(graphql|gql)$/,
           exclude: /node_modules/,
@@ -115,14 +109,7 @@ module.exports = function getConfig() {
       }),
       new NameAllModulesPlugin(),
 
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(ENV),
-        APP_NAME: JSON.stringify(packageJson.name),
-        APP_VERSION: JSON.stringify(packageJson.version),
-        __CLIENT__: true,
-        __DEVELOPMENT__: !IS_PROD,
-        __MOCK_MODE__: MOCK_MODE === 'true',
-      }),
+      plugins.createDefinePlugin(),
 
       // TODO: should we consider leaving fingerprinted assets?
       IS_PROD && new CleanWebpackPlugin([DIST_PATH], { allowExternal: true }),

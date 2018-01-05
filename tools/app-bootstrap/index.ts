@@ -1,6 +1,29 @@
-export { default as createApolloClient } from './src/createApolloClient';
-export { default as createApolloDecorator } from './src/createApolloDecorator';
-export { default as createReduxProvider } from './src/createReduxProvider';
+import createApolloClientBase, { ApolloClientFactoryOptions } from './src/createApolloClient';
+import createReduxProviderBase, { ReduxProviderFactoryOptions } from './src/createReduxProvider';
+import createApolloDecoratorBase from './src/createApolloDecorator';
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
+  }
+}
+
+const createReduxProvider = (options: ReduxProviderFactoryOptions = {}) => {
+  const resultOptions = {
+    ...options,
+    composeFn: options.composeFn || window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__,
+  };
+  return createReduxProviderBase(resultOptions);
+};
+
+const createApolloClient = (options: ApolloClientFactoryOptions = {}) =>
+  createApolloClientBase(options, createReduxProvider);
+
+const createApolloDecorator = (options: ApolloClientFactoryOptions = {}) =>
+  createApolloDecoratorBase(options, createReduxProvider);
+
+export { createApolloClient, createReduxProvider, createApolloDecorator };
+
 export { default as createReduxDecorator } from './src/createReduxDecorator';
 export { default as createRouterProvider } from './src/createRouterProvider';
 export { default as createIntlProvider } from './src/createIntlProvider';
