@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const globSync = require('glob').sync;
 let getWebpackConfig = require('./webpack.client.config.js');
+const getAppName = require('./getAppName');
 
 const proxies = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
 
@@ -16,13 +17,30 @@ if (fs.existsSync(projectsWebPackConfigPath)) {
 
 const getDefaultConfigOptions = () => ({ port: process.env.PORT || 3023 });
 
+const appName = getAppName();
+
 module.exports = {
   start() {
     const app = express();
+
+    const pathPrefix = '/app';
+    const mountPath = `${pathPrefix}/:appName/`;
+    app.get('/', (req, res) => {
+      res.redirect(`${pathPrefix}/${appName}/`);
+    });
+    app.get(`${pathPrefix}/:appName`, (req, res, next) => {
+      if (req.url[req.url.length - 1] !== '/') {
+        res.redirect(`${pathPrefix}/${req.params.appName}/`);
+      } else {
+        next();
+      }
+    });
+
     const configOptions = getDefaultConfigOptions();
     const webpackConfig = getWebpackConfig(configOptions);
     const compiler = webpack(webpackConfig);
     app.use(
+      mountPath,
       webpackDev(compiler, {
         stats: {
           colors: true,
@@ -33,8 +51,13 @@ module.exports = {
       }),
     );
 
-    app.use('/', express.static('public'));
-    app.use(webpackHot(compiler));
+    app.use(mountPath, express.static('public'));
+    app.use(
+      mountPath,
+      webpackHot(compiler, {
+        reload: true,
+      }),
+    );
     proxies.forEach(proxy => proxy(app));
 
     app.listen(configOptions.port);
@@ -45,11 +68,26 @@ module.exports = {
     const configOptions = getDefaultConfigOptions();
     const webpackConfig = getWebpackConfig(configOptions);
     const compiler = webpack(webpackConfig);
-    compiler.run(err => {
+    compiler.run((err, stats) => {
       if (err) {
         throw new Error(err);
       }
-      console.log('Hunky-dory. Successfully built at', webpackConfig.output.path);
+
+      console.log(
+        stats.toString({
+          chunks: false, // Makes the build much quieter
+          colors: true, // Shows colors in the console
+        }),
+      );
+      if (stats.hasErrors()) {
+        throw new Error('There were compilation errors. See stats above for more details');
+      }
+      const outputPath = webpackConfig.output.path;
+      if (!fs.existsSync(outputPath)) {
+        throw new Error(`Expected ${outputPath} to exist, but it wasn't generated`);
+      }
+
+      console.log('Hunky-dory. Successfully built at', outputPath);
     });
   },
 };

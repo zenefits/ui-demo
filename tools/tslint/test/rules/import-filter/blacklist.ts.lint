@@ -1,0 +1,64 @@
+import defaultExport from 'module4';
+       ~~~~~~~~~~~~~                          [Importing a default from module 'module4' is not allowed.]
+
+import defaultExport from 'module5';
+
+
+import * as name from 'module4';
+       ~~~~~~~~~                              [Importing the namespace from module 'module4' is not allowed.]
+
+
+
+import { foo } from 'module4';
+
+import { foo } from 'module5';
+         ~~~                                      [Importing 'foo' from module 'module5' is not allowed.]
+
+
+
+import { foo as alias } from 'module4';
+
+import { foo as alias } from 'module5';
+         ~~~~~~~~~~~~                           [Importing 'foo' from module 'module5' is not allowed.]
+
+
+
+import { foo, bar } from 'module4';
+              ~~~                                   [Importing 'bar' from module 'module4' is not allowed.]
+
+import { foo, bar } from 'module5';
+         ~~~                        [Importing 'foo' from module 'module5' is not allowed.]
+              ~~~                   [Importing 'bar' from module 'module5' is not allowed.]
+
+
+import { foo , bar as alias2 } from 'module4';
+               ~~~~~~~~~~~~~                                   [Importing 'bar' from module 'module4' is not allowed.]
+
+import { foo as alias1 , bar as alias2 } from 'module4';
+                         ~~~~~~~~~~~~~                   [Importing 'bar' from module 'module4' is not allowed.]
+
+
+import { foo , bar as alias2 } from 'module5';
+         ~~~                                   [Importing 'foo' from module 'module5' is not allowed.]
+               ~~~~~~~~~~~~~                   [Importing 'bar' from module 'module5' is not allowed.]
+
+import { foo as alias1 , bar as alias2 } from 'module5';
+         ~~~~~~~~~~~~~                                   [Importing 'foo' from module 'module5' is not allowed.]
+                         ~~~~~~~~~~~~~                   [Importing 'bar' from module 'module5' is not allowed.]
+
+
+import defaultExport, { foo, bar } from 'module4';
+       ~~~~~~~~~~~~~                                       [Importing a default from module 'module4' is not allowed.]
+                             ~~~                            [Importing 'bar' from module 'module4' is not allowed.]
+
+import defaultExport, { foo, bar } from 'module5';
+                        ~~~                        [Importing 'foo' from module 'module5' is not allowed.]
+                             ~~~                   [Importing 'bar' from module 'module5' is not allowed.]
+
+
+import defaultExport, * as name from 'module4';
+       ~~~~~~~~~~~~~                            [Importing a default from module 'module4' is not allowed.]
+                      ~~~~~~~~~                 [Importing the namespace from module 'module4' is not allowed.]
+
+import 'module4';
+~~~~~~~~~~~~~~~~~                         [Importing the module 'module4' is not allowed.]

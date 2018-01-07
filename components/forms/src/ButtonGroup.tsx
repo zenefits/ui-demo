@@ -1,24 +1,45 @@
-import React, { Component } from 'react';
-import { css } from 'styled-components';
-import { hoc } from 'rebass';
+import React, { StatelessComponent } from 'react';
+import { styled } from 'z-frontend-theme';
+import { Box, Flex } from 'rebass';
+import { RebassOnlyProps } from 'z-rebass-types';
+import { color } from 'z-frontend-theme/src/utils';
 
-const buttonGroupStyle = css`
-  display: flex;
-  align-items: flex-start;
-  *:first-child:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+export const childItemClassName = 'button-group-child-item';
+
+const ButtonGroupInnerContainer = styled(Flex)`
+  > *:first-child:not(:last-child) {
+    &,
+    .${childItemClassName} {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
   }
-  *:not(:first-child) {
-    border-left: 1px solid ${props => props.theme.colors.greyScale[6]};
+  > *:not(:first-child) {
+    border-left: 1px solid ${color('grayscale.g')};
   }
-  *:not(:first-child):not(:last-child) {
-    border-radius: 0;
+  > *:not(:first-child):not(:last-child) {
+    &,
+    .${childItemClassName} {
+      border-radius: 0;
+    }
   }
-  *:last-child:not(:first-child) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  > *:last-child:not(:first-child) {
+    &,
+    .${childItemClassName} {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
+` as Flex;
+
+const ButtonGroupOuterContainer = styled<RebassOnlyProps>(Box)`
+  display: inline-block;
 `;
 
-export default hoc(buttonGroupStyle, {})('div');
+const ButtonGroup: StatelessComponent<RebassOnlyProps> = ({ children, ...rest }) => (
+  <ButtonGroupOuterContainer {...rest}>
+    <ButtonGroupInnerContainer align="flex-start">{children}</ButtonGroupInnerContainer>
+  </ButtonGroupOuterContainer>
+);
+
+export default ButtonGroup;

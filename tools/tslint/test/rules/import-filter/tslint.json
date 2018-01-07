@@ -1,0 +1,27 @@
+{
+  "rulesDirectory": ["../../../rules"],
+  "rules": {
+    "import-filter": [
+      true,
+      {
+        "module1": true,
+        "module2": {
+          "whitelist": ["bar", "default"]
+        },
+        "module3": {
+          "whitelist": ["foo", "bar"]
+        },
+        "module4": {
+          "blacklist": ["bar", "default"]
+        },
+        "module5": {
+          "blacklist": ["foo", "bar"]
+        },
+        "module6": {
+          "whitelist": ["bar", "ipsum"],
+          "blacklist": ["foo", "bar", "lorem"]
+        }
+      }
+    ]
+  }
+}

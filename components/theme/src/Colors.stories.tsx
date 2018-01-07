@@ -1,7 +1,18 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import styled, { withTheme } from 'styled-components';
-import { Flex, Heading, Box, Text, Circle } from 'rebass';
+import { styled, withTheme } from './ThemeProvider';
+import Heading from './Heading';
+import { Flex, Box } from 'rebass';
+import { color } from './utils';
+import Text from './Text';
+
+const ColorBox = styled(Box)`
+  /* stylelint-disable */
+  width: 120px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 rgba(18, 52, 102, 0.2), inset 0 -41px 0 0 rgba(0, 0, 0, 0.1),
+    inset 0 -40px 0 0 ${color('grayscale.white')};
+`;
 
 const Page = props => {
   const colors = props.theme.colors;
@@ -9,15 +20,18 @@ const Page = props => {
     <div>
       {Object.keys(colors).map(category => (
         <Box key={category} mb={5}>
-          <Heading is="h3">{category} Colors</Heading>
+          <Heading is="h3">{category}</Heading>
           <Flex p={3} wrap>
             {Object.keys(colors[category]).map((colorKey, i) => (
-              <Flex key={i} w={[1, 1, 1 / 4]} mb={3} align="center">
-                <Circle bg={colors[category][colorKey]} size={60} />
-                <Box ml={3}>
-                  <Text mb={2}>{colorKey}</Text>
-                  <Text color="greyScale.38">{colors[category][colorKey]}</Text>
-                </Box>
+              <Flex direction="column" key={i} w={[1, 1 / 4]} mb={3} align="center">
+                <ColorBox bg={colors[category][colorKey]}>
+                  <Text align="center" mt="40px" bg={colors.grayscale.g}>
+                    {colorKey}
+                  </Text>
+                  <Text color="grayscale.b" align="center" bg={colors.grayscale.g}>
+                    {colors[category][colorKey]}
+                  </Text>
+                </ColorBox>
               </Flex>
             ))}
           </Flex>

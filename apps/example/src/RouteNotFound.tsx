@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'z-frontend-forms/src/Link';
 
 const RouteNotFound = () => (
   <div>

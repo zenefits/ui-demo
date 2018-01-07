@@ -1,11 +1,60 @@
+const path = require('path');
+
 module.exports = {
   extends: [require.resolve('tslint-config-airbnb'), require.resolve('tslint-react')],
+  rulesDirectory: [path.resolve(__dirname, 'rules')],
   rules: {
+    // custom rules
+    'import-filter': [
+      true,
+      {
+        'styled-components': {
+          blacklist: ['default', 'css', 'keyframes', 'withTheme'],
+        },
+        'styled-components/native': {
+          blacklist: ['default', 'css', 'withTheme'],
+        },
+        'rebass/dist/utils': {
+          whitelist: ['idx', 'px'],
+        },
+        rebass: {
+          whitelist: [
+            'Box',
+            'Flex',
+            'Input',
+            'Border',
+            'Text',
+            'Button',
+            'Avatar',
+            'Fixed',
+            'Image',
+            'Small',
+            'Truncate',
+            'hoc',
+            'Provider',
+            'Heading',
+            'Subhead',
+            'Panel',
+            'PanelHeader',
+            'PanelFooter',
+            'Label',
+            'TabItem',
+            'Textarea',
+            'Overlay',
+            'Badge',
+          ],
+        },
+      },
+    ],
+
     'import-name': false, // disabled because `import React from 'react'`
     'variable-name': false, // disabled because Classes should use PascalCase and this rule doesn't recognize them e.g. MyComponent = styled.div
     'max-line-length': 120,
     'jsx-boolean-value': [true, 'never'], // match airbnb jsx rule https://github.com/airbnb/javascript/tree/master/react#props
     'jsx-no-lambda': false, // disable because it's a misconception about perf issues with lambdas in JSX
+    'strict-boolean-expressions': false, // [true, 'allow-undefined-union', 'allow-null-union', 'allow-string', 'allow-number'],
+    'no-unused-variable': true,
+    'no-implicit-dependencies': [true, 'dev'],
 
     // The following rules come from tslint-config-prettier (https://github.com/alexjoverm/tslint-config-prettier/blob/master/src/index.js)
     // We disabled some of them to provide better editor support

@@ -1,0 +1,48 @@
+import defaultExport from 'module6';
+       ~~~~~~~~~~~~~                 [Importing a default from module 'module6' is not allowed.]
+
+import * as name from 'module6';
+       ~~~~~~~~~                 [Importing the namespace from module 'module6' is not allowed.]
+
+
+import { foo } from 'module6';
+         ~~~                   [Importing 'foo' from module 'module6' is not allowed.]
+
+
+
+
+import { foo as alias } from 'module6';
+         ~~~~~~~~~~~~                   [Importing 'foo' from module 'module6' is not allowed.]
+
+
+
+import { foo, bar } from 'module6';
+         ~~~                        [Importing 'foo' from module 'module6' is not allowed.]
+
+
+
+
+import { foo , bar as alias2 } from 'module6';
+         ~~~                                   [Importing 'foo' from module 'module6' is not allowed.]
+
+import { foo as alias1 , bar as alias2 } from 'module6';
+         ~~~~~~~~~~~~~                                   [Importing 'foo' from module 'module6' is not allowed.]
+
+
+
+import defaultExport, { foo, bar } from 'module6';
+       ~~~~~~~~~~~~~                               [Importing a default from module 'module6' is not allowed.]
+                        ~~~                        [Importing 'foo' from module 'module6' is not allowed.]
+
+
+import defaultExport, * as name from 'module6';
+       ~~~~~~~~~~~~~                            [Importing a default from module 'module6' is not allowed.]
+                      ~~~~~~~~~                 [Importing the namespace from module 'module6' is not allowed.]
+
+
+import 'module6';
+~~~~~~~~~~~~~~~~~ [Importing the module 'module6' is not allowed.]
+
+
+import { lorem, ipsum } from 'module6';
+         ~~~~~                          [Importing 'lorem' from module 'module6' is not allowed.]

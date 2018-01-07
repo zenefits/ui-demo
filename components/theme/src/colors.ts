@@ -1,50 +1,156 @@
+const sunsetOrange = '#FF5745';
+const navyBlue = '#123466';
+const botticelli = '#D6DEE9';
+const catskillWhite = '#F1F7F9';
+const turquoise = '#2FCDD0';
+const morningGlory = '#8BDDDF';
+const iceberg = '#D3F3F3';
+
+const black = '#000';
+const mirage = '#1C2534';
+const shuttleGray = '#53616E';
+const regentGray = '#8D9BA7';
+const submarine = '#B4BDC5';
+const iron = '#DBDFE3';
+const white = '#FFF';
+
+const java = '#12AED3';
+const deepCerulean = '#0081AA';
+const chathamsBlue = '#144E6F';
+const bossanova = '#4E2E5E';
+const eden = '#155457';
+const verdunGreen = '#3B7101';
+const sushi = '#84C341';
+const caper = '#C3EB9B';
+const riceFlower = '#F0FFE0';
+const monza = '#C00316';
+const vividTangerine = '#FF897C';
+const yourPink = '#FFCBC6';
+const bridesmaid = '#FEF1F0';
+const spicyMustard = '#6F5D0F';
+const festival = '#FDE66B';
+const lemonChiffon = '#FFF9CD';
+
+const rhino = '#303162';
+const bismark = '#446384';
+const chathamsBlue2 = '#133F61';
+const bostonBlue = '#3998AA';
+const easternBlue = '#26A5A8';
+const elm = '#1E7C7F';
+
+const primaryHover = '#F25341';
+const primaryActive = '#E64F3E';
+const defaultNormal = '#D6DEE9';
+const defaultHover = '#C8D0DB';
+const defaultActive = '#BCC4CF';
+
+export declare type ColorString =
+  | 'primary.a'
+  | 'secondary.a'
+  | 'secondary.b'
+  | 'secondary.c'
+  | 'tertiary.a'
+  | 'tertiary.b'
+  | 'tertiary.c'
+  | 'grayscale.black'
+  | 'grayscale.white'
+  | 'grayscale.a'
+  | 'grayscale.b'
+  | 'grayscale.c'
+  | 'grayscale.d'
+  | 'grayscale.e'
+  | 'grayscale.f'
+  | 'grayscale.g'
+  | 'link.normal'
+  | 'link.hover'
+  | 'link.active'
+  | 'auxiliary.a'
+  | 'auxiliary.b'
+  | 'affirmation.a'
+  | 'affirmation.b'
+  | 'affirmation.c'
+  | 'affirmation.d'
+  | 'negation.a'
+  | 'negation.b'
+  | 'negation.c'
+  | 'negation.d'
+  | 'caution.a'
+  | 'caution.b'
+  | 'caution.c'
+  | 'button.defaultNormal'
+  | 'button.defaultHover'
+  | 'button.defaultActive'
+  | 'button.primaryHover'
+  | 'button.primaryActive'
+  | 'button.primaryNormal';
+
 export default {
   primary: {
-    1: '#FF5745',
-    2: '#2FCDD0',
-    '2a': '#8BDDDF',
-    '2b': '#D3F3F3',
-    '2c': '#EAF9F9',
-    3: '#123466',
-    '3a': '#EAF9F9',
+    a: sunsetOrange,
   },
   secondary: {
-    1: '#EEECE4',
-    '1a': '#145557',
-    2: '#EEECE4',
-    3: '#145557',
+    a: navyBlue,
+    b: botticelli,
+    c: catskillWhite,
   },
-  greyScale: {
-    1: '#333333',
-    2: '#777777',
-    3: '#AAAAAA',
-    4: '#DDDDDD',
-    5: '#f9f9f9', // this wasn't on the spec, but needed it for demo purposes
-    6: '#fff', // this wasn't on the spec, should we add it?
+  tertiary: {
+    a: turquoise,
+    b: morningGlory,
+    c: iceberg,
+  },
+  grayscale: {
+    black,
+    white,
+    a: black,
+    b: mirage,
+    c: shuttleGray,
+    d: regentGray,
+    e: submarine,
+    f: iron,
+    g: white,
   },
   link: {
-    normal: '#12AED3',
-    hover: '#0081AA',
-    active: '#144E6F',
+    normal: java,
+    hover: deepCerulean,
+    active: chathamsBlue,
   },
-  // NOTE: missing bg blue gray since it doesn't have an obvious category ('#F1F7F9')
-  utility: {
-    // rename to actions?
-    approve: '#84C341',
-    deny: '#FF897C',
+  auxiliary: {
+    a: bossanova,
+    b: eden,
   },
-  banners: {
-    successBorder: '#3B7101',
-    successBg: '#C3EB9B',
-    success: '#F0FFE0',
-    infoBorder: '#144E6F',
-    infoBg: '#A6E8F8',
-    info: '#DAF6FE',
-    warningBorder: '#6F5D0F',
-    warningBg: '#FDE66B',
-    warning: '#FFF9CD',
-    errorBorder: '#C00316',
-    errorBg: '#FFCBC6',
-    error: '#FEF1F0',
+  affirmation: {
+    a: verdunGreen,
+    b: sushi,
+    c: caper,
+    d: riceFlower,
+  },
+  negation: {
+    a: monza,
+    b: vividTangerine,
+    c: yourPink,
+    d: bridesmaid,
+  },
+  caution: {
+    a: spicyMustard,
+    b: festival,
+    c: lemonChiffon,
+  },
+  button: {
+    defaultNormal,
+    defaultHover,
+    defaultActive,
+    primaryHover,
+    primaryActive,
+    primaryNormal: sunsetOrange,
+  },
+  avatar: {
+    a: rhino,
+    b: bossanova,
+    c: bismark,
+    d: chathamsBlue2,
+    e: bostonBlue,
+    f: easternBlue,
+    g: elm,
+    h: eden,
   },
 };

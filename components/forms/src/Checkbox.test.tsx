@@ -1,39 +1,28 @@
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
-import ThemeProvider from 'z-frontend-theme/src/ThemeProvider';
+import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
 import Checkbox from './Checkbox';
 
 describe('Checkbox', () => {
   it('should mount without throwing an error', () => {
-    expect(
-      mount(
-        <ThemeProvider>
-          <Checkbox />
-        </ThemeProvider>,
-      ).find('Checkbox'),
-    ).toHaveLength(1);
+    expect(mountWithTheme(<Checkbox />).find('Checkbox')).toHaveLength(1);
+  });
+
+  it('should include a label', () => {
+    const rendered = renderWithTheme(<Checkbox label="Label" />);
+    expect(rendered.text()).toBe('Label');
+  });
+
+  it('should support standard attributes', () => {
+    const rendered = renderWithTheme(<Checkbox disabled checked />);
+    expect(rendered.find('[disabled]')).toHaveLength(1);
+    expect(rendered.find('[checked]')).toHaveLength(1);
   });
 
   it('should invoke callback on change', () => {
     const onCheckboxChange = jest.fn();
-    const wrapper = mount(
-      <ThemeProvider>
-        <Checkbox onChange={onCheckboxChange} />
-      </ThemeProvider>,
-    );
-    wrapper.find('Checkbox').simulate('change', { target: { checked: true } });
+    const wrapper = mountWithTheme(<Checkbox onChange={onCheckboxChange} />);
+    wrapper.find('input').simulate('change');
     expect(onCheckboxChange).toBeCalled();
     expect(onCheckboxChange.mock.calls[0][0]).toBeTruthy();
-  });
-
-  it('should not invoke callback when disabled', () => {
-    const onCheckboxChange = jest.fn();
-    const wrapper = mount(
-      <ThemeProvider>
-        <Checkbox isDisabled onChange={onCheckboxChange} />
-      </ThemeProvider>,
-    );
-    wrapper.find('Checkbox').simulate('change');
-    expect(onCheckboxChange).not.toBeCalled();
   });
 });

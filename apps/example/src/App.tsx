@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { gql, graphql } from 'react-apollo';
-import { Heading, Subhead } from 'rebass';
+import { Subhead } from 'rebass';
 import { FormattedMessage, FormattedPlural, FormattedRelative } from 'react-intl';
+import Link from 'z-frontend-forms/src/Link';
+import Heading from 'z-frontend-theme/src/Heading';
 
 import { setFooAction } from './example';
 import RouteNotFound from './RouteNotFound';
@@ -48,8 +50,8 @@ const myFunction = () => <h1>Hi</h1>;
 const MainComponent = () => <div> Main Component </div>;
 
 class App extends Component<Props> {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onClick = this.onClick.bind(this);
   }
   onClick() {

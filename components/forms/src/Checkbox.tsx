@@ -1,80 +1,122 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { StatelessComponent, InputHTMLAttributes } from 'react';
+import { styled, css } from 'z-frontend-theme';
+import { RebassOnlyProps } from 'z-rebass-types';
+import { Label } from 'rebass';
+import { color, icon, fontSizes, radius, space, isRebassProp } from 'z-frontend-theme/src/utils';
+import { omitBy, pickBy } from 'lodash';
 
-const checkboxBorderSize = '2px';
-const checkboxBorderRadius = '2px';
-const checkboxDisabledOpacity = 0.5;
-const checkboxSize = '14px';
-const checkboxSizeIncludingBorders = '18px'; // checkboxSize + (2 * checkboxBorderSize)
+const checkboxSize = '16px';
+
+function borderAndBackground(colorKey) {
+  return css`
+    background-color: ${color(colorKey)};
+    border-color: ${color(colorKey)};
+  `;
+}
 
 export const StyledCheckbox = styled.input.attrs({
   type: 'checkbox',
 })`
-  width: ${checkboxSizeIncludingBorders};
-  height: ${checkboxSizeIncludingBorders};
-  margin: ${props => props.theme.space[0]};
-  padding: ${props => props.theme.space[0]};
-  cursor: pointer;
-  border: ${checkboxBorderSize} solid ${props => props.theme.colors.greyScale['15']};
-  border-radius: ${checkboxBorderRadius};
+  width: ${checkboxSize};
+  height: ${checkboxSize};
+  margin: 0 ${space(2)} 0 0;
+  padding: 0;
+  border: 2px solid ${color('grayscale.e')};
+  border-radius: ${radius};
+  outline: none;
   appearance: none;
+  vertical-align: text-bottom;
+  cursor: pointer;
 
-  :hover {
-    border: ${checkboxBorderSize} solid ${props => props.theme.colors.greyScale['38']};
+  ~ span {
+    cursor: pointer;
+    color: ${color('grayscale.c')};
   }
-  :focus {
-    outline: none;
-  }
-  :checked {
-    background-color: ${props => props.theme.colors.primary.blue100};
-    border: ${checkboxBorderSize} solid ${props => props.theme.colors.primary.blue100};
-  }
-  :checked:hover {
-    border: ${checkboxBorderSize} solid ${props => props.theme.colors.primary.blue100};
-  }
-  :disabled {
-    cursor: not-allowed;
-    opacity: ${checkboxDisabledOpacity};
-  }
-  :disabled:hover {
-    border: ${checkboxBorderSize} solid ${props => props.theme.colors.greyScale['15']};
-  }
-  :after {
-    display: block;
-    width: ${checkboxSize};
+
+  ::after {
     font-family: Material-Design-Iconic-Font;
-    font-size: 17px;
-    line-height: ${checkboxSize};
-    color: #fff;
-    text-align: center;
-    content: '${props => props.theme.icons.check}';
-  }
-`;
-
-interface Props {
-  id?: string;
-  isChecked?: boolean;
-  isDisabled?: boolean;
-  onChange?: Function;
-}
-
-interface State {}
-
-export default class Checkbox extends Component<Props, State> {
-  constructor(props) {
-    super();
-    this.onChange = this.onChange.bind(this);
+    font-size: ${fontSizes(2)};
+    font-weight: bold;
+    color: ${color('grayscale.white')};
+    position: relative;
+    top: -2.5px;
   }
 
-  onChange(event) {
-    if (!this.props.isDisabled) {
-      this.props.onChange(event.target.checked);
+  :hover,
+  :focus,
+  :active {
+    border-color: ${color('grayscale.d')};
+  }
+
+  :checked {
+    ${borderAndBackground('tertiary.a')};
+
+    ~ span {
+      color: ${color('grayscale.b')};
+    }
+
+    ::after {
+      content: '${icon('check')}';
+    }
+
+    :hover,
+    :focus {
+      ${borderAndBackground('link.normal')};
+    }
+
+    :active {
+      ${borderAndBackground('link.hover')};
+    }
+
+    :disabled,
+    :disabled:hover {
+      ${borderAndBackground('grayscale.f')};
+    }
+
+    &.error {
+      ${borderAndBackground('negation.a')};
     }
   }
 
-  render() {
-    return (
-      <StyledCheckbox disabled={!!this.props.isDisabled} checked={this.props.isChecked} onChange={this.onChange} />
-    );
+  :disabled,
+  :disabled:hover {
+    border-color: ${color('grayscale.f')};
+    cursor: not-allowed;
+
+    ~ span {
+      cursor: not-allowed;
+      color: ${color('grayscale.d')};
+    }
   }
-}
+
+  &.error {
+    border-color: ${color('negation.a')};
+
+    :hover {
+      border-color: ${color('negation.a')};
+    }
+  }
+`;
+
+export declare type CheckboxProps = RebassOnlyProps &
+  InputHTMLAttributes<HTMLInputElement> & {
+    label?: string;
+  };
+
+const StyledCheckboxLabel = styled(Label)`
+  display: block;
+  line-height: 1.5; /* consecutive radios should stack nicely */
+`;
+
+const Checkbox: StatelessComponent<CheckboxProps> = props => {
+  const rebassProps = pickBy(props, (value, key) => isRebassProp(key));
+  const checkboxProps = omitBy(props, (value, key) => isRebassProp(key) || key === 'label');
+  return (
+    <StyledCheckboxLabel {...rebassProps}>
+      <StyledCheckbox {...checkboxProps} />
+      <span>{props.label}</span>
+    </StyledCheckboxLabel>
+  );
+};
+
+export default Checkbox;

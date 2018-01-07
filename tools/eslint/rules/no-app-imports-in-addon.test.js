@@ -1,5 +1,5 @@
 const rule = require('./no-app-imports-in-addon');
-const RuleTester = require('eslint').RuleTester;
+const { RuleTester } = require('eslint');
 
 const ruleTester = new RuleTester({ parser: 'babel-eslint' });
 ruleTester.run('no-app-imports-in-addon', rule, {

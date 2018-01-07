@@ -1,68 +1,131 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { doFilter, FilterConfig } from './filterUtils';
+import { doSort, SortConfig } from './sortUtils';
+import { doPage } from './pageUtils';
 
-const doFilter = (items, filterDescriptor) => {
-  const filterKeys = Object.keys(filterDescriptor);
-  if (filterKeys.length === 0) {
-    return items;
-  }
+interface ManagerRenderProps<T> {
+  filtering: {
+    inputData: T[];
+    outputData: T[];
+    config: FilterConfig;
+    onChange: (config: FilterConfig) => void;
+  };
+  sorting: {
+    inputData: T[];
+    outputData: T[];
+    config: SortConfig;
+    onChange: (config: SortConfig) => void;
+  };
+  paging: {
+    inputData: T[];
+    outputData: T[];
+    pageSize: number;
+    currentPage: number;
+    onPageChange: (newPage: number) => void;
+    onPageSizeChange: (newPageSize: number) => void;
+  };
+}
 
-  return _.filter(items, item => _.every(filterKeys, key => passesFilter(filterDescriptor[key], item[key])));
-};
+interface DataManagerProps<T> {
+  sourceData: T[];
+  initialFilter?: FilterConfig;
+  initialSorter?: SortConfig;
+  intialPageSize?: number;
+  initialPage?: number;
+  render: (managerProps: ManagerRenderProps<T>) => any;
+}
 
-const passesFilter = (filter, value) => {
-  const matchAnySet = new Set(filter['matchAny']);
-  if (matchAnySet.size && !matchAnySet.has(value)) {
-    return false;
-  }
+interface DataManagerState {
+  filterConfig: FilterConfig;
+  sortConfig: SortConfig;
+  pageSize: number;
+  currentPage: number;
+}
 
-  const substring = filter['stringContains'];
-  if (substring && value && !value.toLocaleLowerCase().includes(substring.toLocaleLowerCase())) {
-    return false;
-  }
+const FilterManager = ({ data, config, render }) => render(doFilter(data || [], config || {}));
+const SortManager = ({ data, config, render }) => render(doSort(data || [], config || {}));
+const PageManager = ({ data, pageSize, currentPage, render }) =>
+  render(doPage(data || [], pageSize || Infinity, currentPage || 1));
 
-  return true;
-};
-
-export const updateFilters = (filterDescriptor, type, key, value, addFilter) => {
-  const filters = _.cloneDeep(filterDescriptor);
-  if (!(key in filters)) {
-    filters[key] = {};
-  }
-
-  if (type === 'matchAny') {
-    const matchSet = new Set(filters[key]['matchAny']);
-    matchSet[addFilter ? 'add' : 'delete'](value);
-    filters[key]['matchAny'] = [...matchSet];
-  }
-
-  if (type === 'stringContains') {
-    filters[key]['stringContains'] = value;
-  }
-
-  return filters;
-};
-
-export default class DataManager extends Component<any, any> {
+export default class DataManager<T> extends Component<DataManagerProps<T>, DataManagerState> {
   constructor(props) {
     super(props);
-    const filterDescriptor = props.filterDescriptor || {};
-    const filteredData = doFilter(props.sourceData || [], filterDescriptor);
-
     this.state = {
-      filterDescriptor,
-      filteredData,
-      onFilterChange: this.onFilterChange,
+      filterConfig: props.initialFilter || {},
+      sortConfig: props.initialSorter || {},
+      pageSize: props.intialPageSize || Infinity,
+      currentPage: props.initialPage || 1,
     };
   }
 
-  onFilterChange = newFilterDesc =>
-    this.setState({
-      filterDescriptor: newFilterDesc,
-      filteredData: doFilter(this.props.sourceData || [], newFilterDesc),
-    });
+  onFilterChange = (filterConfig: FilterConfig) => {
+    this.setState({ filterConfig });
+    // reset pagination when filters change
+    this.onPageChange(1);
+  };
+
+  onSortChange = (sortConfig: SortConfig) => {
+    this.setState({ sortConfig });
+    // reset pagination after sorting/re-sorting
+    this.onPageChange(1);
+  };
+
+  onPageChange = (newPage: number) => this.setState({ currentPage: newPage });
+  onPageSizeChange = (newPageSize: number) => this.setState({ pageSize: newPageSize });
 
   render() {
-    return this.props.children(this.state);
+    const sourceData = this.props.sourceData;
+    const filterConfig = this.state.filterConfig;
+    const sortConfig = this.state.sortConfig;
+    const pageSize = this.state.pageSize;
+    const currentPage = this.state.currentPage;
+    const onFilterChange = this.onFilterChange;
+    const onSortChange = this.onSortChange;
+    const onPageChange = this.onPageChange;
+    const onPageSizeChange = this.onPageSizeChange;
+
+    return (
+      <FilterManager
+        data={sourceData}
+        config={filterConfig}
+        render={filteredData => (
+          <SortManager
+            data={filteredData}
+            config={sortConfig}
+            render={sortedData => (
+              <PageManager
+                data={sortedData}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                render={pagedData =>
+                  this.props.render({
+                    filtering: {
+                      config: filterConfig,
+                      onChange: onFilterChange,
+                      inputData: sourceData,
+                      outputData: filteredData,
+                    },
+                    sorting: {
+                      config: sortConfig,
+                      onChange: onSortChange,
+                      inputData: filteredData,
+                      outputData: sortedData,
+                    },
+                    paging: {
+                      pageSize,
+                      currentPage,
+                      onPageChange,
+                      onPageSizeChange,
+                      inputData: sortedData,
+                      outputData: pagedData,
+                    },
+                  })
+                }
+              />
+            )}
+          />
+        )}
+      />
+    );
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import ThemeProvider from './ThemeProvider';
+import { ZFrontendThemeProvider } from './ThemeProvider';
 
 export default function themeDecorator(storyFn) {
-  return <ThemeProvider>{storyFn()}</ThemeProvider>;
+  return <ZFrontendThemeProvider>{storyFn()}</ZFrontendThemeProvider>;
 }
