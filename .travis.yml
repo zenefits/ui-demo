@@ -25,14 +25,7 @@ script:
   - lerna updated --since $RUN_SINCE --loglevel=error || true # swallow errors if there is nothing to build
   - lerna run lint --since $RUN_SINCE
   - lerna run test --parallel=false --since $RUN_SINCE
-  # the following two commands are together since we don't want to deploy if the build failed
-  - NODE_ENV=production lerna run build --parallel=false --since $RUN_SINCE && lerna run deploy --since $RUN_SINCE
-  - 'if [ $TRAVIS_PULL_REQUEST ] && [ $TRAVIS_PULL_REQUEST = "false" ] && [ $TRAVIS_BRANCH = "production" ]; then
-      echo "Activating $TRAVIS_COMMIT for production build for the following packages:\n `lerna updated --since $RUN_SINCE --loglevel=error`";
-      lerna run activate --since $RUN_SINCE;
-    else
-      echo "Deployed, but didnt activate anything";
-    fi'
+  - NODE_ENV=production lerna run build --parallel=false --since $RUN_SINCE
 
 branches:
   only:
