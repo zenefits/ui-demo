@@ -1,13 +1,21 @@
 import 'z-frontend-global-types';
-import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo';
+import fetch from 'unfetch';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { SchemaLink } from 'apollo-link-schema';
+import { onError, ErrorResponse } from 'apollo-link-error';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
+import getMockSchema from 'z-frontend-yp-schema/getMockSchema';
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
-import { mockNetworkInterfaceWithSchema } from 'apollo-test-utils';
-import { ReduxProviderFactoryOptions, ReduxProviderFactoryResult } from './createReduxProvider';
-import { Store } from 'react-redux';
+
+import getCookie from './utils/get-cookie';
 
 type GetAdditonalHeaders = () => { [key: string]: string };
+type OnGraphqlError = (error: ErrorResponse) => void;
+export { ErrorResponse };
 
-function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders) {
+function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders, onGraphqlError?: OnGraphqlError) {
   let graphqlUrl = '/graphql/';
   if (__NATIVE__) {
     if (__DEVELOPMENT__) {
@@ -15,179 +23,139 @@ function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders) {
         // this is default IP address for localhost in genymotion emulator
         graphqlUrl = 'http://10.0.3.2:3000/graphql';
       } else if (__IOS__) {
-        graphqlUrl = 'TODO';
+        graphqlUrl = 'http://localhost:3000/graphql';
       }
     } else {
       // TODO
     }
   }
-  const networkInterface = createNetworkInterface({
+
+  const link = createHttpLink({
     uri: graphqlUrl,
-    opts: {
-      // credentials: 'same-origin',
-      credentials: 'include',
+    credentials: 'include',
+
+    fetch: (uri, options) => {
+      options.headers['accept'] = 'application/json';
+      const defaultHeaders = setDefaultHeaders();
+      Object.assign(options.headers, defaultHeaders);
+
+      if (typeof getAdditionalHeaders === 'function') {
+        const additonalHeaders = getAdditionalHeaders();
+        Object.assign(options.headers, additonalHeaders);
+      }
+      return (window.fetch || fetch)(uri, options);
     },
-    // transportBatching: true,
   });
 
-  // TODO: MM: extract so we can re-use this in abstract.js and other apps
-  function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i += 1) {
-        const cookie = (cookies[i] + '').trim();
-        // Does this cookie string begin with the name we want?
-        if (cookie.substring(0, name.length + 1) === `${name}=`) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
-
-  function setDefaultHeaders(req) {
-    // Ideally would just use https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
-    //  But due to compatibility used
-    //  http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
-    //  this won't work with service workers since we don't have the dom
+  function setDefaultHeaders() {
+    const headers = {};
     if (window && window.document) {
       const ajaxToken = (new RegExp(`(?:^|; )${encodeURIComponent('ajaxtoken')}=([^;]*)`).exec(
         window.document.cookie,
       ) || [null, null])[1];
 
-      const a = window.document.createElement('a');
-      a.href = req.url;
-      // The below check for !a.host is because IE for relative URLs i.e. (/my_fav_api)
-      //  doesn't put anything in host which is a reasonable choice.
-      if (!a.host || a.host === window.location.host) {
-        req.options.headers['X-CSRFToken'] = getCookie('csrftoken');
-        req.options.headers['X-PAGEUrl'] = window.location.href;
-        req.options.headers['X-AJAXToken'] = ajaxToken;
-      }
+      headers['X-CSRFToken'] = getCookie('csrftoken');
+      headers['X-PAGEUrl'] = window.location.href;
+      headers['X-AJAXToken'] = ajaxToken;
     }
+    return headers;
   }
 
-  networkInterface.use([
-    {
-      applyMiddleware(req, next) {
-        if (!req.options.headers) {
-          req.options.headers = {} as Headers; // new Headers({}); // Create the header object if needed.
+  const errorLink = onError(errorResponse => {
+    const { networkError, graphQLErrors } = errorResponse;
+
+    if (networkError && (networkError as any).statusCode >= 400) {
+      if (__DEVELOPMENT__) {
+        console.error('Got a network error from GraphQL server', networkError);
+      }
+    } else if (graphQLErrors && graphQLErrors.length) {
+      graphQLErrors.forEach(gqlError => {
+        // maybe log these errors?
+        if (__DEVELOPMENT__) {
+          console.error('Got a graphql error from the server', gqlError);
         }
-        req.options.headers['accept'] = 'application/json';
-        setDefaultHeaders(req);
-
-        if (typeof getAdditionalHeaders === 'function') {
-          const additonalHeaders = getAdditionalHeaders();
-          Object.keys(additonalHeaders || {}).forEach(headerName => {
-            req.options.headers[headerName] = additonalHeaders[headerName];
-          });
+        if ((gqlError as any).isNetworkError && (gqlError as any).status === 401) {
+          // TODO: check if hash part is not being dropped after going back to the app
+          window.location.replace(
+            '/accounts/login/?next=' + encodeURIComponent(window.location.pathname + window.location.hash),
+          );
         }
+      });
+    }
 
-        next();
-      },
-    },
-  ]);
+    if (typeof onGraphqlError === 'function') {
+      onGraphqlError(errorResponse);
+    }
+  });
 
-  networkInterface.useAfter([
-    {
-      async applyAfterware({ response }, next) {
-        const res = response.clone();
-
-        // TODO: handle (log) transport level errors (browser-to-backend transport)
-        if (res.status >= 400) {
-          next();
-          return;
-        }
-
-        // Handle backend grapqhl resolver level errors
-        const json = await res.json();
-        if (json.errors && json.errors.length) {
-          json.errors.forEach(gqlError => {
-            // maybe log these errors?
-            if (__DEVELOPMENT__) {
-              console.error('Got error from GraphQL server', gqlError);
-            }
-            if (gqlError.isNetworkError && gqlError.status === 401) {
-              // TODO: check if hash part is not being dropped after going back to the app
-              window.location.replace(
-                '/accounts/login/?next=' + encodeURIComponent(window.location.pathname + window.location.hash),
-              );
-            }
-          });
-        }
-        next();
-      },
-    },
-  ]);
-
-  return networkInterface;
+  return errorLink.concat(link);
 }
 
-export function initializeMockedNetworkInterface(typeDefs, resolvers, mocks) {
-  const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-  });
-  if (mocks) {
-    addMockFunctionsToSchema({
-      schema,
-      mocks,
-      preserveResolvers: true,
+export function initializeMockedNetworkInterface(mockConfig: MockConfig) {
+  let schema;
+  if ((mockConfig as JsonMockConfig).jsonSchema) {
+    const { jsonSchema, resolvers, mocks } = mockConfig as JsonMockConfig;
+    schema = getMockSchema(jsonSchema, resolvers, mocks);
+  } else {
+    const { mocks, typeDefs, resolvers } = mockConfig as TypeDefsMockConfig;
+    schema = makeExecutableSchema({
+      typeDefs,
+      resolvers,
     });
+    if (mocks) {
+      addMockFunctionsToSchema({
+        schema,
+        mocks,
+        preserveResolvers: true,
+      });
+    }
   }
-  return mockNetworkInterfaceWithSchema({ schema });
+  return new SchemaLink({ schema });
 }
 
 interface ApolloClientCreatorProps {
-  client: ApolloClient;
-  store?: Store<{}>;
+  client: ApolloClient<any>;
 }
 
-interface ApolloClientOptions {
-  mockConfig?: any;
+interface TypeDefsMockConfig {
+  typeDefs: any;
+  resolvers: any;
+  mocks?: any;
+}
+
+interface JsonMockConfig {
+  resolvers: any;
+  mocks?: any;
+  jsonSchema: any;
+}
+
+type MockConfig = TypeDefsMockConfig | JsonMockConfig;
+
+export interface ApolloClientOptions {
+  mockConfig?: MockConfig;
   getAdditionalHeaders?: GetAdditonalHeaders;
-}
-
-export interface ApolloClientFactoryOptions {
-  apolloClientOptions?: ApolloClientOptions;
-  reducers?: { [key: string]: any };
-  middleware?: any[];
-  composeFn?: (any) => any;
+  onGraphqlError?: OnGraphqlError;
 }
 
 export default function createApolloClient(
-  { apolloClientOptions = {}, reducers = {}, middleware = [], composeFn }: ApolloClientFactoryOptions,
-  createReduxProvider: (reduxOptions: ReduxProviderFactoryOptions) => ReduxProviderFactoryResult,
+  apolloClientOptions: ApolloClientOptions = {},
 ): [typeof ApolloProvider, ApolloClientCreatorProps] {
-  const { mockConfig, getAdditionalHeaders } = apolloClientOptions;
-  let networkInterface = null;
+  const { mockConfig, getAdditionalHeaders, onGraphqlError } = apolloClientOptions;
+  let link = null;
   if (__MOCK_MODE__ && mockConfig) {
-    const { typeDefs, resolvers, mocks } = mockConfig;
-    networkInterface = initializeMockedNetworkInterface(typeDefs, resolvers, mocks);
+    link = initializeMockedNetworkInterface(mockConfig);
   } else {
-    networkInterface = initializeNetworkInterface(getAdditionalHeaders);
+    link = initializeNetworkInterface(getAdditionalHeaders, onGraphqlError);
   }
 
   const client = new ApolloClient({
-    networkInterface,
-    addTypename: true,
+    link,
+    cache: new InMemoryCache({
+      addTypename: true,
+    }),
   });
 
   const apollorProviderProps: ApolloClientCreatorProps = { client };
-  const reducersWithApollo = Object.assign({}, reducers, { apollo: client.reducer() });
-
-  const middlewareWithApollo = middleware.slice();
-  middlewareWithApollo.push(client.middleware());
-
-  const [, { store }] = createReduxProvider({
-    composeFn,
-    reducers: reducersWithApollo,
-    middleware: middlewareWithApollo,
-  });
-
-  apollorProviderProps.store = store;
 
   return [ApolloProvider, apollorProviderProps];
 }

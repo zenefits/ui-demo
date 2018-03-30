@@ -6,19 +6,38 @@
   "license": "MIT",
   "scripts": {
     "lint": "yarn tslint && yarn eslint",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
-    "eslint": "z-frontend-eslint"
+    "eslint": "z-frontend-eslint",
+    "test": "echo 'no tests'",
+    "nsp": "z-run nsp check"
+  },
+  "engines": {
+    "yarn": "^1.3.2",
+    "node": "^9.3.0"
   },
   "dependencies": {
+    "apollo-cache-inmemory": "^1.1.11",
+    "apollo-client": "^2.2.7",
+    "apollo-link": "^1.2.1",
+    "apollo-link-context": "^1.0.7",
+    "apollo-link-error": "^1.0.7",
+    "apollo-link-http": "^1.5.3",
+    "apollo-link-schema": "^1.0.6",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
-    "react-apollo": "^1.4.15",
+    "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
+    "react-hot-loader": "next",
     "react-intl": "^2.3.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.2",
-    "react-hot-loader": "next",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "unfetch": "^3.0.0",
+    "whatwg-fetch": "^2.0.3",
+    "z-frontend-theme": "*",
+    "z-frontend-yp-schema": "*",
+    "zbase": "*"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.80",
@@ -28,13 +47,14 @@
     "@types/react-redux": "^5.0.14",
     "@types/react-router-dom": "^4.0.8",
     "@types/redux": "^3.6.0",
-    "apollo-test-utils": "^0.3.2",
-    "graphql-tools": "^1.2.1",
     "eslint-config-z-frontend": "*",
+    "glob": "^7.1.2",
+    "graphql-tools": "^2.18.0",
     "react-hot-loader": "next",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
     "z-frontend-global-types": "*",
+    "z-frontend-scripts": "*",
     "z-frontend-webpack": "*"
   }
 }

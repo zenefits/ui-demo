@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { gql, graphql } from 'react-apollo';
-import { Subhead } from 'rebass';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { Heading } from 'zbase';
 import { FormattedMessage, FormattedPlural, FormattedRelative } from 'react-intl';
-import Link from 'z-frontend-forms/src/Link';
-import Heading from 'z-frontend-theme/src/Heading';
+import { Link } from 'z-frontend-forms';
+import { LoadingScreen } from 'z-frontend-layout';
 
 import { setFooAction } from './example';
 import RouteNotFound from './RouteNotFound';
@@ -62,19 +63,21 @@ class App extends Component<Props> {
     const dragonsCount = 6;
 
     if (loading) {
-      return <div>Loading...</div>;
+      return <LoadingScreen />;
     } else if (error) {
       return <div>{error.message}</div>;
     }
 
     return (
       <div>
-        <Heading onClick={this.onClick}>{dashboard.company.name}</Heading>
+        <Heading level={2} onClick={this.onClick}>
+          {dashboard.company.name}
+        </Heading>
         {
-          <Subhead>
+          <Heading level={3}>
             Welcome {dashboard.employee.first_name}! There are {dashboard.company.employees.length} employees in your
             company.
-          </Subhead>
+          </Heading>
         }
         <div>
           <div>

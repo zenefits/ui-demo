@@ -1,45 +1,44 @@
-import React, { Component, AnchorHTMLAttributes } from 'react';
+import React, { Component } from 'react';
 import { FlattenInterpolation } from 'styled-components';
-import { hoc } from 'rebass';
-import { RebassOnlyProps } from 'z-rebass-types';
+import { A, AnchorProps, withUtilProps, ResultComponentProps } from 'zbase';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
-import { color } from 'z-frontend-theme/src/utils';
-import { css, ColorString } from 'z-frontend-theme';
+import { color } from 'z-frontend-theme/utils';
+import { css, styled, ColorString } from 'z-frontend-theme';
 
-const linkHocProps = {};
-
-interface CssProps {
-  color: ColorString;
-}
-
-const linkStyle: FlattenInterpolation<CssProps>[] = css`
+const linkStyle: FlattenInterpolation<AnchorProps>[] = css`
   text-decoration: none;
+  color: ${props => color((props.color as ColorString) || 'link.normal')(props)};
+  cursor: pointer;
   &:link,
   &:visited {
-    color: ${props => color(props.color || 'link.normal')(props)};
+    color: ${props => color((props.color as ColorString) || 'link.normal')(props)};
   }
   &:hover {
-    color: ${props => color(props.color || 'link.hover')(props)};
+    color: ${props => color((props.color as ColorString) || 'link.hover')(props)};
   }
   &:active {
-    color: ${props => color(props.color || 'link.active')(props)};
+    color: ${props => color((props.color as ColorString) || 'link.active')(props)};
   }
 `;
 
-const StyledLink = hoc(linkStyle, linkHocProps)('a');
-const StyledReactRouterLink = hoc(linkStyle, linkHocProps)(ReactRouterLink);
+const StyledLink = styled<AnchorProps>(A)`
+  ${linkStyle};
+`;
 
-export declare type LinkProps = RebassOnlyProps & (AnchorHTMLAttributes<HTMLLinkElement> | ReactRouterLinkProps);
+const StyledReactRouterLink = withUtilProps<ReactRouterLinkProps>({ additionalCss: linkStyle })(ReactRouterLink);
+type StyledReactRouterLinkProps = ResultComponentProps<ReactRouterLinkProps>;
+
+export type LinkProps = AnchorProps | StyledReactRouterLinkProps;
 
 class Link extends Component<LinkProps> {
   render() {
-    if ((this.props as ReactRouterLinkProps).to) {
-      return <StyledReactRouterLink {...this.props} />;
+    if ((this.props as StyledReactRouterLinkProps).to) {
+      return <StyledReactRouterLink {...this.props as StyledReactRouterLinkProps} />;
     }
 
     const rel = `noreferrer noopener ${this.props.rel || ''}`;
 
-    return <StyledLink {...this.props} rel={rel} />;
+    return <StyledLink {...this.props as AnchorProps} rel={rel} />;
   }
 }
 export default Link;

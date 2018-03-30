@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { styled } from 'z-frontend-theme';
-import moment from 'moment';
-import { color, fontSizes, icon, radius, space } from 'z-frontend-theme/src/utils';
+import { color, fontSizes, icon, radius, space } from 'z-frontend-theme/utils';
 import { InputProps } from './Input';
 import InputWithIcon from './InputWithIcon';
 
@@ -28,7 +27,7 @@ const StyledDayPickerWrapper = styled.div`
   }
 
   .DayPicker {
-    color: ${color('grayscale.b')};
+    color: ${color('grayscale.c')}; /* TODO: just inherit default text color once we change it */
   }
 
   .DayPicker-Month {
@@ -106,7 +105,9 @@ const StyledDayPickerWrapper = styled.div`
   }
 
   .DayPicker-Day--today {
-    color: inherit;
+    /* subtly emphasize today's date */
+    color: ${color('grayscale.black')};
+    font-weight: ${props => props.theme.weights[2]};
   }
 
   .DayPicker:not(.DayPicker--interactionDisabled) .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
@@ -124,19 +125,18 @@ const StyledDayPickerWrapper = styled.div`
   }
 
   .DayPicker-Day--outside {
-    color: ${color('grayscale.e')};
+    color: ${color('grayscale.d')};
   }
 
   .DayPicker-Day--disabled {
-    background-color: ${color('secondary.c')};
-    color: ${color('grayscale.d')};
+    color: ${color('grayscale.e')};
   }
 `;
 
 export declare type DatePickerProps = InputProps & {
-  date?: Date;
   format?: string;
   pickerOptions?: any;
+  locale?: string;
 };
 
 // Avoid warning: "Stateless function components cannot be given refs."
@@ -147,39 +147,34 @@ class InputWithCalendarIcon extends Component<any> {
   }
 }
 
-export default class DatePicker extends Component<DatePickerProps> {
+const localePlaceholderMap = {
+  en: 'MM/DD/YYYY',
+};
+
+export default class DatePicker extends Component<DatePickerProps, any> {
   static defaultProps = {
     disabled: false,
-    format: 'MM/DD/YYYY',
+    locale: 'en',
+    format: 'L', // leave it up to locale
     pickerOptions: {},
   };
 
   constructor(props) {
     super(props);
-    this.handleDayChange = this.handleDayChange.bind(this);
-  }
-
-  handleDayChange(day, modifiers, e) {
-    if (this.props.onChange) {
-      this.props.onChange(day);
-    }
   }
 
   render() {
-    const { date, format, pickerOptions, ...rest } = this.props;
-    // date prop overrides existing value, if any
-    const value = date ? moment(date).format(format) : this.props.value;
+    const { value, format, locale, onChange, pickerOptions, ...rest } = this.props;
     if (pickerOptions.showOutsideDays === undefined) {
-      pickerOptions.showOutsideDays = true;
+      pickerOptions.showOutsideDays = false;
     }
-    // use onDayClick instead of input's onDayChange to get the actual event
-    pickerOptions.onDayClick = this.handleDayChange;
-
+    const formattedValue = value && formatDate(value, format, locale); // by default, DayPickerInput only calls formatDate if value is of type Date
     return (
       <StyledDayPickerWrapper>
         <DayPickerInput
-          value={value}
-          placeholder={format}
+          value={formattedValue}
+          onDayChange={onChange}
+          placeholder={localePlaceholderMap[locale]}
           formatDate={formatDate}
           parseDate={parseDate}
           format={format}

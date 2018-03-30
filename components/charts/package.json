@@ -1,13 +1,16 @@
 {
   "name": "z-frontend-charts",
   "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "prestart": "cd ../../ && yarn checkIntegrity",
     "build": "build-storybook",
     "eslint": "z-frontend-eslint",
     "lint": "yarn tslint && yarn eslint && yarn stylelint",
+    "nsp": "z-run nsp check",
     "stylelint": "z-frontend-stylelint",
     "test": "jest",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
     "start": "start-storybook -p 6009"
   },
@@ -19,10 +22,10 @@
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "rebass": "^1.0.3",
     "styled-components": "^2.2.3",
     "victory": "^0.24.3",
-    "z-frontend-theme": "*"
+    "z-frontend-theme": "*",
+    "zbase": "*"
   },
   "devDependencies": {
     "@storybook/addon-storyshots": "^3.3.3",
@@ -45,7 +48,7 @@
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
     "z-frontend-jest": "*",
-    "z-frontend-webpack": "*",
-    "z-rebass-types": "*"
+    "z-frontend-scripts": "*",
+    "z-frontend-webpack": "*"
   }
 }

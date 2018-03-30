@@ -1,7 +1,6 @@
 import React from 'react';
-import createReduxProvider from './createReduxProvider';
 
-export default function createReduxDecorator(reducers = {}) {
+export default function createReduxDecorator(reducers = {}, createReduxProvider) {
   const [Provider, props] = createReduxProvider({ reducers });
   return storyFn => <Provider {...props}>{storyFn()}</Provider>;
 }

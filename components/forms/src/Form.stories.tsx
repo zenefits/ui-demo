@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { Box } from 'rebass';
+import { Box } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { Form, reduxForm, InjectedFormProps } from 'redux-form';
-import { gql, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 import TextField from './fields/TextField';
 import CheckboxField from './fields/CheckboxField';
 import RadioField from './fields/RadioField';
 import TextareaField from './fields/TextareaField';
 import SelectField from './fields/SelectField';
 import DatePickerField from './fields/DatePickerField';
-import { FormRow } from './fields/FieldWrapper';
+import { FormRow, FieldsWrapper } from './fields/FieldWrapper';
 import Button from './Button';
 
 const stories = storiesOf('Form', module);
@@ -28,6 +29,8 @@ const planetOptions = [
   { value: 'jupiter', label: 'Jupiter' },
 ];
 
+const heightUnitOptions = [{ value: 'cm', label: 'Centimetre' }, { value: 'inch', label: 'Inch' }];
+
 /**
  * Simple form with redux-form
  */
@@ -40,6 +43,8 @@ interface SimpleFormData {
   comment: string;
   moon: string;
   game: string;
+  height: number;
+  heightUnit: string;
 }
 
 // define component props
@@ -73,11 +78,18 @@ class UserSimple extends Component<UserSimplePropsCombined> {
   render() {
     const { invalid } = this.props;
     return (
-      <Box p={2} w={[1, 1 / 2]}>
+      <Box p={2} w={[1, 4 / 5, 3 / 4, 2 / 3]}>
         <h2>Create new user</h2>
         <Form onSubmit={this.props.handleSubmit(this.props.createUser)}>
-          <TextField label="Username *" name="username" validate={required} />
-          <TextField label="Email" type="email" name="email" />
+          <TextField
+            label="Username *"
+            name="username"
+            required
+            min={5}
+            maxLength={2}
+            tooltipText="Enter your username"
+          />
+          <TextField label="Email" type="email" name="email" required minLength={3} tooltipText="Enter your email" />
           <FormRow>
             <CheckboxField label="Sign up for newsletter" name="newsletterEnabled" />
           </FormRow>
@@ -91,6 +103,10 @@ class UserSimple extends Component<UserSimplePropsCombined> {
           />
           <SelectField label="Have you been to the Moon?" name="moon" options={selectOptions} />
           <SelectField label="Which other planets have you visited?" name="planets" multi options={planetOptions} />
+          <FieldsWrapper label="How tall are you?">
+            <TextField w={[1 / 2, 1 / 3]} name="height" />
+            <SelectField w={[1 / 2, 2 / 3]} name="heightUnit" options={heightUnitOptions} />
+          </FieldsWrapper>
           <FormRow>
             <Button type="submit" mode="primary" disabled={invalid}>
               Sign Up
@@ -155,7 +171,9 @@ declare type UserFormData = {
   newsletterEnabled: boolean;
   comment: string;
   moon: string;
-  foo: string;
+  game: string;
+  height: number;
+  heightUnit: string;
 };
 
 // a type for our props for the component
@@ -190,23 +208,32 @@ class UserGql extends Component<AllProps> {
     const { loading, error, dashboard } = this.props.data;
     const loaded = !(loading || error);
     return (
-      <Box p={2} w={[1, 1 / 2]}>
+      <Box p={2} w={[1, 4 / 5, 3 / 4, 2 / 3]}>
         <h2>Create new user</h2>
         <Box>
           Example of loading data with graphql:<br />
           Employee count: {loaded ? dashboard.company.employees.length : '...'}
         </Box>
         <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
-          <TextField label="Username" name="username" required />
-          <TextField label="Email" type="email" name="email" />
+          <TextField label="Username" name="username" required tooltipText="Enter your username" />
+          <TextField label="Email" type="email" name="email" tooltipText="Enter your email" />
           <FormRow>
             <CheckboxField label="Sign up for newsletter" name="newsletterEnabled" />
           </FormRow>
-          <SelectField name="foo" label="Test" />
           {radioButtonExample}
           <TextareaField label="Comment" name="comment" rows={4} helpText="Tell us something" />
-          <DatePickerField label="Most recent moon voyage" name="moonDate" />
+          <DatePickerField
+            label="Most recent moon voyage *"
+            name="moonDate"
+            pickerOptions={withDisabled}
+            validate={required}
+          />
           <SelectField label="Have you been to the Moon?" name="moon" options={selectOptions} />
+          <SelectField label="Which other planets have you visited?" name="planets" multi options={planetOptions} />
+          <FieldsWrapper label="How tall are you?">
+            <TextField w={[1 / 2, 1 / 3]} name="height" />
+            <SelectField w={[1 / 2, 2 / 3]} name="heightUnit" options={heightUnitOptions} />
+          </FieldsWrapper>
           <FormRow>
             <Button type="submit" mode="primary">
               Sign Up

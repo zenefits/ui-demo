@@ -1,43 +1,45 @@
 import React, { Component } from 'react';
 import { Manager, Target, Popper, Arrow } from 'react-popper';
 import { styled } from 'z-frontend-theme';
-import { Flex } from 'rebass';
-import { color, space, radius, depth } from 'z-frontend-theme/src/utils';
+import { Flex } from 'zbase';
+import { color, zIndex, space, radius, depth } from 'z-frontend-theme/utils';
 
-interface Props {
+type FlipProp =
+  | 'left'
+  | 'right'
+  | 'top'
+  | 'bottom'
+  | 'left-start'
+  | 'left-end'
+  | 'top-start'
+  | 'top-end'
+  | 'right-start'
+  | 'right-end'
+  | 'bottom-start'
+  | 'bottom-end';
+
+type PlacementProp =
+  | 'left'
+  | 'right'
+  | 'top'
+  | 'bottom'
+  | 'left-start'
+  | 'left-end'
+  | 'top-start'
+  | 'top-end'
+  | 'right-start'
+  | 'right-end'
+  | 'bottom-start'
+  | 'bottom-end';
+
+export interface PopoverProps {
   event: 'click' | 'hover';
   targetBody?: React.ReactNode;
-  placement?:
-    | 'left'
-    | 'right'
-    | 'top'
-    | 'bottom'
-    | 'left-start'
-    | 'left-end'
-    | 'top-start'
-    | 'top-end'
-    | 'right-start'
-    | 'right-end'
-    | 'bottom-start'
-    | 'bottom-end';
-  // custom flip seems to only work if the first item in the array matches the placement
-  flip?: [
-
-      | 'left'
-      | 'right'
-      | 'top'
-      | 'bottom'
-      | 'left-start'
-      | 'left-end'
-      | 'top-start'
-      | 'top-end'
-      | 'right-start'
-      | 'right-end'
-      | 'bottom-start'
-      | 'bottom-end'
-  ];
+  placement?: PlacementProp;
+  flip?: FlipProp[];
   showArrow?: boolean;
   showPopover?: boolean;
+  useDefaultPopperContainer?: boolean;
 }
 
 interface State {
@@ -52,11 +54,15 @@ export const StyledPopperContainer = styled(Flex)`
 `;
 
 const StyledContainer = styled(Flex)`
-  .popper-arrow {
-    height: 0;
-    width: 0;
-    border-style: solid;
-    position: absolute;
+  .popper {
+    z-index: ${zIndex('popover')};
+
+    .popper-arrow {
+      height: 0;
+      width: 0;
+      border-style: solid;
+      position: absolute;
+    }
   }
 
   .popper[data-placement^='right'] {
@@ -94,10 +100,11 @@ const StyledContainer = styled(Flex)`
   }
 `;
 
-class Popover extends Component<Props, State> {
+class Popover extends Component<PopoverProps, State> {
   static defaultProps = {
     placement: 'left',
     flip: [],
+    useDefaultPopperContainer: true,
   };
 
   targetEl: HTMLElement;
@@ -140,7 +147,10 @@ class Popover extends Component<Props, State> {
   };
 
   onOuterAction = e => {
-    if (!this.targetEl.contains(e.target) && (!this.popperEl || !this.popperEl.contains(e.target))) {
+    if (
+      !this.targetEl.contains(e.target) &&
+      ((!this.popperEl || !this.popperEl.contains(e.target)) && document.body.contains(e.target))
+    ) {
       this.togglePopover(false);
     }
   };
@@ -195,7 +205,11 @@ class Popover extends Component<Props, State> {
               }}
             >
               {this.props.showArrow && <Arrow className="popper-arrow" />}
-              <StyledPopperContainer>{children}</StyledPopperContainer>
+              {this.props.useDefaultPopperContainer ? (
+                <StyledPopperContainer className="popper-container">{children}</StyledPopperContainer>
+              ) : (
+                children
+              )}
             </Popper>
           </StyledContainer>
         )}

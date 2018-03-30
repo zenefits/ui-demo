@@ -1,5 +1,6 @@
 import React from 'react';
 import Pager from './Pager';
+import { Button } from 'z-frontend-forms';
 import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 describe('Pager', () => {
@@ -18,12 +19,12 @@ describe('Pager', () => {
   });
 
   it('should have two buttons', () => {
-    expect(wrapper.find('button')).toHaveLength(2);
+    expect(wrapper.find(Button)).toHaveLength(2);
   });
 
   it('should call callback on button clicks', () => {
     wrapper
-      .find('button')
+      .find(Button)
       .at(1)
       .simulate('click');
     expect(onPageChange).toBeCalled();
@@ -32,7 +33,7 @@ describe('Pager', () => {
 
   it('should not call callback if button is disabled', () => {
     wrapper
-      .find('button')
+      .find(Button)
       .first()
       .simulate('click');
     expect(onPageChange).not.toBeCalled();
@@ -41,7 +42,7 @@ describe('Pager', () => {
   it('should give the size prop to the button', () => {
     expect(
       wrapper
-        .find('button')
+        .find(Button)
         .first()
         .props(),
     ).toHaveProperty('s', 'large');

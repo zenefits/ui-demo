@@ -5,7 +5,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const NameAllModulesPlugin = require('name-all-modules-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+
 const rules = require('./rules');
 const plugins = require('./plugins');
 const getAppName = require('./getAppName');
@@ -16,16 +19,20 @@ const NO_MAPS = !!process.env.NO_MAPS;
 const appName = getAppName();
 const DIST_PATH = path.join(process.cwd(), `/dist`);
 
-module.exports = function getConfig() {
+module.exports = function getConfig(options = {}) {
   return {
     entry: {
       app: _.compact([
-        IS_PROD && require.resolve('babel-polyfill'),
         !IS_PROD && 'react-hot-loader/patch',
         './src/index',
         !IS_PROD && `${require.resolve(`webpack-hot-middleware/client`)}?path=/app/${appName}/__webpack_hmr`,
       ]),
-      'vendor-static': ['react', 'lodash', 'styled-components', 'rebass'],
+      'vendor-static': _.compact([
+        require.resolve('babel-polyfill'),
+        require.resolve('./unsupportedBrowser'),
+        'react',
+        'lodash',
+      ]),
     },
     output: {
       path: DIST_PATH,
@@ -39,6 +46,9 @@ module.exports = function getConfig() {
     // devtool: NO_MAPS ? false : 'cheap-module-source-map',
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      alias: {
+        graphql: path.resolve(__dirname, '../../../node_modules/graphql/module'),
+      },
     },
     target: 'web',
     module: {
@@ -55,7 +65,7 @@ module.exports = function getConfig() {
           ],
           exclude: [/node_modules\/(?!zen-js)/],
         },
-        rules.getTypescriptRule(!IS_PROD),
+        rules.getTypescriptRule(!IS_PROD, options.useAsyncTsCheck),
         {
           test: /\.(png|jpg|gif)$/,
           use: [
@@ -75,11 +85,13 @@ module.exports = function getConfig() {
       ]),
     },
     plugins: _.compact([
+      options.useAsyncTsCheck && new ForkTsCheckerWebpackPlugin(),
       !IS_PROD && new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, '../index.html'),
       }),
+      new CopyWebpackPlugin([{ from: path.join(__dirname, './unsupportedBrowser/unsupported.html') }]),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor-static',
         // NOTE: we avoid to accidentally share common chunks
@@ -108,6 +120,9 @@ module.exports = function getConfig() {
         return chunk.modules.map(m => path.relative(m.context, m.request)).join('_');
       }),
       new NameAllModulesPlugin(),
+
+      // prevent autorequiring moment locales
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       plugins.createDefinePlugin(),
 

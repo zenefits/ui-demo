@@ -1,0 +1,18 @@
+import defaultExport from 'module1';
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                          [please use xyz instead]
+
+import sdf, { sdfsds, fghf} from 'module1';
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                          [please use xyz instead]
+
+import sdfs, { sdfsds, fghf } from 'module2';
+       ~~~~                                                [please use something else]
+import sdsdffs from 'module2';
+       ~~~~~~~                                                [please use something else]
+
+import { foo, bar } from 'module2';
+              ~~~                                                [please use foo]
+import { bar } from 'module2';
+         ~~~                                                [please use foo]
+
+import * from 'module2';
+~~~~~~~~~~~~~~~~~~~~~~~~                             [please use foo; please use something else]

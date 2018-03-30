@@ -1,15 +1,50 @@
-import React, { InputHTMLAttributes, StatelessComponent } from 'react';
-import { WrappedFieldProps } from 'redux-form';
-import FieldWrapper, { FieldProps } from './FieldWrapper';
-import Input from '../Input';
+import React, { StatelessComponent } from 'react';
+import { WrappedFieldProps, Field as BaseField, Validator } from 'redux-form';
+import { FieldProps, FieldFormatWrapper } from './FieldWrapper';
+import { generateValidators } from '../validators';
+import Input, { InputProps } from '../Input';
 
-// consider renaming InputField for consistency with component
+type AllInputProps = InputProps & WrappedFieldProps & FieldProps;
 
-declare type InputProps = WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>;
-const WrappedInput: StatelessComponent<InputProps> = ({ input, ...rest }) => <Input {...rest} {...input} />;
+class Field extends BaseField<InputProps> {}
 
-const TextField: StatelessComponent<FieldProps> = props => (
-  <FieldWrapper type="text" {...props} component={WrappedInput} />
-);
+export const InputField: StatelessComponent<AllInputProps> = ({
+  input,
+  meta,
+  label,
+  helpText,
+  errorText,
+  tooltipText,
+  fieldFormat,
+  ...rest
+}) => {
+  const { touched, error } = meta;
+  const finalErrorText = (touched && error) || errorText;
+  return (
+    <FieldFormatWrapper
+      label={label}
+      tooltipText={tooltipText}
+      helpText={helpText}
+      fieldFormat={fieldFormat}
+      errorText={finalErrorText}
+    >
+      <Input {...rest} {...input} aria-invalid={!!finalErrorText} hasError={!!finalErrorText} />
+    </FieldFormatWrapper>
+  );
+};
+
+const TextField: StatelessComponent<FieldProps> = ({ validate, ...rest }) => {
+  const validators = [
+    ...generateValidators({
+      required: rest.required,
+      minLength: rest.minLength,
+      maxLength: rest.maxLength,
+      minVal: Number(rest.min),
+      maxVal: Number(rest.max),
+    }),
+    ...((validate as Validator[]) || []),
+  ];
+  return <Field type="text" component={InputField} validate={validators} {...rest} />;
+};
 
 export default TextField;

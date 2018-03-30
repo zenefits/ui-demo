@@ -24,7 +24,7 @@ module.exports = function checkDependencies() {
   }
 
   try {
-    execSync(`yarn run checkIntegrity`, { cwd: currentDir });
+    execSync('yarn run checkIntegrity', { cwd: currentDir });
   } catch (e) {
     console.log('\n\nDEPENDENCY CHECK FAILED\nPLEASE RUN lerna bootstrap\n');
     process.exit(1);

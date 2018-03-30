@@ -31,17 +31,16 @@ describe('Textarea', () => {
     expect(rendered.attr('rows')).toBe('5');
   });
 
-  it('should respect rebass props', () => {
+  it('should respect util props', () => {
     const mounted = mountWithTheme(<Textarea mt={123} />);
     expect(mounted).toHaveStyleRule('margin-top', '123px');
   });
 
   it('should respect `resize` prop', () => {
-    const withResize = mountWithTheme(<Textarea resize="none" />);
-    const withoutResize = mountWithTheme(<Textarea />);
-    expect(withResize).toHaveStyleRule('resize', 'none');
-    const anyValue = /.*/;
-    expect(withoutResize).not.toHaveStyleRule('resize', anyValue);
+    const withExplicitResize = mountWithTheme(<Textarea resize="none" />);
+    const withoutExplicitResize = mountWithTheme(<Textarea />);
+    expect(withExplicitResize).toHaveStyleRule('resize', 'none');
+    expect(withoutExplicitResize).toHaveStyleRule('resize', 'vertical');
   });
 
   it('should default to size medium', () => {

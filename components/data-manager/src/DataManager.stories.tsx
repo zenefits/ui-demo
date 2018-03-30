@@ -1,39 +1,36 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import DataManager from './DataManager';
+import DataManager, { DataManagerRenderProps } from './DataManager';
 import { updateFilters } from './filterUtils';
 import { updateSorter } from './sortUtils';
-import Button from 'z-frontend-forms/src/Button';
-import { Box, Subhead } from 'rebass';
+import { Button, Checkbox, InputWithIcon } from 'z-frontend-forms';
+import { Box, Flex } from 'zbase';
 import faker from 'faker';
-import _ from 'lodash';
+import { range, uniqBy, includes } from 'lodash';
 import Pager from './Pager';
 
-const getEmployees = num => {
+interface EmployeeType {
+  id: number;
+  name: string;
+  company: string;
+  department: string;
+}
+
+const getEmployees: (number) => EmployeeType[] = num => {
   faker.seed(123);
-  return _.range(num).map(id =>
-    Object.create({
-      id,
-      name: faker.name.findName(),
-      company: faker.company.companyName(),
-      department: faker.commerce.department(),
-    }),
-  );
+  return range(num).map(id => ({
+    id,
+    name: faker.name.findName(),
+    company: faker.company.companyName(),
+    department: faker.commerce.department(),
+  }));
 };
 const employees = getEmployees(50);
-
+const allDepartments = uniqBy(employees, 'department').map(e => e.department);
 const initialNameFilter = { name: { stringContains: 'er' } };
-const getNameSearchString = nameFilter => (nameFilter || {}).stringContains || '';
-const changeNameSearch = (onFilterChange, filterConfig, newValue) =>
-  onFilterChange(updateFilters(filterConfig, 'stringContains', 'name', newValue, true));
-
 const initialDeptFilter = updateFilters({}, 'matchAny', 'department', 'Automotive', true);
-const allDepartments = _.uniqBy(employees, 'department').map(e => e.department);
-const getSelectedDepartments = deptFilter => new Set((deptFilter || {}).matchAny);
-const changeDepartmentFilters = (onFilterChange, filterConfig, d, isSelected) =>
-  onFilterChange(updateFilters(filterConfig, 'matchAny', 'department', d, isSelected));
 
-const UnorderedList = ({ arr }) => (
+const ListOfEmployees = ({ arr }) => (
   <ul>
     {arr.map(a => (
       <li key={a.id}>
@@ -43,21 +40,57 @@ const UnorderedList = ({ arr }) => (
   </ul>
 );
 
-const CheckboxWithLabel = ({ label, checked, onChange }) => (
-  <label>
-    <input type="checkbox" checked={checked} onChange={onChange} />
-    {label}
-  </label>
+const DepartmentCheckboxesFilter = ({ allDepts, filterConfig, onFilterChange }) => {
+  const selectedDepartments = (filterConfig.department || {}).matchAny;
+
+  return (
+    <Box>
+      Filter departments:{' '}
+      {allDepts.map(dept => (
+        <Checkbox
+          key={dept}
+          label={dept}
+          checked={includes(selectedDepartments, dept)}
+          onChange={e => onFilterChange(updateFilters(filterConfig, 'matchAny', 'department', dept, e.target.checked))}
+        />
+      ))}
+    </Box>
+  );
+};
+
+const NameSearchFilter = ({ filterConfig, onFilterChange }) => (
+  <Box w={1 / 3}>
+    Search names:{' '}
+    <InputWithIcon
+      iconName="search"
+      s="small"
+      value={(filterConfig.name || {}).stringContains || ''}
+      onChange={e => onFilterChange(updateFilters(filterConfig, 'stringContains', 'name', e.target.value, true))}
+    />
+  </Box>
+);
+
+const SortButton = ({ field, sortConfig, onSortChange }) => (
+  <Button
+    m={2}
+    mode="primary"
+    disabled={(sortConfig[0] || { key: '' }).key === field}
+    onClick={e => onSortChange(updateSorter(sortConfig, field, true))}
+  >
+    Sort by {field}
+  </Button>
 );
 
 storiesOf('FilterManager', module)
-  .add('basic', () => (
+  .add('no filter', () => (
     <DataManager
       sourceData={employees}
-      render={managerProps => (
+      render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
         <Box p={3}>
-          <Subhead>Full List ({employees.length} employees)</Subhead>
-          <UnorderedList arr={managerProps.filtering.outputData} />
+          <h3>Full List ({employees.length} employees)</h3>
+
+          {/* This component actually renders the final data */}
+          <ListOfEmployees arr={managerProps.displayData} />
         </Box>
       )}
     />
@@ -66,20 +99,17 @@ storiesOf('FilterManager', module)
     <DataManager
       sourceData={employees}
       initialFilter={initialNameFilter}
-      render={managerProps => (
+      render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
         <Box p={3}>
-          <Subhead>Search (stringContains)</Subhead>
-          <p>
-            Search names:{' '}
-            <input
-              value={getNameSearchString(managerProps.filtering.config.name)}
-              onChange={e =>
-                changeNameSearch(managerProps.filtering.onChange, managerProps.filtering.config, e.target.value)
-              }
-            />
-          </p>
+          <h3>Search (stringContains)</h3>
+          <NameSearchFilter
+            filterConfig={managerProps.filtering.config}
+            onFilterChange={managerProps.filtering.onChange}
+          />
           <b>Results:</b>
-          <UnorderedList arr={managerProps.filtering.outputData} />
+
+          {/* This component actually renders the final data */}
+          <ListOfEmployees arr={managerProps.displayData} />
         </Box>
       )}
     />
@@ -88,57 +118,42 @@ storiesOf('FilterManager', module)
     <DataManager
       sourceData={employees}
       initialFilter={initialDeptFilter}
-      render={managerProps => (
+      render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
         <Box p={3}>
-          <Subhead>Checkboxes (matchAny)</Subhead>
-          <p>
-            Filter departments:{' '}
-            {allDepartments.map(dept => (
-              <CheckboxWithLabel
-                key={dept}
-                label={dept}
-                checked={getSelectedDepartments(managerProps.filtering.config.department).has(dept)}
-                onChange={e =>
-                  changeDepartmentFilters(
-                    managerProps.filtering.onChange,
-                    managerProps.filtering.config,
-                    dept,
-                    e.target.checked,
-                  )
-                }
-              />
-            ))}
-          </p>
+          <h3>Checkboxes (matchAny)</h3>
+          <DepartmentCheckboxesFilter
+            allDepts={allDepartments}
+            filterConfig={managerProps.filtering.config}
+            onFilterChange={managerProps.filtering.onChange}
+          />
           <b>Results:</b>
-          <UnorderedList arr={managerProps.filtering.outputData} />
+
+          {/* This component actually renders the final data */}
+          <ListOfEmployees arr={managerProps.displayData} />
         </Box>
       )}
     />
   ));
 
-const changeSorting = (sortConfig, onSortChange, key) => onSortChange(updateSorter(sortConfig, key, true));
-
 storiesOf('SortManager', module).add('basic', () => (
   <DataManager
     sourceData={employees}
-    render={managerProps => (
+    render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
       <Box p={3}>
-        <Subhead>Sorting a List by specific keys</Subhead>
-        <Button
-          m={2}
-          disabled={(managerProps.sorting.config[0] || { key: '' }).key === 'name'}
-          onClick={e => changeSorting(managerProps.sorting.config, managerProps.sorting.onChange, 'name')}
-        >
-          Sort by name
-        </Button>
-        <Button
-          m={2}
-          disabled={(managerProps.sorting.config[0] || { key: '' }).key === 'department'}
-          onClick={e => changeSorting(managerProps.sorting.config, managerProps.sorting.onChange, 'department')}
-        >
-          Sort by department
-        </Button>
-        <UnorderedList arr={managerProps.sorting.outputData} />
+        <h3>Sorting a List by specific keys</h3>
+        <SortButton
+          field={'name'}
+          sortConfig={managerProps.sorting.config}
+          onSortChange={managerProps.sorting.onChange}
+        />
+        <SortButton
+          field={'department'}
+          sortConfig={managerProps.sorting.config}
+          onSortChange={managerProps.sorting.onChange}
+        />
+
+        {/* This component actually renders the final data */}
+        <ListOfEmployees arr={managerProps.displayData} />
       </Box>
     )}
   />
@@ -148,17 +163,68 @@ const pageSize = 20;
 storiesOf('PageManager', module).add('basic', () => (
   <DataManager
     sourceData={employees}
-    intialPageSize={pageSize}
-    render={managerProps => (
+    initialPageSize={pageSize}
+    render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
       <Box p={3}>
-        <Subhead>Paged List (page size: {pageSize})</Subhead>
-        <UnorderedList arr={managerProps.paging.outputData} />
+        <h3>Paged List (page size: {pageSize})</h3>
+
+        {/* This component actually renders the final data */}
+        <ListOfEmployees arr={managerProps.displayData} />
+
         <Pager
           pageSize={managerProps.paging.pageSize}
           currentPage={managerProps.paging.currentPage}
           totalItemsCount={managerProps.paging.inputData.length}
           onPageChange={managerProps.paging.onPageChange}
         />
+      </Box>
+    )}
+  />
+));
+
+// kitchen sink example - filtering, sorting, and pagination together
+storiesOf('Kitchen Sink', module).add('all', () => (
+  <DataManager
+    sourceData={employees}
+    initialPageSize={pageSize}
+    render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
+      <Box p={3}>
+        <h3>Filtering, Sorting, and Pagination</h3>
+        <Flex>
+          <Box w={1 / 6}>
+            <NameSearchFilter
+              filterConfig={managerProps.filtering.config}
+              onFilterChange={managerProps.filtering.onChange}
+            />
+            <DepartmentCheckboxesFilter
+              allDepts={allDepartments}
+              filterConfig={managerProps.filtering.config}
+              onFilterChange={managerProps.filtering.onChange}
+            />
+          </Box>
+          <Box w={2 / 3} p={3}>
+            <SortButton
+              field={'name'}
+              sortConfig={managerProps.sorting.config}
+              onSortChange={managerProps.sorting.onChange}
+            />
+            <SortButton
+              field={'department'}
+              sortConfig={managerProps.sorting.config}
+              onSortChange={managerProps.sorting.onChange}
+            />
+
+            {/* This component actually renders the final data */}
+            <ListOfEmployees arr={managerProps.displayData} />
+
+            <Pager
+              pageSize={managerProps.paging.pageSize}
+              currentPage={managerProps.paging.currentPage}
+              totalItemsCount={managerProps.paging.inputData.length}
+              onPageChange={managerProps.paging.onPageChange}
+            />
+          </Box>
+        </Flex>
       </Box>
     )}
   />

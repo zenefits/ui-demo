@@ -1,7 +1,6 @@
 const sunsetOrange = '#FF5745';
 const navyBlue = '#123466';
 const botticelli = '#D6DEE9';
-const catskillWhite = '#F1F7F9';
 const turquoise = '#2FCDD0';
 const morningGlory = '#8BDDDF';
 const iceberg = '#D3F3F3';
@@ -12,9 +11,10 @@ const shuttleGray = '#53616E';
 const regentGray = '#8D9BA7';
 const submarine = '#B4BDC5';
 const iron = '#DBDFE3';
+const fog = '#f3f3f3';
 const white = '#FFF';
 
-const java = '#12AED3';
+const pacificBlue = '#009BC0';
 const deepCerulean = '#0081AA';
 const chathamsBlue = '#144E6F';
 const bossanova = '#4E2E5E';
@@ -44,113 +44,76 @@ const defaultNormal = '#D6DEE9';
 const defaultHover = '#C8D0DB';
 const defaultActive = '#BCC4CF';
 
-export declare type ColorString =
-  | 'primary.a'
-  | 'secondary.a'
-  | 'secondary.b'
-  | 'secondary.c'
-  | 'tertiary.a'
-  | 'tertiary.b'
-  | 'tertiary.c'
-  | 'grayscale.black'
-  | 'grayscale.white'
-  | 'grayscale.a'
-  | 'grayscale.b'
-  | 'grayscale.c'
-  | 'grayscale.d'
-  | 'grayscale.e'
-  | 'grayscale.f'
-  | 'grayscale.g'
-  | 'link.normal'
-  | 'link.hover'
-  | 'link.active'
-  | 'auxiliary.a'
-  | 'auxiliary.b'
-  | 'affirmation.a'
-  | 'affirmation.b'
-  | 'affirmation.c'
-  | 'affirmation.d'
-  | 'negation.a'
-  | 'negation.b'
-  | 'negation.c'
-  | 'negation.d'
-  | 'caution.a'
-  | 'caution.b'
-  | 'caution.c'
-  | 'button.defaultNormal'
-  | 'button.defaultHover'
-  | 'button.defaultActive'
-  | 'button.primaryHover'
-  | 'button.primaryActive'
-  | 'button.primaryNormal';
-
-export default {
-  primary: {
-    a: sunsetOrange,
-  },
-  secondary: {
-    a: navyBlue,
-    b: botticelli,
-    c: catskillWhite,
-  },
-  tertiary: {
-    a: turquoise,
-    b: morningGlory,
-    c: iceberg,
-  },
-  grayscale: {
-    black,
-    white,
-    a: black,
-    b: mirage,
-    c: shuttleGray,
-    d: regentGray,
-    e: submarine,
-    f: iron,
-    g: white,
-  },
-  link: {
-    normal: java,
-    hover: deepCerulean,
-    active: chathamsBlue,
-  },
-  auxiliary: {
-    a: bossanova,
-    b: eden,
-  },
-  affirmation: {
-    a: verdunGreen,
-    b: sushi,
-    c: caper,
-    d: riceFlower,
-  },
-  negation: {
-    a: monza,
-    b: vividTangerine,
-    c: yourPink,
-    d: bridesmaid,
-  },
-  caution: {
-    a: spicyMustard,
-    b: festival,
-    c: lemonChiffon,
-  },
-  button: {
-    defaultNormal,
-    defaultHover,
-    defaultActive,
-    primaryHover,
-    primaryActive,
-    primaryNormal: sunsetOrange,
-  },
-  avatar: {
-    a: rhino,
-    b: bossanova,
-    c: bismark,
-    d: chathamsBlue2,
-    e: bostonBlue,
-    f: easternBlue,
-    g: elm,
-    h: eden,
-  },
+export const avatarColors = {
+  'avatar.a': rhino,
+  'avatar.b': bossanova,
+  'avatar.c': bismark,
+  'avatar.d': chathamsBlue2,
+  'avatar.e': bostonBlue,
+  'avatar.f': easternBlue,
+  'avatar.g': elm,
+  'avatar.h': eden,
 };
+
+export const colorsMap = {
+  'primary.a': sunsetOrange,
+
+  'secondary.a': navyBlue,
+  'secondary.b': botticelli,
+  'secondary.c': fog,
+
+  'tertiary.a': turquoise,
+  'tertiary.b': morningGlory,
+  'tertiary.c': iceberg,
+
+  'grayscale.black': black,
+  'grayscale.white': white,
+  'grayscale.a': black,
+  'grayscale.b': mirage,
+  'grayscale.c': shuttleGray,
+  'grayscale.d': regentGray,
+  'grayscale.e': submarine,
+  'grayscale.f': iron,
+  'grayscale.g': white,
+
+  'link.normal': pacificBlue,
+  'link.hover': deepCerulean,
+  'link.active': chathamsBlue,
+
+  'auxiliary.a': bossanova,
+  'auxiliary.b': eden,
+
+  'affirmation.a': verdunGreen,
+  'affirmation.b': sushi,
+  'affirmation.c': caper,
+  'affirmation.d': riceFlower,
+
+  'negation.a': monza,
+  'negation.b': vividTangerine,
+  'negation.c': yourPink,
+  'negation.d': bridesmaid,
+
+  'caution.a': spicyMustard,
+  'caution.b': festival,
+  'caution.c': lemonChiffon,
+
+  'button.defaultNormal': defaultNormal,
+  'button.defaultHover': defaultHover,
+  'button.defaultActive': defaultActive,
+  'button.primaryHover': primaryHover,
+  'button.primaryActive': primaryActive,
+  'button.primaryNormal': sunsetOrange,
+
+  ...avatarColors,
+};
+
+export declare type ColorString = keyof (typeof colorsMap) | 'inherit' | 'initial' | 'transparent';
+
+/**
+ * Get the color value by the color name
+ * Example: getColor('grayscale.a') returns #1C2534 ("mirage" color)
+ * @param color ColorString (e.g. "grayscale.b")
+ */
+export function getColor(color: ColorString) {
+  return colorsMap[color];
+}

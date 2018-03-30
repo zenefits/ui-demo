@@ -1,12 +1,15 @@
 {
   "name": "z-frontend-tables",
   "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "prestart": "cd ../../ && yarn checkIntegrity",
     "build": "build-storybook",
     "eslint": "z-frontend-eslint",
     "lint": "yarn tslint && yarn eslint",
+    "nsp": "z-run nsp check",
     "test": "jest",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
     "start": "start-storybook -p 6011"
   },
@@ -20,10 +23,12 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "prop-types": "^15.6.0",
-    "rebass": "^1.0.3",
+    "react-router-dom": "^4.1.2",
     "styled-components": "^2.2.3",
-    "z-frontend-cards": "*",
-    "z-frontend-theme": "*"
+    "z-frontend-forms": "*",
+    "z-frontend-layout": "*",
+    "z-frontend-theme": "*",
+    "zbase": "*"
   },
   "devDependencies": {
     "@storybook/react": "^3.3.3",
@@ -47,6 +52,6 @@
     "typescript": "^2.6.1",
     "z-frontend-jest": "*",
     "z-frontend-webpack": "*",
-    "z-rebass-types": "*"
+    "z-frontend-scripts": "*"
   }
 }

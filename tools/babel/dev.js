@@ -12,5 +12,5 @@ module.exports = {
     ],
     'react',
   ],
-  plugins: ['transform-object-rest-spread', 'babel-plugin-styled-components'],
+  plugins: ['babel-plugin-syntax-dynamic-import', 'transform-object-rest-spread', 'babel-plugin-styled-components'],
 };

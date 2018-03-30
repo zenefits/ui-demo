@@ -1,3 +1,5 @@
+const originalConsoleError = console.error;
 console.error = (...args) => {
-  throw new Error(...args);
+  originalConsoleError(...args);
+  throw new Error('Called console.error');
 };

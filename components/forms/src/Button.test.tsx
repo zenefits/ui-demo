@@ -1,28 +1,61 @@
 import React from 'react';
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountWithTheme, renderWithTheme, shallowWithTheme } from 'z-frontend-theme/test-utils/theme';
 import Button from './Button';
+import { LoadingSpinner } from 'z-frontend-layout';
+import 'jest-styled-components';
 
 describe('Button', () => {
   it('should mount without throwing an error', () => {
     expect(mountWithTheme(<Button>Hi</Button>).text()).toEqual('Hi');
   });
 
-  it('should show spinner and hide the text when inProgress is true', () => {
-    const wrapper = mountWithTheme(<Button inProgress>Hi</Button>);
-    expect(wrapper.text()).toEqual('Hi');
-    const children = wrapper.find('button').find('p');
-    expect(children).toHaveLength(1);
-    expect(children.props()).toHaveProperty('hide', true);
-
-    const icon = wrapper.find('button').find('span');
-    expect(icon).toHaveLength(1);
-    expect(icon.props()).toHaveProperty('spin', true);
-    expect(icon.props()).toHaveProperty('icon', 'spinner');
-    expect(icon.props()).toHaveProperty('hide', false);
+  it('should ultimately render a <button> element', () => {
+    const rendered = renderWithTheme(<Button>Hi</Button>);
+    expect(rendered.is('button')).toBe(true);
   });
 
-  it('should be disabled when inProgress is true', () => {
-    expect(renderWithTheme(<Button inProgress>Hi</Button>).attr('disabled')).toBeTruthy();
+  it('should default to size medium', () => {
+    const wrapper = shallowWithTheme(<Button>Hi</Button>);
+    expect(wrapper.first().props()).toHaveProperty('s', 'medium');
+  });
+
+  it('should vary font-size according to `s` prop', () => {
+    const small = mountWithTheme(<Button s="small">Hi</Button>);
+    const large = mountWithTheme(<Button s="large">Hi</Button>);
+    const smallFontSize = /^1[0-4]px/;
+    const largeFontSize = /^1[5-9]px/;
+    expect(small).toHaveStyleRule('font-size', smallFontSize);
+    expect(large).toHaveStyleRule('font-size', largeFontSize);
+  });
+
+  describe('when inProgress', () => {
+    it('should include spinner icon', () => {
+      const wrapper = mountWithTheme(<Button inProgress>Hi</Button>);
+      const spinner = wrapper.find(LoadingSpinner);
+      expect(spinner).toHaveLength(1);
+    });
+
+    it('should be disabled', () => {
+      expect(renderWithTheme(<Button inProgress>Hi</Button>).attr('disabled')).toBeTruthy();
+    });
+
+    it('should hide text', () => {
+      const wrapper = mountWithTheme(<Button inProgress>Hi</Button>);
+      const children = wrapper.find('button').children();
+      expect(children).toHaveStyleRule('visibility', 'hidden');
+    });
+  });
+
+  it('should support standard button attributes', () => {
+    const rendered = renderWithTheme(
+      <Button id="foo" type="submit" hidden disabled>
+        Hi
+      </Button>,
+    );
+    expect(rendered.attr('id')).toBe('foo');
+    expect(rendered.attr('type')).toBe('submit');
+    expect(rendered.attr('hidden')).toBeTruthy();
+    expect(rendered.attr('disabled')).toBeTruthy();
   });
 
   it('should invoke callback on change', () => {

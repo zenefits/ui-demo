@@ -10,7 +10,9 @@ module.exports = {
     'max-nesting-depth': 2, // contributes to specificity bloat
     'no-descending-specificity': null, // awkward with selector nesting
     'string-quotes': 'single', // consistent with prettier
-    'unit-whitelist': ['px', '%', 'deg', 'vh'], // avoid em, rem etc
+    'unit-whitelist': ['px', '%', 'deg', 'vh', 'vw', 's'], // avoid pt, mm, in etc
     'declaration-block-no-redundant-longhand-properties': null,
+    'selector-type-no-unknown': [true, { ignoreTypes: ['$dummyValue'] }],
+    'selector-type-case': null,
   },
 };

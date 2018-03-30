@@ -13,42 +13,45 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
-    "glob": "^7.1.2",
-    "inquirer": "4.0.1",
     "find-up": "^2.1.0",
+    "glob": "^7.1.2",
     "husky": "^0.14.3",
-    "lerna": "^2.5.1",
+    "inquirer": "4.0.1",
+    "jest": "^21.2.1",
+    "lerna": "~2.7.0",
     "lint-staged": "^4.0.2",
     "npm-check": "^5.5.2",
     "prettier": "^1.7.4",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "z-frontend-scripts": "*"
   },
   "scripts": {
     "checkIntegrity": "node src/scripts/integrityCheck.js --check",
+    "nsp": "z-run nsp check",
     "preprettier": "yarn checkIntegrity",
     "prelint": "yarn checkIntegrity",
     "precommit": "lint-staged",
     "preinstall": "node ./src/scripts/checkEngines.js",
     "postinstall": "node src/scripts/integrityCheck.js --write && node ./src/scripts/fixRNImport.js",
     "prettier": "prettier --write",
-    "prettify":
-      "yarn run prettier -- {{src,apps,apps-native,components,tools}/**,.}/*.{js,jsx,ts,tsx,graphql,json,css}",
-    "lerna-reset": "rm -rf yarn.lock **/**/yarn.lock && lerna clean --yes && lerna bootstrap",
-    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' ./src/**/*.{js,jsx}"
+    "prettify": "yarn run prettier {{src,apps,apps-native,components,tools}/**,.}/*.{js,jsx,ts,tsx,graphql,json,css}",
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' ./src/**/*.{js,jsx}",
+    "test": "jest",
+    "zcli": "zcli",
+    "prettierCheck": "yarn run prettify --list-different --write=false"
   },
   "lint-staged": {
-    "{{src,apps,apps-native,components,tools}/**,.}/*.{js,jsx,ts,tsx,graphql,json,css}": [
-      "node ./src/scripts/relativeTslint.js",
-      "yarn run prettier",
-      "git add"
-    ]
+    "*.{js,jsx,ts,tsx,graphql,json,css,md}": ["node ./src/scripts/relativeTslint.js", "yarn run prettier", "git add"]
   },
   "private": true,
   "engines": {
     "yarn": "^1.3.2",
     "node": "^9.3.0",
-    "lerna": "^2.5.1"
+    "lerna": "~2.7.0"
   },
-  "workspaces": ["apps/*", "apps-native/*", "components/*", "components/types/*", "tools/*"]
+  "workspaces": ["apps/*", "apps-native/*", "components/*", "components/types/*", "tools/*"],
+  "resolutions": {
+    "graphql": "git://github.com/graphql/graphql-js.git#npm"
+  }
 }

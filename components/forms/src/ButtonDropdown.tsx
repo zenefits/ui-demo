@@ -1,47 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component, cloneElement, ReactElement } from 'react';
+// TODO: use our own popover component
 import { Manager, Target, Popper } from 'react-popper';
-import { Flex } from 'rebass';
-import { px } from 'rebass/dist/util';
-import { styled, css, theme } from 'z-frontend-theme';
-import { color } from 'z-frontend-theme/src/utils';
-import { RebassOnlyProps } from 'z-rebass-types';
+import { Flex, Icon } from 'zbase';
+import { styled, css, withTheme } from 'z-frontend-theme';
+import { color, radius, space, zIndex } from 'z-frontend-theme/utils';
 
 import { childItemClassName } from './ButtonGroup';
-import Icon from 'z-frontend-theme/src/Icon';
-import Button, { ButtonBasicProps } from './Button';
+import Button, { ButtonBasicProps, ButtonRouteLinkProps, ButtonLinkProps } from './Button';
 
 const ESC_KEYCODE = 27;
-
-const InlineManager = styled(Manager)`
-  display: inline-block;
-`;
 
 const StyledContainer = styled(Flex)`
   min-width: 200px;
   border: 1px solid ${color('secondary.b')};
-  border-radius: ${props => px(props.theme.radius)};
-  box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.15);
+  border-radius: ${radius};
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+
   > * {
     border-bottom: 1px solid ${color('secondary.b')};
-    border-radius: 0px;
+    border-radius: 0;
+
     &:first-child {
-      border-top-left-radius: ${props => px(props.theme.radius)};
-      border-top-right-radius: ${props => px(props.theme.radius)};
+      border-top-left-radius: ${radius};
+      border-top-right-radius: ${radius};
     }
+
     &:last-child {
-      border-bottom-left-radius: ${props => px(props.theme.radius)};
-      border-bottom-right-radius: ${props => px(props.theme.radius)};
+      border-bottom-left-radius: ${radius};
+      border-bottom-right-radius: ${radius};
       border-bottom-color: transparent;
     }
   }
-` as Flex;
+`;
 
 interface State {
   isVisible: boolean;
 }
 
 interface Props {
-  buttonBody?: React.ReactNode;
+  target?: React.ReactNode;
   popperModifiers?: Popper.Modifiers;
   popperPlacement?: Popper.Placement;
 }
@@ -86,7 +83,10 @@ class ButtonDropdownComponent extends Component<ButtonBasicProps & Props, State>
     });
   };
   onClick = e => {
-    e.preventDefault();
+    // Stops propagation of opening of the detail panel in a table when it is triggered via clicking
+    // on this component inside of a table row
+    e.stopPropagation();
+
     this.togglePopover();
   };
   onOuterAction = e => {
@@ -115,37 +115,48 @@ class ButtonDropdownComponent extends Component<ButtonBasicProps & Props, State>
   }
 
   render() {
-    const buttonBody = this.props.buttonBody || <Icon fontSize={1} iconName="more-vert" />;
+    const { children, popperModifiers, popperPlacement, ...rest } = this.props;
+    const targetProps = {
+      ...rest,
+      onClick: this.onClick,
+      className: childItemClassName,
+    };
+
+    const targetContent = this.props.target ? (
+      cloneElement(this.props.target as ReactElement<any>, targetProps) // pass onClick etc
+    ) : (
+      <Button {...targetProps}>
+        <Icon fontSize={1} iconName="more-vert" />
+      </Button>
+    );
 
     return (
-      <InlineManager>
+      <Manager>
         <Target
           innerRef={targetEl => {
             this.targetEl = targetEl;
           }}
         >
-          <Button {...this.props} onClick={this.onClick} className={childItemClassName}>
-            {buttonBody}
-          </Button>
+          {targetContent}
         </Target>
         {this.state.isVisible && (
           <Popper
             style={{
-              marginTop: px(theme.space[1]),
-              marginBottom: px(theme.space[1]),
-              zIndex: theme.zIndex.dropdown,
+              marginTop: space(1)(this.props),
+              marginBottom: space(1)(this.props),
+              zIndex: zIndex('dropdown')(this.props),
             }}
-            modifiers={this.props.popperModifiers}
-            placement={this.props.popperPlacement}
+            modifiers={popperModifiers}
+            placement={popperPlacement}
             onClick={this.onPopperClick}
             innerRef={popperEl => {
               this.popperEl = popperEl;
             }}
           >
-            <StyledContainer column>{this.props.children}</StyledContainer>
+            <StyledContainer column>{children}</StyledContainer>
           </Popper>
         )}
-      </InlineManager>
+      </Manager>
     );
   }
 }
@@ -176,10 +187,7 @@ const itemCss = css`
 `;
 
 type ComponentType<P> = React.ComponentClass<P> | React.StatelessComponent<P>;
-type ClickableHtmlElAttrs =
-  | React.ButtonHTMLAttributes<HTMLButtonElement>
-  | React.AnchorHTMLAttributes<HTMLAnchorElement>;
-type DefaultItemComponentProps = RebassOnlyProps & ClickableHtmlElAttrs;
+type DefaultItemComponentProps = ButtonBasicProps | ButtonLinkProps | ButtonRouteLinkProps;
 
 function styledItemHoc<P extends DefaultItemComponentProps>(ItemComponent: ComponentType<P>) {
   class ButtonDropdownItem extends Component<P> {
@@ -199,11 +207,13 @@ const ButtonDropdownItem = styledItemHoc(
     ${itemCss};
   `,
 );
+
 export const ButtonDropdownItemLink = styledItemHoc(
   styled(Button.Link)`
     ${itemCss};
   `,
 );
+
 const ButtonDropdownItemRouteLink = styledItemHoc(
   styled(Button.RouteLink)`
     ${itemCss};
@@ -216,7 +226,7 @@ declare type ButtonDropdown = typeof ButtonDropdownComponent & {
   ItemRouteLink: typeof ButtonDropdownItemRouteLink;
 };
 
-const ButtonDropdown = ButtonDropdownComponent as ButtonDropdown;
+const ButtonDropdown = withTheme(ButtonDropdownComponent) as ButtonDropdown;
 ButtonDropdown.ItemButton = ButtonDropdownItem;
 ButtonDropdown.ItemLink = ButtonDropdownItemLink;
 ButtonDropdown.ItemRouteLink = ButtonDropdownItemRouteLink;

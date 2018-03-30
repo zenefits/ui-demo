@@ -1,12 +1,15 @@
 {
   "name": "z-frontend-forms",
   "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "prestart": "cd ../../ && yarn checkIntegrity",
     "build": "build-storybook",
     "eslint": "z-frontend-eslint",
-    "lint": "yarn tslint && yarn eslint && yarn stylelint",
+    "lint": "yarn tslint && yarn eslint && yarn stylelint && yarn tsCheck",
+    "nsp": "z-run nsp check",
     "test": "jest",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
     "stylelint": "z-frontend-stylelint",
     "start": "start-storybook -p 6007"
@@ -21,20 +24,20 @@
     "material-design-iconic-font": "2.2.0",
     "moment": "^2.19.2",
     "react": "^16.2.0",
-    "react-day-picker": "^7.0.2",
+    "react-day-picker": "^7.0.6",
     "react-dom": "^16.2.0",
     "react-popper": "^0.7.4",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.2",
     "react-select": "^1.0.0-rc.10",
     "react-text-mask": "^5.0.2",
-    "rebass": "^1.0.3",
     "redux": "^3.7.2",
     "redux-form": "^7.0.4",
     "styled-components": "^2.2.3",
     "text-mask-addons": "^3.7.1",
-    "z-frontend-cards": "*",
-    "z-frontend-theme": "*"
+    "z-frontend-layout": "*",
+    "z-frontend-theme": "*",
+    "zbase": "*"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.3.3",
@@ -52,10 +55,11 @@
     "enzyme": "^3.1.1",
     "enzyme-adapter-react-16": "^1.0.4",
     "eslint-config-z-frontend": "*",
+    "graphql-tag": "^2.6.1",
     "jest": "^21.2.1",
     "jest-enzyme": "^4.0.1",
     "jest-styled-components": "^4.9.0",
-    "react-apollo": "^1.4.15",
+    "react-apollo": "^2.0.4",
     "react-test-renderer": "^16.2.0",
     "style-loader": "^0.19.1",
     "stylelint-config-z-frontend": "*",
@@ -65,7 +69,7 @@
     "typescript": "^2.6.1",
     "z-frontend-app-bootstrap": "*",
     "z-frontend-jest": "*",
-    "z-frontend-webpack": "*",
-    "z-rebass-types": "*"
+    "z-frontend-scripts": "*",
+    "z-frontend-webpack": "*"
   }
 }

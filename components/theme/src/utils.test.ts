@@ -17,10 +17,20 @@ afterEach(() => {
 });
 
 describe('utils#color', () => {
-  const props = { theme: { colors: { primary: { a: '#fff' } } } };
+  const props = {
+    theme: {
+      colors: {
+        'primary.a': '#fff',
+      },
+    },
+  };
 
   it('supports opacity', () => {
     expect(color('primary.a', 0.5)(props)).toBe('rgba(255,255,255,0.5)');
+  });
+
+  it('supports transparent', () => {
+    expect(color('transparent')(props)).toBe('transparent');
   });
 
   describe('for __DEV__ = true', () => {
@@ -32,11 +42,8 @@ describe('utils#color', () => {
   describe('for __DEV__ = false', () => {
     beforeEach(() => (window.__DEVELOPMENT__ = false));
     makeFoundTest(props, () => color('primary.a'), '#fff');
-    makeFoundTest(props, () => color('#000' as ColorString), '#000'); // fallback if not found
-
-    it('supports fallback opacity', () => {
-      expect(color('#fff' as ColorString, 0.5)(props)).toBe('rgba(255,255,255,0.5)');
-    });
+    // returns undefined if passed incorrect ColorString
+    makeFoundTest(props, () => color('#000' as ColorString), undefined);
   });
 });
 

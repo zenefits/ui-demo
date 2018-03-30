@@ -1,28 +1,49 @@
 import React from 'react';
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
 import DatePicker from './DatePicker';
+import { formatIsoString } from './fields/DatePickerField';
+import moment from 'moment';
 
 jest.mock('react-day-picker/lib/style.css', () => jest.fn());
+
+describe('DatePickerField#formatIsoString', () => {
+  it('handles date', () => {
+    const januaryFirst = new Date(2018, 1 - 1, 1);
+    expect(formatIsoString(januaryFirst)).toBe('2018-01-01');
+  });
+  it('strips time from date', () => {
+    const hour = 5;
+    const januaryFirst = new Date(2018, 1 - 1, 1, hour);
+    expect(formatIsoString(januaryFirst)).toBe('2018-01-01');
+  });
+  it('handles moment', () => {
+    const januaryFirst = moment([2018, 1 - 1, 1, 20]);
+    expect(formatIsoString(januaryFirst)).toBe('2018-01-01');
+  });
+  it('handles string', () => {
+    const januaryFirst = '2018-01-01';
+    expect(formatIsoString(januaryFirst)).toBe('2018-01-01');
+  });
+  it('handles string (full ISO)', () => {
+    const januaryFirst = '2018-01-01T20:35:24-08:00';
+    expect(formatIsoString(januaryFirst)).toBe('2018-01-01');
+  });
+  it('handles string (en-US locale)', () => {
+    expect(formatIsoString('01/01/2018')).toBe('2018-01-01');
+  });
+  it('returns null if invalid', () => {
+    expect(formatIsoString('tomorrow')).toBeNull();
+    expect(formatIsoString('January 1, 2018')).toBeNull();
+    expect(formatIsoString(1203983290)).toBeNull();
+  });
+  it('does not default to today', () => {
+    expect(formatIsoString(undefined)).toBeFalsy();
+  });
+});
 
 describe('DatePicker', () => {
   it('should mount without throwing an error', () => {
     expect(mountWithTheme(<DatePicker />).find('DatePicker')).toHaveLength(1);
-  });
-
-  it('should support initial value', () => {
-    const newYearsEve = new Date(2017, 12 - 1, 31);
-    const wrapper = mountWithTheme(<DatePicker date={newYearsEve} />);
-    expect(wrapper.find('input[value]')).toHaveLength(1);
-  });
-
-  it('should display formatted value', () => {
-    const newYearsEve = new Date(2017, 12 - 1, 31);
-    const wrapper = mountWithTheme(<DatePicker date={newYearsEve} />);
-    const inputValue = wrapper
-      .find('input')
-      .first()
-      .prop('value');
-    expect(inputValue).toBe('12/31/2017');
   });
 
   it('should show date picker on focus', () => {

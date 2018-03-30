@@ -1,6 +1,14 @@
-import initStoryshots from '@storybook/addon-storyshots';
+import initStoryshots, { snapshotWithOptions } from '@storybook/addon-storyshots';
 import 'jest-styled-components';
 
+const createNodeMock = element => {
+  return document.createElement(element.type);
+};
+
+window.cancelAnimationFrame = () => {};
 initStoryshots({
-  storyKindRegex: /^((?!.*?Inputs with mask).)*$/,
+  configPath: __dirname,
+  test: snapshotWithOptions({
+    createNodeMock,
+  }),
 });

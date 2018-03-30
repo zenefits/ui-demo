@@ -1,0 +1,19 @@
+A component for describing document structure. Generalizes HTML's `<h1>` - `<h6>`.
+
+The required `level` prop is used to properly model document structure:
+
+```jsx
+// loadExample('./Heading/exampleLevel')
+```
+
+Headings are styled by default based on their level. As always, you can also use common utility props like `fontStyle` (to control appearance) and `textKey` (to control text):
+
+```jsx
+// loadExample('./Heading/exampleUtilProps')
+```
+
+Heading best practices:
+
+* Use `fontStyle` to control appearance, and `level` to represent actual page structure.
+* Avoid using more than one `level={1}` per page.
+* Do not skip levels. Example: `h2`, then `h4`.

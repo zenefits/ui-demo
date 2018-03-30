@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Flex, Box } from 'rebass';
-import Button from 'z-frontend-forms/src/Button';
-import Icon from 'z-frontend-theme/src/Icon';
-import { color } from 'z-frontend-theme/src/utils';
+import { Box, Flex, P, Icon } from 'zbase';
+import { Button } from 'z-frontend-forms';
+import { color } from 'z-frontend-theme/utils';
 import { styled } from 'z-frontend-theme';
-import Text from 'z-frontend-theme/src/Text';
 
 interface Props {
   onPageChange: (number) => void;
@@ -37,9 +35,9 @@ class Pager extends Component<Props> {
     const start = currentPage * pageSize - pageSize + 1;
     const end = Math.min(currentPage * pageSize, totalItemsCount);
     return (
-      <Text my="auto">
+      <P my="auto">
         {start}-{end} <StyledSpan>(of {totalItemsCount})</StyledSpan>
-      </Text>
+      </P>
     );
   };
 
@@ -47,7 +45,7 @@ class Pager extends Component<Props> {
     const { currentPage, pageSize, totalItemsCount, s: size = 'medium' } = this.props;
     return (
       <Flex align="center">
-        <Box order={[2, 1]} mr={[78, 2]} ml={[78, 0]}>
+        <Box order={[2, 1]} mr={[6, 2]} ml={[6, 0]}>
           {this.getItemRange(currentPage, pageSize, totalItemsCount)}
         </Box>
         <Box order={[1, 2]}>

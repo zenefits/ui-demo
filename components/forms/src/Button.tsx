@@ -1,116 +1,104 @@
-import React, { Component, AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
+import React, { Component } from 'react';
 import { FlattenInterpolation } from 'styled-components';
-import { hoc, Text } from 'rebass';
-import { RebassOnlyProps } from 'z-rebass-types';
+import {
+  Box,
+  BoxProps,
+  Button as ZbaseButton,
+  ButtonProps as ZbaseButtonProps,
+  A,
+  AnchorProps,
+  withUtilProps,
+  ResultComponentProps,
+} from 'zbase';
 import { Link, LinkProps } from 'react-router-dom';
-import { css, styled } from 'z-frontend-theme';
-import Icon, { IconProps } from 'z-frontend-theme/src/Icon';
-import { color, radius, heights, fontSizes, buttonSpace } from 'z-frontend-theme/src/utils';
+import { css, styled, ColorString } from 'z-frontend-theme';
+import { color, radius, heights, fontSizes, buttonSpace } from 'z-frontend-theme/utils';
+import { LoadingSpinner, LoadingSpinnerProps } from 'z-frontend-layout';
+
+type size = 'xsmall' | 'small' | 'medium' | 'large';
 
 interface SharedButtonProps {
+  /** the style of the button */
   mode?: 'normal' | 'primary' | 'transparent';
-  s?: 'small' | 'medium' | 'large' | 'xsmall';
+  /** the size of the button */
+  s?: size;
 }
 
 export interface ButtonProps extends SharedButtonProps {
+  /** temporarily disable the button while an operation is underway */
   inProgress?: boolean;
 }
 
 interface ModeSpec {
-  bg: string;
-  color: string;
-  focusBg: string;
-  hoverBg: string;
-  activeBg: string;
-  focusColor: string;
-  activeColor: string;
-  hoverColor: string;
+  bg: ColorString;
+  color: ColorString;
+  focusBg: Function;
+  activeBg: Function;
+  focusColor: Function;
+  activeColor: Function;
 }
+
+const defaultFontSizeMap = {
+  xsmall: 0,
+  small: 0,
+  medium: 1,
+  large: 2,
+};
+
+const defaultLineHeightMap = {
+  xsmall: 1.67,
+  small: 1.67,
+  medium: 1.43,
+  large: 1.5,
+};
+
+const defaultPaddingSpaceMap = {
+  px: {
+    xsmall: 3,
+    small: 5,
+    medium: 7,
+    large: 7,
+  },
+  py: {
+    xsmall: 1,
+    small: 2,
+    medium: 4,
+    large: 5,
+  },
+};
 
 const modeSpecsMap = {
   normal: {
     bg: 'button.defaultNormal',
     color: 'grayscale.c',
-    focusBg: 'button.defaultHover',
-    hoverBg: 'button.defaultHover',
-    activeBg: 'button.defaultActive',
-    focusColor: 'grayscale.c',
-    activeColor: 'grayscale.c',
-    hoverColor: 'grayscale.c',
-    fontSizeMap: {
-      xsmall: 0,
-      small: 0,
-      medium: 1,
-      large: 2,
-    },
-    lineHeightMap: {
-      xsmall: 1.67,
-      small: 1.67,
-      medium: 1.43,
-      large: 1.5,
-    },
-    paddingSpaceMap: {
-      px: {
-        xsmall: 3,
-        small: 5,
-        medium: 7,
-        large: 7,
-      },
-      py: {
-        xsmall: 1,
-        small: 2,
-        medium: 4,
-        large: 5,
-      },
-    },
+    focusBg: color('button.defaultHover'),
+    activeBg: color('button.defaultActive'),
+    focusColor: color('grayscale.c'),
+    activeColor: color('grayscale.c'),
+    fontSizeMap: defaultFontSizeMap,
+    lineHeightMap: defaultLineHeightMap,
+    paddingSpaceMap: defaultPaddingSpaceMap,
     // disabledBg: '',
   } as ModeSpec,
   primary: {
     bg: 'button.primaryNormal',
     color: 'grayscale.g',
-    focusBg: 'button.primaryHover',
-    hoverBg: 'button.primaryHover',
-    activeBg: 'button.primaryActive',
-    focusColor: 'grayscale.g',
-    activeColor: 'grayscale.g',
-    hoverColor: 'grayscale.g',
-    fontSizeMap: {
-      xsmall: 0,
-      small: 0,
-      medium: 1,
-      large: 2,
-    },
-    lineHeightMap: {
-      xsmall: 1.67,
-      small: 1.67,
-      medium: 1.43,
-      large: 1.5,
-    },
-    paddingSpaceMap: {
-      px: {
-        xsmall: 3,
-        small: 5,
-        medium: 7,
-        large: 7,
-      },
-      py: {
-        xsmall: 1,
-        small: 2,
-        medium: 4,
-        large: 5,
-      },
-    },
+    focusBg: color('button.primaryHover'),
+    activeBg: color('button.primaryActive'),
+    focusColor: color('grayscale.g'),
+    activeColor: color('grayscale.g'),
+    fontSizeMap: defaultFontSizeMap,
+    lineHeightMap: defaultLineHeightMap,
+    paddingSpaceMap: defaultPaddingSpaceMap,
     // disabledBg: 'button.primaryNormal',
   } as ModeSpec,
   transparent: {
     bg: 'transparent',
-    color: 'grayscale.e',
-    focusBg: 'tertiary.c',
-    hoverBg: 'tertiary.c',
-    activeBg: 'tertiary.b',
-    focusColor: 'link.normal',
-    activeColor: 'link.hover',
-    hoverColor: 'link.normal',
+    color: 'grayscale.d',
+    focusBg: color('transparent'),
+    activeBg: color('secondary.a', 0.1),
+    focusColor: color('link.hover'),
+    activeColor: color('link.active'),
     fontSizeMap: {
       xsmall: 0,
       small: 1,
@@ -142,6 +130,7 @@ const modeSpecsMap = {
 };
 
 const buttonStyle: FlattenInterpolation<{ mode: string }>[] = css`
+  display: inline-block;
   box-sizing: border-box;
   position: relative;
   cursor: pointer;
@@ -157,18 +146,19 @@ const buttonStyle: FlattenInterpolation<{ mode: string }>[] = css`
   font-size: ${props => fontSizes(modeSpecsMap[props.mode].fontSizeMap[props.s])};
   padding: ${props => buttonSpace(modeSpecsMap[props.mode].paddingSpaceMap.py[props.s])}
     ${props => buttonSpace(modeSpecsMap[props.mode].paddingSpaceMap.px[props.s])};
+
   &:disabled {
     cursor: not-allowed;
     opacity: ${props => props.theme.opacities[0]};
   }
   &:focus:not(:disabled),
   &:hover:not(:disabled) {
-    color: ${props => color(modeSpecsMap[props.mode].focusColor)(props)};
-    background-color: ${props => color(modeSpecsMap[props.mode].focusBg)(props)};
+    color: ${props => modeSpecsMap[props.mode].focusColor};
+    background-color: ${props => modeSpecsMap[props.mode].focusBg};
   }
   &:active:not(:disabled) {
-    color: ${props => color(modeSpecsMap[props.mode].activeColor)(props)};
-    background-color: ${props => color(modeSpecsMap[props.mode].activeBg)(props)};
+    color: ${props => modeSpecsMap[props.mode].activeColor};
+    background-color: ${props => modeSpecsMap[props.mode].activeBg};
   }
   &:focus:not(:disabled) {
     box-shadow: 0 0 0 2px ${color('secondary.a', 0.1)};
@@ -179,60 +169,30 @@ interface StyledChildrenProps {
   hide?: boolean;
 }
 
-const StyledChildren = styled<StyledChildrenProps>(Text)`
+const StyledChildren = styled<StyledChildrenProps & BoxProps>(({ hide, ...rest }) => <Box {...rest} />)`
   visibility: ${props => (props.hide ? 'hidden' : 'visible')};
 `;
 
-const StyledIcon = styled<IconProps & StyledChildrenProps>(Icon)`
+const inProgressContainerPadding = {
+  xsmall: '5px',
+};
+
+const InProgressContainer = styled<LoadingSpinnerProps>(Box)`
+  line-height: 0;
   position: absolute;
-  top: -2px;
-  left: 0;
-
-  display: inline-block;
-
-  margin-left: calc(50% - 12px);
-  padding-top: inherit;
-
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   pointer-events: none;
-  visibility: ${props => (props.hide ? 'hidden' : 'visible')};
+  padding: ${props => inProgressContainerPadding[props.s] || '7px'};
+  height: ${props => heights(props.s)};
+  width: ${props => heights(props.s)};
 `;
 
-const StyledButton = hoc(buttonStyle, {})('button');
-const StyledLink = hoc(buttonStyle, {})('a');
-const StyledRouteLink = hoc(buttonStyle, {})(Link);
-
-export declare type ButtonBasicProps = RebassOnlyProps & ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps;
-
-// TODO: replace ellipsis by a ProgressIndicator
-class ButtonBasic extends Component<ButtonBasicProps> {
-  static defaultProps: ButtonBasicProps = {
-    mode: 'normal',
-    inProgress: false,
-    disabled: false,
-    s: 'medium',
-    type: 'button',
-  };
-
-  render() {
-    const { disabled, inProgress, mode, s: size, children, ...rest } = this.props;
-    const modeSpecs = modeSpecsMap[mode];
-    return (
-      <StyledButton
-        bg={modeSpecs.bg}
-        color={modeSpecs.color}
-        {...rest}
-        disabled={disabled || inProgress}
-        mode={mode}
-        s={size}
-      >
-        <StyledChildren hide={inProgress}>{children}</StyledChildren>
-        <StyledIcon fontSize={24} iconName="spinner" spin hide={!inProgress} />
-      </StyledButton>
-    );
-  }
-}
-
-export declare type ButtonRouteLinkProps = RebassOnlyProps & SharedButtonProps & LinkProps;
+// ButtonRoutLink
+type StyledRouteLinkProps = LinkProps & SharedButtonProps;
+export type ButtonRouteLinkProps = ResultComponentProps<StyledRouteLinkProps>;
+const StyledRouteLink = withUtilProps<StyledRouteLinkProps>({ additionalCss: buttonStyle })(Link);
 
 class ButtonRouteLink extends Component<ButtonRouteLinkProps> {
   static defaultProps: ButtonBasicProps = {
@@ -251,7 +211,12 @@ class ButtonRouteLink extends Component<ButtonRouteLinkProps> {
   }
 }
 
-export declare type ButtonLinkProps = RebassOnlyProps & AnchorHTMLAttributes<HTMLAnchorElement> & SharedButtonProps;
+// ButtonLink
+type StyledLinkProps = AnchorProps & SharedButtonProps;
+const StyledLink = styled<StyledLinkProps>(A)`
+  ${buttonStyle};
+`;
+export type ButtonLinkProps = ResultComponentProps<StyledLinkProps>;
 
 class ButtonLink extends Component<ButtonLinkProps> {
   static defaultProps: ButtonBasicProps = {
@@ -270,13 +235,46 @@ class ButtonLink extends Component<ButtonLinkProps> {
   }
 }
 
-declare type Button = typeof ButtonBasic & {
-  RouteLink: typeof ButtonRouteLink;
-  Link: typeof ButtonLink;
-};
+// Button
+type StyledButtonProps = ZbaseButtonProps & ButtonProps;
+const StyledButton = styled<StyledButtonProps>(ZbaseButton)`
+  ${buttonStyle};
+`;
 
-const Button = ButtonBasic as Button;
-Button.RouteLink = ButtonRouteLink;
-Button.Link = ButtonLink;
+export type ButtonBasicProps = ResultComponentProps<StyledButtonProps>;
+
+class Button extends Component<ButtonBasicProps> {
+  static defaultProps: ButtonBasicProps = {
+    mode: 'normal',
+    inProgress: false,
+    disabled: false,
+    s: 'medium',
+    type: 'button',
+  };
+  static RouteLink = ButtonRouteLink;
+  static Link = ButtonLink;
+
+  render() {
+    const { disabled, inProgress, mode, s: size, children, ...rest } = this.props;
+    const modeSpecs = modeSpecsMap[mode];
+    return (
+      <StyledButton
+        bg={modeSpecs.bg}
+        color={modeSpecs.color}
+        {...rest}
+        disabled={disabled || inProgress}
+        mode={mode}
+        s={size}
+      >
+        <StyledChildren hide={inProgress}>{children}</StyledChildren>
+        {inProgress && (
+          <InProgressContainer s={size}>
+            <LoadingSpinner />
+          </InProgressContainer>
+        )}
+      </StyledButton>
+    );
+  }
+}
 
 export default Button;

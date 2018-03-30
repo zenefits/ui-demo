@@ -1,18 +1,18 @@
 import React from 'react';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Textarea from './Textarea';
 
 storiesOf('Textarea', module)
   .addDecorator(getStory => (
-    <Box p={20} w={[1, 1 / 2]} bg="white">
+    <Box p={20} w={[1, 1 / 2]} bg="grayscale.white">
       {getStory()}
     </Box>
   ))
   .add('default', () => <Textarea />)
   .add('placeholder', () => <Textarea placeholder="Placeholder" />)
-  .add('rebass props', () => <Textarea placeholder="Placeholder" my={50} />)
+  .add('util props', () => <Textarea placeholder="Placeholder" my={50} />)
   .add('sizes', () => (
     <Flex wrap align="center">
       <Box w={1 / 3}>Large</Box>

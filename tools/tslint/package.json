@@ -9,8 +9,9 @@
   "scripts": {
     "lint": "yarn eslint",
     "eslint": "z-frontend-eslint",
-    "compileRules": "tsc rules/*",
+    "compileRules": "tsc rules/*.ts",
     "compileRulesWatch": "yarn compileRules --watch",
+    "nsp": "z-run nsp check",
     "test": "tslint --test test/rules/*",
     "testWatch": "onchange 'test/rules/**/*' 'rules/*.js' -- yarn test && echo '\n\n\n\n'"
   },
@@ -23,6 +24,8 @@
   },
   "devDependencies": {
     "eslint-config-z-frontend": "*",
-    "onchange": "^3.3.0"
+    "onchange": "^3.3.0",
+    "find-up": "^2.1.0",
+    "z-frontend-scripts": "*"
   }
 }

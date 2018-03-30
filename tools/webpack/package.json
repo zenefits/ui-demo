@@ -6,7 +6,9 @@
   },
   "scripts": {
     "lint": "yarn eslint",
-    "eslint": "z-frontend-eslint"
+    "eslint": "z-frontend-eslint",
+    "nsp": "z-run nsp check",
+    "test": "jest"
   },
   "private": true,
   "engines": {
@@ -20,11 +22,13 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-z-frontend": "*",
     "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.5.0",
     "css-loader": "^0.28.7",
     "eslint-config-z-frontend": "*",
     "express": "^4.15.3",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^2.29.0",
     "http-proxy": "^1.16.2",
@@ -36,6 +40,11 @@
     "uglifyjs-webpack-plugin": "^1.1.5",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^2.0.3",
-    "webpack-hot-middleware": "^2.21.0"
+    "webpack-hot-middleware": "^2.21.0",
+    "z-frontend-scripts": "*"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1",
+    "z-frontend-jest": "*"
   }
 }

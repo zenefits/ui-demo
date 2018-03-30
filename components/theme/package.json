@@ -1,13 +1,16 @@
 {
   "name": "z-frontend-theme",
   "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "prestart": "cd ../../ && yarn checkIntegrity",
     "build": "build-storybook",
     "eslint": "z-frontend-eslint",
     "lint": "yarn tslint && yarn eslint && yarn stylelint",
     "stylelint": "z-frontend-stylelint",
+    "nsp": "z-run nsp check",
     "test": "jest",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
     "start": "start-storybook -p 6006"
   },
@@ -17,12 +20,13 @@
     "node": "^9.3.0"
   },
   "dependencies": {
+    "can-use-dom": "^0.1.0",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "2.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-intl": "^2.3.0",
     "react-native": "^0.51.0",
-    "rebass": "^1.0.3",
     "styled-components": "^2.2.3"
   },
   "devDependencies": {
@@ -48,7 +52,7 @@
     "typescript": "^2.6.1",
     "z-frontend-global-types": "*",
     "z-frontend-jest": "*",
-    "z-frontend-webpack": "*",
-    "z-rebass-types": "*"
+    "z-frontend-scripts": "*",
+    "z-frontend-webpack": "*"
   }
 }

@@ -1,18 +1,18 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Popover from './Popover';
-import { Box, Flex, Text } from 'rebass';
+import { Flex, Box, P } from 'zbase';
 
 function makeTarget(label) {
   return (
-    <Box p={10} bg="lightblue" w="auto">
+    <Box p={10} bg="grayscale.c" color="grayscale.white" w="auto">
       {label}
     </Box>
   );
 }
 
 function makePopper(action) {
-  return <Text p={10}>I am a popover... {action} to hide.</Text>;
+  return <P p={10}>I am a popover... {action} to hide.</P>;
 }
 
 storiesOf('Popover', module)

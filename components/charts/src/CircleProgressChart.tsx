@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import { Flex } from 'rebass';
+import { Flex, FlexProps, P } from 'zbase';
 import { withTheme } from 'z-frontend-theme';
-import { RebassProps } from 'z-rebass-types';
 import { VictoryPie } from 'victory';
-import { color } from 'z-frontend-theme/src/utils';
-import Text from 'z-frontend-theme/src/Text';
+import { color } from 'z-frontend-theme/utils';
 
-interface Props {
+interface ChartProps {
   /**
    * Progress value in percent (0 - 100)
    */
   percentage: number;
 }
 
-class CircleProgressChart extends Component<RebassProps<Props> & Props> {
+class CircleProgressChart extends Component<FlexProps & ChartProps> {
   render() {
-    const { percentage } = this.props;
+    const { percentage, ...rest } = this.props;
     return (
-      <Flex w={'200px'} {...this.props}>
+      <Flex w="200px" {...rest}>
         <VictoryPie
           colorScale={[color('tertiary.b')(this.props), color('secondary.a')(this.props)]}
           innerRadius={130}
@@ -27,10 +25,10 @@ class CircleProgressChart extends Component<RebassProps<Props> & Props> {
           data={[{ y: percentage }, { y: 100 - percentage }]}
         />
         <Flex column justify="center" ml={4}>
-          <Text fontStyle="headings.xl" mt={-2}>
+          <P fontStyle="headings.xl" mt={-2}>
             <strong>{percentage.toFixed(0)}%</strong>
-          </Text>
-          <Text fontStyle="headings.s">Completed</Text>
+          </P>
+          <P fontStyle="headings.s">Completed</P>
         </Flex>
       </Flex>
     );

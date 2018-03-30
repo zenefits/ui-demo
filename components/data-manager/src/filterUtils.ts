@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { filter, every, includes, cloneDeep, concat, without } from 'lodash';
 
 interface FilterConfigPerKey {
   matchAny?: string[];
@@ -15,12 +15,12 @@ export const doFilter = <T>(items: T[], filterConfig: FilterConfig): T[] => {
     return items;
   }
 
-  return _.filter(items, item => _.every(filterKeys, key => _passesFilter(filterConfig[key], item[key])));
+  return filter(items, item => every(filterKeys, key => _passesFilter(filterConfig[key], item[key])));
 };
 
 const _passesFilter = (filter: FilterConfigPerKey, value: string): boolean => {
-  const matchAnySet = new Set(filter['matchAny']);
-  if (matchAnySet.size && !matchAnySet.has(value)) {
+  const matchAny = filter['matchAny'] || [];
+  if (matchAny.length && !includes(matchAny, value)) {
     return false;
   }
 
@@ -39,15 +39,20 @@ export const updateFilters = (
   value: string,
   addFilter: boolean,
 ): FilterConfig => {
-  const filters = _.cloneDeep(filterConfig);
+  const filters = cloneDeep(filterConfig);
   if (!(key in filters)) {
     filters[key] = {};
   }
 
   if (type === 'matchAny') {
-    const matchSet = new Set(filters[key]['matchAny']);
-    matchSet[addFilter ? 'add' : 'delete'](value);
-    filters[key]['matchAny'] = [...matchSet];
+    const matchAny = filters[key]['matchAny'] || [];
+    if (addFilter && !includes(matchAny, value)) {
+      filters[key]['matchAny'] = concat(matchAny, value);
+    }
+
+    if (!addFilter && includes(matchAny, value)) {
+      filters[key]['matchAny'] = without(matchAny, value);
+    }
   }
 
   if (type === 'stringContains') {

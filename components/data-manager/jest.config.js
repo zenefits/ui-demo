@@ -1,3 +1,3 @@
-// TODO
-// module.exports = require('z-frontend-jest')({ throwOnConsoleError: true });
-module.exports = require('z-frontend-jest')();
+module.exports = require('z-frontend-jest')({
+  root: __dirname,
+});

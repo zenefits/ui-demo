@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { styled } from 'z-frontend-theme';
-import { color, space } from 'z-frontend-theme/src/utils';
-import { RebassOnlyProps } from 'z-rebass-types';
-import { Box } from 'rebass';
-import Icon from 'z-frontend-theme/src/Icon';
-import Input, { InputProps } from './Input';
+import { color, space } from 'z-frontend-theme/utils';
+import { Box, BoxProps, Icon } from 'zbase';
+import Input, { InputProps, CustomInputProps } from './Input';
 
-export declare type InputWithIconProps = RebassOnlyProps &
-  InputProps & {
-    iconName: string;
-    onIconClick?: (event: any) => void;
-  };
+export declare type InputWithIconProps = InputProps & {
+  iconName: string;
+  onIconClick?: (event: any) => void;
+};
 
-const StyledWrapper = styled<InputProps>(Box)`
+const StyledWrapper = styled<BoxProps & CustomInputProps>(Box)`
   position: relative;
 
   input {

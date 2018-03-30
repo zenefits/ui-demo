@@ -7,9 +7,12 @@
     "deploy": "EMBER_CLI_DEPLOY_REUSE_BUILD=true ember deploy production --verbose",
     "activate": "ember deploy:activate production --revision $TRAVIS_COMMIT",
     "lint": "yarn tslint && yarn eslint && yarn stylelint",
+    "nsp": "z-run nsp check",
     "stylelint": "z-frontend-stylelint",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
-    "eslint": "z-frontend-eslint"
+    "eslint": "z-frontend-eslint",
+    "test": "jest"
   },
   "private": true,
   "engines": {
@@ -17,34 +20,43 @@
     "node": "^9.3.0"
   },
   "dependencies": {
+    "graphql-tag": "^2.6.1",
+    "graphql-tools": "^2.18.0",
     "react": "^16.2.0",
-    "react-apollo": "^1.4.15",
+    "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
     "react-intl": "^2.3.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.2",
-    "rebass": "^1.0.3",
     "redux": "^3.7.2",
     "z-frontend-app-bootstrap": "*",
     "z-frontend-forms": "*",
-    "z-frontend-theme": "*"
+    "z-frontend-layout": "*",
+    "z-frontend-scripts": "*",
+    "z-frontend-theme": "*",
+    "zbase": "*"
   },
   "devDependencies": {
-    "@types/node": "^8.0.52",
     "@types/jest": "^21.1.6",
+    "@types/node": "^8.0.52",
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
-    "@types/react-redux": "^5.0.14",
     "@types/react-intl": "^2.3.1",
+    "@types/react-redux": "^5.0.14",
     "@types/redux": "^3.6.0",
     "@types/redux-form": "^7.0.4",
+    "babel-jest": "^21.2.0",
     "ember-cli": "ember-cli/ember-cli#master",
     "ember-cli-deploy": "^1.0.2",
     "eslint-config-z-frontend": "*",
+    "jest": "^21.2.1",
+    "jest-enzyme": "^4.0.1",
     "react-hot-loader": "next",
     "stylelint-config-z-frontend": "*",
+    "ts-jest": "^21.2.2",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
+    "z-frontend-jest": "*",
     "z-frontend-webpack": "*"
   }
 }

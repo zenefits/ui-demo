@@ -1,4 +1,6 @@
 import initStoryshots from '@storybook/addon-storyshots';
 import 'jest-styled-components';
 
-initStoryshots();
+initStoryshots({
+  configPath: __dirname,
+});

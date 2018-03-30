@@ -1,0 +1,9 @@
+import test from '../../../../test';
+                 ~~~~~~~~~~~~~~~~~~   [Relative imports may not originate from outside your npm package.]
+
+import test from '../../../../testDir/test.ts';
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   [Relative imports may not originate from outside your npm package.]
+
+import test from '../../../test.ts';
+import test from './test.ts';
+import test from 'test';

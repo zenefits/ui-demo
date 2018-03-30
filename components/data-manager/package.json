@@ -1,13 +1,16 @@
 {
   "name": "z-frontend-data-manager",
   "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "prestart": "cd ../../ && yarn checkIntegrity",
     "build": "build-storybook",
     "eslint": "z-frontend-eslint",
-    "lint": "yarn tslint && yarn eslint && yarn",
+    "lint": "yarn tslint && yarn eslint",
+    "nsp": "z-run nsp check",
     "stylelint": "z-frontend-stylelint",
     "test": "jest",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
     "start": "start-storybook -p 6008"
   },
@@ -19,15 +22,17 @@
   "dependencies": {
     "lodash": "^4.17.4",
     "react": "^16.2.0",
+    "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
-    "rebass": "^1.0.3",
+    "react-router-dom": "^4.1.2",
     "styled-components": "^2.2.3",
     "z-frontend-forms": "*",
-    "z-frontend-theme": "*"
+    "z-frontend-theme": "*",
+    "zbase": "*"
   },
   "devDependencies": {
-    "@storybook/react": "^3.3.3",
     "@storybook/addon-storyshots": "^3.3.3",
+    "@storybook/react": "^3.3.3",
     "@types/faker": "^4.1.1",
     "@types/jest": "^21.1.6",
     "@types/lodash": "^4.14.80",
@@ -35,19 +40,20 @@
     "@types/react": "^16.0.25",
     "@types/react-dom": "^16.0.3",
     "babel-jest": "^21.2.0",
-    "eslint-config-z-frontend": "*",
     "enzyme": "^3.1.1",
+    "eslint-config-z-frontend": "*",
     "faker": "^4.1.0",
     "jest": "^21.2.1",
     "jest-enzyme": "^4.0.1",
     "jest-styled-components": "^4.9.0",
     "react-test-renderer": "^16.2.0",
     "stylelint-config-z-frontend": "*",
-    "ts-loader": "^3.2.0",
     "ts-jest": "^21.2.2",
+    "ts-loader": "^3.2.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
     "z-frontend-jest": "*",
+    "z-frontend-scripts": "*",
     "z-frontend-webpack": "*"
   }
 }

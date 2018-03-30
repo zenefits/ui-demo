@@ -1,11 +1,7 @@
 import React from 'react';
-import createApolloClient, { ApolloClientFactoryOptions } from './createApolloClient';
-import { ReduxProviderFactoryOptions, ReduxProviderFactoryResult } from './createReduxProvider';
+import createApolloClient, { ApolloClientOptions } from './createApolloClient';
 
-export default function createApolloDecorator(
-  options: ApolloClientFactoryOptions,
-  createReduxProvider: (reduxOptions: ReduxProviderFactoryOptions) => ReduxProviderFactoryResult,
-) {
-  const [ApolloProvider, apolloProps] = createApolloClient(options, createReduxProvider);
+export default function createApolloDecorator(options: ApolloClientOptions) {
+  const [ApolloProvider, apolloProps] = createApolloClient(options);
   return storyFn => <ApolloProvider {...apolloProps}>{storyFn()}</ApolloProvider>;
 }
