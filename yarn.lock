@@ -6887,9 +6887,9 @@ graphql-code-generator@^0.8.14:
     mkdirp "^0.5.1"
     request "^2.81.0"
 
-"graphql-code-generator@git+ssh://git@github.com/airato/graphql-code-generator.git#2604aaa":
+"graphql-code-generator@git+https://git@github.com/airato/graphql-code-generator#2604aaa":
   version "0.8.0"
-  resolved "git+ssh://git@github.com/airato/graphql-code-generator.git#2604aaaebe27fd1c503b7b443c9045111e7b52db"
+  resolved "git+https://git@github.com/airato/graphql-code-generator#2604aaaebe27fd1c503b7b443c9045111e7b52db"
   dependencies:
     lerna "^2.0.0"
 

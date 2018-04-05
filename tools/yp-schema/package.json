@@ -17,7 +17,7 @@
   "dependencies": {
     "graphql": "^0.12.3",
     "graphql-tools": "^2.18.0",
-    "graphql-code-generator": "git+ssh://git@github.com/airato/graphql-code-generator.git#2604aaa",
+    "graphql-code-generator": "git+https://git@github.com/airato/graphql-code-generator#2604aaa",
     "prettier": "^1.7.4"
   },
   "devDependencies": {
