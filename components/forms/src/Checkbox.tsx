@@ -1,8 +1,7 @@
-import React, { StatelessComponent, InputHTMLAttributes } from 'react';
+import React, { Component, InputHTMLAttributes } from 'react';
 import { styled, css } from 'z-frontend-theme';
-import { RebassOnlyProps } from 'z-rebass-types';
-import { Label } from 'rebass';
-import { color, icon, fontSizes, radius, space, isRebassProp } from 'z-frontend-theme/src/utils';
+import { Label, LabelProps, isUtilProp } from 'zbase';
+import { color, icon, fontSizes, radius, space } from 'z-frontend-theme/utils';
 import { omitBy, pickBy } from 'lodash';
 
 const checkboxSize = '16px';
@@ -14,7 +13,7 @@ function borderAndBackground(colorKey) {
   `;
 }
 
-export const StyledCheckbox = styled.input.attrs({
+const StyledCheckbox = styled.input.attrs({
   type: 'checkbox',
 })`
   width: ${checkboxSize};
@@ -98,9 +97,14 @@ export const StyledCheckbox = styled.input.attrs({
   }
 `;
 
-export declare type CheckboxProps = RebassOnlyProps &
+export declare type CheckboxProps = LabelProps &
   InputHTMLAttributes<HTMLInputElement> & {
+    /** Short description of what the checkbox means to the user */
     label?: string;
+    /** Is the checkbox disabled? */
+    disabled?: boolean;
+    /** Action to take when value changes */
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   };
 
 const StyledCheckboxLabel = styled(Label)`
@@ -108,15 +112,21 @@ const StyledCheckboxLabel = styled(Label)`
   line-height: 1.5; /* consecutive radios should stack nicely */
 `;
 
-const Checkbox: StatelessComponent<CheckboxProps> = props => {
-  const rebassProps = pickBy(props, (value, key) => isRebassProp(key));
-  const checkboxProps = omitBy(props, (value, key) => isRebassProp(key) || key === 'label');
-  return (
-    <StyledCheckboxLabel {...rebassProps}>
-      <StyledCheckbox {...checkboxProps} />
-      <span>{props.label}</span>
-    </StyledCheckboxLabel>
-  );
-};
+/**
+ * An input component that can be checked or unchecked, similar to HTML's `<input type="checkbox">`
+ * */
+class Checkbox extends Component<CheckboxProps> {
+  render() {
+    const props = this.props;
+    const utilProps = pickBy(props, (value, key) => isUtilProp(key));
+    const checkboxProps = omitBy(props, (value, key) => isUtilProp(key) || key === 'label');
+    return (
+      <StyledCheckboxLabel {...utilProps}>
+        <StyledCheckbox {...checkboxProps} />
+        <span>{props.label}</span>
+      </StyledCheckboxLabel>
+    );
+  }
+}
 
 export default Checkbox;

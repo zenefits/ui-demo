@@ -1,12 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Box, Flex, Label } from 'rebass';
+import { Flex, Box, Label } from 'zbase';
 import { action } from '@storybook/addon-actions';
 import Radio from './Radio';
 
 storiesOf('Radio', module)
   .addDecorator(getStory => (
-    <Flex align="start" p={20} w={[1, 1 / 2]} bg="white">
+    <Flex p={20} w={[1, 1 / 2]} bg="grayscale.white">
       <Label w={[1, 1 / 3]}>Label</Label>
       <Box w={[1, 2 / 3]}>{getStory()}</Box>
     </Flex>
@@ -17,7 +17,7 @@ storiesOf('Radio', module)
       <Radio name="option" value="two" label="Option 2" />
     </Box>
   ))
-  .add('supports rebass', () => (
+  .add('supports util props', () => (
     <Box>
       <Radio name="option" value="one" label="Option 1 (margin)" my={20} />
       <Radio name="option" value="two" label="Option 2 (font)" f={4} />

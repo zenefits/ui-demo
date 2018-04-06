@@ -20,7 +20,9 @@
         "module6": {
           "whitelist": ["bar", "ipsum"],
           "blacklist": ["foo", "bar", "lorem"]
-        }
+        },
+        "module7/*": true,
+        "module8/src/*": true
       }
     ]
   }

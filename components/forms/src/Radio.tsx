@@ -1,12 +1,11 @@
 import React, { StatelessComponent, InputHTMLAttributes } from 'react';
 import { styled, css } from 'z-frontend-theme';
-import { color } from 'z-frontend-theme/src/utils';
-import { RebassOnlyProps } from 'z-rebass-types';
-import { Label } from 'rebass';
+import { color } from 'z-frontend-theme/utils';
+import { Label, LabelProps } from 'zbase';
 
 const radioWidth = '16px';
 
-export declare type RadioProps = RebassOnlyProps &
+export declare type RadioProps = LabelProps &
   InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
   };

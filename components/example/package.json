@@ -1,13 +1,16 @@
 {
   "name": "z-frontend-component-example",
   "version": "0.1.0",
+  "main": "index.ts",
   "scripts": {
     "prestart": "cd ../../ && yarn checkIntegrity",
     "build": "build-storybook",
     "eslint": "z-frontend-eslint",
     "lint": "yarn tslint && yarn eslint && yarn stylelint",
+    "nsp": "z-run nsp check",
     "stylelint": "z-frontend-stylelint",
     "test": "jest",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
     "start": "start-storybook -p 6005"
   },
@@ -20,7 +23,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "styled-components": "^2.2.3",
-    "z-frontend-theme": "*"
+    "z-frontend-theme": "*",
+    "zbase": "*"
   },
   "devDependencies": {
     "@storybook/addon-storyshots": "^3.3.3",
@@ -42,6 +46,7 @@
     "tslint": "^5.8.0",
     "typescript": "^2.6.1",
     "z-frontend-jest": "*",
+    "z-frontend-scripts": "*",
     "z-frontend-webpack": "*"
   }
 }

@@ -1,30 +1,71 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'zbase';
 import { action } from '@storybook/addon-actions';
 import DatePicker from './DatePicker';
+import DatePickerField, { formatIsoString } from './fields/DatePickerField';
+import { Form, reduxForm } from 'redux-form';
+import Button from './Button';
 
-const januaryFirst = new Date(2017, 1 - 1);
 const withDisabled = {
   disabledDays: {
     before: new Date(),
   },
 };
 
+class SimpleForm extends React.Component<any> {
+  render() {
+    return (
+      <Form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+        <DatePickerField label="Choose date" name="chosenDate" />
+        <Button type="submit" mode="primary">
+          Submit
+        </Button>
+      </Form>
+    );
+  }
+}
+
+interface SimpleFormData {
+  chosenDate: string;
+}
+
+const SimpleReduxForm = reduxForm<SimpleFormData, any>({
+  form: 'User',
+  initialValues: { chosenDate: formatIsoString(new Date(2010, 1 - 1, 2)) },
+})(SimpleForm);
+
+const required = value => (value ? undefined : 'Required');
+
+class RequiredForm extends React.Component<any> {
+  render() {
+    const { invalid } = this.props;
+    return (
+      <Form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+        <DatePickerField label="Choose date" name="chosenDate" validate={required} />
+        <Button type="submit" mode="primary" disabled={invalid}>
+          Submit
+        </Button>
+      </Form>
+    );
+  }
+}
+const RequiredReduxForm = reduxForm<SimpleFormData, any>({
+  form: 'User',
+})(RequiredForm);
+
 storiesOf('DatePicker', module)
   .addDecorator(getStory => (
-    <Box p={20} w={[1, 1 / 2]} bg="white">
+    <Box p={20} w={[1, 1 / 2]} bg="grayscale.white">
       {getStory()}
     </Box>
   ))
   .add('default', () => <DatePicker />)
   .add('placeholder', () => <DatePicker placeholder="Custom placeholder" />)
   .add('disabled', () => <DatePicker disabled />)
-  .add('initial value', () => <DatePicker value="12/12/2012" />)
-  .add('initial date', () => <DatePicker date={januaryFirst} />)
-  .add('autofocus', () => <DatePicker autoFocus value="12/12/2012" />)
-  .add('custom date format', () => <DatePicker format="YYYY-MM-DD" />)
-  .add('rebass props', () => <DatePicker my={50} />)
+  .add('autofocus', () => <DatePicker autoFocus />)
+  .add('custom date format', () => <DatePicker format="LL" placeholder="Month day, year" value="2010-01-02" />)
+  .add('util props', () => <DatePicker my={50} />)
   .add('disabled dates', () => <DatePicker pickerOptions={withDisabled} />)
   .add('fires events', () => (
     <DatePicker
@@ -50,4 +91,6 @@ storiesOf('DatePicker', module)
         <DatePicker s="small" />
       </Box>
     </Flex>
-  ));
+  ))
+  .add('field - initial value', () => <SimpleReduxForm onSubmit={action('submit-simple-form')} />)
+  .add('field - required', () => <RequiredReduxForm onSubmit={action('submit-required-form')} />);

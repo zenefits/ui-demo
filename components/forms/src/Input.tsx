@@ -1,15 +1,16 @@
-import React, { InputHTMLAttributes, Component } from 'react';
+import React, { Component } from 'react';
 import { styled, css } from 'z-frontend-theme';
-import { color, radius, space, heights, fontSizes } from 'z-frontend-theme/src/utils';
-import { RebassOnlyProps } from 'z-rebass-types';
-import { Input as RebassInput } from 'rebass';
+import { color, radius, space, heights, fontSizes } from 'z-frontend-theme/utils';
+import { Input as ZbaseInput, InputProps as ZbaseInputProps } from 'zbase';
 
 // TODO: how to handle type="email" etc?
 
-export declare type InputProps = RebassOnlyProps &
-  InputHTMLAttributes<HTMLInputElement> & {
-    s?: 'small' | 'medium' | 'large'; // 'size' is taken and not compatible (number)
-  };
+export declare type CustomInputProps = {
+  s?: 'small' | 'medium' | 'large'; // 'size' is taken and not compatible (number)
+  hasError?: boolean;
+};
+
+export declare type InputProps = ZbaseInputProps & CustomInputProps;
 
 const sizeMap = {
   small: 0,
@@ -19,7 +20,7 @@ const sizeMap = {
 
 export const commonTextInputStyles = css`
   font-size: ${props => fontSizes(sizeMap[props.s])};
-  border: 1px solid ${color('secondary.b')};
+  border: 1px solid ${props => (props.hasError ? color('negation.a') : color('secondary.b'))};
   border-radius: ${radius};
   background-color: ${color('grayscale.white')};
   color: ${color('grayscale.b')};
@@ -32,11 +33,11 @@ export const commonTextInputStyles = css`
 
   :hover,
   :active {
-    border-color: ${color('grayscale.e')};
+    border-color: ${props => (props.hasError ? color('negation.a') : color('grayscale.e'))};
   }
 
   :focus {
-    border-color: ${color('tertiary.a')};
+    border-color: ${props => (props.hasError ? color('negation.a') : color('tertiary.a'))};
     box-shadow: 0 0 0 1px ${color('tertiary.a', 0.5)};
     outline: none;
   }
@@ -51,7 +52,9 @@ export const commonTextInputStyles = css`
   }
 `;
 
-const StyledInput = styled<InputProps>(RebassInput)`
+const WrapperInput = ({ hasError, ...rest }) => <ZbaseInput {...rest} />;
+
+const StyledInput = styled<InputProps>(WrapperInput)`
   ${commonTextInputStyles};
   height: ${props => heights(props.s)};
   line-height: 1.43;
@@ -60,6 +63,7 @@ const StyledInput = styled<InputProps>(RebassInput)`
 class Input extends Component<InputProps> {
   static defaultProps = {
     s: 'medium',
+    hasError: false,
   };
 
   focus() {

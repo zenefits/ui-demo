@@ -1,3 +1,5 @@
 src/scripts/checkEngines.js
 src/scripts/lib/semver.js
 checkEngines.js
+tools/eslint/bin/z-frontend-eslint.js
+tools/stylelint/bin/z-frontend-stylelint.js

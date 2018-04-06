@@ -1,0 +1,948 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Icons list 1`] = `
+.c2 {
+  margin-bottom: 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.c3 {
+  padding: 16px;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c0 {
+  padding: 8px;
+}
+
+.c1 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.c5 {
+  margin: 0px;
+  margin-bottom: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+}
+
+.c4::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f101';
+}
+
+.c6::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f102';
+}
+
+.c7::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f103';
+}
+
+.c8::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f104';
+}
+
+.c9::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f105';
+}
+
+@media screen and (min-width:32em) {
+  .c3 {
+    width: 25%;
+  }
+}
+
+@media screen and (min-width:48em) {
+  .c3 {
+    width: 16.666666666666664%;
+  }
+}
+
+<div
+  className="c0 "
+>
+  <div
+    className="c1 "
+  >
+    We're using
+     
+    <a
+      href="http://zavoloklom.github.io/material-design-iconic-font/icons.html"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      Material Design Iconic Font
+    </a>
+  </div>
+  <div
+    className="c2 "
+  >
+    <div
+      className="c3 "
+    >
+      <span
+        className="c4 "
+      />
+      <p
+        className="c5"
+      >
+        3d-rotation
+      </p>
+    </div>
+    <div
+      className="c3 "
+    >
+      <span
+        className="c6 "
+      />
+      <p
+        className="c5"
+      >
+        airplane-off
+      </p>
+    </div>
+    <div
+      className="c3 "
+    >
+      <span
+        className="c7 "
+      />
+      <p
+        className="c5"
+      >
+        airplane
+      </p>
+    </div>
+    <div
+      className="c3 "
+    >
+      <span
+        className="c8 "
+      />
+      <p
+        className="c5"
+      >
+        album
+      </p>
+    </div>
+    <div
+      className="c3 "
+    >
+      <span
+        className="c9 "
+      />
+      <p
+        className="c5"
+      >
+        archive
+      </p>
+    </div>
+  </div>
+  <button
+    onClick={[Function]}
+  >
+    Show all icons
+  </button>
+</div>
+`;
+
+exports[`Storyshots Icons spin 1`] = `
+.c0 {
+  margin-bottom: 16px;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c2 {
+  margin: 0px;
+  margin-bottom: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+}
+
+.c1::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f119';
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+.c3::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f152';
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+.c4::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f130';
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+.c5::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f1e5';
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+@media screen and (min-width:32em) {
+  .c0 {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width:48em) {
+  .c0 {
+    width: 25%;
+  }
+}
+
+<div
+  className="c0 "
+>
+  <span
+    className="c1 "
+  />
+  <p
+    className="c2"
+  >
+    Block
+  </p>
+  <span
+    className="c3 "
+  />
+  <p
+    className="c2"
+  >
+    Compass
+  </p>
+  <span
+    className="c4 "
+  />
+  <p
+    className="c2"
+  >
+    Chart Donut
+  </p>
+  <span
+    className="c5 "
+  />
+  <p
+    className="c2"
+  >
+    Triangle Up
+  </p>
+</div>
+`;
+
+exports[`Storyshots Utils System responsive props 1`] = `
+.c0 {
+  background-color: #B4BDC5;
+  margin-bottom: 8px;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.c1 {
+  background-color: #8D9BA7;
+  width: 30px;
+}
+
+.c2 {
+  background-color: #FF897C;
+  width: 30px;
+}
+
+@media screen and (min-width:32em) {
+  .c0 {
+    background-color: #144E6F;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c0 {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width:48em) {
+  .c0 {
+    width: 33.33333333333333%;
+  }
+}
+
+@media screen and (min-width:64em) {
+  .c0 {
+    width: 25%;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c0 {
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (min-width:48em) {
+  .c0 {
+    -webkit-box-pack: space-around;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: space-around;
+    justify-content: space-around;
+  }
+}
+
+@media screen and (min-width:64em) {
+  .c0 {
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+  }
+}
+
+<div
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="c0 "
+  >
+    <div
+      className="c1 "
+    >
+      box 1
+    </div>
+    <div
+      className="c2 "
+    >
+      box 2
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots ZBase Components all 1`] = `
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c6 {
+  margin-bottom: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c12 {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c14 {
+  margin-bottom: 16px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c15 {
+  margin-right: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c17 {
+  margin-bottom: 32px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c0 {
+  padding: 8px;
+  width: 100%;
+}
+
+.c8 {
+  width: 300px;
+}
+
+.c9 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c3 {
+  padding: 8px;
+}
+
+.c4 {
+  padding: 16px;
+  color: #C3EB9B;
+}
+
+.c5 {
+  color: #84C341;
+}
+
+.c10 {
+  color: #3B7101;
+}
+
+.c11 {
+  padding: 4px;
+}
+
+.c13 {
+  color: #84C341;
+}
+
+.c16 {
+  background-color: #C3EB9B;
+}
+
+.c18 {
+  background-color: #C3EB9B;
+}
+
+.c1 {
+  margin: 0px;
+}
+
+.c19 {
+  background-color: #C3EB9B;
+}
+
+@media screen and (min-width:32em) {
+  .c0 {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width:48em) {
+  .c0 {
+    width: 75%;
+  }
+}
+
+@media screen and (min-width:64em) {
+  .c0 {
+    width: 66.66666666666666%;
+  }
+}
+
+<div
+  className="c0 "
+>
+  <h4
+    className="c1"
+  >
+    Text component with key and with children
+  </h4>
+  <div
+    className="c2 "
+  >
+    <span
+      className="c3"
+    >
+      Hello David!
+    </span>
+    <span
+      className="c4"
+    >
+      Info: 
+      <span
+        className="c5"
+      >
+        Working at Zenefitness
+      </span>
+    </span>
+  </div>
+  <hr />
+  <h4
+    className="c1"
+  >
+    DateText, Time and DateTime
+  </h4>
+  <div
+    className="c6 "
+  >
+    <div
+      className="c7 "
+    >
+      <div
+        className="c8 "
+      >
+        DateTime with no formatting
+      </div>
+      <div
+        className="c9 "
+      >
+        <time
+          className="c10"
+          dateTime="2017-11-18T19:55:34.000+00:00"
+          title="November 18, 2017, 7:55:34 PM UTC"
+        >
+          11/18/2017
+        </time>
+      </div>
+    </div>
+    <div
+      className="c7 "
+    >
+      <div
+        className="c8 "
+      >
+        DateText
+      </div>
+      <div
+        className="c9 "
+      >
+        <time
+          className=""
+          dateTime="2017-11-18T19:55:34.000+00:00"
+          title="November 18, 2017, 7:55:34 PM UTC"
+        >
+          11/18/2017
+        </time>
+      </div>
+    </div>
+    <div
+      className="c7 "
+    >
+      <div
+        className="c8 "
+      >
+        DateTime with date props
+      </div>
+      <div
+        className="c9 "
+      >
+        <time
+          className="c11"
+          dateTime="2017-11-18T19:55:34.000+00:00"
+          title="November 18, 2017, 7:55:34 PM UTC"
+        >
+          Nov 18, 2017
+        </time>
+      </div>
+    </div>
+    <div
+      className="c7 "
+    >
+      <div
+        className="c8 "
+      >
+        DateText long
+      </div>
+      <div
+        className="c9 "
+      >
+        <time
+          className=""
+          dateTime="2017-11-18T19:55:34.000+00:00"
+          title="November 18, 2017, 7:55:34 PM UTC"
+        >
+          Nov 18, 2017
+        </time>
+      </div>
+    </div>
+  </div>
+  <div
+    className="c6 "
+  >
+    <div
+      className="c7 "
+    >
+      <div
+        className="c8 "
+      >
+        Time1
+      </div>
+      <div
+        className="c9 "
+      >
+        <time
+          className=""
+          dateTime="2017-11-18T19:55:34.000+00:00"
+          title="November 18, 2017, 7:55:34 PM UTC"
+        >
+          7:55 PM
+        </time>
+      </div>
+    </div>
+    <div
+      className="c7 "
+    >
+      <div
+        className="c8 "
+      >
+        Time2
+      </div>
+      <div
+        className="c9 "
+      >
+        <time
+          className=""
+          dateTime="2017-11-18T17:08:54.001+00:00"
+          title="November 18, 2017, 5:08:54 PM UTC"
+        >
+          5:08 PM
+        </time>
+      </div>
+    </div>
+  </div>
+  <div
+    className="c12 "
+  >
+    original FormattedDate with all DateTimeFormat props
+    <span>
+      Saturday, Nov 18, 2017 Anno Domini, 7:55:34 PM
+    </span>
+    DateTime component with the same props
+    <time
+      className="c13"
+      dateTime="2017-11-18T19:55:34.000+00:00"
+      title="November 18, 2017, 7:55:34 PM UTC"
+    >
+      Saturday, Nov 18, 2017 Anno Domini, 7:55:34 PM
+    </time>
+  </div>
+  <div
+    className="c12 "
+  >
+    Original FormattedTime with all DateTimeFormat props
+    <span>
+      Saturday, Nov 18, 2017 Anno Domini, 7:55:34 PM
+    </span>
+    DateTime component with the same props
+    <time
+      className="c13"
+      dateTime="2017-11-18T19:55:34.000+00:00"
+      title="November 18, 2017, 7:55:34 PM UTC"
+    >
+      Saturday, Nov 18, 2017 Anno Domini, 7:55:34 PM
+    </time>
+     
+  </div>
+  <hr />
+  <h4
+    className="c1"
+  >
+    RelativeDate and NumberText
+  </h4>
+  <div
+    className="c14 "
+  >
+    <div
+      className="c15 "
+    >
+      Original FormattedRelative
+      <span>
+        2 minutes ago
+      </span>
+      <span>
+        19 minutes ago
+      </span>
+      <span>
+        33 hours ago
+      </span>
+      <span>
+        1,982 minutes ago
+      </span>
+      <span>
+        yesterday
+      </span>
+    </div>
+    <div
+      className="c2 "
+    >
+      RelativeDate component
+      <time
+        className="c16"
+        dateTime="2017-11-18T19:55:34.000+00:00"
+        title="November 18, 2017, 7:55:34 PM UTC"
+      >
+        2 minutes ago
+      </time>
+      <time
+        className="c16"
+        dateTime="2017-11-18T19:38:34.000+00:00"
+        title="November 18, 2017, 7:38:34 PM UTC"
+      >
+        19 minutes ago
+      </time>
+      <time
+        className="c16"
+        dateTime="2017-11-17T10:55:34.000+00:00"
+        title="November 17, 2017, 10:55:34 AM UTC"
+      >
+        33 hours ago
+      </time>
+      <time
+        className="c16"
+        dateTime="2017-11-17T10:55:34.000+00:00"
+        title="November 17, 2017, 10:55:34 AM UTC"
+      >
+        1,982 minutes ago
+      </time>
+      <time
+        className="c16"
+        dateTime="2017-11-17T10:55:34.000+00:00"
+        title="November 17, 2017, 10:55:34 AM UTC"
+      >
+        yesterday
+      </time>
+    </div>
+  </div>
+  <div
+    className="c17 "
+  >
+    <div
+      className="c15 "
+    >
+      Original FormattedNumber
+      <span>
+        123
+      </span>
+      <span>
+        1,392.328
+      </span>
+      <span>
+        CA$1,392.33
+      </span>
+      <span>
+        1,392.33 Canadian dollars
+      </span>
+    </div>
+    <div
+      className="c2 "
+    >
+      NumberText component numberProps
+      <span
+        className="c18"
+      >
+        123
+      </span>
+      <span
+        className="c18"
+      >
+        1,392.328
+      </span>
+      <span
+        className="c18"
+      >
+        CA$1,392.33
+      </span>
+      <span
+        className="c18"
+      >
+        1,392.33 Canadian dollars
+      </span>
+    </div>
+  </div>
+  <hr />
+  <h2
+    className="c1"
+  >
+    Plural component
+  </h2>
+  <div
+    className="c17 "
+  >
+    <div
+      className="c15 "
+    >
+      Original FormattedPlural
+      <div
+        className=""
+      >
+        10 
+        <span>
+          messages
+        </span>
+      </div>
+      <div
+        className=""
+      >
+        1 
+        <span>
+          message
+        </span>
+      </div>
+    </div>
+    <div
+      className="c2 "
+    >
+      Plural component
+      <div
+        className=""
+      >
+        10 
+        <span
+          className="c19"
+        >
+          messages
+        </span>
+      </div>
+      <div
+        className=""
+      >
+        1 
+        <span
+          className="c19"
+        >
+          message
+        </span>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <span>
+    Heading component:
+  </span>
+  <h1
+    className="c1"
+  >
+    header
+  </h1>
+  <h2
+    className="c1"
+  >
+    header
+  </h2>
+  <h3
+    className="c1"
+  >
+    header
+  </h3>
+  <h4
+    className="c1"
+  >
+    header
+  </h4>
+  <h5
+    className="c1"
+  >
+    header
+  </h5>
+  <h6
+    className="c1"
+  >
+    header
+  </h6>
+  <hr />
+  <span>
+    Heading component with textKey and textValues:
+  </span>
+  <h2
+    className="c1"
+  >
+    Hello Miguel!
+  </h2>
+</div>
+`;

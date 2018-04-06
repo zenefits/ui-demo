@@ -5,48 +5,43 @@ module.exports = {
   rulesDirectory: [path.resolve(__dirname, 'rules')],
   rules: {
     // custom rules
+    // 'import-deprecation-message': {
+    //   severity: 'warning',
+    //   options: [
+    //     {
+    //       example-module-name: {
+    //         ImportName: 'please use a Box from zbase',
+    //       },
+    //     },
+    //   ],
+    // },
     'import-filter': [
       true,
       {
+        'z-frontend-charts/*': true,
+        'z-frontend-data-manager/*': true,
+        'z-frontend-example/*': true,
+        'z-frontend-forms/*': true,
+        'z-frontend-layout/*': true,
+        'z-frontend-modals/*': true,
+        'z-frontend-navigation/*': true,
+        'z-frontend-theme/src/*': true,
+        'z-frontend-tables/*': true,
+        'zbase/src/*': true,
+        'z-frontend-theme': {
+          blacklist: ['colors'],
+        },
         'styled-components': {
           blacklist: ['default', 'css', 'keyframes', 'withTheme'],
         },
         'styled-components/native': {
           blacklist: ['default', 'css', 'withTheme'],
         },
-        'rebass/dist/utils': {
-          whitelist: ['idx', 'px'],
-        },
-        rebass: {
-          whitelist: [
-            'Box',
-            'Flex',
-            'Input',
-            'Border',
-            'Text',
-            'Button',
-            'Avatar',
-            'Fixed',
-            'Image',
-            'Small',
-            'Truncate',
-            'hoc',
-            'Provider',
-            'Heading',
-            'Subhead',
-            'Panel',
-            'PanelHeader',
-            'PanelFooter',
-            'Label',
-            'TabItem',
-            'Textarea',
-            'Overlay',
-            'Badge',
-          ],
-        },
       },
     ],
 
+    'no-external-relative-imports': true,
+    'no-accessors': true,
     'import-name': false, // disabled because `import React from 'react'`
     'variable-name': false, // disabled because Classes should use PascalCase and this rule doesn't recognize them e.g. MyComponent = styled.div
     'max-line-length': 120,
@@ -55,6 +50,7 @@ module.exports = {
     'strict-boolean-expressions': false, // [true, 'allow-undefined-union', 'allow-null-union', 'allow-string', 'allow-number'],
     'no-unused-variable': true,
     'no-implicit-dependencies': [true, 'dev'],
+    curly: [true, 'ignore-same-line'],
 
     // The following rules come from tslint-config-prettier (https://github.com/alexjoverm/tslint-config-prettier/blob/master/src/index.js)
     // We disabled some of them to provide better editor support

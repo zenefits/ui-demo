@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box } from 'rebass';
+import { Box, BoxProps } from 'zbase';
 import { shallow } from 'enzyme';
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Table from './Table';
-import { RebassProps } from 'z-rebass-types';
 
 describe('Table', () => {
   it('should render all cells text', () => {
@@ -65,10 +64,10 @@ describe('Table', () => {
     componentsJsx.forEach(jsx => {
       const wrapper = shallow(jsx, { context });
       const cellWrappers = wrapper.findWhere(
-        wrapper => wrapper.find(Box).length === 2 && (wrapper.props() as RebassProps<{}>).w !== undefined,
+        wrapper => wrapper.find(Box).length === 2 && (wrapper.props() as BoxProps).w !== undefined,
       );
       cellWrappers.forEach((cell, i) => {
-        const { w, px, py } = cell.props() as RebassProps<{}>;
+        const { w, px, py } = cell.props() as BoxProps;
         expect({ w, px, py }).toEqual({
           w: [1, null, i % 2 ? 3 / 4 : 1 / 4],
           px: 1,

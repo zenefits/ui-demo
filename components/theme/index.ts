@@ -1,31 +1,18 @@
-import { colors, ColorString, theme, ThemeInterface } from './common';
-import generateUtilComponents from './src/utilsSystem/utilsComponentsWeb';
-import { UtilPropsWeb } from './src/utilsSystem/utilHocFactory';
+export * from './common';
 
-import {
+export {
   ZFrontendThemeProvider as ThemeProvider,
   createThemeProvider,
   withTheme,
   styled,
   css,
   keyframes,
-} from './src/ThemeProvider';
+} from './src/web/ThemeProvider';
 
-const utilComponents = generateUtilComponents<ThemeInterface>(styled, css);
+export { default as themeDecorator } from './src/themeDecorator';
+export { default as HideFor } from './src/HideFor';
+export { default as RenderFor } from './src/RenderFor';
 
-export const Flex = utilComponents.Flex;
-export const Box = utilComponents.Box;
+export { FontStyleString, fontDescriptions } from './src/web/fonts';
 
-export {
-  colors,
-  ColorString,
-  theme,
-  ThemeInterface,
-  ThemeProvider,
-  createThemeProvider,
-  withTheme,
-  styled,
-  css,
-  keyframes,
-  UtilPropsWeb as UtilProps,
-};
+export { theme, ThemeInterface } from './src/web/theme';

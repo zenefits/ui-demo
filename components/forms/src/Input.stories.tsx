@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex } from 'rebass';
+import { Box, Flex } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Input from './Input';
@@ -10,13 +10,13 @@ import InputWithIcon from './InputWithIcon';
 
 storiesOf('Input', module)
   .addDecorator(getStory => (
-    <Box p={20} w={[1, 1 / 2]} bg="white">
+    <Box p={20} w={[1, 1 / 2]} bg="grayscale.white">
       {getStory()}
     </Box>
   ))
   .add('default', () => <Input />)
   .add('placeholder', () => <Input placeholder="Placeholder" />)
-  .add('rebass props', () => <Input placeholder="Placeholder" my={50} />)
+  .add('util props', () => <Input placeholder="Placeholder" my={50} />)
   .add('sizes', () => (
     <Flex wrap align="center">
       <Box w={1 / 3}>Large</Box>
@@ -56,7 +56,7 @@ storiesOf('Input', module)
 
 storiesOf('Inputs with mask', module)
   .addDecorator(getStory => (
-    <Box p={20} w={[1, 1 / 2]} bg="white">
+    <Box p={20} w={[1, 1 / 2]} bg="grayscale.white">
       {getStory()}
     </Box>
   ))

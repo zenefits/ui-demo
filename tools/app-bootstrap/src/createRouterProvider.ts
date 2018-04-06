@@ -1,5 +1,5 @@
-import { HashRouter as Router } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 export default function createRouterProvider() {
-  return Router;
+  return HashRouter;
 }

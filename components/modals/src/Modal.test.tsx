@@ -1,7 +1,7 @@
 import React from 'react';
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
 import Modal from './Modal';
-import Button from 'z-frontend-forms/src/Button';
+import { Button } from 'z-frontend-forms';
 
 describe('Modal', () => {
   it('toggling isVisible prop should toggle modal content', () => {

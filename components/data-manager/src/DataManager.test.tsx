@@ -1,9 +1,7 @@
 import React from 'react';
 import { render } from 'enzyme';
 import DataManager from './DataManager';
-
-const emps = [{ id: 1, name: 'Edison Keebler' }, { id: 2, name: 'Lonnie Deckow' }, { id: 3, name: 'Alene Keeling' }];
-const eeNameFilter = { name: { stringContains: 'ee' } };
+import { updateFilters } from './filterUtils';
 
 describe('DataManager', () => {
   it('should render without throwing an error', () => {
@@ -11,6 +9,14 @@ describe('DataManager', () => {
   });
 
   it('should filter data correctly', () => {
+    const emps = [
+      { id: 1, name: 'Edison Keebler', department: 'Games' },
+      { id: 2, name: 'Lonnie Deckow', department: 'Outdoor' },
+      { id: 3, name: 'Alene Keeling', department: 'Auto' },
+    ];
+    const eeNameFilter = { name: { stringContains: 'ee' } };
+    const deptFilter = updateFilters({}, 'matchAny', 'department', 'Auto', true);
+
     expect(
       render(
         <DataManager
@@ -20,5 +26,27 @@ describe('DataManager', () => {
         />,
       ).text(),
     ).toEqual('Edison KeeblerAlene Keeling');
+
+    expect(
+      render(
+        <DataManager
+          sourceData={emps}
+          initialFilter={deptFilter}
+          render={managerProps => <div>{managerProps.filtering.outputData.map((emp: any) => emp.name)}</div>}
+        />,
+      ).text(),
+    ).toEqual('Alene Keeling');
+
+    const updatedDeptFilter = updateFilters(deptFilter, 'matchAny', 'department', 'Outdoor', true);
+
+    expect(
+      render(
+        <DataManager
+          sourceData={emps}
+          initialFilter={updatedDeptFilter}
+          render={managerProps => <div>{managerProps.filtering.outputData.map((emp: any) => emp.name)}</div>}
+        />,
+      ).text(),
+    ).toEqual('Lonnie DeckowAlene Keeling');
   });
 });

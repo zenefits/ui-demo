@@ -1,12 +1,14 @@
 import React, { StatelessComponent } from 'react';
-import Text from 'z-frontend-theme/src/Text';
 import Modal from './Modal';
+import { P } from 'zbase';
 
-declare type ConfirmationModalProps = {
+type ConfirmationModalProps = {
   isVisible: boolean;
   title: string;
   content: string;
   submitActionText?: string;
+  controlEl?: HTMLElement;
+
   onCancel: () => void;
   onSubmit: (e) => void;
 };
@@ -18,7 +20,7 @@ const ConfirmationModal: StatelessComponent<ConfirmationModalProps> = ({
   ...rest
 }) => (
   <Modal buttons={[{ text: submitActionText, onClick: onSubmit }]} {...rest}>
-    <Text color="grayscale.d">{content}</Text>
+    <P color="grayscale.d">{content}</P>
   </Modal>
 );
 

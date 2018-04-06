@@ -1,28 +1,30 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { styled, withTheme } from './ThemeProvider';
-import { Flex, Box } from 'rebass';
+import { styled, withTheme } from './web/ThemeProvider';
 import depths from './depths';
 import { color } from './utils';
-import Text from './Text';
 
-const DepthBox = styled(Box)`
+// NOTE: avoiding zbase dependency
+const DepthFlex = styled.div`
+  display: inline-block;
   width: 120px;
+  height: 60px;
+  line-height: 60px;
+  margin: 15px 10px;
   border-radius: 2px;
   background-color: ${color('grayscale.white')};
+  text-align: center;
 `;
 
 const Page = props => {
   return (
-    <Flex align="center">
+    <div>
       {Object.keys(depths).map((depthKey, i) => (
-        <DepthBox key={i} my={3} mx={2} style={{ boxShadow: depths[i] }}>
-          <Text align="center" my={5}>
-            Depth {i + 1}
-          </Text>
-        </DepthBox>
+        <DepthFlex key={i} style={{ boxShadow: depths[i] }}>
+          Depth {i + 1}
+        </DepthFlex>
       ))}
-    </Flex>
+    </div>
   );
 };
 

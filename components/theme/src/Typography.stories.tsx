@@ -1,12 +1,26 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withTheme } from './ThemeProvider';
-import { Subhead, Flex, Box } from 'rebass';
-import Text from './Text';
-import Heading from './Heading';
-import { fontStyleTagMap, fontStyles } from './fonts';
+import { withTheme, styled } from './web/ThemeProvider';
+import { FontStyleString, fontDescriptions, fontStyles } from './web/fonts';
+import { convertToNestedMap, fontStyles as fsUtil } from './utils';
 
-const supportedSizeParam = ['xxl', 'xl', 'l', 'm', 's'];
+const StyledTableHeader = styled.thead`
+  text-align: left;
+  vertical-align: bottom;
+`;
+
+// NOTE: avoiding zbase dependency
+const TypographySample = styled<{ fontStyle?: string }>(props => <div {...props} />)`
+  ${props => fsUtil(props.fontStyle)};
+`;
+
+const sizeNamesMap = {};
+Object.keys(fontDescriptions).forEach(fontCategory => {
+  Object.keys(fontDescriptions[fontCategory]).forEach(size => {
+    sizeNamesMap[size] = true;
+  });
+});
+const supportedSizeParam = Object.keys(sizeNamesMap);
 
 const placeholders = {
   headings: 'Heading Text',
@@ -15,61 +29,41 @@ const placeholders = {
 };
 
 const Page = props => {
+  const fontsStylesMap = convertToNestedMap(fontStyles);
   const rulesFlattened = supportedSizeParam.map(s =>
-    Object.keys(fontStyles).map(categoryName => ({
-      rulePath: `${categoryName}.${s}`,
-      placeholder: placeholders[categoryName],
-    })),
+    Object.keys(fontsStylesMap)
+      .filter(categoryName => fontsStylesMap[categoryName][s])
+      .map(categoryName => ({
+        rulePath: `${categoryName}.${s}` as FontStyleString,
+        placeholder: placeholders[categoryName],
+      })),
   );
-  // const
-  return (
-    <Flex direction="column">
-      <Box m={1}>
-        <Heading is="h3">Typography</Heading>
-      </Box>
-      <Flex mx={4} direction="column">
-        <Box mt={3}>
-          <Subhead>Sizes</Subhead>
-        </Box>
-        <Flex align="center">
-          <Box w={1 / 8} />
-          <Box w={1 / 4}>
-            <Text>Headings</Text>
-          </Box>
-          <Box w={1 / 4}>
-            <Text> Controls(Button, Inputs, Avatars)</Text>
-          </Box>
-          <Box w={1 / 4}>
-            <Text>Paragraphs</Text>
-          </Box>
-        </Flex>
-        {supportedSizeParam.map((s, index) => (
-          <Flex key={s} align="center">
-            <Box w={1 / 8}>
-              <Text m={10}>{s}</Text>
-            </Box>
-            {rulesFlattened[index].map(rule => (
-              <Box key={rule.rulePath} w={1 / 4}>
-                <Text fontStyle={`${rule.rulePath}`}>{rule.placeholder}</Text>
-              </Box>
-            ))}
-          </Flex>
-        ))}
-        <Box mt={5}>
-          <Subhead>HTML Tags</Subhead>
-        </Box>
 
-        {Object.keys(fontStyleTagMap).map((key, index) => (
-          <Flex key={index} flex="1" align="center" m={8}>
-            <Box>
-              <Text is={key}>
-                {key} {fontStyleTagMap[key]}
-              </Text>
-            </Box>
-          </Flex>
+  return (
+    <table cellPadding="10">
+      <StyledTableHeader>
+        <tr>
+          <th>Sizes</th>
+          <th>Headings</th>
+          <th>
+            Controls<br />(button, input, avatar)
+          </th>
+          <th>Paragraphs</th>
+        </tr>
+      </StyledTableHeader>
+      <tbody>
+        {supportedSizeParam.map((size, index) => (
+          <tr key={size}>
+            <td>{size}</td>
+            {rulesFlattened[index].map((rule, i) => (
+              <td key={rule.rulePath}>
+                <TypographySample fontStyle={rule.rulePath}>{rule.placeholder}</TypographySample>
+              </td>
+            ))}
+          </tr>
         ))}
-      </Flex>
-    </Flex>
+      </tbody>
+    </table>
   );
 };
 

@@ -1,48 +1,75 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { Box } from 'rebass';
+import { Box, Flex, Icon } from 'zbase';
 import { HashRouter as Router } from 'react-router-dom';
 
-import Icon from 'z-frontend-theme/src/Icon';
+import Avatar from './Avatar';
 import ButtonGroup from './ButtonGroup';
 import Button from './Button';
 import ButtonDropdown, { ButtonDropdownItemLink } from './ButtonDropdown';
 // import Button from './Button';
 
-storiesOf('Button Dropdown', module).add('default', () => (
-  <Router>
+storiesOf('Button Dropdown', module)
+  .addDecorator(getStory => <Router>{getStory()}</Router>)
+  .add('custom target', () => (
+    <ButtonDropdown
+      fontSize={1}
+      target={
+        <Button>
+          <Icon color="primary.a" fontSize={1} iconName="menu" mr={2} /> Click me!
+        </Button>
+      }
+    >
+      <ButtonDropdown.ItemButton onClick={action('item clicked')}>
+        <Icon iconName="github" mr={2} /> Button item
+      </ButtonDropdown.ItemButton>
+      <ButtonDropdownItemLink href="https://google.com" target="_blank">
+        <Icon iconName="google" mr={2} /> Link to external page
+      </ButtonDropdownItemLink>
+      <ButtonDropdown.ItemRouteLink to="/sdfsd">
+        <Icon iconName="instagram" mr={2} /> Router Link
+      </ButtonDropdown.ItemRouteLink>
+      <ButtonDropdown.ItemButton onClick={action('item clicked')}>
+        <Icon iconName="github" mr={2} /> Button item
+      </ButtonDropdown.ItemButton>
+      <ButtonDropdownItemLink href="https://google.com" target="_blank">
+        <Icon iconName="google" mr={2} /> Link to external page
+      </ButtonDropdownItemLink>
+      <ButtonDropdown.ItemRouteLink to="/sdfsd">
+        <Icon iconName="instagram" mr={2} /> Router Link
+      </ButtonDropdown.ItemRouteLink>
+    </ButtonDropdown>
+  ))
+  .add('non-button target', () => (
+    <ButtonDropdown
+      fontSize={1}
+      target={
+        <Flex align="center" style={{ cursor: 'pointer' }}>
+          <Avatar
+            firstName="First"
+            lastName="Last"
+            photoUrl="http://cdn3-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-30.jpg"
+            s="small"
+          />
+          <Icon iconName="chevron-down" ml={2} />
+        </Flex>
+      }
+    >
+      <ButtonDropdown.ItemButton onClick={action('item clicked')}>
+        <Icon iconName="github" mr={2} /> Button item
+      </ButtonDropdown.ItemButton>
+      <ButtonDropdownItemLink href="https://google.com" target="_blank">
+        <Icon iconName="google" mr={2} /> Link to external page
+      </ButtonDropdownItemLink>
+      <ButtonDropdown.ItemRouteLink to="/sdfsd">
+        <Icon iconName="instagram" mr={2} /> Router Link
+      </ButtonDropdown.ItemRouteLink>
+    </ButtonDropdown>
+  ))
+  .add('default', () => (
     <Box p={2}>
       <h1>Button Dropdown</h1>
-
-      <ButtonDropdown
-        fontSize={1}
-        mr={1}
-        buttonBody={
-          <Box>
-            <Icon color="red" fontSize={1} iconName="menu" mr={2} /> Click me!
-          </Box>
-        }
-      >
-        <ButtonDropdown.ItemButton onClick={action('item clicked')}>
-          <Icon color="" fontSize={1} iconName="github" mr={2} /> Button item
-        </ButtonDropdown.ItemButton>
-        <ButtonDropdownItemLink href="https://google.com" target="_blank">
-          <Icon color="" fontSize={1} iconName="google" mr={2} /> Link to external page
-        </ButtonDropdownItemLink>
-        <ButtonDropdown.ItemRouteLink to="/sdfsd">
-          <Icon color="" fontSize={1} iconName="instagram" mr={2} /> Router Link
-        </ButtonDropdown.ItemRouteLink>
-        <ButtonDropdown.ItemButton onClick={action('item clicked')}>
-          <Icon color="" fontSize={1} iconName="github" mr={2} /> Button item
-        </ButtonDropdown.ItemButton>
-        <ButtonDropdownItemLink href="https://google.com" target="_blank">
-          <Icon color="" fontSize={1} iconName="google" mr={2} /> Link to external page
-        </ButtonDropdownItemLink>
-        <ButtonDropdown.ItemRouteLink to="/sdfsd">
-          <Icon color="" fontSize={1} iconName="instagram" mr={2} /> Router Link
-        </ButtonDropdown.ItemRouteLink>
-      </ButtonDropdown>
 
       <ButtonGroup mr={3}>
         <Button fontSize={1} onClick={action('main action')}>
@@ -55,7 +82,7 @@ storiesOf('Button Dropdown', module).add('default', () => (
         </ButtonDropdown>
       </ButtonGroup>
 
-      <ButtonDropdown fontSize={1} mode="transparent" mr={3} buttonBody="Or click me!">
+      <ButtonDropdown fontSize={1} mode="transparent" mr={3} target={<Button>Or click me!</Button>}>
         <ButtonDropdown.ItemButton onClick={action('item clicked')}>
           Run Review
           <Box color="grayscale.c" fontSize={0}>
@@ -76,5 +103,4 @@ storiesOf('Button Dropdown', module).add('default', () => (
         </ButtonDropdown.ItemButton>
       </ButtonDropdown>
     </Box>
-  </Router>
-));
+  ));

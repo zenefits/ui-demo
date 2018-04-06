@@ -15,7 +15,10 @@ if (fs.existsSync(projectsWebPackConfigPath)) {
   getWebpackConfig = require(projectsWebPackConfigPath); // eslint-disable-line import/no-dynamic-require, global-require
 }
 
-const getDefaultConfigOptions = () => ({ port: process.env.PORT || 3023 });
+const getDefaultConfigOptions = () => ({
+  port: process.env.PORT || 3023,
+  openNetwork: process.env.OPEN_NETWORK || false,
+});
 
 const appName = getAppName();
 
@@ -60,7 +63,7 @@ module.exports = {
     );
     proxies.forEach(proxy => proxy(app));
 
-    app.listen(configOptions.port);
+    app.listen(configOptions.port, configOptions.openNetwork ? '0.0.0.0' : '127.0.0.1');
 
     console.log(`dev server started on http://localhost:${configOptions.port}`);
   },

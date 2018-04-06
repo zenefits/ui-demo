@@ -1,4 +1,4 @@
-const getTypescriptRule = isDevMode => ({
+const getTypescriptRule = (isDevMode, tsLoaderTranspileOnly = false) => ({
   test: /\.(ts|tsx)$/,
   use: [
     {
@@ -10,6 +10,7 @@ const getTypescriptRule = isDevMode => ({
     {
       loader: require.resolve('ts-loader'),
       options: {
+        transpileOnly: tsLoaderTranspileOnly,
         compilerOptions: {
           noUnusedLocals: !isDevMode,
         },

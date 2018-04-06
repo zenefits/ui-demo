@@ -17,7 +17,23 @@ class ImportFilterWalker extends Lint.RuleWalker {
     // create a failure at the current position
     const options = this.getOptions();
     Object.keys(options[0]).forEach(moduleName => {
-      if (node.moduleSpecifier.getText().replace(/['"]/g, '') === moduleName) {
+      const foundModuleName = node.moduleSpecifier.getText().replace(/['"]/g, '');
+      const isFolderBan = moduleName.substr(-2) === '/*';
+      const folder = moduleName.replace(/\/\*$/, '/');
+
+      if (isFolderBan) {
+        if (foundModuleName.indexOf(folder) === 0) {
+          // if specified modulename ends with `/*`, ban all the imports from that folder
+          const opts = options[0][moduleName];
+
+          if (opts) {
+            this.createNodeError(
+              node.moduleSpecifier,
+              `Imports from folder '${folder}' are not allowed. Instead please use named imports from the package.`,
+            );
+          }
+        }
+      } else if (foundModuleName === moduleName) {
         const opts = options[0][moduleName];
 
         if (opts === true) {

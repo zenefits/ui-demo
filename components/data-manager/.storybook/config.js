@@ -1,6 +1,6 @@
 import { configure } from '@storybook/react';
 import { addDecorator } from '@storybook/react';
-import themeDecorator from 'z-frontend-theme/src/themeDecorator';
+import { themeDecorator } from 'z-frontend-theme';
 
 function loadStories() {
   addDecorator(themeDecorator);

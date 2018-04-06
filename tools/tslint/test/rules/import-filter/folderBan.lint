@@ -1,0 +1,38 @@
+import defaultExport from 'module7';
+
+import defaultExport from 'module7/sdfs';
+                          ~~~~~~~~~~~~~~                         [Imports from folder 'module7/' are not allowed. Instead please use named imports from the package.]
+
+
+import * as name from 'module7/sdf';
+                      ~~~~~~~~~~~~~                              [Imports from folder 'module7/' are not allowed. Instead please use named imports from the package.]
+
+
+
+import { foo } from 'module7/sdsgfg';
+                    ~~~~~~~~~~~~~~~~                              [Imports from folder 'module7/' are not allowed. Instead please use named imports from the package.]
+
+import { foo } from 'module7';
+
+
+
+
+import defaultExport from 'module8';
+
+import defaultExport from 'module8/sdfs';
+import defaultExport from 'module8/src/sdfs';
+                          ~~~~~~~~~~~~~~~~~~                         [Imports from folder 'module8/src/' are not allowed. Instead please use named imports from the package.]
+
+
+import * as name from 'module8/sdf';
+import * as name from 'module8/src/sdf';
+                      ~~~~~~~~~~~~~~~~~                              [Imports from folder 'module8/src/' are not allowed. Instead please use named imports from the package.]
+
+
+
+import { foo } from 'module8/sdsgfg';
+import { foo } from 'module8/src/sdsgfg';
+                    ~~~~~~~~~~~~~~~~~~~~                           [Imports from folder 'module8/src/' are not allowed. Instead please use named imports from the package.]
+
+import { foo } from 'module8';
+

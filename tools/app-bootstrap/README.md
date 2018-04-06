@@ -26,11 +26,11 @@ Run `lerna bootstrap` at the root of your app to install node dependencies.
 In your app, you can add any or all of the providers as follows:
 
 ```
-import { renderApp, createApolloClient, createRouterProvider } from 'z-frontend-app-bootstrap';
+import { renderApp, createReduxProvider, createApolloClient, createRouterProvider } from 'z-frontend-app-bootstrap';
 
 renderApp({
   App,
-  providers: [createApolloClient({ reducers }), createRouterProvider()],
+  providers: [createReduxProvider({ reducers }), createApolloClient(), createRouterProvider()],
   hotReloadCallback: renderApp => {
     module.hot.accept('./App', () => {
       renderApp(App);

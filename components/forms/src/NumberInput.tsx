@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MaskedInput from 'react-text-mask';
 import { InputProps, commonTextInputStyles } from './Input';
-import { heights } from 'z-frontend-theme/src/utils';
+import { heights } from 'z-frontend-theme/utils';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { styled } from 'z-frontend-theme';
 
@@ -46,7 +46,8 @@ class NumberInput extends Component<NumberInputProps> {
     });
   }
   render() {
-    return <StyledMaskedInput {...this.props} mask={this.mask} guide={false} />;
+    const { allowDecimal, integerLimit, allowNegative, suffix, prefix, ...rest } = this.props;
+    return <StyledMaskedInput {...rest} mask={this.mask} guide={false} />;
   }
 }
 

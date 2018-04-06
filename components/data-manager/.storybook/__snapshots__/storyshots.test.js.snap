@@ -1,42 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots FilterManager basic 1`] = `
+exports[`Storyshots FilterManager no filter 1`] = `
 .c0 {
-  box-sizing: border-box;
   padding: 16px;
 }
 
-.c5 {
-  margin: 0px;
-  font-size: 24px;
-}
-
-.c4 {
-  font-weight: 600;
-}
-
-.c3 {
-  margin: 0px;
-  font-size: 24px;
-}
-
-.c2 {
-  line-height: 1.25;
-}
-
-.c1 {
-  margin: 0px;
-  font-size: 24px;
-}
-
 <div
-  className="c0"
-  is={null}
+  className="c0 "
 >
-  <h3
-    className="c1 c2 c3 c4 c5"
-    is={null}
-  >
+  <h3>
     Full List (
     50
      employees)
@@ -448,207 +420,389 @@ exports[`Storyshots FilterManager basic 1`] = `
 
 exports[`Storyshots FilterManager with matchAny filter 1`] = `
 .c0 {
-  box-sizing: border-box;
   padding: 16px;
 }
 
-.c5 {
-  margin: 0px;
-  font-size: 24px;
-}
-
-.c4 {
-  font-weight: 600;
+.c2 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .c3 {
-  margin: 0px;
-  font-size: 24px;
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  padding: 0;
+  border: 2px solid #B4BDC5;
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  vertical-align: text-bottom;
+  cursor: pointer;
 }
 
-.c2 {
-  line-height: 1.25;
+.c3 ~ span {
+  cursor: pointer;
+  color: #53616E;
+}
+
+.c3::after {
+  font-family: Material-Design-Iconic-Font;
+  font-size: 16px;
+  font-weight: bold;
+  color: #FFF;
+  position: relative;
+  top: -2.5px;
+}
+
+.c3:hover,
+.c3:focus,
+.c3:active {
+  border-color: #8D9BA7;
+}
+
+.c3:checked {
+  background-color: #2FCDD0;
+  border-color: #2FCDD0;
+}
+
+.c3:checked ~ span {
+  color: #1C2534;
+}
+
+.c3:checked::after {
+  content: '\\f26b';
+}
+
+.c3:checked:hover,
+.c3:checked:focus {
+  background-color: #009BC0;
+  border-color: #009BC0;
+}
+
+.c3:checked:active {
+  background-color: #0081AA;
+  border-color: #0081AA;
+}
+
+.c3:checked:disabled,
+.c3:checked:disabled:hover {
+  background-color: #DBDFE3;
+  border-color: #DBDFE3;
+}
+
+.c3:checked.error {
+  background-color: #C00316;
+  border-color: #C00316;
+}
+
+.c3:disabled,
+.c3:disabled:hover {
+  border-color: #DBDFE3;
+  cursor: not-allowed;
+}
+
+.c3:disabled ~ span,
+.c3:disabled:hover ~ span {
+  cursor: not-allowed;
+  color: #8D9BA7;
+}
+
+.c3.error {
+  border-color: #C00316;
+}
+
+.c3.error:hover {
+  border-color: #C00316;
 }
 
 .c1 {
-  margin: 0px;
-  font-size: 24px;
+  display: block;
+  line-height: 1.5;
 }
 
 <div
-  className="c0"
-  is={null}
+  className="c0 "
 >
-  <h3
-    className="c1 c2 c3 c4 c5"
-    is={null}
-  >
+  <h3>
     Checkboxes (matchAny)
   </h3>
-  <p>
+  <div
+    className=""
+  >
     Filter departments:
      
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Clothing
+      <span>
+        Clothing
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Health
+      <span>
+        Health
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Movies
+      <span>
+        Movies
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Games
+      <span>
+        Games
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Garden
+      <span>
+        Garden
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Jewelery
+      <span>
+        Jewelery
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Beauty
+      <span>
+        Beauty
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Grocery
+      <span>
+        Grocery
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Industrial
+      <span>
+        Industrial
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Baby
+      <span>
+        Baby
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Sports
+      <span>
+        Sports
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Tools
+      <span>
+        Tools
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Shoes
+      <span>
+        Shoes
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Toys
+      <span>
+        Toys
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Home
+      <span>
+        Home
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Books
+      <span>
+        Books
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Computers
+      <span>
+        Computers
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Electronics
+      <span>
+        Electronics
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={false}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Outdoors
+      <span>
+        Outdoors
+      </span>
     </label>
-    <label>
+    <label
+      className="c1 c2 "
+    >
       <input
         checked={true}
+        className="c3"
         onChange={[Function]}
         type="checkbox"
       />
-      Automotive
+      <span>
+        Automotive
+      </span>
     </label>
-  </p>
+  </div>
   <b>
     Results:
   </b>
@@ -675,51 +829,135 @@ exports[`Storyshots FilterManager with matchAny filter 1`] = `
 
 exports[`Storyshots FilterManager with stringContains filter 1`] = `
 .c0 {
-  box-sizing: border-box;
   padding: 16px;
 }
 
-.c5 {
-  margin: 0px;
-  font-size: 24px;
+.c1 {
+  width: 33.33333333333333%;
 }
 
 .c4 {
-  font-weight: 600;
+  background-color: transparent;
+  color: inherit;
+  margin: 0px;
+  padding: 4px;
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.c4:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 1px blue;
+}
+
+.c4:disabled {
+  opacity: 0.25;
+}
+
+.c6::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f1c3';
 }
 
 .c3 {
-  margin: 0px;
-  font-size: 24px;
+  font-size: 12px;
+  border: 1px solid #D6DEE9;
+  border-radius: 2px;
+  background-color: #FFF;
+  color: #1C2534;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 32px;
+  line-height: 1.43;
+}
+
+.c3::-webkit-input-placeholder {
+  color: #8D9BA7;
+}
+
+.c3::-moz-placeholder {
+  color: #8D9BA7;
+}
+
+.c3:-ms-input-placeholder {
+  color: #8D9BA7;
+}
+
+.c3::placeholder {
+  color: #8D9BA7;
+}
+
+.c3:hover,
+.c3:active {
+  border-color: #B4BDC5;
+}
+
+.c3:focus {
+  border-color: #2FCDD0;
+  box-shadow: 0 0 0 1px rgba(47,205,208,0.5);
+  outline: none;
+}
+
+.c3:disabled {
+  background-color: #f3f3f3;
+  border-color: #f3f3f3;
+}
+
+.c3.error {
+  border-color: #C00316;
 }
 
 .c2 {
-  line-height: 1.25;
+  position: relative;
 }
 
-.c1 {
-  margin: 0px;
-  font-size: 24px;
+.c2 input {
+  padding-right: 32px;
+}
+
+.c5 {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #B4BDC5;
+  right: 8px;
+  pointer-events: none;
 }
 
 <div
-  className="c0"
-  is={null}
+  className="c0 "
 >
-  <h3
-    className="c1 c2 c3 c4 c5"
-    is={null}
-  >
+  <h3>
     Search (stringContains)
   </h3>
-  <p>
+  <div
+    className="c1 "
+  >
     Search names:
      
-    <input
-      onChange={[Function]}
-      value="er"
-    />
-  </p>
+    <div
+      className="c2 "
+    >
+      <input
+        className="c3 c4 "
+        onChange={[Function]}
+        type="text"
+        value="er"
+      />
+      <span
+        className="c5 c6 "
+        onClick={undefined}
+      />
+    </div>
+  </div>
   <b>
     Results:
   </b>
@@ -880,40 +1118,8 @@ exports[`Storyshots FilterManager with stringContains filter 1`] = `
 </div>
 `;
 
-exports[`Storyshots PageManager basic 1`] = `
-.c0 {
-  box-sizing: border-box;
-  padding: 16px;
-}
-
-.c7 {
-  box-sizing: border-box;
-}
-
-.c8 {
-  box-sizing: border-box;
-  margin-left: 78px;
-  margin-right: 78px;
-  -webkit-order: 2;
-  -ms-flex-order: 2;
-  order: 2;
-}
-
-.c13 {
-  box-sizing: border-box;
-  -webkit-order: 1;
-  -ms-flex-order: 1;
-  order: 1;
-}
-
-.c23 {
-  box-sizing: border-box;
-  -webkit-order: 3;
-  -ms-flex-order: 3;
-  order: 3;
-}
-
-.c6 {
+exports[`Storyshots Kitchen Sink all 1`] = `
+.c16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -924,103 +1130,139 @@ exports[`Storyshots PageManager basic 1`] = `
   align-items: center;
 }
 
-.c5 {
-  margin: 0px;
-  font-size: 24px;
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
-.c17 {
-  margin: 0px;
-}
-
-.c11 {
-  margin: 0px;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.c4 {
-  font-weight: 600;
-}
-
-.c10 {
-  font-weight: 400;
+.c0 {
+  padding: 16px;
 }
 
 .c3 {
-  margin: 0px;
-  font-size: 24px;
+  width: 33.33333333333333%;
+}
+
+.c17 {
+  margin-left: 64px;
+  margin-right: 64px;
+  -webkit-order: 2;
+  -ms-flex-order: 2;
+  order: 2;
+}
+
+.c20 {
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+}
+
+.c24 {
+  -webkit-order: 3;
+  -ms-flex-order: 3;
+  order: 3;
 }
 
 .c2 {
-  line-height: 1.25;
+  width: 16.666666666666664%;
 }
 
-.c1 {
+.c12 {
+  padding: 16px;
+  width: 66.66666666666666%;
+}
+
+.c6 {
+  background-color: transparent;
+  color: inherit;
   margin: 0px;
-  font-size: 24px;
+  padding: 4px;
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.c6:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 1px blue;
+}
+
+.c6:disabled {
+  opacity: 0.25;
+}
+
+.c10 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c14 {
+  background-color: #FF5745;
+  color: #FFF;
+  margin: 8px;
 }
 
 .c22 {
-  font-size: 24px;
-  color: inherit;
+  background-color: #D6DEE9;
+  color: #53616E;
+  margin-right: 4px;
 }
 
-.c19 {
-  font-size: inherit;
-  color: inherit;
+.c25 {
+  background-color: #D6DEE9;
+  color: #53616E;
 }
 
-.c21::after {
+.c18 {
+  margin: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-family: Circular,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+}
+
+.c8::after {
   display: inline-block;
   font-family: Material-Design-Iconic-Font;
   text-align: center;
-  content: '\\f3ec';
-  -webkit-animation: zmdi-spin 1.5s infinite linear;
-  animation: zmdi-spin 1.5s infinite linear;
+  content: '\\f1c3';
 }
 
-.c18::after {
+.c23::after {
   display: inline-block;
   font-family: Material-Design-Iconic-Font;
   text-align: center;
   content: '\\f2fa';
 }
 
-.c25::after {
+.c26::after {
   display: inline-block;
   font-family: Material-Design-Iconic-Font;
   text-align: center;
   content: '\\f2fb';
 }
 
-.c16 {
+.c15 {
   visibility: visible;
 }
 
-.c20 {
-  position: absolute;
-  top: -2px;
-  left: 0;
+.c13 {
   display: inline-block;
-  margin-left: calc(50% - 12px);
-  padding-top: inherit;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.c15 {
-  margin-right: 4px;
-  background-color: #D6DEE9;
-  color: #53616E;
-}
-
-.c24 {
-  background-color: #D6DEE9;
-  color: #53616E;
-}
-
-.c14 {
   box-sizing: border-box;
   position: relative;
   cursor: pointer;
@@ -1040,46 +1282,247 @@ exports[`Storyshots PageManager basic 1`] = `
   padding: 10px 16px;
 }
 
-.c14:disabled {
+.c13:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
 
-.c14:focus:not(:disabled),
-.c14:hover:not(:disabled) {
+.c13:focus:not(:disabled),
+.c13:hover:not(:disabled) {
+  color: #FFF;
+  background-color: #F25341;
+}
+
+.c13:active:not(:disabled) {
+  color: #FFF;
+  background-color: #E64F3E;
+}
+
+.c13:focus:not(:disabled) {
+  box-shadow: 0 0 0 2px rgba(18,52,102,0.1);
+}
+
+.c21 {
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  border-radius: 2px;
+  outline: 0;
+  line-height: 1.43;
+  text-align: center;
+  height: 40px;
+  min-width: 40px;
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+.c21:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.c21:focus:not(:disabled),
+.c21:hover:not(:disabled) {
   color: #53616E;
   background-color: #C8D0DB;
 }
 
-.c14:active:not(:disabled) {
+.c21:active:not(:disabled) {
   color: #53616E;
   background-color: #BCC4CF;
 }
 
-.c14:focus:not(:disabled) {
+.c21:focus:not(:disabled) {
   box-shadow: 0 0 0 2px rgba(18,52,102,0.1);
 }
 
-.c9 {
-  font-family: Circular,serif;
-  font-size: 14px;
-  line-height: 1.43;
-  font-weight: 400;
+.c11 {
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  padding: 0;
+  border: 2px solid #B4BDC5;
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  vertical-align: text-bottom;
+  cursor: pointer;
 }
 
-.c12 {
+.c11 ~ span {
+  cursor: pointer;
+  color: #53616E;
+}
+
+.c11::after {
+  font-family: Material-Design-Iconic-Font;
+  font-size: 16px;
+  font-weight: bold;
+  color: #FFF;
+  position: relative;
+  top: -2.5px;
+}
+
+.c11:hover,
+.c11:focus,
+.c11:active {
+  border-color: #8D9BA7;
+}
+
+.c11:checked {
+  background-color: #2FCDD0;
+  border-color: #2FCDD0;
+}
+
+.c11:checked ~ span {
+  color: #1C2534;
+}
+
+.c11:checked::after {
+  content: '\\f26b';
+}
+
+.c11:checked:hover,
+.c11:checked:focus {
+  background-color: #009BC0;
+  border-color: #009BC0;
+}
+
+.c11:checked:active {
+  background-color: #0081AA;
+  border-color: #0081AA;
+}
+
+.c11:checked:disabled,
+.c11:checked:disabled:hover {
+  background-color: #DBDFE3;
+  border-color: #DBDFE3;
+}
+
+.c11:checked.error {
+  background-color: #C00316;
+  border-color: #C00316;
+}
+
+.c11:disabled,
+.c11:disabled:hover {
+  border-color: #DBDFE3;
+  cursor: not-allowed;
+}
+
+.c11:disabled ~ span,
+.c11:disabled:hover ~ span {
+  cursor: not-allowed;
+  color: #8D9BA7;
+}
+
+.c11.error {
+  border-color: #C00316;
+}
+
+.c11.error:hover {
+  border-color: #C00316;
+}
+
+.c9 {
+  display: block;
+  line-height: 1.5;
+}
+
+.c5 {
+  font-size: 12px;
+  border: 1px solid #D6DEE9;
+  border-radius: 2px;
+  background-color: #FFF;
+  color: #1C2534;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: 32px;
+  line-height: 1.43;
+}
+
+.c5::-webkit-input-placeholder {
+  color: #8D9BA7;
+}
+
+.c5::-moz-placeholder {
+  color: #8D9BA7;
+}
+
+.c5:-ms-input-placeholder {
+  color: #8D9BA7;
+}
+
+.c5::placeholder {
+  color: #8D9BA7;
+}
+
+.c5:hover,
+.c5:active {
+  border-color: #B4BDC5;
+}
+
+.c5:focus {
+  border-color: #2FCDD0;
+  box-shadow: 0 0 0 1px rgba(47,205,208,0.5);
+  outline: none;
+}
+
+.c5:disabled {
+  background-color: #f3f3f3;
+  border-color: #f3f3f3;
+}
+
+.c5.error {
+  border-color: #C00316;
+}
+
+.c4 {
+  position: relative;
+}
+
+.c4 input {
+  padding-right: 32px;
+}
+
+.c7 {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #B4BDC5;
+  right: 8px;
+  pointer-events: none;
+}
+
+.c19 {
   color: #8D9BA7;
 }
 
 @media screen and (min-width:32em) {
-  .c8 {
+  .c17 {
     margin-left: 0px;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c17 {
     margin-right: 8px;
   }
 }
 
 @media screen and (min-width:32em) {
-  .c8 {
+  .c17 {
     -webkit-order: 1;
     -ms-flex-order: 1;
     order: 1;
@@ -1087,7 +1530,7 @@ exports[`Storyshots PageManager basic 1`] = `
 }
 
 @media screen and (min-width:32em) {
-  .c13 {
+  .c20 {
     -webkit-order: 2;
     -ms-flex-order: 2;
     order: 2;
@@ -1095,13 +1538,715 @@ exports[`Storyshots PageManager basic 1`] = `
 }
 
 <div
-  className="c0"
-  is={null}
+  className="c0 "
 >
-  <h3
-    className="c1 c2 c3 c4 c5"
-    is={null}
+  <h3>
+    Filtering, Sorting, and Pagination
+  </h3>
+  <div
+    className="c1 "
   >
+    <div
+      className="c2 "
+    >
+      <div
+        className="c3 "
+      >
+        Search names:
+         
+        <div
+          className="c4 "
+        >
+          <input
+            className="c5 c6 "
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+          <span
+            className="c7 c8 "
+            onClick={undefined}
+          />
+        </div>
+      </div>
+      <div
+        className=""
+      >
+        Filter departments:
+         
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Clothing
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Health
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Movies
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Games
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Garden
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Jewelery
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Beauty
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Grocery
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Industrial
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Baby
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Sports
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Tools
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Shoes
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Toys
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Home
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Books
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Computers
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Electronics
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Outdoors
+          </span>
+        </label>
+        <label
+          className="c9 c10 "
+        >
+          <input
+            checked={false}
+            className="c11"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <span>
+            Automotive
+          </span>
+        </label>
+      </div>
+    </div>
+    <div
+      className="c12 "
+    >
+      <button
+        className="c13 c14 "
+        disabled={false}
+        mode="primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <div
+          className="c15 "
+        >
+          Sort by 
+          name
+        </div>
+      </button>
+      <button
+        className="c13 c14 "
+        disabled={false}
+        mode="primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <div
+          className="c15 "
+        >
+          Sort by 
+          department
+        </div>
+      </button>
+      <ul>
+        <li>
+          Edison Keebler
+           (Dept: 
+          <i>
+            Clothing
+          </i>
+          )
+        </li>
+        <li>
+          Henderson Satterfield
+           (Dept: 
+          <i>
+            Health
+          </i>
+          )
+        </li>
+        <li>
+          Gregorio Heaney V
+           (Dept: 
+          <i>
+            Movies
+          </i>
+          )
+        </li>
+        <li>
+          Laurel Rippin
+           (Dept: 
+          <i>
+            Games
+          </i>
+          )
+        </li>
+        <li>
+          Ms. Merritt Lemke
+           (Dept: 
+          <i>
+            Health
+          </i>
+          )
+        </li>
+        <li>
+          Leonor Hermiston
+           (Dept: 
+          <i>
+            Garden
+          </i>
+          )
+        </li>
+        <li>
+          Darrin Greenholt
+           (Dept: 
+          <i>
+            Jewelery
+          </i>
+          )
+        </li>
+        <li>
+          Hipolito Daniel
+           (Dept: 
+          <i>
+            Movies
+          </i>
+          )
+        </li>
+        <li>
+          Hershel Rohan
+           (Dept: 
+          <i>
+            Beauty
+          </i>
+          )
+        </li>
+        <li>
+          Keon Buckridge
+           (Dept: 
+          <i>
+            Grocery
+          </i>
+          )
+        </li>
+        <li>
+          Terence Friesen
+           (Dept: 
+          <i>
+            Industrial
+          </i>
+          )
+        </li>
+        <li>
+          Hugh Moore
+           (Dept: 
+          <i>
+            Jewelery
+          </i>
+          )
+        </li>
+        <li>
+          Karley Kemmer
+           (Dept: 
+          <i>
+            Garden
+          </i>
+          )
+        </li>
+        <li>
+          Mario Strosin
+           (Dept: 
+          <i>
+            Baby
+          </i>
+          )
+        </li>
+        <li>
+          Rodger Muller
+           (Dept: 
+          <i>
+            Sports
+          </i>
+          )
+        </li>
+        <li>
+          Emerald Ruecker PhD
+           (Dept: 
+          <i>
+            Health
+          </i>
+          )
+        </li>
+        <li>
+          Austin Leannon
+           (Dept: 
+          <i>
+            Clothing
+          </i>
+          )
+        </li>
+        <li>
+          Jasen Medhurst
+           (Dept: 
+          <i>
+            Games
+          </i>
+          )
+        </li>
+        <li>
+          Norene Powlowski
+           (Dept: 
+          <i>
+            Clothing
+          </i>
+          )
+        </li>
+        <li>
+          Cyrus Howell
+           (Dept: 
+          <i>
+            Sports
+          </i>
+          )
+        </li>
+      </ul>
+      <div
+        className="c16 "
+      >
+        <div
+          className="c17 "
+        >
+          <p
+            className="c18"
+          >
+            1
+            -
+            20
+             
+            <span
+              className="c19"
+            >
+              (of 
+              50
+              )
+            </span>
+          </p>
+        </div>
+        <div
+          className="c20 "
+        >
+          <button
+            className="c21 c22 "
+            disabled={true}
+            mode="normal"
+            onClick={[Function]}
+            type="button"
+          >
+            <div
+              className="c15 "
+            >
+              <span
+                className="c23 "
+              />
+            </div>
+          </button>
+        </div>
+        <div
+          className="c24 "
+        >
+          <button
+            className="c21 c25 "
+            disabled={false}
+            mode="normal"
+            onClick={[Function]}
+            type="button"
+          >
+            <div
+              className="c15 "
+            >
+              <span
+                className="c26 "
+              />
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots PageManager basic 1`] = `
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c0 {
+  padding: 16px;
+}
+
+.c2 {
+  margin-left: 64px;
+  margin-right: 64px;
+  -webkit-order: 2;
+  -ms-flex-order: 2;
+  order: 2;
+}
+
+.c5 {
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+}
+
+.c10 {
+  -webkit-order: 3;
+  -ms-flex-order: 3;
+  order: 3;
+}
+
+.c7 {
+  background-color: #D6DEE9;
+  color: #53616E;
+  margin-right: 4px;
+}
+
+.c11 {
+  background-color: #D6DEE9;
+  color: #53616E;
+}
+
+.c3 {
+  margin: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-family: Circular,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+}
+
+.c9::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f2fa';
+}
+
+.c12::after {
+  display: inline-block;
+  font-family: Material-Design-Iconic-Font;
+  text-align: center;
+  content: '\\f2fb';
+}
+
+.c8 {
+  visibility: visible;
+}
+
+.c6 {
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  border-radius: 2px;
+  outline: 0;
+  line-height: 1.43;
+  text-align: center;
+  height: 40px;
+  min-width: 40px;
+  font-size: 14px;
+  padding: 10px 16px;
+}
+
+.c6:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.c6:focus:not(:disabled),
+.c6:hover:not(:disabled) {
+  color: #53616E;
+  background-color: #C8D0DB;
+}
+
+.c6:active:not(:disabled) {
+  color: #53616E;
+  background-color: #BCC4CF;
+}
+
+.c6:focus:not(:disabled) {
+  box-shadow: 0 0 0 2px rgba(18,52,102,0.1);
+}
+
+.c4 {
+  color: #8D9BA7;
+}
+
+@media screen and (min-width:32em) {
+  .c2 {
+    margin-left: 0px;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c2 {
+    margin-right: 8px;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c2 {
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+}
+
+@media screen and (min-width:32em) {
+  .c5 {
+    -webkit-order: 2;
+    -ms-flex-order: 2;
+    order: 2;
+  }
+}
+
+<div
+  className="c0 "
+>
+  <h3>
     Paged List (page size: 
     20
     )
@@ -1269,23 +2414,20 @@ exports[`Storyshots PageManager basic 1`] = `
     </li>
   </ul>
   <div
-    className="c6 c7"
-    is={null}
+    className="c1 "
   >
     <div
-      className="c8"
-      is={null}
+      className="c2 "
     >
       <p
-        className="c9 c10 c11"
-        is={null}
+        className="c3"
       >
         1
         -
         20
          
         <span
-          className="c12"
+          className="c4"
         >
           (of 
           50
@@ -1294,69 +2436,41 @@ exports[`Storyshots PageManager basic 1`] = `
       </p>
     </div>
     <div
-      className="c13"
-      is={null}
+      className="c5 "
     >
       <button
-        className="c14 c15"
+        className="c6 c7 "
         disabled={true}
-        is={null}
         mode="normal"
         onClick={[Function]}
-        s="medium"
         type="button"
       >
-        <p
-          className="c16 c10 c17"
-          hide={false}
-          is={null}
+        <div
+          className="c8 "
         >
           <span
-            className="c18 c19"
-            icon="chevron-left"
-            is={null}
+            className="c9 "
           />
-        </p>
-        <span
-          className="c20 c21 c22"
-          hide={true}
-          icon="spinner"
-          is={null}
-          spin={true}
-        />
+        </div>
       </button>
     </div>
     <div
-      className="c23"
-      is={null}
+      className="c10 "
     >
       <button
-        className="c14 c24"
+        className="c6 c11 "
         disabled={false}
-        is={null}
         mode="normal"
         onClick={[Function]}
-        s="medium"
         type="button"
       >
-        <p
-          className="c16 c10 c17"
-          hide={false}
-          is={null}
+        <div
+          className="c8 "
         >
           <span
-            className="c25 c19"
-            icon="chevron-right"
-            is={null}
+            className="c12 "
           />
-        </p>
-        <span
-          className="c20 c21 c22"
-          hide={true}
-          icon="spinner"
-          is={null}
-          spin={true}
-        />
+        </div>
       </button>
     </div>
   </div>
@@ -1365,77 +2479,21 @@ exports[`Storyshots PageManager basic 1`] = `
 
 exports[`Storyshots SortManager basic 1`] = `
 .c0 {
-  box-sizing: border-box;
   padding: 16px;
 }
 
-.c5 {
-  margin: 0px;
-  font-size: 24px;
-}
-
-.c10 {
-  margin: 0px;
-}
-
-.c4 {
-  font-weight: 600;
-}
-
-.c9 {
-  font-weight: 400;
+.c2 {
+  background-color: #FF5745;
+  color: #FFF;
+  margin: 8px;
 }
 
 .c3 {
-  margin: 0px;
-  font-size: 24px;
-}
-
-.c2 {
-  line-height: 1.25;
-}
-
-.c1 {
-  margin: 0px;
-  font-size: 24px;
-}
-
-.c13 {
-  font-size: 24px;
-  color: inherit;
-}
-
-.c12::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f3ec';
-  -webkit-animation: zmdi-spin 1.5s infinite linear;
-  animation: zmdi-spin 1.5s infinite linear;
-}
-
-.c8 {
   visibility: visible;
 }
 
-.c11 {
-  position: absolute;
-  top: -2px;
-  left: 0;
+.c1 {
   display: inline-block;
-  margin-left: calc(50% - 12px);
-  padding-top: inherit;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.c7 {
-  margin: 8px;
-  background-color: #D6DEE9;
-  color: #53616E;
-}
-
-.c6 {
   box-sizing: border-box;
   position: relative;
   cursor: pointer;
@@ -1455,83 +2513,59 @@ exports[`Storyshots SortManager basic 1`] = `
   padding: 10px 16px;
 }
 
-.c6:disabled {
+.c1:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
 
-.c6:focus:not(:disabled),
-.c6:hover:not(:disabled) {
-  color: #53616E;
-  background-color: #C8D0DB;
+.c1:focus:not(:disabled),
+.c1:hover:not(:disabled) {
+  color: #FFF;
+  background-color: #F25341;
 }
 
-.c6:active:not(:disabled) {
-  color: #53616E;
-  background-color: #BCC4CF;
+.c1:active:not(:disabled) {
+  color: #FFF;
+  background-color: #E64F3E;
 }
 
-.c6:focus:not(:disabled) {
+.c1:focus:not(:disabled) {
   box-shadow: 0 0 0 2px rgba(18,52,102,0.1);
 }
 
 <div
-  className="c0"
-  is={null}
+  className="c0 "
 >
-  <h3
-    className="c1 c2 c3 c4 c5"
-    is={null}
-  >
+  <h3>
     Sorting a List by specific keys
   </h3>
   <button
-    className="c6 c7"
+    className="c1 c2 "
     disabled={false}
-    is={null}
-    mode="normal"
+    mode="primary"
     onClick={[Function]}
-    s="medium"
     type="button"
   >
-    <p
-      className="c8 c9 c10"
-      hide={false}
-      is={null}
+    <div
+      className="c3 "
     >
-      Sort by name
-    </p>
-    <span
-      className="c11 c12 c13"
-      hide={true}
-      icon="spinner"
-      is={null}
-      spin={true}
-    />
+      Sort by 
+      name
+    </div>
   </button>
   <button
-    className="c6 c7"
+    className="c1 c2 "
     disabled={false}
-    is={null}
-    mode="normal"
+    mode="primary"
     onClick={[Function]}
-    s="medium"
     type="button"
   >
-    <p
-      className="c8 c9 c10"
-      hide={false}
-      is={null}
+    <div
+      className="c3 "
     >
-      Sort by department
-    </p>
-    <span
-      className="c11 c12 c13"
-      hide={true}
-      icon="spinner"
-      is={null}
-      spin={true}
-    />
+      Sort by 
+      department
+    </div>
   </button>
   <ul>
     <li>

@@ -1,17 +1,15 @@
-import React, { Component, TextareaHTMLAttributes } from 'react';
+import { Textarea as ZbaseTextarea, TextareaProps as ZbaseTextareaProps } from 'zbase';
+import React, { Component } from 'react';
 import { styled } from 'z-frontend-theme';
-import { RebassOnlyProps } from 'z-rebass-types';
-import { Textarea as RebassTextarea } from 'rebass';
-import { space } from 'z-frontend-theme/src/utils';
+import { space } from 'z-frontend-theme/utils';
 import { commonTextInputStyles } from './Input';
 
-export declare type TextareaProps = RebassOnlyProps &
-  TextareaHTMLAttributes<HTMLTextAreaElement> & {
-    s?: 'small' | 'medium' | 'large';
-    resize?: string;
-  };
+export declare type TextareaProps = ZbaseTextareaProps & {
+  s?: 'small' | 'medium' | 'large';
+  resize?: string;
+};
 
-const StyledTextarea = styled<TextareaProps>(RebassTextarea)`
+const StyledTextarea = styled<TextareaProps>(ZbaseTextarea)`
   ${commonTextInputStyles};
   width: 100%; /* NOTE: cols attribute ignored */
   /* NOTE: resize is not universally supported: https://caniuse.com/#feat=css-resize */
@@ -25,6 +23,7 @@ class Textarea extends Component<TextareaProps> {
   static defaultProps = {
     s: 'medium',
     rows: 2,
+    resize: 'vertical',
   };
 
   render() {

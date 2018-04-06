@@ -5,7 +5,7 @@ import Input from './Input';
 
 describe('Input', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<Input />).find('Input')).toHaveLength(1);
+    expect(mountWithTheme(<Input />).find(Input)).toHaveLength(1);
   });
 
   it('should ultimately render an <input> element', () => {
@@ -33,7 +33,7 @@ describe('Input', () => {
     expect(rendered.attr('placeholder')).toBe('Placeholder');
   });
 
-  it('should respect rebass props', () => {
+  it('should respect util props', () => {
     const mounted = mountWithTheme(<Input mt={123} />);
     expect(mounted).toHaveStyleRule('margin-top', '123px');
   });
@@ -41,7 +41,7 @@ describe('Input', () => {
   it('should invoke callback on change', () => {
     const onInputChange = jest.fn();
     const wrapper = mountWithTheme(<Input onChange={onInputChange} />);
-    wrapper.find('Input').simulate('change');
+    wrapper.find(Input).simulate('change');
     expect(onInputChange).toBeCalled();
     expect(onInputChange.mock.calls[0][0]).toBeTruthy();
   });

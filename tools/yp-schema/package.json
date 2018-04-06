@@ -1,0 +1,29 @@
+{
+  "name": "z-frontend-yp-schema",
+  "version": "0.1.0",
+  "main": "index.js",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "lint": "yarn tslint && yarn eslint",
+    "tslint": "echo 'no tslint'",
+    "eslint": "z-frontend-eslint",
+    "test": "jest"
+  },
+  "engines": {
+    "yarn": "^1.3.2",
+    "node": "^9.3.0"
+  },
+  "dependencies": {
+    "graphql": "^0.12.3",
+    "graphql-tools": "^2.18.0",
+    "graphql-code-generator": "git+https://git@github.com/airato/graphql-code-generator#2604aaa",
+    "prettier": "^1.7.4"
+  },
+  "devDependencies": {
+    "eslint-config-z-frontend": "*",
+    "graphql-tag": "^2.6.1",
+    "jest": "^21.2.1",
+    "z-frontend-jest": "*"
+  }
+}

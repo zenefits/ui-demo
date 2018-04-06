@@ -46,7 +46,23 @@ var ImportFilterWalker = /** @class */ (function(_super) {
     // create a failure at the current position
     var options = this.getOptions();
     Object.keys(options[0]).forEach(function(moduleName) {
-      if (node.moduleSpecifier.getText().replace(/['"]/g, '') === moduleName) {
+      var foundModuleName = node.moduleSpecifier.getText().replace(/['"]/g, '');
+      var isFolderBan = moduleName.substr(-2) === '/*';
+      var folder = moduleName.replace(/\/\*$/, '/');
+      if (isFolderBan) {
+        if (foundModuleName.indexOf(folder) === 0) {
+          // if specified modulename ends with `/*`, ban all the imports from that folder
+          var opts = options[0][moduleName];
+          if (opts) {
+            _this.createNodeError(
+              node.moduleSpecifier,
+              "Imports from folder '" +
+                folder +
+                "' are not allowed. Instead please use named imports from the package.",
+            );
+          }
+        }
+      } else if (foundModuleName === moduleName) {
         var opts_1 = options[0][moduleName];
         if (opts_1 === true) {
           // check if while module is not allowed

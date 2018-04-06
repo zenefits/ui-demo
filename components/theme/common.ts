@@ -1,3 +1,1 @@
-export { default as colors, ColorString } from './src/colors';
-
-export { theme, ThemeInterface } from './src/theme';
+export { getColor, avatarColors, ColorString } from './src/colors';

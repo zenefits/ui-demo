@@ -3,7 +3,8 @@ import { doFilter, FilterConfig } from './filterUtils';
 import { doSort, SortConfig } from './sortUtils';
 import { doPage } from './pageUtils';
 
-interface ManagerRenderProps<T> {
+export interface DataManagerRenderProps<T> {
+  displayData: T[];
   filtering: {
     inputData: T[];
     outputData: T[];
@@ -30,9 +31,9 @@ interface DataManagerProps<T> {
   sourceData: T[];
   initialFilter?: FilterConfig;
   initialSorter?: SortConfig;
-  intialPageSize?: number;
+  initialPageSize?: number;
   initialPage?: number;
-  render: (managerProps: ManagerRenderProps<T>) => any;
+  render: (managerProps: DataManagerRenderProps<T>) => any;
 }
 
 interface DataManagerState {
@@ -53,7 +54,7 @@ export default class DataManager<T> extends Component<DataManagerProps<T>, DataM
     this.state = {
       filterConfig: props.initialFilter || {},
       sortConfig: props.initialSorter || {},
-      pageSize: props.intialPageSize || Infinity,
+      pageSize: props.initialPageSize || Infinity,
       currentPage: props.initialPage || 1,
     };
   }
@@ -99,6 +100,7 @@ export default class DataManager<T> extends Component<DataManagerProps<T>, DataM
                 currentPage={currentPage}
                 render={pagedData =>
                   this.props.render({
+                    displayData: pagedData,
                     filtering: {
                       config: filterConfig,
                       onChange: onFilterChange,

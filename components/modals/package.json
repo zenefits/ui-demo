@@ -6,8 +6,10 @@
     "build": "build-storybook",
     "eslint": "z-frontend-eslint",
     "lint": "yarn tslint && yarn eslint && yarn stylelint",
+    "nsp": "z-run nsp check",
     "stylelint": "z-frontend-stylelint",
     "test": "jest",
+    "tsCheck": "tsc --noEmit",
     "tslint": "tslint --project ./",
     "start": "start-storybook -p 6012"
   },
@@ -17,13 +19,16 @@
     "node": "^9.3.0"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "rebass": "^1.0.3",
     "redux-form": "^7.0.4",
     "styled-components": "^2.2.3",
-    "z-frontend-cards": "*",
-    "z-frontend-theme": "*"
+    "z-frontend-app-bootstrap": "*",
+    "z-frontend-layout": "*",
+    "z-frontend-theme": "*",
+    "zbase": "*"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.3.3",
@@ -49,6 +54,7 @@
     "typescript": "^2.6.1",
     "z-frontend-jest": "*",
     "z-frontend-forms": "*",
+    "z-frontend-scripts": "*",
     "z-frontend-webpack": "*"
   }
 }

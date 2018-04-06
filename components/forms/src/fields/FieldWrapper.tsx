@@ -1,46 +1,50 @@
-import withFontStyles from 'z-frontend-theme/src/withFontStyles';
-import Icon from 'z-frontend-theme/src/Icon';
-import Text from 'z-frontend-theme/src/Text';
 import React, {
   StatelessComponent,
-  ComponentClass,
   InputHTMLAttributes,
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
+  ReactElement,
 } from 'react';
-import { Box, Flex, Label } from 'rebass';
-import { RebassOnlyProps } from 'z-rebass-types';
-import { Field, Fields, BaseFieldProps, BaseFieldsProps } from 'redux-form';
+import { Flex, Box, BoxProps, Label, P, Icon } from 'zbase';
+import { Field, BaseFieldProps } from 'redux-form';
+import Tooltip from '../Tooltip';
+import { HideFor } from 'z-frontend-theme';
+import InputErrorText from './InputErrorText';
 
-declare type Props = {
-  label?: string;
-  helpText?: string;
+const Fragment = (React as any).Fragment;
+
+interface Props {
+  label?: string | JSX.Element;
+  helpText?: string | JSX.Element;
+  tooltipText?: string | JSX.Element;
   fieldFormat?: 'form-row' | 'stand-alone' | 'raw';
+  errorText?: string;
+}
+
+interface WrapperProps extends Props {
   wrapWithLabel?: boolean;
-  labelBoxProps?: RebassOnlyProps;
-};
+  labelBoxProps?: BoxProps;
+}
 
 declare type GenericFieldHTMLAttributes = InputHTMLAttributes<HTMLInputElement> &
   SelectHTMLAttributes<HTMLSelectElement> &
   TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export declare type FieldProps = Props & GenericFieldHTMLAttributes & BaseFieldProps;
-export declare type FieldsProps = Props & GenericFieldHTMLAttributes & BaseFieldsProps & { [name: string]: any };
+export declare type FieldProps = Props & GenericFieldHTMLAttributes & BaseFieldProps & BoxProps;
 
-const StyledLabel = withFontStyles(Label);
-const StyledBox = withFontStyles(Box);
-
-export const FieldFormatWrapper: StatelessComponent<Props> = ({
+export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
   label,
   helpText,
+  tooltipText,
   fieldFormat,
+  errorText,
   wrapWithLabel,
   labelBoxProps,
   children,
 }) => {
   // We only want to wrap simple fields in labels, but all form rows to look the same, so we style Box as label.
-  type StyledRebassComponent = ComponentClass<RebassOnlyProps & { fontStyle?: string }>;
-  const OuterWrapper = (wrapWithLabel ? StyledLabel : StyledBox) as StyledRebassComponent;
+  const OuterWrapper = wrapWithLabel ? Label : Box;
+  const showHelpText = !errorText && helpText;
   switch (fieldFormat) {
     case 'form-row':
       return (
@@ -49,15 +53,28 @@ export const FieldFormatWrapper: StatelessComponent<Props> = ({
             {label && (
               <Box w={[1, 1 / 3, 1 / 3, 1 / 4]} px={2} mb={[2, 0]} mt={[0, 2]} {...labelBoxProps}>
                 {label}
+                {tooltipText && (
+                  <HideFor breakpoints={[true]}>
+                    <Tooltip
+                      event="hover"
+                      showArrow
+                      placement="bottom"
+                      targetBody={<Icon iconName="help-outline" color="grayscale.d" ml={1} />}
+                    >
+                      <Box p={10}>{tooltipText}</Box>
+                    </Tooltip>
+                  </HideFor>
+                )}
               </Box>
             )}
             <Box px={2} w={label ? [1, 2 / 3, 2 / 3, 3 / 4] : 1}>
               {children}
-              {helpText && (
-                <Text fontStyle="controls.s" color="grayscale.d" mt={2}>
+              {errorText && <InputErrorText>{errorText} </InputErrorText>}
+              {showHelpText && (
+                <P fontStyle="controls.s" color="grayscale.d" mt={2}>
                   <Icon iconName="info-outline" mr={1} />
                   {helpText}
-                </Text>
+                </P>
               )}
             </Box>
           </Flex>
@@ -70,7 +87,7 @@ export const FieldFormatWrapper: StatelessComponent<Props> = ({
         </Box>
       );
     case 'raw':
-      return <Box>{children}</Box>;
+      return <Fragment>{children}</Fragment>;
   }
 };
 
@@ -79,22 +96,51 @@ FieldFormatWrapper.defaultProps = {
   wrapWithLabel: true,
 };
 
-export const FormRow: StatelessComponent<Props> = ({ label, children }) => (
+export const FormRow: StatelessComponent<WrapperProps> = ({ children, ...rest }) => (
   // Labels for checkboxes and radio buttons do not have top margin.
-  <FieldFormatWrapper label={label} fieldFormat="form-row" wrapWithLabel={false} labelBoxProps={{ mt: 0 }}>
+  <FieldFormatWrapper fieldFormat="form-row" wrapWithLabel={false} labelBoxProps={{ mt: 0 }} {...rest}>
     {children}
   </FieldFormatWrapper>
 );
 
-export const FieldWrapper: StatelessComponent<FieldProps> = ({ label, helpText, fieldFormat, children, ...rest }) => (
-  <FieldFormatWrapper label={label} helpText={helpText} fieldFormat={fieldFormat}>
-    <Field {...rest}>{children}</Field>
-  </FieldFormatWrapper>
-);
+export const FormCell = FormRow;
 
-export const FieldsWrapper: StatelessComponent<FieldsProps> = ({ label, helpText, fieldFormat, children, ...rest }) => (
-  <FieldFormatWrapper label={label} helpText={helpText} fieldFormat={fieldFormat} wrapWithLabel={false}>
-    <Fields {...rest}>{children}</Fields>
+export const FieldWrapper: StatelessComponent<FieldProps> = ({
+  label,
+  helpText,
+  tooltipText,
+  fieldFormat,
+  children,
+  errorText,
+  ...rest
+}) => {
+  return (
+    <FieldFormatWrapper
+      label={label}
+      helpText={helpText}
+      fieldFormat={fieldFormat}
+      errorText={errorText}
+      tooltipText={tooltipText}
+    >
+      <Field {...rest}>{children}</Field>
+    </FieldFormatWrapper>
+  );
+};
+
+export const FieldsWrapper: StatelessComponent<Props> = ({ children, ...rest }) => (
+  <FieldFormatWrapper wrapWithLabel={false} {...rest}>
+    <Flex mx={-2}>
+      {React.Children.map(children, child => {
+        const field = child as ReactElement<any>;
+        return (
+          field && (
+            <Box px={2} w={field.props.w} flex={field.props.flex}>
+              {React.cloneElement(field, { fieldFormat: 'raw', w: 1, flex: '1 1 auto' })}
+            </Box>
+          )
+        );
+      })}
+    </Flex>
   </FieldFormatWrapper>
 );
 

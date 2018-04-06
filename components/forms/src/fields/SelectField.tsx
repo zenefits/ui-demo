@@ -3,11 +3,11 @@ import { WrappedFieldProps } from 'redux-form';
 import FieldWrapper, { FieldProps } from './FieldWrapper';
 import Select from '../Select';
 
-const WrappedSelect: StatelessComponent<WrappedFieldProps> = ({ input, ...rest }) => <Select {...rest} {...input} />;
+export const FormSelect: StatelessComponent<WrappedFieldProps> = ({ input, ...rest }) => (
+  <Select {...rest} {...input} />
+);
 
 // TODO: types
-const SelectField: StatelessComponent<FieldProps & any> = props => (
-  <FieldWrapper component={WrappedSelect} {...props} />
-);
+const SelectField: StatelessComponent<FieldProps & any> = props => <FieldWrapper component={FormSelect} {...props} />;
 
 export default SelectField;
