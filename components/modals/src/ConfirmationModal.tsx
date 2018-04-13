@@ -1,6 +1,8 @@
 import React, { StatelessComponent } from 'react';
-import Modal from './Modal';
+
 import { P } from 'zbase';
+
+import Modal from './Modal';
 
 type ConfirmationModalProps = {
   isVisible: boolean;

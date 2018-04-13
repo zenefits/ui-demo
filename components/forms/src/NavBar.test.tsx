@@ -1,7 +1,9 @@
 import React from 'react';
 import 'jest-styled-components';
-import NavBar from './NavBar';
+
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+
+import NavBar from './NavBar';
 
 describe('NavBar', () => {
   it('should mount without throwing an error', () => {

@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { Flex, Text } from 'zbase';
-import RenderWithTheme from '../src/components/RenderWithTheme';
 import { FontStyleString } from 'z-frontend-theme';
+
+import RenderWithTheme from '../src/components/RenderWithTheme';
 
 export default () => (
   <Flex align="baseline">

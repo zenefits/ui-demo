@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Truncate from './Truncate';
+
 import { P, ParagraphProps } from 'zbase';
-import Link from './Link';
 import { styled } from 'z-frontend-theme';
+
+import Truncate from './Truncate';
+import Link from './Link';
 
 const Fragment = (React as any).Fragment;
 
@@ -64,7 +66,7 @@ class ReadMore extends Component<ReadMoreProps, ReadMoreState> {
       return this.props.expandControl;
     }
     return (
-      <Link onClick={this.expand} fontSize={0}>
+      <Link onClick={this.expand} fontSize__deprecated__doNotUse={0}>
         Show More
       </Link>
     );
@@ -75,7 +77,7 @@ class ReadMore extends Component<ReadMoreProps, ReadMoreState> {
       return this.props.collapseControl;
     }
     return (
-      <Link onClick={this.collapse} fontSize={0}>
+      <Link onClick={this.collapse} fontSize__deprecated__doNotUse={0}>
         Show Less
       </Link>
     );

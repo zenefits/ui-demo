@@ -1,6 +1,7 @@
 import React from 'react';
+
 import { styled, theme, ThemeProvider } from 'z-frontend-theme';
-import { Box, Flex, P, Image } from 'zbase';
+import { Box, Flex, Image, P } from 'zbase';
 import { Link } from 'z-frontend-forms';
 import { color, space, zIndex } from 'z-frontend-theme/utils';
 
@@ -51,7 +52,7 @@ class SimpleTopNav extends React.Component {
             </P>
           </Flex>
         </Link>
-        <StyledTitle ml={3} pl={3} f={2}>
+        <StyledTitle ml={3} pl={3} fontSize__deprecated__doNotUse={2}>
           {this.props.children}
         </StyledTitle>
       </SimpleTopContainer>

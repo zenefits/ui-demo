@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { mountWithTheme, renderWithTheme, shallowWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import MyComponent from './MyComponent';
 
 describe('MyComponent', () => {

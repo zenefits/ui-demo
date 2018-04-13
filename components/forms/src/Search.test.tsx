@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
-import Search, { Option, SearchOption, SearchOptions, BasicSearch } from './Search';
+
+import Search, { BasicSearch, Option, SearchOption, SearchOptions } from './Search';
 import Button from './Button';
 
 const combobox = 'input[role="combobox"]';

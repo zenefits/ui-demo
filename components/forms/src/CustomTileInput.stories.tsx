@@ -1,8 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Box, Flex } from 'zbase';
-import CustomTileInput from './CustomTileInput';
 import { Card } from 'z-frontend-layout';
+
+import CustomTileInput from './CustomTileInput';
 
 storiesOf('Custom Tile Input', module)
   .addDecorator(getStory => (

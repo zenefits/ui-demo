@@ -1,13 +1,14 @@
-import 'z-frontend-global-types';
 import fetch from 'unfetch';
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { SchemaLink } from 'apollo-link-schema';
 import { onError, ErrorResponse } from 'apollo-link-error';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloReducerConfig, IntrospectionFragmentMatcher, InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
+import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+
+import 'z-frontend-global-types';
 import getMockSchema from 'z-frontend-yp-schema/getMockSchema';
-import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 
 import getCookie from './utils/get-cookie';
 
@@ -26,7 +27,7 @@ function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders, o
         graphqlUrl = 'http://localhost:3000/graphql';
       }
     } else {
-      // TODO
+      graphqlUrl = 'https://example.com/graphql/';
     }
   }
 
@@ -76,9 +77,11 @@ function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders, o
         }
         if ((gqlError as any).isNetworkError && (gqlError as any).status === 401) {
           // TODO: check if hash part is not being dropped after going back to the app
-          window.location.replace(
-            '/accounts/login/?next=' + encodeURIComponent(window.location.pathname + window.location.hash),
-          );
+          if (!__NATIVE__) {
+            window.location.replace(
+              '/accounts/login/?next=' + encodeURIComponent(window.location.pathname + window.location.hash),
+            );
+          }
         }
       });
     }
@@ -133,6 +136,7 @@ type MockConfig = TypeDefsMockConfig | JsonMockConfig;
 
 export interface ApolloClientOptions {
   mockConfig?: MockConfig;
+  fragmentTypes?: any;
   getAdditionalHeaders?: GetAdditonalHeaders;
   onGraphqlError?: OnGraphqlError;
 }
@@ -140,7 +144,7 @@ export interface ApolloClientOptions {
 export default function createApolloClient(
   apolloClientOptions: ApolloClientOptions = {},
 ): [typeof ApolloProvider, ApolloClientCreatorProps] {
-  const { mockConfig, getAdditionalHeaders, onGraphqlError } = apolloClientOptions;
+  const { mockConfig, getAdditionalHeaders, onGraphqlError, fragmentTypes } = apolloClientOptions;
   let link = null;
   if (__MOCK_MODE__ && mockConfig) {
     link = initializeMockedNetworkInterface(mockConfig);
@@ -148,11 +152,19 @@ export default function createApolloClient(
     link = initializeNetworkInterface(getAdditionalHeaders, onGraphqlError);
   }
 
+  const cacheConfig: ApolloReducerConfig = {
+    addTypename: true,
+  };
+
+  if (fragmentTypes) {
+    cacheConfig.fragmentMatcher = new IntrospectionFragmentMatcher({
+      introspectionQueryResultData: fragmentTypes,
+    });
+  }
+
   const client = new ApolloClient({
     link,
-    cache: new InMemoryCache({
-      addTypename: true,
-    }),
+    cache: new InMemoryCache(cacheConfig),
   });
 
   const apollorProviderProps: ApolloClientCreatorProps = { client };

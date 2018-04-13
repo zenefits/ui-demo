@@ -21,7 +21,9 @@ module.exports = function({ root }) {
 
     // use transformIgnorePatterns from https://github.com/facebook/react-native/blob/master/jest-preset.json
     // and add z-* packages, since they are in ts/es6 and need to be transformed
-    transformIgnorePatterns: ['node_modules\\/(?!(jest-)?react-native|react-clone-referenced-element|z-|zbase)'],
+    transformIgnorePatterns: [
+      'node_modules\\/(?!(jest-)?react-native|react-clone-referenced-element|z-|zbase|victory-)',
+    ],
 
     globals: Object.assign({}, zFrontendConfig.globals, {
       __ANDROID__: false,
@@ -46,7 +48,7 @@ module.exports = function({ root }) {
 
     transform: {
       // use custom babel transformer, that uses calls babel-jest with react-native preset instead of .babelrc files
-      '^.+\\.graphql$': path.join(__dirname, 'transformers/nativeGraphqlTransformer.js'),
+      // '^.+\\.graphql$': path.join(__dirname, 'transformers/nativeGraphqlTransformer.js'),
       '^.+\\.(js|jsx)$': path.join(__dirname, 'transformers/nativeBabelTransformer.js'),
       '^.+\\.(ts|tsx)$': 'ts-jest/dist/preprocessor.js',
     },

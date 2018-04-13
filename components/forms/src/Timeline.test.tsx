@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import Timeline from './Timeline';
 
 const startDate = new Date('1/1/2018');

@@ -9,17 +9,21 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+const GqlGenWebpackPlugin = require('z-frontend-yp-schema/gqlGenWebpackPlugin');
+
 const rules = require('./rules');
 const plugins = require('./plugins');
 const getAppName = require('./getAppName');
+const getAppVersion = require('./getAppVersion');
 
 const ENV = process.env.NODE_ENV || 'development';
 const IS_PROD = ENV === 'production';
 const NO_MAPS = !!process.env.NO_MAPS;
 const appName = getAppName();
+const appVersion = getAppVersion();
 const DIST_PATH = path.join(process.cwd(), `/dist`);
 
-module.exports = function getConfig(options = {}) {
+module.exports = function getConfig(options = { useAsyncTsCheck: false, disableYpSchema: false }) {
   return {
     entry: {
       app: _.compact([
@@ -85,11 +89,13 @@ module.exports = function getConfig(options = {}) {
       ]),
     },
     plugins: _.compact([
+      !options.disableYpSchema && new GqlGenWebpackPlugin(),
       options.useAsyncTsCheck && new ForkTsCheckerWebpackPlugin(),
       !IS_PROD && new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, '../index.html'),
+        appVersion,
       }),
       new CopyWebpackPlugin([{ from: path.join(__dirname, './unsupportedBrowser/unsupported.html') }]),
       new webpack.optimize.CommonsChunkPlugin({

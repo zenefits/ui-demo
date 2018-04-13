@@ -1,14 +1,15 @@
 import React, { StatelessComponent } from 'react';
 /* tslint:disable:import-filter */
 import {
-  ThemedStyledComponentsModule,
-  keyframes as baseKeyframes,
-  injectGlobal as baseInjectGlobal,
-  default as baseStyled,
-  ThemeProvider as BaseThemeProvider,
   css as baseCss,
+  default as baseStyled,
+  injectGlobal as baseInjectGlobal,
+  keyframes as baseKeyframes,
   withTheme as baseWithTheme,
+  ThemedStyledComponentsModule,
+  ThemeProvider as BaseThemeProvider,
 } from 'styled-components';
+
 /* tslint:enable:import-filter */
 import { theme, ThemeInterface } from './theme';
 import { typographyRules } from './fontsInitWebStyles';

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Box, Flex, P, Icon } from 'zbase';
+
+import { Box, Flex, Icon, P } from 'zbase';
 import { Button } from 'z-frontend-forms';
 import { color } from 'z-frontend-theme/utils';
 import { styled } from 'z-frontend-theme';

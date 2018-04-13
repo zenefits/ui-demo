@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { styled } from 'z-frontend-theme';
-import { color, fontSizes, icon, radius, space } from 'z-frontend-theme/utils';
-import { InputProps } from './Input';
-import InputWithIcon from './InputWithIcon';
-
-// see http://react-day-picker.js.org
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import { formatDate, parseDate } from 'react-day-picker/moment';
 import 'react-day-picker/lib/style.css';
+
+import { styled } from 'z-frontend-theme';
+import { color, fontSizes, icon, radius, space } from 'z-frontend-theme/utils';
+
+import { InputProps } from './Input';
+import InputWithIcon from './InputWithIcon';
 
 const dayPickerCaptionHeight = '64px';
 

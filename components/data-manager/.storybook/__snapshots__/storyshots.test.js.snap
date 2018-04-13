@@ -518,6 +518,10 @@ exports[`Storyshots FilterManager with matchAny filter 1`] = `
   color: #8D9BA7;
 }
 
+.c3:required {
+  box-shadow: none;
+}
+
 .c3.error {
   border-color: #C00316;
 }
@@ -836,6 +840,22 @@ exports[`Storyshots FilterManager with stringContains filter 1`] = `
   width: 33.33333333333333%;
 }
 
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 14px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f1c3';
+}
+
 .c4 {
   background-color: transparent;
   color: inherit;
@@ -856,13 +876,6 @@ exports[`Storyshots FilterManager with stringContains filter 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
 }
 
 .c3 {
@@ -909,6 +922,10 @@ exports[`Storyshots FilterManager with stringContains filter 1`] = `
   border-color: #f3f3f3;
 }
 
+.c3:required {
+  box-shadow: none;
+}
+
 .c3.error {
   border-color: #C00316;
 }
@@ -952,7 +969,7 @@ exports[`Storyshots FilterManager with stringContains filter 1`] = `
         type="text"
         value="er"
       />
-      <span
+      <i
         className="c5 c6 "
         onClick={undefined}
       />
@@ -1119,24 +1136,6 @@ exports[`Storyshots FilterManager with stringContains filter 1`] = `
 `;
 
 exports[`Storyshots Kitchen Sink all 1`] = `
-.c16 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c0 {
   padding: 16px;
 }
@@ -1172,6 +1171,80 @@ exports[`Storyshots Kitchen Sink all 1`] = `
 .c12 {
   padding: 16px;
   width: 66.66666666666666%;
+}
+
+.c16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c8 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 14px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c8::before {
+  content: '\\f1c3';
+}
+
+.c23 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c23::before {
+  content: '\\f2fa';
+}
+
+.c26 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c26::before {
+  content: '\\f2fb';
+}
+
+.c18 {
+  margin: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-family: Circular,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
 }
 
 .c6 {
@@ -1224,37 +1297,6 @@ exports[`Storyshots Kitchen Sink all 1`] = `
 .c25 {
   background-color: #D6DEE9;
   color: #53616E;
-}
-
-.c18 {
-  margin: 0px;
-  margin-top: auto;
-  margin-bottom: auto;
-  font-family: Circular,sans-serif;
-  font-size: 14px;
-  line-height: 1.43;
-  font-weight: 400;
-}
-
-.c8::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
-}
-
-.c23::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f2fa';
-}
-
-.c26::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f2fb';
 }
 
 .c15 {
@@ -1425,6 +1467,10 @@ exports[`Storyshots Kitchen Sink all 1`] = `
   color: #8D9BA7;
 }
 
+.c11:required {
+  box-shadow: none;
+}
+
 .c11.error {
   border-color: #C00316;
 }
@@ -1480,6 +1526,10 @@ exports[`Storyshots Kitchen Sink all 1`] = `
 .c5:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c5:required {
+  box-shadow: none;
 }
 
 .c5.error {
@@ -1563,7 +1613,7 @@ exports[`Storyshots Kitchen Sink all 1`] = `
             type="text"
             value=""
           />
-          <span
+          <i
             className="c7 c8 "
             onClick={undefined}
           />
@@ -2064,7 +2114,7 @@ exports[`Storyshots Kitchen Sink all 1`] = `
             <div
               className="c15 "
             >
-              <span
+              <i
                 className="c23 "
               />
             </div>
@@ -2083,7 +2133,7 @@ exports[`Storyshots Kitchen Sink all 1`] = `
             <div
               className="c15 "
             >
-              <span
+              <i
                 className="c26 "
               />
             </div>
@@ -2096,17 +2146,6 @@ exports[`Storyshots Kitchen Sink all 1`] = `
 `;
 
 exports[`Storyshots PageManager basic 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
 .c0 {
   padding: 16px;
 }
@@ -2131,15 +2170,45 @@ exports[`Storyshots PageManager basic 1`] = `
   order: 3;
 }
 
-.c7 {
-  background-color: #D6DEE9;
-  color: #53616E;
-  margin-right: 4px;
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
-.c11 {
-  background-color: #D6DEE9;
-  color: #53616E;
+.c9 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c9::before {
+  content: '\\f2fa';
+}
+
+.c12 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c12::before {
+  content: '\\f2fb';
 }
 
 .c3 {
@@ -2152,18 +2221,15 @@ exports[`Storyshots PageManager basic 1`] = `
   font-weight: 400;
 }
 
-.c9::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f2fa';
+.c7 {
+  background-color: #D6DEE9;
+  color: #53616E;
+  margin-right: 4px;
 }
 
-.c12::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f2fb';
+.c11 {
+  background-color: #D6DEE9;
+  color: #53616E;
 }
 
 .c8 {
@@ -2448,7 +2514,7 @@ exports[`Storyshots PageManager basic 1`] = `
         <div
           className="c8 "
         >
-          <span
+          <i
             className="c9 "
           />
         </div>
@@ -2467,7 +2533,7 @@ exports[`Storyshots PageManager basic 1`] = `
         <div
           className="c8 "
         >
-          <span
+          <i
             className="c12 "
           />
         </div>

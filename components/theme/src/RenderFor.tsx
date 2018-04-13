@@ -1,5 +1,6 @@
 import React from 'react';
 import canUseDom from 'can-use-dom';
+
 import { getMatches } from './responsive-utils';
 
 export default class RenderFor extends React.Component<{ breakpoints: boolean[] }, { matches: boolean[] }> {

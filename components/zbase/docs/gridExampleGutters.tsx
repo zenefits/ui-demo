@@ -1,5 +1,6 @@
 import React from 'react';
-import { Flex, Box, P } from '../index';
+
+import { Box, Flex, P } from '../index';
 
 export default () => (
   <Flex wrap mx={-2}>

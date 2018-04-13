@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-import { Flex, P, Icon } from 'zbase';
+import { Flex, Icon, P } from 'zbase';
 import { styled, ColorString } from 'z-frontend-theme';
 import { ButtonDropdown } from 'z-frontend-forms';
 
@@ -44,18 +44,25 @@ class SortableHeaderCell extends Component<Props> {
     const sortOrder = this.getSortParamFromUrl();
     const iconName =
       sortOrder === 'ascending' ? 'long-arrow-up' : sortOrder === 'descending' ? 'long-arrow-down' : null;
-    const sortOrderIcon = iconName ? <Icon iconName={iconName} w={16} fontSize={2} color={iconColor} /> : null;
+    const sortOrderIcon = iconName ? <Icon iconName={iconName} w={16} s="medium" color={iconColor} /> : null;
+
+    const headerTitle = (
+      <P fontStyle="controls.s" color="grayscale.d">
+        {this.props.header.title}
+      </P>
+    );
+    if (!this.props.header.isSortable) {
+      return headerTitle;
+    }
 
     return (
       <Flex align="center">
         <ButtonDropdown
-          fontSize={1}
+          fontSize__deprecated__doNotUse={1}
           target={
             <TargetContainer align="center">
               {sortOrderIcon}
-              <P fontStyle="controls.s" color="grayscale.d">
-                {this.props.header.title}
-              </P>
+              {headerTitle}
               <Icon iconName="caret-down" ml={2} color={iconColor} />
             </TargetContainer>
           }

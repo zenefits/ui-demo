@@ -1,9 +1,9 @@
 import { HTMLAttributes, TimeHTMLAttributes } from 'react';
 
 import { ThemeInterface } from 'z-frontend-theme';
-import { fontStyles, color } from 'z-frontend-theme/utils';
+import { color, fontStyles } from 'z-frontend-theme/utils';
 
-import withUtilProps, { WithUtilPropsOptions, ResultComponentProps } from '../withUtilProps';
+import withUtilProps, { ResultComponentProps, WithUtilPropsOptions } from '../withUtilProps';
 import { PropsMap } from '../commonTypes';
 import { UtilProps as AllUtilProps } from './types';
 

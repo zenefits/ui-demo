@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { VictoryPie } from 'victory';
+
 import { Flex, FlexProps, P } from 'zbase';
 import { withTheme } from 'z-frontend-theme';
-import { VictoryPie } from 'victory';
 import { color } from 'z-frontend-theme/utils';
 
 interface ChartProps {

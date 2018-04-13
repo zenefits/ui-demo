@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { Box, Flex, Heading, P } from 'zbase';
-import { ColorString, ThemeInterface, withTheme, styled } from 'z-frontend-theme';
-import { depth, heights, radius, convertToNestedMap } from 'z-frontend-theme/utils';
+import { styled, withTheme, ColorString, ThemeInterface } from 'z-frontend-theme';
+import { convertToNestedMap, depth, heights, radius } from 'z-frontend-theme/utils';
 
 const ColorBox = styled(Box)`
   width: ${heights('xxlarge')};

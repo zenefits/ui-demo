@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import { styled } from 'z-frontend-theme';
-import { Box, Flex, FlexAlign, BoxProps } from 'zbase';
+import { Box, BoxProps, Flex, FlexAlign } from 'zbase';
 import { color, space } from 'z-frontend-theme/utils';
 import { Card } from 'z-frontend-layout';
 

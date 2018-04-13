@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import { Flex, Box, P, Heading } from 'zbase';
+
+import { Box, Flex, Heading, P } from 'zbase';
+
 import ReadMore from './ReadMore';
 import Link from './Link';
 
@@ -30,12 +32,12 @@ class ReadMoreConsumer extends Component<{}, State> {
         lines={3}
         isExpanded={this.state.isExpanded ? this.state.isExpanded : undefined}
         expandControl={
-          <Link onClick={this.expand} fontSize={2}>
+          <Link onClick={this.expand} fontSize__deprecated__doNotUse={2}>
             ...More!
           </Link>
         }
         collapseControl={
-          <Link onClick={this.collapse} fontSize={2}>
+          <Link onClick={this.collapse} fontSize__deprecated__doNotUse={2}>
             ...Less!
           </Link>
         }

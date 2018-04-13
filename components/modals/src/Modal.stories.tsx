@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Box } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+
+import { Box } from 'zbase';
+import { Button } from 'z-frontend-forms';
+
 import Modal from './Modal';
 import { withDialog, WithDialogProps } from './DialogManager';
 import { withDialogs, WithDialogsProps } from './DialogsManager';
-import { Button } from 'z-frontend-forms';
 
 class ModalForm extends Component<WithDialogProps> {
   render() {

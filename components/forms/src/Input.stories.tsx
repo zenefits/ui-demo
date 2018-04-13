@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Flex } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+
+import { Box, Flex } from 'zbase';
+
 import Input from './Input';
 import PercentageInput from './PercentageInput';
 import MoneyInput from './MoneyInput';

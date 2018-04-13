@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Flex, Box, P } from 'zbase';
+
+import { Box, Flex, P } from 'zbase';
+
 import Timeline from './Timeline';
 
 const startDate = new Date('1/1/2018');

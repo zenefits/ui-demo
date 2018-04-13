@@ -357,6 +357,10 @@ exports[`Storyshots LoadingSpinner default 1`] = `
 `;
 
 exports[`Storyshots LoadingSpinner with size 1`] = `
+.c2 {
+  margin-bottom: 16px;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -365,10 +369,6 @@ exports[`Storyshots LoadingSpinner with size 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-}
-
-.c2 {
-  margin-bottom: 16px;
 }
 
 .c3 {

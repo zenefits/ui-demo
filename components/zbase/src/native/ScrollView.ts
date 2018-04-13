@@ -1,9 +1,11 @@
 import { ScrollViewProperties } from 'react-native';
+
 import { css } from 'z-frontend-theme/native';
+
 import withUtilPropsNative, {
-  ResultNativeComponentProps,
-  FlexOnlyAdditionalProps,
   flexOnlyPropsMap,
+  FlexOnlyAdditionalProps,
+  ResultNativeComponentProps,
 } from './withUtilPropsNative';
 
 export type ScrollViewProps = ResultNativeComponentProps<ScrollViewProperties, FlexOnlyAdditionalProps>;

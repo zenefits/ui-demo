@@ -53,9 +53,12 @@ const cwd = process.cwd();
     }
   } else {
     const hasNoPackagesWithMultipleVerions = checkAllForDifferentVersions(packages);
-    if (!hasNoPackagesWithMultipleVerions) {
-      throw new Error(`can't run when there are packages with multiple versions`);
-    }
+
+    // commenting out this check, since we have 2 versions of RN, (regular and expo) and it blocks the script
+    // if (!hasNoPackagesWithMultipleVerions) {
+    //   throw new Error(`can't run when there are packages with multiple versions`);
+    // }
+
     console.log('loading...');
     const packageListNpm = await Promise.all(
       packageList.map(async pkgInfo => {

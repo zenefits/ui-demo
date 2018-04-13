@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { styled } from 'z-frontend-theme';
+
+import { styled, IconNameString } from 'z-frontend-theme';
+
 import { color, space } from 'z-frontend-theme/utils';
 import { Box, BoxProps, Icon } from 'zbase';
-import Input, { InputProps, CustomInputProps } from './Input';
+
+import Input, { CustomInputProps, InputProps } from './Input';
 
 export declare type InputWithIconProps = InputProps & {
-  iconName: string;
+  iconName: IconNameString;
   onIconClick?: (event: any) => void;
 };
 
@@ -18,7 +21,7 @@ const StyledWrapper = styled<BoxProps & CustomInputProps>(Box)`
   }
 `;
 
-const StyledIcon = styled<InputWithIconProps>(Icon)`
+const StyledIcon = styled(Icon)`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

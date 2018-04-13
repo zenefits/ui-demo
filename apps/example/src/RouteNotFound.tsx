@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Link } from 'z-frontend-forms';
 
 const RouteNotFound = () => (

@@ -21,6 +21,7 @@ module.exports = {
         'z-frontend-charts/*': true,
         'z-frontend-data-manager/*': true,
         'z-frontend-example/*': true,
+        'z-frontend-firefly/*': true,
         'z-frontend-forms/*': true,
         'z-frontend-layout/*': true,
         'z-frontend-modals/*': true,
@@ -37,6 +38,14 @@ module.exports = {
         'styled-components/native': {
           blacklist: ['default', 'css', 'withTheme'],
         },
+      },
+    ],
+    'grouped-imports': [
+      true,
+      {
+        'grouped-imports-regex': '^(z-frontend-|zbase)',
+        'import-sources-order': 'any',
+        'named-imports-order': 'lowercase-first',
       },
     ],
 

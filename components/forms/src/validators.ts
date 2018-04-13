@@ -1,5 +1,5 @@
 // TODO: localize all the strings
-const required = value => (value && value.trim() ? undefined : 'required');
+const required = value => (value && (Number(value) || value.trim()) ? undefined : 'required');
 const validatorHofs = {
   minVal: minVal => value => (value >= minVal ? undefined : `must be at least ${minVal}`),
   maxVal: maxVal => value => (value <= maxVal ? undefined : `must be less than ${maxVal}`),

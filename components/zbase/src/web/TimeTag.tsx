@@ -1,6 +1,6 @@
 import React, { StatelessComponent } from 'react';
 import moment from 'moment';
-import { injectIntl, InjectedIntl, DateSource } from 'react-intl';
+import { injectIntl, DateSource, InjectedIntl } from 'react-intl';
 
 import { TimeElProps } from './withUtilPropsWeb';
 

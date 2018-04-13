@@ -1,4 +1,0 @@
-type Dashboard {
-  company: Company
-  employee: Employee
-}

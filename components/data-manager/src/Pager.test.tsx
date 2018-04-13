@@ -1,7 +1,9 @@
 import React from 'react';
-import Pager from './Pager';
+
 import { Button } from 'z-frontend-forms';
 import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+
+import Pager from './Pager';
 
 describe('Pager', () => {
   let props;

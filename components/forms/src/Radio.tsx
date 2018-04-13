@@ -1,7 +1,9 @@
-import React, { StatelessComponent, InputHTMLAttributes } from 'react';
-import { styled, css } from 'z-frontend-theme';
+import React, { InputHTMLAttributes, StatelessComponent } from 'react';
+import { omitBy, pickBy } from 'lodash';
+
+import { css, styled } from 'z-frontend-theme';
 import { color } from 'z-frontend-theme/utils';
-import { Label, LabelProps } from 'zbase';
+import { isUtilProp, Label, LabelProps } from 'zbase';
 
 const radioWidth = '16px';
 
@@ -65,6 +67,10 @@ const StyledRadioInput = styled.input.attrs({ type: 'radio' })`
     }
   }
 
+  :required {
+    box-shadow: none; /* prevent firefox default */
+  }
+
   :hover,
   :focus,
   :active {
@@ -87,10 +93,11 @@ const StyledRadioLabel = styled(Label)`
 `;
 
 const Radio: StatelessComponent<RadioProps> = props => {
-  const { onFocus, onBlur, onClick, onChange, label, name, value, ...labelProps } = props;
+  const utilProps = pickBy(props, (value, key) => isUtilProp(key));
+  const radioProps = omitBy(props, (value, key) => isUtilProp(key) || key === 'label');
   return (
-    <StyledRadioLabel {...labelProps}>
-      <StyledRadioInput {...props} /> <span>{props.label}</span>
+    <StyledRadioLabel {...utilProps}>
+      <StyledRadioInput {...radioProps} /> <span>{props.label}</span>
     </StyledRadioLabel>
   );
 };

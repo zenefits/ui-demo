@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
+import { Box, Flex, P } from 'zbase';
+
 import Popover from './Popover';
-import { Flex, Box, P } from 'zbase';
 
 function makeTarget(label) {
   return (

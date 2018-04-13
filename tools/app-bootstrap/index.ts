@@ -1,6 +1,10 @@
+import { ErrorResponse } from 'apollo-link-error';
+
 import createReduxProviderBase, { ReduxProviderFactoryOptions } from './src/createReduxProvider';
 import createReduxDecoratorBase from './src/createReduxDecorator';
 import createReduxIntlDecoratorBase from './src/createReduxIntlDecorator';
+import createApolloClientBase, { ApolloClientOptions } from './src/createApolloClient';
+import eventLogger from './src/event-logger';
 
 declare global {
   interface Window {
@@ -24,8 +28,28 @@ export const createReduxIntlDecorator = (reducers = {}, localeData = {}, additio
   return createReduxIntlDecoratorBase(reducers, createReduxProvider, localeData, additionalProps);
 };
 
+// add error logging with eventLogger by default for Graphql errors
+export const createApolloClient = (options: ApolloClientOptions = {}) =>
+  createApolloClientBase({
+    ...options,
+    onGraphqlError(error: ErrorResponse) {
+      if (error.networkError) {
+        eventLogger.logError(error.networkError);
+      }
+      if (error.graphQLErrors && error.graphQLErrors.length) {
+        error.graphQLErrors.forEach(gqlError => {
+          eventLogger.logError(gqlError);
+        });
+      }
+
+      if (options.onGraphqlError) {
+        return options.onGraphqlError(error);
+      }
+    },
+  });
+
+export { eventLogger, ApolloClientOptions, ErrorResponse as GraphqlErrorResponse };
 export { default as createApolloDecorator } from './src/createApolloDecorator';
-export { default as createApolloClient, ApolloClientOptions } from './src/createApolloClient';
 export { default as createRouterProvider } from './src/createRouterProvider';
 export { default as createRouteAnalyticsProvider } from './src/createRouteAnalyticsProvider';
 export { default as createIntlProvider } from './src/createIntlProvider';

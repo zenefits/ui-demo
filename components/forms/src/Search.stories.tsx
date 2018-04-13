@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, Flex } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Search, { Option, BasicSearch } from './Search';
+
+import { Box, Flex } from 'zbase';
+
+import Search, { BasicSearch, Option } from './Search';
 
 const optionList = [
   { value: 'Option 1' },

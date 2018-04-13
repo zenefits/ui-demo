@@ -1,6 +1,134 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Icons fontSizes 1`] = `
+.c0 {
+  padding: 16px;
+}
+
+.c1 {
+  margin-bottom: 16px;
+}
+
+.c2 {
+  font-size: 16px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c2::before {
+  content: '\\f276';
+}
+
+.c3 {
+  font-size: 19px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c3::before {
+  content: '\\f276';
+}
+
+.c4 {
+  font-size: 24px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f276';
+}
+
+.c5 {
+  font-size: 32px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c5::before {
+  content: '\\f276';
+}
+
+<div
+  className="c0 "
+>
+  <div
+    className="c1 "
+  >
+    <i
+      className="c2 "
+    />
+     (size 
+    2
+    )
+  </div>
+  <div
+    className="c1 "
+  >
+    <i
+      className="c3 "
+    />
+     (size 
+    3
+    )
+  </div>
+  <div
+    className="c1 "
+  >
+    <i
+      className="c4 "
+    />
+     (size 
+    4
+    )
+  </div>
+  <div
+    className="c1 "
+  >
+    <i
+      className="c5 "
+    />
+     (size 
+    5
+    )
+  </div>
+</div>
+`;
+
 exports[`Storyshots Icons list 1`] = `
+.c0 {
+  padding: 8px;
+}
+
+.c1 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
 .c2 {
   margin-bottom: 32px;
   display: -webkit-box;
@@ -28,13 +156,79 @@ exports[`Storyshots Icons list 1`] = `
   flex-direction: column;
 }
 
-.c0 {
-  padding: 8px;
+.c4 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.c1 {
-  padding-top: 16px;
-  padding-bottom: 16px;
+.c4::before {
+  content: '\\f101';
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f102';
+}
+
+.c7 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c7::before {
+  content: '\\f103';
+}
+
+.c8 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c8::before {
+  content: '\\f104';
+}
+
+.c9 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c9::before {
+  content: '\\f105';
 }
 
 .c5 {
@@ -44,41 +238,6 @@ exports[`Storyshots Icons list 1`] = `
   font-size: 14px;
   line-height: 1.43;
   font-weight: 400;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f101';
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f102';
-}
-
-.c7::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f103';
-}
-
-.c8::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f104';
-}
-
-.c9::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f105';
 }
 
 @media screen and (min-width:32em) {
@@ -115,7 +274,7 @@ exports[`Storyshots Icons list 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c4 "
       />
       <p
@@ -127,7 +286,7 @@ exports[`Storyshots Icons list 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c6 "
       />
       <p
@@ -139,7 +298,7 @@ exports[`Storyshots Icons list 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c7 "
       />
       <p
@@ -151,7 +310,7 @@ exports[`Storyshots Icons list 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c8 "
       />
       <p
@@ -163,7 +322,7 @@ exports[`Storyshots Icons list 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c9 "
       />
       <p
@@ -181,9 +340,310 @@ exports[`Storyshots Icons list 1`] = `
 </div>
 `;
 
+exports[`Storyshots Icons sizes 1`] = `
+.c0 {
+  padding: 16px;
+}
+
+.c2 {
+  margin-bottom: 16px;
+}
+
+.c9 {
+  margin-bottom: 16px;
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.c11 {
+  margin-bottom: 16px;
+  font-family: Circular,sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.c12 {
+  margin-bottom: 16px;
+  font-family: Circular,sans-serif;
+  font-size: 19px;
+  line-height: 1.26;
+  font-weight: 700;
+}
+
+.c13 {
+  margin-bottom: 16px;
+  font-family: Circular,sans-serif;
+  font-size: 24px;
+  line-height: 1.33;
+  font-weight: 700;
+}
+
+.c14 {
+  margin-bottom: 16px;
+  font-family: Circular,sans-serif;
+  font-size: 32px;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.c15 {
+  margin-bottom: 16px;
+  font-family: Circular,sans-serif;
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.c1 {
+  margin: 0px;
+}
+
+.c3 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 12px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c3::before {
+  content: '\\f276';
+}
+
+.c4 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 14px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f276';
+}
+
+.c5 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 16px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c5::before {
+  content: '\\f276';
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 24px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f276';
+}
+
+.c7 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 32px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c7::before {
+  content: '\\f276';
+}
+
+.c8 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 48px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c8::before {
+  content: '\\f276';
+}
+
+.c10 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c10::before {
+  content: '\\f276';
+}
+
+<div
+  className="c0 "
+>
+  <h2
+    className="c1"
+  >
+    Explicit sizes
+  </h2>
+  <div
+    className="c2 "
+  >
+    <i
+      className="c3 "
+    />
+     (s=
+    xsmall
+    )
+  </div>
+  <div
+    className="c2 "
+  >
+    <i
+      className="c4 "
+    />
+     (s=
+    small
+    )
+  </div>
+  <div
+    className="c2 "
+  >
+    <i
+      className="c5 "
+    />
+     (s=
+    medium
+    )
+  </div>
+  <div
+    className="c2 "
+  >
+    <i
+      className="c6 "
+    />
+     (s=
+    large
+    )
+  </div>
+  <div
+    className="c2 "
+  >
+    <i
+      className="c7 "
+    />
+     (s=
+    xlarge
+    )
+  </div>
+  <div
+    className="c2 "
+  >
+    <i
+      className="c8 "
+    />
+     (s=
+    xxlarge
+    )
+  </div>
+  <h2
+    className="c1"
+  >
+    Inherited sizes (no 
+    <code>
+      s
+    </code>
+     prop)
+  </h2>
+  <div
+    className="c9 "
+  >
+    <i
+      className="c10 "
+    />
+     headings.xs
+  </div>
+  <div
+    className="c11 "
+  >
+    <i
+      className="c10 "
+    />
+     headings.s
+  </div>
+  <div
+    className="c12 "
+  >
+    <i
+      className="c10 "
+    />
+     headings.m
+  </div>
+  <div
+    className="c13 "
+  >
+    <i
+      className="c10 "
+    />
+     headings.l
+  </div>
+  <div
+    className="c14 "
+  >
+    <i
+      className="c10 "
+    />
+     headings.xl
+  </div>
+  <div
+    className="c15 "
+  >
+    <i
+      className="c10 "
+    />
+     headings.xxl
+  </div>
+</div>
+`;
+
 exports[`Storyshots Icons spin 1`] = `
 .c0 {
-  margin-bottom: 16px;
+  padding: 16px;
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -198,6 +658,74 @@ exports[`Storyshots Icons spin 1`] = `
   flex-direction: column;
 }
 
+.c1 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+.c1::before {
+  content: '\\f119';
+}
+
+.c3 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+.c3::before {
+  content: '\\f152';
+}
+
+.c4 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+.c4::before {
+  content: '\\f130';
+}
+
+.c5 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -webkit-animation: zbase-spin 1.5s infinite linear;
+  animation: zbase-spin 1.5s infinite linear;
+}
+
+.c5::before {
+  content: '\\f1e5';
+}
+
 .c2 {
   margin: 0px;
   margin-bottom: 8px;
@@ -205,42 +733,6 @@ exports[`Storyshots Icons spin 1`] = `
   font-size: 14px;
   line-height: 1.43;
   font-weight: 400;
-}
-
-.c1::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f119';
-  -webkit-animation: zbase-spin 1.5s infinite linear;
-  animation: zbase-spin 1.5s infinite linear;
-}
-
-.c3::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f152';
-  -webkit-animation: zbase-spin 1.5s infinite linear;
-  animation: zbase-spin 1.5s infinite linear;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f130';
-  -webkit-animation: zbase-spin 1.5s infinite linear;
-  animation: zbase-spin 1.5s infinite linear;
-}
-
-.c5::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1e5';
-  -webkit-animation: zbase-spin 1.5s infinite linear;
-  animation: zbase-spin 1.5s infinite linear;
 }
 
 @media screen and (min-width:32em) {
@@ -258,7 +750,7 @@ exports[`Storyshots Icons spin 1`] = `
 <div
   className="c0 "
 >
-  <span
+  <i
     className="c1 "
   />
   <p
@@ -266,7 +758,7 @@ exports[`Storyshots Icons spin 1`] = `
   >
     Block
   </p>
-  <span
+  <i
     className="c3 "
   />
   <p
@@ -274,7 +766,7 @@ exports[`Storyshots Icons spin 1`] = `
   >
     Compass
   </p>
-  <span
+  <i
     className="c4 "
   />
   <p
@@ -282,7 +774,7 @@ exports[`Storyshots Icons spin 1`] = `
   >
     Chart Donut
   </p>
-  <span
+  <i
     className="c5 "
   />
   <p
@@ -294,6 +786,16 @@ exports[`Storyshots Icons spin 1`] = `
 `;
 
 exports[`Storyshots Utils System responsive props 1`] = `
+.c1 {
+  background-color: #8D9BA7;
+  width: 30px;
+}
+
+.c2 {
+  background-color: #FF897C;
+  width: 30px;
+}
+
 .c0 {
   background-color: #B4BDC5;
   margin-bottom: 8px;
@@ -306,16 +808,6 @@ exports[`Storyshots Utils System responsive props 1`] = `
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-}
-
-.c1 {
-  background-color: #8D9BA7;
-  width: 30px;
-}
-
-.c2 {
-  background-color: #FF897C;
-  width: 30px;
 }
 
 @media screen and (min-width:32em) {
@@ -394,6 +886,33 @@ exports[`Storyshots Utils System responsive props 1`] = `
 `;
 
 exports[`Storyshots ZBase Components all 1`] = `
+.c0 {
+  padding: 8px;
+  width: 100%;
+}
+
+.c8 {
+  width: 300px;
+}
+
+.c9 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c10 {
+  color: #3B7101;
+}
+
+.c11 {
+  padding: 4px;
+}
+
+.c13 {
+  color: #84C341;
+}
+
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -461,19 +980,20 @@ exports[`Storyshots ZBase Components all 1`] = `
   display: flex;
 }
 
-.c0 {
-  padding: 8px;
-  width: 100%;
+.c1 {
+  margin: 0px;
 }
 
-.c8 {
-  width: 300px;
+.c18 {
+  background-color: #C3EB9B;
 }
 
-.c9 {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
+.c19 {
+  background-color: #C3EB9B;
+}
+
+.c16 {
+  background-color: #C3EB9B;
 }
 
 .c3 {
@@ -487,34 +1007,6 @@ exports[`Storyshots ZBase Components all 1`] = `
 
 .c5 {
   color: #84C341;
-}
-
-.c10 {
-  color: #3B7101;
-}
-
-.c11 {
-  padding: 4px;
-}
-
-.c13 {
-  color: #84C341;
-}
-
-.c16 {
-  background-color: #C3EB9B;
-}
-
-.c18 {
-  background-color: #C3EB9B;
-}
-
-.c1 {
-  margin: 0px;
-}
-
-.c19 {
-  background-color: #C3EB9B;
 }
 
 @media screen and (min-width:32em) {

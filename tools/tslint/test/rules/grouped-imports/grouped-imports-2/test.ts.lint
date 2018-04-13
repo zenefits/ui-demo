@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+import { bar } from 'local-module-1';
+import { foo, Type1, afoo } from 'foo';
+              ~~~~~~~~~~~               [Named imports must be alphabetized.]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Import sources of different groups must be sorted by: third parties, packages matching provided regex, relative imports.]
+import { bar1 } from 'local-module-3';
+import './zbx';
+import { bar1 } from 'local-module-2';
+import '../zbc';
+import './baz';
+import './ddd';
+import './baa';
+
+export class Test {}

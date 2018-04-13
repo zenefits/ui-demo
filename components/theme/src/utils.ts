@@ -1,6 +1,8 @@
-import 'z-frontend-global-types';
 import get from 'lodash/get';
 import { rgba } from 'polished';
+
+import 'z-frontend-global-types';
+
 import { ColorString } from './colors';
 import zIndexValues from './zIndex';
 

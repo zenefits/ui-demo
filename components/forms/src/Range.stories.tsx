@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Flex, Box, P } from 'zbase';
+
+import { Box, Flex, P } from 'zbase';
+
 import Range from './Range';
 
 storiesOf('Range', module)

@@ -1,6 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Storyshots Avatar preserves aspect ratio 1`] = `
+.c0 {
+  background-color: #FFF;
+  padding: 20px;
+  width: 100%;
+}
+
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -13,12 +19,6 @@ exports[`Storyshots Avatar preserves aspect ratio 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-}
-
-.c0 {
-  background-color: #FFF;
-  padding: 20px;
-  width: 100%;
 }
 
 .c2 {
@@ -103,6 +103,17 @@ exports[`Storyshots Avatar preserves aspect ratio 1`] = `
 `;
 
 exports[`Storyshots Avatar sizes 1`] = `
+.c0 {
+  background-color: #FFF;
+  padding: 20px;
+  width: 100%;
+}
+
+.c5 {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -134,17 +145,6 @@ exports[`Storyshots Avatar sizes 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-}
-
-.c0 {
-  background-color: #FFF;
-  padding: 20px;
-  width: 100%;
-}
-
-.c5 {
-  margin-top: 8px;
-  margin-bottom: 8px;
 }
 
 .c7 {
@@ -596,6 +596,16 @@ exports[`Storyshots Avatar sizes 1`] = `
 `;
 
 exports[`Storyshots Avatar states 1`] = `
+.c0 {
+  background-color: #FFF;
+  padding: 20px;
+  width: 100%;
+}
+
+.c2 {
+  margin-right: 8px;
+}
+
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -605,16 +615,6 @@ exports[`Storyshots Avatar states 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c0 {
-  background-color: #FFF;
-  padding: 20px;
-  width: 100%;
-}
-
-.c2 {
-  margin-right: 8px;
 }
 
 .c7 {
@@ -752,13 +752,6 @@ exports[`Storyshots Avatar states 1`] = `
 `;
 
 exports[`Storyshots Avatar util props 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -767,6 +760,13 @@ exports[`Storyshots Avatar util props 1`] = `
 
 .c3 {
   margin: 16px;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c6 {
@@ -847,6 +847,11 @@ exports[`Storyshots Avatar util props 1`] = `
 `;
 
 exports[`Storyshots Button Button Sizes 1`] = `
+.c1 {
+  margin-bottom: 5px;
+  width: 80%;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -861,9 +866,20 @@ exports[`Storyshots Button Button Sizes 1`] = `
   flex-wrap: wrap;
 }
 
-.c1 {
-  margin-bottom: 5px;
-  width: 80%;
+.c9 {
+  margin-right: 0px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c9::before {
+  content: '\\f158';
 }
 
 .c3 {
@@ -882,17 +898,6 @@ exports[`Storyshots Button Button Sizes 1`] = `
   background-color: transparent;
   color: #8D9BA7;
   margin: 8px;
-}
-
-.c9 {
-  margin-right: 0px;
-}
-
-.c9::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f158';
 }
 
 .c4 {
@@ -1451,7 +1456,7 @@ exports[`Storyshots Button Button Sizes 1`] = `
       <div
         className="c4 "
       >
-        <span
+        <i
           className="c9 "
         />
       </div>
@@ -1514,7 +1519,7 @@ exports[`Storyshots Button Button Sizes 1`] = `
       <div
         className="c4 "
       >
-        <span
+        <i
           className="c9 "
         />
       </div>
@@ -1577,7 +1582,7 @@ exports[`Storyshots Button Button Sizes 1`] = `
       <div
         className="c4 "
       >
-        <span
+        <i
           className="c9 "
         />
       </div>
@@ -1640,7 +1645,7 @@ exports[`Storyshots Button Button Sizes 1`] = `
       <div
         className="c4 "
       >
-        <span
+        <i
           className="c9 "
         />
       </div>
@@ -1650,6 +1655,17 @@ exports[`Storyshots Button Button Sizes 1`] = `
 `;
 
 exports[`Storyshots Button Button modes and states 1`] = `
+.c0 {
+  background-color: #FFF;
+  padding: 20px;
+  width: 100%;
+}
+
+.c2 {
+  margin-bottom: 4px;
+  width: 80%;
+}
+
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -1664,15 +1680,36 @@ exports[`Storyshots Button Button modes and states 1`] = `
   flex-wrap: wrap;
 }
 
-.c0 {
-  background-color: #FFF;
-  padding: 20px;
-  width: 100%;
+.c10 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.c2 {
-  margin-bottom: 4px;
-  width: 80%;
+.c10::before {
+  content: '\\f158';
+}
+
+.c11 {
+  margin-right: 0px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c11::before {
+  content: '\\f158';
 }
 
 .c4 {
@@ -1691,28 +1728,6 @@ exports[`Storyshots Button Button modes and states 1`] = `
   background-color: transparent;
   color: #8D9BA7;
   margin: 8px;
-}
-
-.c10 {
-  margin-right: 8px;
-}
-
-.c10::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f158';
-}
-
-.c11 {
-  margin-right: 0px;
-}
-
-.c11::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f158';
 }
 
 .c5 {
@@ -1969,7 +1984,7 @@ exports[`Storyshots Button Button modes and states 1`] = `
         <div
           className="c5 "
         >
-          <span
+          <i
             className="c10 "
           />
           Edit
@@ -1985,7 +2000,7 @@ exports[`Storyshots Button Button modes and states 1`] = `
         <div
           className="c5 "
         >
-          <span
+          <i
             className="c11 "
           />
         </div>
@@ -2100,16 +2115,18 @@ exports[`Storyshots Button Button.Link 1`] = `
     Link to URL
   </h3>
   <a
-    className="c0 c1 "
+    className="c0 c1"
     href="/some/url"
     mode="normal"
+    s="medium"
   >
     Go to some URL (normal)
   </a>
   <a
-    className="c2 c3 "
+    className="c2 c3"
     href="/some/url"
     mode="primary"
+    s="medium"
   >
     Go to some URL (primary)
   </a>
@@ -2531,8 +2548,9 @@ exports[`Storyshots Button ButtonGroup 1`] = `
         </div>
       </button>
       <a
-        className="c6 c7 "
+        className="c6 c7"
         mode="normal"
+        s="medium"
       >
         Click!
       </a>
@@ -2549,8 +2567,9 @@ exports[`Storyshots Button ButtonGroup 1`] = `
         </div>
       </button>
       <a
-        className="c6 c7 "
+        className="c6 c7"
         mode="normal"
+        s="medium"
       >
         Click!
       </a>
@@ -2560,23 +2579,28 @@ exports[`Storyshots Button ButtonGroup 1`] = `
 `;
 
 exports[`Storyshots Button Dropdown custom target 1`] = `
+.c3 {
+  color: #FF5745;
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 14px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c3::before {
+  content: '\\f197';
+}
+
 .c1 {
   background-color: #D6DEE9;
   color: #53616E;
   font-size: 14px;
-}
-
-.c3 {
-  color: #FF5745;
-  font-size: 14px;
-  margin-right: 8px;
-}
-
-.c3::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f197';
 }
 
 .c2 {
@@ -2639,11 +2663,11 @@ exports[`Storyshots Button Dropdown custom target 1`] = `
           s="medium"
           type="button"
         >
-          <Span
+          <I
             color="primary.a"
-            fontSize={1}
             iconName="menu"
             mr={2}
+            s="small"
           />
            Click me!
         </Button>
@@ -2653,7 +2677,7 @@ exports[`Storyshots Button Dropdown custom target 1`] = `
       <div
         className="c2 "
       >
-        <span
+        <i
           className="c3 "
         />
          Click me!
@@ -2664,6 +2688,14 @@ exports[`Storyshots Button Dropdown custom target 1`] = `
 `;
 
 exports[`Storyshots Button Dropdown default 1`] = `
+.c0 {
+  padding: 8px;
+}
+
+.c2 {
+  margin-right: 16px;
+}
+
 .c4 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -2675,12 +2707,20 @@ exports[`Storyshots Button Dropdown default 1`] = `
   align-items: flex-start;
 }
 
-.c0 {
-  padding: 8px;
+.c10 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 14px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.c2 {
-  margin-right: 16px;
+.c10::before {
+  content: '\\f19b';
 }
 
 .c6 {
@@ -2700,17 +2740,6 @@ exports[`Storyshots Button Dropdown default 1`] = `
   color: #8D9BA7;
   font-size: 14px;
   margin-right: 16px;
-}
-
-.c10 {
-  font-size: 14px;
-}
-
-.c10::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f19b';
 }
 
 .c7 {
@@ -2902,7 +2931,7 @@ exports[`Storyshots Button Dropdown default 1`] = `
             <div
               className="c7 "
             >
-              <span
+              <i
                 className="c10 "
               />
             </div>
@@ -2955,21 +2984,26 @@ exports[`Storyshots Button Dropdown non-button target 1`] = `
   align-items: center;
 }
 
+.c3 {
+  margin-left: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c3::before {
+  content: '\\f2f9';
+}
+
 .c2 {
   display: block;
   max-width: 100%;
   height: auto;
-}
-
-.c3 {
-  margin-left: 8px;
-}
-
-.c3::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f2f9';
 }
 
 .c1 {
@@ -3011,7 +3045,7 @@ exports[`Storyshots Button Dropdown non-button target 1`] = `
             photoUrl="http://cdn3-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-30.jpg"
             s="small"
           />
-          <Span
+          <I
             iconName="chevron-down"
             ml={2}
           />
@@ -3025,7 +3059,7 @@ exports[`Storyshots Button Dropdown non-button target 1`] = `
         src="http://cdn3-www.dogtime.com/assets/uploads/gallery/30-impossibly-cute-puppies/impossibly-cute-puppy-30.jpg"
         title="First Last's picture"
       />
-      <span
+      <i
         className="c3 "
       />
     </div>
@@ -3034,6 +3068,11 @@ exports[`Storyshots Button Dropdown non-button target 1`] = `
 `;
 
 exports[`Storyshots Button IconButton 1`] = `
+.c1 {
+  margin-bottom: 4px;
+  width: 80%;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -3048,37 +3087,42 @@ exports[`Storyshots Button IconButton 1`] = `
   flex-wrap: wrap;
 }
 
-.c1 {
-  margin-bottom: 4px;
-  width: 80%;
+.c5 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c5::before {
+  content: '\\f158';
+}
+
+.c6 {
+  margin-right: 0px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f158';
 }
 
 .c3 {
   background-color: transparent;
   color: #8D9BA7;
   margin: 8px;
-}
-
-.c5 {
-  margin-right: 8px;
-}
-
-.c5::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f158';
-}
-
-.c6 {
-  margin-right: 0px;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f158';
 }
 
 .c4 {
@@ -3145,7 +3189,7 @@ exports[`Storyshots Button IconButton 1`] = `
       <div
         className="c4 "
       >
-        <span
+        <i
           className="c5 "
         />
         Edit
@@ -3164,7 +3208,7 @@ exports[`Storyshots Button IconButton 1`] = `
       <div
         className="c4 "
       >
-        <span
+        <i
           className="c6 "
         />
       </div>
@@ -3527,6 +3571,10 @@ exports[`Storyshots Checkbox default 1`] = `
   color: #8D9BA7;
 }
 
+.c3:required {
+  box-shadow: none;
+}
+
 .c3.error {
   border-color: #C00316;
 }
@@ -3663,6 +3711,10 @@ exports[`Storyshots Checkbox default value 1`] = `
 .c3:disabled:hover ~ span {
   cursor: not-allowed;
   color: #8D9BA7;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -3803,6 +3855,10 @@ exports[`Storyshots Checkbox disabled 1`] = `
 .c3:disabled:hover ~ span {
   cursor: not-allowed;
   color: #8D9BA7;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -3961,6 +4017,10 @@ exports[`Storyshots Checkbox error 1`] = `
   color: #8D9BA7;
 }
 
+.c3:required {
+  box-shadow: none;
+}
+
 .c3.error {
   border-color: #C00316;
 }
@@ -4097,6 +4157,10 @@ exports[`Storyshots Checkbox fires events 1`] = `
 .c3:disabled:hover ~ span {
   cursor: not-allowed;
   color: #8D9BA7;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -4243,6 +4307,10 @@ exports[`Storyshots Checkbox util props 1`] = `
   color: #8D9BA7;
 }
 
+.c3:required {
+  box-shadow: none;
+}
+
 .c3.error {
   border-color: #C00316;
 }
@@ -4280,21 +4348,6 @@ exports[`Storyshots Checkbox util props 1`] = `
 `;
 
 exports[`Storyshots Custom Tile Input Basic 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c0 {
-  padding: 20px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c2 {
   margin-right: 24px;
   width: 100%;
@@ -4315,6 +4368,36 @@ exports[`Storyshots Custom Tile Input Basic 1`] = `
   width: 100%;
 }
 
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c0 {
+  padding: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c16 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c16::before {
+  content: '\\f26b';
+}
+
 .c4 {
   font-size: 14px;
   margin-bottom: 4px;
@@ -4326,13 +4409,6 @@ exports[`Storyshots Custom Tile Input Basic 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c16::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f26b';
 }
 
 .c10 {
@@ -4568,7 +4644,7 @@ exports[`Storyshots Custom Tile Input Basic 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -4594,7 +4670,7 @@ exports[`Storyshots Custom Tile Input Basic 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -4620,7 +4696,7 @@ exports[`Storyshots Custom Tile Input Basic 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -4646,7 +4722,7 @@ exports[`Storyshots Custom Tile Input Basic 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -4663,21 +4739,6 @@ exports[`Storyshots Custom Tile Input Basic 1`] = `
 `;
 
 exports[`Storyshots Custom Tile Input Custom Tile states 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c0 {
-  padding: 20px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c2 {
   margin-right: 24px;
   width: 100%;
@@ -4698,6 +4759,36 @@ exports[`Storyshots Custom Tile Input Custom Tile states 1`] = `
   width: 100%;
 }
 
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c0 {
+  padding: 20px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c16 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c16::before {
+  content: '\\f26b';
+}
+
 .c4 {
   font-size: 14px;
   margin-bottom: 4px;
@@ -4709,13 +4800,6 @@ exports[`Storyshots Custom Tile Input Custom Tile states 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c16::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f26b';
 }
 
 .c10 {
@@ -4948,7 +5032,7 @@ exports[`Storyshots Custom Tile Input Custom Tile states 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -4974,7 +5058,7 @@ exports[`Storyshots Custom Tile Input Custom Tile states 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -5000,7 +5084,7 @@ exports[`Storyshots Custom Tile Input Custom Tile states 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -5025,7 +5109,7 @@ exports[`Storyshots Custom Tile Input Custom Tile states 1`] = `
           <div
             className="c13 c14 "
           >
-            <span
+            <i
               className="c15 c16 "
             />
           </div>
@@ -5048,6 +5132,21 @@ exports[`Storyshots DatePicker autofocus 1`] = `
   width: 100%;
 }
 
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
+}
+
 .c4 {
   background-color: transparent;
   color: inherit;
@@ -5068,13 +5167,6 @@ exports[`Storyshots DatePicker autofocus 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -5119,6 +5211,10 @@ exports[`Storyshots DatePicker autofocus 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -5296,7 +5392,7 @@ exports[`Storyshots DatePicker autofocus 1`] = `
           type="text"
           value=""
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -5311,6 +5407,21 @@ exports[`Storyshots DatePicker custom date format 1`] = `
   background-color: #FFF;
   padding: 20px;
   width: 100%;
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
 }
 
 .c4 {
@@ -5333,13 +5444,6 @@ exports[`Storyshots DatePicker custom date format 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -5384,6 +5488,10 @@ exports[`Storyshots DatePicker custom date format 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -5560,7 +5668,7 @@ exports[`Storyshots DatePicker custom date format 1`] = `
           type="text"
           value="January 2, 2010"
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -5575,6 +5683,21 @@ exports[`Storyshots DatePicker default 1`] = `
   background-color: #FFF;
   padding: 20px;
   width: 100%;
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
 }
 
 .c4 {
@@ -5597,13 +5720,6 @@ exports[`Storyshots DatePicker default 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -5648,6 +5764,10 @@ exports[`Storyshots DatePicker default 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -5824,7 +5944,7 @@ exports[`Storyshots DatePicker default 1`] = `
           type="text"
           value=""
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -5839,6 +5959,21 @@ exports[`Storyshots DatePicker disabled 1`] = `
   background-color: #FFF;
   padding: 20px;
   width: 100%;
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
 }
 
 .c4 {
@@ -5861,13 +5996,6 @@ exports[`Storyshots DatePicker disabled 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -5912,6 +6040,10 @@ exports[`Storyshots DatePicker disabled 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -6088,7 +6220,7 @@ exports[`Storyshots DatePicker disabled 1`] = `
           type="text"
           value=""
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -6103,6 +6235,21 @@ exports[`Storyshots DatePicker disabled dates 1`] = `
   background-color: #FFF;
   padding: 20px;
   width: 100%;
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
 }
 
 .c4 {
@@ -6125,13 +6272,6 @@ exports[`Storyshots DatePicker disabled dates 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -6176,6 +6316,10 @@ exports[`Storyshots DatePicker disabled dates 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -6352,7 +6496,7 @@ exports[`Storyshots DatePicker disabled dates 1`] = `
           type="text"
           value=""
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -6363,21 +6507,6 @@ exports[`Storyshots DatePicker disabled dates 1`] = `
 `;
 
 exports[`Storyshots DatePicker field - initial value 1`] = `
-.c2 {
-  margin-left: -8px;
-  margin-right: -8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -6396,6 +6525,36 @@ exports[`Storyshots DatePicker field - initial value 1`] = `
   padding-left: 8px;
   padding-right: 8px;
   width: 100%;
+}
+
+.c2 {
+  margin-left: -8px;
+  margin-right: -8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.c10 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c10::before {
+  content: '\\f332';
 }
 
 .c8 {
@@ -6443,13 +6602,6 @@ exports[`Storyshots DatePicker field - initial value 1`] = `
 .c12 {
   background-color: #FF5745;
   color: #FFF;
-}
-
-.c10::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c13 {
@@ -6539,6 +6691,10 @@ exports[`Storyshots DatePicker field - initial value 1`] = `
 .c7:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c7:required {
+  box-shadow: none;
 }
 
 .c7.error {
@@ -6783,7 +6939,7 @@ exports[`Storyshots DatePicker field - initial value 1`] = `
                   type="text"
                   value="01/02/2010"
                 />
-                <span
+                <i
                   className="c9 c10 "
                   onClick={undefined}
                 />
@@ -6810,21 +6966,6 @@ exports[`Storyshots DatePicker field - initial value 1`] = `
 `;
 
 exports[`Storyshots DatePicker field - required 1`] = `
-.c2 {
-  margin-left: -8px;
-  margin-right: -8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -6843,6 +6984,36 @@ exports[`Storyshots DatePicker field - required 1`] = `
   padding-left: 8px;
   padding-right: 8px;
   width: 100%;
+}
+
+.c2 {
+  margin-left: -8px;
+  margin-right: -8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.c10 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c10::before {
+  content: '\\f332';
 }
 
 .c8 {
@@ -6890,13 +7061,6 @@ exports[`Storyshots DatePicker field - required 1`] = `
 .c12 {
   background-color: #FF5745;
   color: #FFF;
-}
-
-.c10::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c13 {
@@ -6986,6 +7150,10 @@ exports[`Storyshots DatePicker field - required 1`] = `
 .c7:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c7:required {
+  box-shadow: none;
 }
 
 .c7.error {
@@ -7230,7 +7398,7 @@ exports[`Storyshots DatePicker field - required 1`] = `
                   type="text"
                   value=""
                 />
-                <span
+                <i
                   className="c9 c10 "
                   onClick={undefined}
                 />
@@ -7263,6 +7431,21 @@ exports[`Storyshots DatePicker fires events 1`] = `
   width: 100%;
 }
 
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
+}
+
 .c4 {
   background-color: transparent;
   color: inherit;
@@ -7283,13 +7466,6 @@ exports[`Storyshots DatePicker fires events 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -7334,6 +7510,10 @@ exports[`Storyshots DatePicker fires events 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -7510,7 +7690,7 @@ exports[`Storyshots DatePicker fires events 1`] = `
           type="text"
           value=""
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -7525,6 +7705,21 @@ exports[`Storyshots DatePicker placeholder 1`] = `
   background-color: #FFF;
   padding: 20px;
   width: 100%;
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
 }
 
 .c4 {
@@ -7547,13 +7742,6 @@ exports[`Storyshots DatePicker placeholder 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -7598,6 +7786,10 @@ exports[`Storyshots DatePicker placeholder 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -7774,7 +7966,7 @@ exports[`Storyshots DatePicker placeholder 1`] = `
           type="text"
           value=""
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -7785,6 +7977,21 @@ exports[`Storyshots DatePicker placeholder 1`] = `
 `;
 
 exports[`Storyshots DatePicker sizes 1`] = `
+.c0 {
+  background-color: #FFF;
+  padding: 20px;
+  width: 100%;
+}
+
+.c2 {
+  width: 33.33333333333333%;
+}
+
+.c3 {
+  margin-bottom: 5px;
+  width: 66.66666666666666%;
+}
+
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -7799,19 +8006,52 @@ exports[`Storyshots DatePicker sizes 1`] = `
   flex-wrap: wrap;
 }
 
-.c0 {
-  background-color: #FFF;
-  padding: 20px;
-  width: 100%;
+.c9 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 24px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.c2 {
-  width: 33.33333333333333%;
+.c9::before {
+  content: '\\f332';
 }
 
-.c3 {
-  margin-bottom: 5px;
-  width: 66.66666666666666%;
+.c11 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 16px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c11::before {
+  content: '\\f332';
+}
+
+.c14 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 14px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c14::before {
+  content: '\\f332';
 }
 
 .c7 {
@@ -7834,13 +8074,6 @@ exports[`Storyshots DatePicker sizes 1`] = `
 
 .c7:disabled {
   opacity: 0.25;
-}
-
-.c9::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c10 {
@@ -7885,6 +8118,10 @@ exports[`Storyshots DatePicker sizes 1`] = `
 .c10:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c10:required {
+  box-shadow: none;
 }
 
 .c10.error {
@@ -7935,11 +8172,15 @@ exports[`Storyshots DatePicker sizes 1`] = `
   border-color: #f3f3f3;
 }
 
+.c6:required {
+  box-shadow: none;
+}
+
 .c6.error {
   border-color: #C00316;
 }
 
-.c11 {
+.c12 {
   font-size: 12px;
   border: 1px solid #D6DEE9;
   border-radius: 2px;
@@ -7951,39 +8192,43 @@ exports[`Storyshots DatePicker sizes 1`] = `
   line-height: 1.43;
 }
 
-.c11::-webkit-input-placeholder {
+.c12::-webkit-input-placeholder {
   color: #8D9BA7;
 }
 
-.c11::-moz-placeholder {
+.c12::-moz-placeholder {
   color: #8D9BA7;
 }
 
-.c11:-ms-input-placeholder {
+.c12:-ms-input-placeholder {
   color: #8D9BA7;
 }
 
-.c11::placeholder {
+.c12::placeholder {
   color: #8D9BA7;
 }
 
-.c11:hover,
-.c11:active {
+.c12:hover,
+.c12:active {
   border-color: #B4BDC5;
 }
 
-.c11:focus {
+.c12:focus {
   border-color: #2FCDD0;
   box-shadow: 0 0 0 1px rgba(47,205,208,0.5);
   outline: none;
 }
 
-.c11:disabled {
+.c12:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
 }
 
-.c11.error {
+.c12:required {
+  box-shadow: none;
+}
+
+.c12.error {
   border-color: #C00316;
 }
 
@@ -8006,7 +8251,7 @@ exports[`Storyshots DatePicker sizes 1`] = `
   pointer-events: none;
 }
 
-.c12 {
+.c13 {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -8179,7 +8424,7 @@ exports[`Storyshots DatePicker sizes 1`] = `
               type="text"
               value=""
             />
-            <span
+            <i
               className="c8 c9 "
               onClick={undefined}
             />
@@ -8218,8 +8463,8 @@ exports[`Storyshots DatePicker sizes 1`] = `
               type="text"
               value=""
             />
-            <span
-              className="c8 c9 "
+            <i
+              className="c8 c11 "
               onClick={undefined}
             />
           </div>
@@ -8245,7 +8490,7 @@ exports[`Storyshots DatePicker sizes 1`] = `
             className="c5 "
           >
             <input
-              className="c11 c7 "
+              className="c12 c7 "
               disabled={false}
               onBlur={[Function]}
               onChange={[Function]}
@@ -8257,8 +8502,8 @@ exports[`Storyshots DatePicker sizes 1`] = `
               type="text"
               value=""
             />
-            <span
-              className="c12 c9 "
+            <i
+              className="c13 c14 "
               onClick={undefined}
             />
           </div>
@@ -8274,6 +8519,21 @@ exports[`Storyshots DatePicker util props 1`] = `
   background-color: #FFF;
   padding: 20px;
   width: 100%;
+}
+
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f332';
 }
 
 .c4 {
@@ -8298,13 +8558,6 @@ exports[`Storyshots DatePicker util props 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
 }
 
 .c3 {
@@ -8349,6 +8602,10 @@ exports[`Storyshots DatePicker util props 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -8525,7 +8782,7 @@ exports[`Storyshots DatePicker util props 1`] = `
           type="text"
           value=""
         />
-        <span
+        <i
           className="c5 c6 "
           onClick={undefined}
         />
@@ -8535,8 +8792,47 @@ exports[`Storyshots DatePicker util props 1`] = `
 </div>
 `;
 
-exports[`Storyshots Form simple redux form 1`] = `
-.c5 {
+exports[`Storyshots Drawer default 1`] = `
+.c18 {
+  border-bottom-color: #DBDFE3;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.c20 {
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.c9 {
+  background-color: #FFF;
+}
+
+.c11 {
+  font-size: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom-color: #DBDFE3;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c0 {
+  padding: 20px;
+  width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -8544,29 +8840,754 @@ exports[`Storyshots Form simple redux form 1`] = `
 }
 
 .c2 {
-  margin-left: -8px;
-  margin-right: -8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c2::before {
+  content: '\\f197';
+}
+
+.c15 {
+  margin-left: 64px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c15::before {
+  content: '\\f136';
+}
+
+.c13 {
+  width: 12px;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.c14 {
+  color: #123466;
+  margin: 0px;
+  margin-left: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 19px;
+  line-height: 1.47;
+  font-weight: 400;
+}
+
+.c19 {
+  color: #8D9BA7;
+  margin: 0px;
+  margin-bottom: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 24px;
+  font-family: Circular,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
+}
+
+.c21 {
+  color: #53616E;
+  margin: 0px;
+  margin-bottom: 8px;
+  padding-left: 24px;
+  padding-right: 24px;
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.c10 {
+  font-weight: 600;
+}
+
+.c17 {
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 32px;
+}
+
+.c17:last-of-type {
+  border-bottom: none;
+}
+
+.c8 {
+  border: 1px solid #DBDFE3;
+  margin-bottom: 16px;
+  overflow: visible;
+  border-radius: 2px;
+}
+
+.c23 {
+  text-decoration: none;
+  color: #009BC0;
+  cursor: pointer;
+}
+
+.c23:link,
+.c23:visited {
+  color: #009BC0;
+}
+
+.c23:hover {
+  color: #0081AA;
+}
+
+.c23:active {
+  color: #144E6F;
+}
+
+.c5 {
+  width: 100%;
+  height: 100%;
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+  opacity: 0;
+}
+
+.c7 {
+  background-color: #FFF;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px;
+  border-radius: unset;
+  -webkit-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+.c3 {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  visibility: hidden;
+  z-index: 1031;
+}
+
+.c3.show {
+  visibility: visible;
+}
+
+.c3.show > .c4 {
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  opacity: 1;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.c3.show > .c6 {
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+.c16 {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.c1 {
+  cursor: pointer;
+  font-family: Circular,sans-serif;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #B4BDC5;
+}
+
+.c22 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c22:hover,
+.c22:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c22:link,
+.c22:visited {
+  color: #8D9BA7;
+}
+
+.c22:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c22.active-class {
+  color: #000;
+}
+
+.c24 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c24:hover,
+.c24:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c24:link,
+.c24:visited {
+  color: #8D9BA7;
+}
+
+.c24:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c24.active-class {
+  color: #000;
+}
+
+.c25 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c25:hover,
+.c25:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c25:link,
+.c25:visited {
+  color: #8D9BA7;
+}
+
+.c25:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c25.active-class {
+  color: #000;
+}
+
+.c26 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c26:hover,
+.c26:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c26:link,
+.c26:visited {
+  color: #8D9BA7;
+}
+
+.c26:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c26.active-class {
+  color: #000;
 }
 
 .c27 {
-  margin-left: -8px;
-  margin-right: -8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
 }
 
+.c27:hover,
+.c27:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c27:link,
+.c27:visited {
+  color: #8D9BA7;
+}
+
+.c27:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c27.active-class {
+  color: #000;
+}
+
+.c28 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c28:hover,
+.c28:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c28:link,
+.c28:visited {
+  color: #8D9BA7;
+}
+
+.c28:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c28.active-class {
+  color: #000;
+}
+
+.c29 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c29:hover,
+.c29:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c29:link,
+.c29:visited {
+  color: #8D9BA7;
+}
+
+.c29:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c29.active-class {
+  color: #000;
+}
+
+.c30 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c30:hover,
+.c30:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c30:link,
+.c30:visited {
+  color: #8D9BA7;
+}
+
+.c30:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c30.active-class {
+  color: #000;
+}
+
+.c31 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c31:hover,
+.c31:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c31:link,
+.c31:visited {
+  color: #8D9BA7;
+}
+
+.c31:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c31.active-class {
+  color: #000;
+}
+
+.c32 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c32:hover,
+.c32:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c32:link,
+.c32:visited {
+  color: #8D9BA7;
+}
+
+.c32:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c32.active-class {
+  color: #000;
+}
+
+.c33 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c33:hover,
+.c33:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c33:link,
+.c33:visited {
+  color: #8D9BA7;
+}
+
+.c33:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c33.active-class {
+  color: #000;
+}
+
+.c34 {
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1.33;
+  font-weight: 400;
+  color: #8D9BA7;
+  display: block;
+  padding: 8px 24px;
+  text-decoration: none;
+}
+
+.c34:hover,
+.c34:focus {
+  background-color: #f3f3f3;
+  color: #53616E;
+  outline: none;
+}
+
+.c34:link,
+.c34:visited {
+  color: #8D9BA7;
+}
+
+.c34:active {
+  background-color: #D3F3F3;
+  color: #0081AA;
+}
+
+.c34.active-class {
+  color: #000;
+}
+
+@media screen and (min-width:32em) {
+  .c0 {
+    width: 50%;
+  }
+}
+
+<div
+  className="c0 "
+>
+  <div
+    className=""
+  >
+    <i
+      className="c1 c2 "
+      onClick={[Function]}
+    />
+    <div
+      className="c3 "
+    >
+      <div
+        className="c4 c5 "
+      />
+      <div
+        className="c6 c7 c8 c9 "
+      >
+        <div
+          className="c10 c11 "
+        >
+          <div
+            className="c12 "
+          >
+            <img
+              className="c13 "
+              src="https://www.zenefits.com/static/images/logos/icon-footer-zenefits.svg"
+            />
+            <p
+              className="c14"
+            >
+              zenefits
+            </p>
+            <i
+              className="c1 c15 "
+              onClick={[Function]}
+            />
+          </div>
+        </div>
+        <div
+          className="c16 c17 c18 "
+        >
+          <p
+            className="c19"
+          >
+            Dashboard
+          </p>
+          <div
+            className="c20 "
+          >
+            <p
+              className="c21"
+            >
+              Section 1
+            </p>
+            <a
+              active={true}
+              className="active-class c22 c23 "
+              href="https://google.com"
+              rel="noreferrer noopener "
+              target="_blank"
+            >
+              Link 1 (active)
+            </a>
+            <a
+              className="c24 c23 "
+              href="https://google.com"
+              rel="noreferrer noopener "
+              target="_blank"
+            >
+              Link 2
+            </a>
+            <a
+              className="c25 c23 "
+              href="https://google.com"
+              rel="noreferrer noopener "
+              target="_blank"
+            >
+              Link 3
+            </a>
+            <a
+              className="c26 c23 "
+              href="https://google.com"
+              rel="noreferrer noopener "
+              target="_blank"
+            >
+              Link 4
+            </a>
+            <a
+              className="c27 c23 "
+              href="https://google.com"
+              rel="noreferrer noopener "
+              target="_blank"
+            >
+              Link 5
+            </a>
+            <a
+              className="c28 c23 "
+              href="https://google.com"
+              rel="noreferrer noopener "
+              target="_blank"
+            >
+              Link 6
+            </a>
+          </div>
+          <div
+            className="c20 "
+          >
+            <p
+              className="c21"
+            >
+              Section 2
+            </p>
+            <a
+              aria-current={false}
+              className="c29"
+              href="#/sdfsd1"
+              onClick={[Function]}
+              style={undefined}
+            >
+               NavLink 1 
+            </a>
+            <a
+              aria-current={false}
+              className="c30"
+              href="#/sdfsd2"
+              onClick={[Function]}
+              style={undefined}
+            >
+               NavLink 2 
+            </a>
+            <a
+              aria-current={false}
+              className="c31"
+              href="#/sdfsd3"
+              onClick={[Function]}
+              style={undefined}
+            >
+               NavLink 3 
+            </a>
+            <a
+              aria-current={false}
+              className="c32"
+              href="#/sdfsd4"
+              onClick={[Function]}
+              style={undefined}
+            >
+               NavLink 4 
+            </a>
+            <a
+              aria-current={false}
+              className="c33"
+              href="#/sdfsd5"
+              onClick={[Function]}
+              style={undefined}
+            >
+               NavLink 5 
+            </a>
+            <a
+              aria-current={false}
+              className="c34"
+              href="#/sdfsd6"
+              onClick={[Function]}
+              style={undefined}
+            >
+               NavLink 6 
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots Form simple redux form 1`] = `
 .c3 {
   margin-top: 0px;
   margin-bottom: 8px;
@@ -8625,6 +9646,95 @@ exports[`Storyshots Form simple redux form 1`] = `
 
 .c30 {
   width: 100%;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c2 {
+  margin-left: -8px;
+  margin-right: -8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.c27 {
+  margin-left: -8px;
+  margin-right: -8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c25 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c25::before {
+  content: '\\f332';
+}
+
+.c6 {
+  color: #8D9BA7;
+  margin-left: 4px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f1f5';
+}
+
+.c21 {
+  margin-right: 4px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c21::before {
+  content: '\\f1f7';
+}
+
+.c20 {
+  color: #8D9BA7;
+  margin: 0px;
+  margin-top: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
 }
 
 .c19 {
@@ -8705,46 +9815,6 @@ exports[`Storyshots Form simple redux form 1`] = `
 .c32 {
   background-color: #FF5745;
   color: #FFF;
-}
-
-.c20 {
-  color: #8D9BA7;
-  margin: 0px;
-  margin-top: 8px;
-  font-family: Circular,sans-serif;
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 600;
-}
-
-.c25::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
-}
-
-.c6 {
-  color: #8D9BA7;
-  margin-left: 4px;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1f5';
-}
-
-.c21 {
-  margin-right: 4px;
-}
-
-.c21::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1f7';
 }
 
 .c33 {
@@ -8874,6 +9944,10 @@ exports[`Storyshots Form simple redux form 1`] = `
   color: #8D9BA7;
 }
 
+.c14:required {
+  box-shadow: none;
+}
+
 .c14.error {
   border-color: #C00316;
 }
@@ -8929,6 +10003,10 @@ exports[`Storyshots Form simple redux form 1`] = `
 .c8:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c8:required {
+  box-shadow: none;
 }
 
 .c8.error {
@@ -9161,6 +10239,10 @@ exports[`Storyshots Form simple redux form 1`] = `
   color: #8D9BA7;
 }
 
+.c17:required {
+  box-shadow: none;
+}
+
 .c17:hover,
 .c17:focus,
 .c17:active {
@@ -9228,6 +10310,10 @@ exports[`Storyshots Form simple redux form 1`] = `
   border-color: #f3f3f3;
 }
 
+.c18:required {
+  box-shadow: none;
+}
+
 .c18.error {
   border-color: #C00316;
 }
@@ -9276,6 +10362,10 @@ exports[`Storyshots Form simple redux form 1`] = `
 .c26 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c26 .Select-control:required {
+  box-shadow: none;
 }
 
 .c26 .Select-control.error {
@@ -9502,7 +10592,7 @@ exports[`Storyshots Form simple redux form 1`] = `
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  <span
+                  <i
                     className="c6 "
                   />
                 </div>
@@ -9515,8 +10605,8 @@ exports[`Storyshots Form simple redux form 1`] = `
             <input
               aria-invalid={false}
               className="c8 c9 "
-              maxLength={2}
-              min={5}
+              maxLength={20}
+              minLength={5}
               name="username"
               onBlur={[Function]}
               onChange={[Function]}
@@ -9549,7 +10639,7 @@ exports[`Storyshots Form simple redux form 1`] = `
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  <span
+                  <i
                     className="c6 "
                   />
                 </div>
@@ -9622,16 +10712,11 @@ exports[`Storyshots Form simple redux form 1`] = `
             className="c7 "
           >
             <label
-              checked={false}
               className="c16 c13 "
-              onDragStart={[Function]}
-              onDrop={[Function]}
-              type="radio"
             >
               <input
                 checked={false}
                 className="c17"
-                label="Camel Up"
                 name="game"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -9647,16 +10732,11 @@ exports[`Storyshots Form simple redux form 1`] = `
               </span>
             </label>
             <label
-              checked={false}
               className="c16 c13 "
-              onDragStart={[Function]}
-              onDrop={[Function]}
-              type="radio"
             >
               <input
                 checked={false}
                 className="c17"
-                label="Risk"
                 name="game"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -9672,16 +10752,11 @@ exports[`Storyshots Form simple redux form 1`] = `
               </span>
             </label>
             <label
-              checked={true}
               className="c16 c13 "
-              onDragStart={[Function]}
-              onDrop={[Function]}
-              type="radio"
             >
               <input
                 checked={true}
                 className="c17"
-                label="Settlers of Catan"
                 name="game"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -9728,7 +10803,7 @@ exports[`Storyshots Form simple redux form 1`] = `
             <p
               className="c20"
             >
-              <span
+              <i
                 className="c21 "
               />
               Tell us something
@@ -9776,7 +10851,7 @@ exports[`Storyshots Form simple redux form 1`] = `
                     type="text"
                     value=""
                   />
-                  <span
+                  <i
                     className="c24 c25 "
                     onClick={undefined}
                   />
@@ -10206,37 +11281,6 @@ exports[`Storyshots Form simple redux form 1`] = `
 `;
 
 exports[`Storyshots Form with graphql 1`] = `
-.c5 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c2 {
-  margin-left: -8px;
-  margin-right: -8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
-.c27 {
-  margin-left: -8px;
-  margin-right: -8px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c3 {
   margin-top: 0px;
   margin-bottom: 8px;
@@ -10295,6 +11339,95 @@ exports[`Storyshots Form with graphql 1`] = `
 
 .c30 {
   width: 100%;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c2 {
+  margin-left: -8px;
+  margin-right: -8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.c27 {
+  margin-left: -8px;
+  margin-right: -8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c25 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c25::before {
+  content: '\\f332';
+}
+
+.c6 {
+  color: #8D9BA7;
+  margin-left: 4px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f1f5';
+}
+
+.c21 {
+  margin-right: 4px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c21::before {
+  content: '\\f1f7';
+}
+
+.c20 {
+  color: #8D9BA7;
+  margin: 0px;
+  margin-top: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
 }
 
 .c19 {
@@ -10375,46 +11508,6 @@ exports[`Storyshots Form with graphql 1`] = `
 .c32 {
   background-color: #FF5745;
   color: #FFF;
-}
-
-.c20 {
-  color: #8D9BA7;
-  margin: 0px;
-  margin-top: 8px;
-  font-family: Circular,sans-serif;
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 600;
-}
-
-.c25::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f332';
-}
-
-.c6 {
-  color: #8D9BA7;
-  margin-left: 4px;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1f5';
-}
-
-.c21 {
-  margin-right: 4px;
-}
-
-.c21::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1f7';
 }
 
 .c33 {
@@ -10544,6 +11637,10 @@ exports[`Storyshots Form with graphql 1`] = `
   color: #8D9BA7;
 }
 
+.c14:required {
+  box-shadow: none;
+}
+
 .c14.error {
   border-color: #C00316;
 }
@@ -10599,6 +11696,10 @@ exports[`Storyshots Form with graphql 1`] = `
 .c8:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c8:required {
+  box-shadow: none;
 }
 
 .c8.error {
@@ -10831,6 +11932,10 @@ exports[`Storyshots Form with graphql 1`] = `
   color: #8D9BA7;
 }
 
+.c17:required {
+  box-shadow: none;
+}
+
 .c17:hover,
 .c17:focus,
 .c17:active {
@@ -10898,6 +12003,10 @@ exports[`Storyshots Form with graphql 1`] = `
   border-color: #f3f3f3;
 }
 
+.c18:required {
+  box-shadow: none;
+}
+
 .c18.error {
   border-color: #C00316;
 }
@@ -10946,6 +12055,10 @@ exports[`Storyshots Form with graphql 1`] = `
 .c26 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c26 .Select-control:required {
+  box-shadow: none;
 }
 
 .c26 .Select-control.error {
@@ -11180,7 +12293,7 @@ exports[`Storyshots Form with graphql 1`] = `
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  <span
+                  <i
                     className="c6 "
                   />
                 </div>
@@ -11225,7 +12338,7 @@ exports[`Storyshots Form with graphql 1`] = `
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  <span
+                  <i
                     className="c6 "
                   />
                 </div>
@@ -11296,16 +12409,11 @@ exports[`Storyshots Form with graphql 1`] = `
             className="c7 "
           >
             <label
-              checked={false}
               className="c16 c13 "
-              onDragStart={[Function]}
-              onDrop={[Function]}
-              type="radio"
             >
               <input
                 checked={false}
                 className="c17"
-                label="Camel Up"
                 name="game"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -11321,16 +12429,11 @@ exports[`Storyshots Form with graphql 1`] = `
               </span>
             </label>
             <label
-              checked={false}
               className="c16 c13 "
-              onDragStart={[Function]}
-              onDrop={[Function]}
-              type="radio"
             >
               <input
                 checked={false}
                 className="c17"
-                label="Risk"
                 name="game"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -11346,16 +12449,11 @@ exports[`Storyshots Form with graphql 1`] = `
               </span>
             </label>
             <label
-              checked={false}
               className="c16 c13 "
-              onDragStart={[Function]}
-              onDrop={[Function]}
-              type="radio"
             >
               <input
                 checked={false}
                 className="c17"
-                label="Settlers of Catan"
                 name="game"
                 onBlur={[Function]}
                 onChange={[Function]}
@@ -11402,7 +12500,7 @@ exports[`Storyshots Form with graphql 1`] = `
             <p
               className="c20"
             >
-              <span
+              <i
                 className="c21 "
               />
               Tell us something
@@ -11450,7 +12548,7 @@ exports[`Storyshots Form with graphql 1`] = `
                     type="text"
                     value=""
                   />
-                  <span
+                  <i
                     className="c24 c25 "
                     onClick={undefined}
                   />
@@ -11952,6 +13050,10 @@ exports[`Storyshots Input default 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -12043,6 +13145,10 @@ exports[`Storyshots Input default value 1`] = `
 .c1:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1:required {
+  box-shadow: none;
 }
 
 .c1.error {
@@ -12137,6 +13243,10 @@ exports[`Storyshots Input disabled 1`] = `
 .c1:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1:required {
+  box-shadow: none;
 }
 
 .c1.error {
@@ -12234,6 +13344,10 @@ exports[`Storyshots Input error 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -12326,6 +13440,10 @@ exports[`Storyshots Input fires events 1`] = `
 .c1:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1:required {
+  box-shadow: none;
 }
 
 .c1.error {
@@ -12426,6 +13544,10 @@ exports[`Storyshots Input placeholder 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -12520,6 +13642,10 @@ exports[`Storyshots Input readOnly 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -12543,20 +13669,6 @@ exports[`Storyshots Input readOnly 1`] = `
 `;
 
 exports[`Storyshots Input sizes 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -12570,6 +13682,20 @@ exports[`Storyshots Input sizes 1`] = `
 .c3 {
   margin-bottom: 5px;
   width: 66.66666666666666%;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .c5 {
@@ -12638,6 +13764,10 @@ exports[`Storyshots Input sizes 1`] = `
   border-color: #f3f3f3;
 }
 
+.c6:required {
+  box-shadow: none;
+}
+
 .c6.error {
   border-color: #C00316;
 }
@@ -12686,6 +13816,10 @@ exports[`Storyshots Input sizes 1`] = `
   border-color: #f3f3f3;
 }
 
+.c4:required {
+  box-shadow: none;
+}
+
 .c4.error {
   border-color: #C00316;
 }
@@ -12732,6 +13866,10 @@ exports[`Storyshots Input sizes 1`] = `
 .c7:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c7:required {
+  box-shadow: none;
 }
 
 .c7.error {
@@ -12871,6 +14009,10 @@ exports[`Storyshots Input util props 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -12903,6 +14045,54 @@ exports[`Storyshots Input with icon 1`] = `
   margin-bottom: 16px;
 }
 
+.c6 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 14px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c6::before {
+  content: '\\f1c3';
+}
+
+.c9 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 16px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c9::before {
+  content: '\\f1c3';
+}
+
+.c11 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  font-size: 24px;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c11::before {
+  content: '\\f1c3';
+}
+
 .c4 {
   background-color: transparent;
   color: inherit;
@@ -12923,13 +14113,6 @@ exports[`Storyshots Input with icon 1`] = `
 
 .c4:disabled {
   opacity: 0.25;
-}
-
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
 }
 
 .c7 {
@@ -12976,11 +14159,15 @@ exports[`Storyshots Input with icon 1`] = `
   border-color: #f3f3f3;
 }
 
+.c7:required {
+  box-shadow: none;
+}
+
 .c7.error {
   border-color: #C00316;
 }
 
-.c9 {
+.c10 {
   font-size: 16px;
   border: 1px solid #D6DEE9;
   border-radius: 2px;
@@ -12992,39 +14179,43 @@ exports[`Storyshots Input with icon 1`] = `
   line-height: 1.43;
 }
 
-.c9::-webkit-input-placeholder {
+.c10::-webkit-input-placeholder {
   color: #8D9BA7;
 }
 
-.c9::-moz-placeholder {
+.c10::-moz-placeholder {
   color: #8D9BA7;
 }
 
-.c9:-ms-input-placeholder {
+.c10:-ms-input-placeholder {
   color: #8D9BA7;
 }
 
-.c9::placeholder {
+.c10::placeholder {
   color: #8D9BA7;
 }
 
-.c9:hover,
-.c9:active {
+.c10:hover,
+.c10:active {
   border-color: #B4BDC5;
 }
 
-.c9:focus {
+.c10:focus {
   border-color: #2FCDD0;
   box-shadow: 0 0 0 1px rgba(47,205,208,0.5);
   outline: none;
 }
 
-.c9:disabled {
+.c10:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
 }
 
-.c9.error {
+.c10:required {
+  box-shadow: none;
+}
+
+.c10.error {
   border-color: #C00316;
 }
 
@@ -13070,6 +14261,10 @@ exports[`Storyshots Input with icon 1`] = `
 .c3:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c3:required {
+  box-shadow: none;
 }
 
 .c3.error {
@@ -13126,7 +14321,7 @@ exports[`Storyshots Input with icon 1`] = `
         placeholder="Search..."
         type="text"
       />
-      <span
+      <i
         className="c5 c6 "
         onClick={[Function]}
       />
@@ -13139,8 +14334,8 @@ exports[`Storyshots Input with icon 1`] = `
         placeholder="Search..."
         type="text"
       />
-      <span
-        className="c8 c6 "
+      <i
+        className="c8 c9 "
         onClick={[Function]}
       />
     </div>
@@ -13148,12 +14343,12 @@ exports[`Storyshots Input with icon 1`] = `
       className="c2 "
     >
       <input
-        className="c9 c4 "
+        className="c10 c4 "
         placeholder="Search..."
         type="text"
       />
-      <span
-        className="c8 c6 "
+      <i
+        className="c8 c11 "
         onClick={[Function]}
       />
     </div>
@@ -13162,20 +14357,6 @@ exports[`Storyshots Input with icon 1`] = `
 `;
 
 exports[`Storyshots Inputs with mask Number Inputs 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -13189,6 +14370,20 @@ exports[`Storyshots Inputs with mask Number Inputs 1`] = `
 .c3 {
   margin-bottom: 5px;
   width: 66.66666666666666%;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .c4 {
@@ -13233,6 +14428,10 @@ exports[`Storyshots Inputs with mask Number Inputs 1`] = `
 .c4:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c4:required {
+  box-shadow: none;
 }
 
 .c4.error {
@@ -13353,24 +14552,48 @@ exports[`Storyshots NavBar lists with icon 1`] = `
   flex-wrap: wrap;
 }
 
-.c3::after {
-  display: inline-block;
+.c3 {
   font-family: Material-Design-Iconic-Font;
-  text-align: center;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c3::before {
   content: '\\f26b';
 }
 
-.c5::after {
-  display: inline-block;
+.c5 {
   font-family: Material-Design-Iconic-Font;
-  text-align: center;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c5::before {
   content: '';
 }
 
-.c18::after {
-  display: inline-block;
+.c18 {
   font-family: Material-Design-Iconic-Font;
-  text-align: center;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c18::before {
   content: '\\f190';
 }
 
@@ -13698,7 +14921,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="completed-link c2"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c3 "
           />
            
@@ -13710,7 +14933,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="active-link c4"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13722,7 +14945,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c6"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13734,7 +14957,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c7"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13746,7 +14969,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c8"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13758,7 +14981,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c9"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13770,7 +14993,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c10"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13782,7 +15005,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c11"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13794,7 +15017,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c12"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13806,7 +15029,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c13"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13818,7 +15041,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c14"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13830,7 +15053,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c15"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13842,7 +15065,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="c16"
           disabled={undefined}
         >
-          <span
+          <i
             className="nav-icon c5 "
           />
            
@@ -13854,7 +15077,7 @@ exports[`Storyshots NavBar lists with icon 1`] = `
           className="disabled-link c17"
           disabled={true}
         >
-          <span
+          <i
             className="nav-icon c18 "
           />
            
@@ -14243,6 +15466,10 @@ exports[`Storyshots NavBar nested lists 1`] = `
 `;
 
 exports[`Storyshots NavBar product and list 1`] = `
+.c0 {
+  margin-right: 16px;
+}
+
 .c2 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -14262,10 +15489,6 @@ exports[`Storyshots NavBar product and list 1`] = `
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-}
-
-.c0 {
-  margin-right: 16px;
 }
 
 .c1 {
@@ -14950,13 +16173,6 @@ exports[`Storyshots NavBar product and list 1`] = `
 `;
 
 exports[`Storyshots Popover default 1`] = `
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c1 {
   margin: 50px;
 }
@@ -14980,6 +16196,13 @@ exports[`Storyshots Popover default 1`] = `
   margin-right: 50px;
   margin-top: 100px;
   margin-bottom: 100px;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 <div
@@ -15057,13 +16280,6 @@ exports[`Storyshots Popover default 1`] = `
 `;
 
 exports[`Storyshots Popover open by default 1`] = `
-.c3 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c1 {
   background-color: #53616E;
   color: #FFF;
@@ -15074,6 +16290,13 @@ exports[`Storyshots Popover open by default 1`] = `
 .c0 {
   margin: 50px;
   width: 20%;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .c5 {
@@ -15181,6 +16404,19 @@ exports[`Storyshots Popover open by default 1`] = `
 `;
 
 exports[`Storyshots Radio Toggle default 1`] = `
+.c1 {
+  width: 100%;
+}
+
+.c3 {
+  margin-left: 24px;
+  margin-right: 24px;
+}
+
+.c13 {
+  margin: 24px;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -15199,17 +16435,44 @@ exports[`Storyshots Radio Toggle default 1`] = `
   flex-wrap: wrap;
 }
 
-.c1 {
-  width: 100%;
+.c14 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.c3 {
-  margin-left: 24px;
-  margin-right: 24px;
+.c14::before {
+  content: '\\f26b';
 }
 
-.c13 {
-  margin: 24px;
+.c15 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c15::before {
+  content: '\\f136';
+}
+
+.c4 {
+  margin: 0px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: 400;
 }
 
 .c7 {
@@ -15223,30 +16486,6 @@ exports[`Storyshots Radio Toggle default 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-}
-
-.c4 {
-  margin: 0px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  font-family: Circular,sans-serif;
-  font-size: 14px;
-  line-height: 1.43;
-  font-weight: 400;
-}
-
-.c14::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f26b';
-}
-
-.c15::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f136';
 }
 
 .c10 {
@@ -15499,7 +16738,7 @@ exports[`Storyshots Radio Toggle default 1`] = `
           <div
             className="c9 c10 "
           >
-            <span
+            <i
               className="c14 "
             />
           </div>
@@ -15517,7 +16756,7 @@ exports[`Storyshots Radio Toggle default 1`] = `
           <div
             className="c11 c12 "
           >
-            <span
+            <i
               className="c15 "
             />
           </div>
@@ -15631,6 +16870,10 @@ exports[`Storyshots Radio Toggle default 1`] = `
 `;
 
 exports[`Storyshots Radio default 1`] = `
+.c2 {
+  width: 100%;
+}
+
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -15639,10 +16882,6 @@ exports[`Storyshots Radio default 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  width: 100%;
 }
 
 .c4 {
@@ -15725,6 +16964,10 @@ exports[`Storyshots Radio default 1`] = `
   color: #8D9BA7;
 }
 
+.c5:required {
+  box-shadow: none;
+}
+
 .c5:hover,
 .c5:focus,
 .c5:active {
@@ -15746,14 +16989,14 @@ exports[`Storyshots Radio default 1`] = `
 }
 
 @media screen and (min-width:32em) {
-  .c0 {
-    width: 50%;
+  .c2 {
+    width: 66.66666666666666%;
   }
 }
 
 @media screen and (min-width:32em) {
-  .c2 {
-    width: 66.66666666666666%;
+  .c0 {
+    width: 50%;
   }
 }
 
@@ -15782,7 +17025,6 @@ exports[`Storyshots Radio default 1`] = `
       >
         <input
           className="c5"
-          label="Option 1"
           name="option"
           type="radio"
           value="one"
@@ -15797,7 +17039,6 @@ exports[`Storyshots Radio default 1`] = `
       >
         <input
           className="c5"
-          label="Option 2"
           name="option"
           type="radio"
           value="two"
@@ -15813,6 +17054,10 @@ exports[`Storyshots Radio default 1`] = `
 `;
 
 exports[`Storyshots Radio default value 1`] = `
+.c2 {
+  width: 100%;
+}
+
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -15821,10 +17066,6 @@ exports[`Storyshots Radio default value 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  width: 100%;
 }
 
 .c4 {
@@ -15907,6 +17148,10 @@ exports[`Storyshots Radio default value 1`] = `
   color: #8D9BA7;
 }
 
+.c5:required {
+  box-shadow: none;
+}
+
 .c5:hover,
 .c5:focus,
 .c5:active {
@@ -15928,14 +17173,14 @@ exports[`Storyshots Radio default value 1`] = `
 }
 
 @media screen and (min-width:32em) {
-  .c0 {
-    width: 50%;
+  .c2 {
+    width: 66.66666666666666%;
   }
 }
 
 @media screen and (min-width:32em) {
-  .c2 {
-    width: 66.66666666666666%;
+  .c0 {
+    width: 50%;
   }
 }
 
@@ -15964,7 +17209,6 @@ exports[`Storyshots Radio default value 1`] = `
       >
         <input
           className="c5"
-          label="Option 1"
           name="option"
           type="radio"
           value="one"
@@ -15976,12 +17220,10 @@ exports[`Storyshots Radio default value 1`] = `
       </label>
       <label
         className="c3 c4 "
-        defaultChecked={true}
       >
         <input
           className="c5"
           defaultChecked={true}
-          label="Option 2 (default)"
           name="option"
           type="radio"
           value="two"
@@ -15997,6 +17239,10 @@ exports[`Storyshots Radio default value 1`] = `
 `;
 
 exports[`Storyshots Radio disabled 1`] = `
+.c2 {
+  width: 100%;
+}
+
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -16005,10 +17251,6 @@ exports[`Storyshots Radio disabled 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  width: 100%;
 }
 
 .c4 {
@@ -16091,6 +17333,10 @@ exports[`Storyshots Radio disabled 1`] = `
   color: #8D9BA7;
 }
 
+.c5:required {
+  box-shadow: none;
+}
+
 .c5:hover,
 .c5:focus,
 .c5:active {
@@ -16112,14 +17358,14 @@ exports[`Storyshots Radio disabled 1`] = `
 }
 
 @media screen and (min-width:32em) {
-  .c0 {
-    width: 50%;
+  .c2 {
+    width: 66.66666666666666%;
   }
 }
 
 @media screen and (min-width:32em) {
-  .c2 {
-    width: 66.66666666666666%;
+  .c0 {
+    width: 50%;
   }
 }
 
@@ -16145,12 +17391,10 @@ exports[`Storyshots Radio disabled 1`] = `
     >
       <label
         className="c3 c4 "
-        disabled={true}
       >
         <input
           className="c5"
           disabled={true}
-          label="Disabled"
           name="option"
           type="radio"
           value="one"
@@ -16165,7 +17409,6 @@ exports[`Storyshots Radio disabled 1`] = `
       >
         <input
           className="c5"
-          label="Okay"
           name="option"
           type="radio"
           value="two"
@@ -16181,6 +17424,10 @@ exports[`Storyshots Radio disabled 1`] = `
 `;
 
 exports[`Storyshots Radio error 1`] = `
+.c2 {
+  width: 100%;
+}
+
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -16189,10 +17436,6 @@ exports[`Storyshots Radio error 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  width: 100%;
 }
 
 .c4 {
@@ -16275,6 +17518,10 @@ exports[`Storyshots Radio error 1`] = `
   color: #8D9BA7;
 }
 
+.c5:required {
+  box-shadow: none;
+}
+
 .c5:hover,
 .c5:focus,
 .c5:active {
@@ -16296,14 +17543,14 @@ exports[`Storyshots Radio error 1`] = `
 }
 
 @media screen and (min-width:32em) {
-  .c0 {
-    width: 50%;
+  .c2 {
+    width: 66.66666666666666%;
   }
 }
 
 @media screen and (min-width:32em) {
-  .c2 {
-    width: 66.66666666666666%;
+  .c0 {
+    width: 50%;
   }
 }
 
@@ -16328,11 +17575,10 @@ exports[`Storyshots Radio error 1`] = `
       className=""
     >
       <label
-        className="error c3 c4 "
+        className="c3 c4 "
       >
         <input
           className="error c5"
-          label="Error"
           name="option"
           type="radio"
           value="one"
@@ -16347,7 +17593,6 @@ exports[`Storyshots Radio error 1`] = `
       >
         <input
           className="c5"
-          label="Okay"
           name="option"
           type="radio"
           value="two"
@@ -16363,6 +17608,10 @@ exports[`Storyshots Radio error 1`] = `
 `;
 
 exports[`Storyshots Radio handles events 1`] = `
+.c2 {
+  width: 100%;
+}
+
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -16371,10 +17620,6 @@ exports[`Storyshots Radio handles events 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  width: 100%;
 }
 
 .c4 {
@@ -16457,6 +17702,10 @@ exports[`Storyshots Radio handles events 1`] = `
   color: #8D9BA7;
 }
 
+.c5:required {
+  box-shadow: none;
+}
+
 .c5:hover,
 .c5:focus,
 .c5:active {
@@ -16478,14 +17727,14 @@ exports[`Storyshots Radio handles events 1`] = `
 }
 
 @media screen and (min-width:32em) {
-  .c0 {
-    width: 50%;
+  .c2 {
+    width: 66.66666666666666%;
   }
 }
 
 @media screen and (min-width:32em) {
-  .c2 {
-    width: 66.66666666666666%;
+  .c0 {
+    width: 50%;
   }
 }
 
@@ -16511,11 +17760,9 @@ exports[`Storyshots Radio handles events 1`] = `
     >
       <label
         className="c3 c4 "
-        onKeyUp={[Function]}
       >
         <input
           className="c5"
-          label="Option 1"
           name="option"
           onBlur={[Function]}
           onChange={[Function]}
@@ -16532,11 +17779,9 @@ exports[`Storyshots Radio handles events 1`] = `
       </label>
       <label
         className="c3 c4 "
-        onKeyUp={[Function]}
       >
         <input
           className="c5"
-          label="Option 2"
           name="option"
           onBlur={[Function]}
           onChange={[Function]}
@@ -16557,6 +17802,10 @@ exports[`Storyshots Radio handles events 1`] = `
 `;
 
 exports[`Storyshots Radio supports util props 1`] = `
+.c2 {
+  width: 100%;
+}
+
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -16565,10 +17814,6 @@ exports[`Storyshots Radio supports util props 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c2 {
-  width: 100%;
 }
 
 .c1 {
@@ -16666,6 +17911,10 @@ exports[`Storyshots Radio supports util props 1`] = `
   color: #8D9BA7;
 }
 
+.c5:required {
+  box-shadow: none;
+}
+
 .c5:hover,
 .c5:focus,
 .c5:active {
@@ -16687,14 +17936,14 @@ exports[`Storyshots Radio supports util props 1`] = `
 }
 
 @media screen and (min-width:32em) {
-  .c0 {
-    width: 50%;
+  .c2 {
+    width: 66.66666666666666%;
   }
 }
 
 @media screen and (min-width:32em) {
-  .c2 {
-    width: 66.66666666666666%;
+  .c0 {
+    width: 50%;
   }
 }
 
@@ -16723,7 +17972,6 @@ exports[`Storyshots Radio supports util props 1`] = `
       >
         <input
           className="c5"
-          label="Option 1 (margin)"
           name="option"
           type="radio"
           value="one"
@@ -16738,7 +17986,6 @@ exports[`Storyshots Radio supports util props 1`] = `
       >
         <input
           className="c5"
-          label="Option 2 (font)"
           name="option"
           type="radio"
           value="two"
@@ -16754,6 +18001,10 @@ exports[`Storyshots Radio supports util props 1`] = `
 `;
 
 exports[`Storyshots Range Basic 1`] = `
+.c1 {
+  margin-left: 24px;
+}
+
 .c0 {
   padding: 20px;
   width: 100%;
@@ -16772,23 +18023,6 @@ exports[`Storyshots Range Basic 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.c1 {
-  margin-left: 24px;
-}
-
-.c5 {
-  font-size: 14px;
-  margin-bottom: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
 }
 
 .c2 {
@@ -16817,6 +18051,19 @@ exports[`Storyshots Range Basic 1`] = `
   font-size: 14px;
   line-height: 1.43;
   font-weight: 400;
+}
+
+.c5 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .c6 {
@@ -17244,18 +18491,18 @@ exports[`Storyshots Range Basic 1`] = `
 `;
 
 exports[`Storyshots ReadMore Basic 1`] = `
+.c1 {
+  margin-left: 24px;
+  margin-top: 24px;
+  width: 50%;
+}
+
 .c0 {
   padding: 20px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-}
-
-.c1 {
-  margin-left: 24px;
-  margin-top: 24px;
-  width: 50%;
 }
 
 .c2 {
@@ -17265,14 +18512,6 @@ exports[`Storyshots ReadMore Basic 1`] = `
 .c10 {
   margin: 0px;
   margin-top: 16px;
-}
-
-.c9 {
-  font-size: 12px;
-}
-
-.c14 {
-  font-size: 16px;
 }
 
 .c6 {
@@ -17291,6 +18530,14 @@ exports[`Storyshots ReadMore Basic 1`] = `
   font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
+}
+
+.c9 {
+  font-size: 12px;
+}
+
+.c14 {
+  font-size: 16px;
 }
 
 .c8 {
@@ -17394,7 +18641,7 @@ exports[`Storyshots ReadMore Basic 1`] = `
         >
           <span>
             <a
-              className="c8 c9 "
+              className="c8 c9"
               onClick={[Function]}
               rel="noreferrer noopener "
             >
@@ -17433,7 +18680,7 @@ exports[`Storyshots ReadMore Basic 1`] = `
         >
           <span>
             <a
-              className="c8 c9 "
+              className="c8 c9"
               onClick={[Function]}
               rel="noreferrer noopener "
             >
@@ -17472,7 +18719,7 @@ exports[`Storyshots ReadMore Basic 1`] = `
         >
           <span>
             <a
-              className="c8 c9 "
+              className="c8 c9"
               onClick={[Function]}
               rel="noreferrer noopener "
             >
@@ -17511,7 +18758,7 @@ exports[`Storyshots ReadMore Basic 1`] = `
         >
           <span>
             <a
-              className="c8 c9 "
+              className="c8 c9"
               onClick={[Function]}
               rel="noreferrer noopener "
             >
@@ -17553,7 +18800,7 @@ exports[`Storyshots ReadMore Basic 1`] = `
           >
             <span>
               <a
-                className="c8 c14 "
+                className="c8 c14"
                 onClick={[Function]}
                 rel="noreferrer noopener "
               >
@@ -17576,20 +18823,25 @@ exports[`Storyshots Search async 1`] = `
   width: 100%;
 }
 
+.c4 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f1c3';
+}
+
 .c2 {
   background-color: transparent;
   color: #8D9BA7;
-}
-
-.c4 {
-  margin-right: 8px;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
 }
 
 .c3 {
@@ -17656,7 +18908,7 @@ exports[`Storyshots Search async 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c4 "
       />
       Search
@@ -17672,20 +18924,25 @@ exports[`Storyshots Search basic 1`] = `
   width: 100%;
 }
 
+.c4 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f1c3';
+}
+
 .c2 {
   background-color: transparent;
   color: #8D9BA7;
-}
-
-.c4 {
-  margin-right: 8px;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
 }
 
 .c3 {
@@ -17752,7 +19009,7 @@ exports[`Storyshots Search basic 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c4 "
       />
       Search
@@ -17768,20 +19025,25 @@ exports[`Storyshots Search button text and input placeholder 1`] = `
   width: 100%;
 }
 
+.c4 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f1c3';
+}
+
 .c2 {
   background-color: transparent;
   color: #8D9BA7;
-}
-
-.c4 {
-  margin-right: 8px;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
 }
 
 .c3 {
@@ -17848,7 +19110,7 @@ exports[`Storyshots Search button text and input placeholder 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c4 "
       />
       buttonText
@@ -17864,20 +19126,25 @@ exports[`Storyshots Search fires events 1`] = `
   width: 100%;
 }
 
+.c4 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f1c3';
+}
+
 .c2 {
   background-color: transparent;
   color: #8D9BA7;
-}
-
-.c4 {
-  margin-right: 8px;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
 }
 
 .c3 {
@@ -17944,7 +19211,7 @@ exports[`Storyshots Search fires events 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c4 "
       />
       Search
@@ -17964,18 +19231,34 @@ exports[`Storyshots Search initial query 1`] = `
   padding-right: 8px;
 }
 
-.c4::after {
-  display: inline-block;
+.c6 {
   font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.c6::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
+.c6::before {
   content: '\\f136';
+}
+
+.c4 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f1c3';
 }
 
 .c1 {
@@ -18054,6 +19337,10 @@ exports[`Storyshots Search initial query 1`] = `
   border-color: #f3f3f3;
 }
 
+.c2:required {
+  box-shadow: none;
+}
+
 .c2.error {
   border-color: #C00316;
 }
@@ -18089,7 +19376,7 @@ exports[`Storyshots Search initial query 1`] = `
       <div
         className="c3 "
       >
-        <span
+        <i
           className="c4 "
         />
       </div>
@@ -18104,7 +19391,7 @@ exports[`Storyshots Search initial query 1`] = `
       <div
         className="c3 c5 "
       >
-        <span
+        <i
           className="c6 "
           onClick={[Function]}
         />
@@ -18115,20 +19402,6 @@ exports[`Storyshots Search initial query 1`] = `
 `;
 
 exports[`Storyshots Search sizes 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -18144,20 +19417,39 @@ exports[`Storyshots Search sizes 1`] = `
   width: 66.66666666666666%;
 }
 
-.c5 {
-  background-color: transparent;
-  color: #8D9BA7;
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .c7 {
   margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
 }
 
-.c7::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
+.c7::before {
   content: '\\f1c3';
+}
+
+.c5 {
+  background-color: transparent;
+  color: #8D9BA7;
 }
 
 .c6 {
@@ -18317,7 +19609,7 @@ exports[`Storyshots Search sizes 1`] = `
         <div
           className="c6 "
         >
-          <span
+          <i
             className="c7 "
           />
           Search
@@ -18342,7 +19634,7 @@ exports[`Storyshots Search sizes 1`] = `
         <div
           className="c6 "
         >
-          <span
+          <i
             className="c7 "
           />
           Search
@@ -18367,7 +19659,7 @@ exports[`Storyshots Search sizes 1`] = `
         <div
           className="c6 "
         >
-          <span
+          <i
             className="c7 "
           />
           Search
@@ -18385,20 +19677,25 @@ exports[`Storyshots Search sync 1`] = `
   width: 100%;
 }
 
+.c4 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f1c3';
+}
+
 .c2 {
   background-color: transparent;
   color: #8D9BA7;
-}
-
-.c4 {
-  margin-right: 8px;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1c3';
 }
 
 .c3 {
@@ -18465,7 +19762,7 @@ exports[`Storyshots Search sync 1`] = `
     <div
       className="c3 "
     >
-      <span
+      <i
         className="c4 "
       />
       Search
@@ -18525,6 +19822,10 @@ exports[`Storyshots Select autoFocus 1`] = `
 .c1 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1 .Select-control:required {
+  box-shadow: none;
 }
 
 .c1 .Select-control.error {
@@ -18775,6 +20076,10 @@ exports[`Storyshots Select default 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1 .Select-control:required {
+  box-shadow: none;
+}
+
 .c1 .Select-control.error {
   border-color: #C00316;
 }
@@ -19021,6 +20326,10 @@ exports[`Storyshots Select default value 1`] = `
 .c1 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1 .Select-control:required {
+  box-shadow: none;
 }
 
 .c1 .Select-control.error {
@@ -19298,6 +20607,10 @@ exports[`Storyshots Select disabled 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1 .Select-control:required {
+  box-shadow: none;
+}
+
 .c1 .Select-control.error {
   border-color: #C00316;
 }
@@ -19516,6 +20829,10 @@ exports[`Storyshots Select error 1`] = `
 .c1 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1 .Select-control:required {
+  box-shadow: none;
 }
 
 .c1 .Select-control.error {
@@ -19793,6 +21110,10 @@ exports[`Storyshots Select fires events 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1 .Select-control:required {
+  box-shadow: none;
+}
+
 .c1 .Select-control.error {
   border-color: #C00316;
 }
@@ -20039,6 +21360,10 @@ exports[`Storyshots Select multi 1`] = `
 .c1 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1 .Select-control:required {
+  box-shadow: none;
 }
 
 .c1 .Select-control.error {
@@ -20389,6 +21714,10 @@ exports[`Storyshots Select placeholder 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1 .Select-control:required {
+  box-shadow: none;
+}
+
 .c1 .Select-control.error {
   border-color: #C00316;
 }
@@ -20585,20 +21914,6 @@ exports[`Storyshots Select placeholder 1`] = `
 `;
 
 exports[`Storyshots Select sizes 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -20612,6 +21927,20 @@ exports[`Storyshots Select sizes 1`] = `
 .c3 {
   margin-bottom: 4px;
   width: 66.66666666666666%;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .c5 .Select-control {
@@ -20658,6 +21987,10 @@ exports[`Storyshots Select sizes 1`] = `
 .c5 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c5 .Select-control:required {
+  box-shadow: none;
 }
 
 .c5 .Select-control.error {
@@ -20796,6 +22129,10 @@ exports[`Storyshots Select sizes 1`] = `
   border-color: #f3f3f3;
 }
 
+.c4 .Select-control:required {
+  box-shadow: none;
+}
+
 .c4 .Select-control.error {
   border-color: #C00316;
 }
@@ -20930,6 +22267,10 @@ exports[`Storyshots Select sizes 1`] = `
 .c6 .Select-control:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c6 .Select-control:required {
+  box-shadow: none;
 }
 
 .c6 .Select-control.error {
@@ -21402,6 +22743,10 @@ exports[`Storyshots Select util props 1`] = `
   border-color: #f3f3f3;
 }
 
+.c2 .Select-control:required {
+  box-shadow: none;
+}
+
 .c2 .Select-control.error {
   border-color: #C00316;
 }
@@ -21671,6 +23016,10 @@ exports[`Storyshots Textarea default 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -21763,6 +23112,10 @@ exports[`Storyshots Textarea default value 1`] = `
 .c1:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1:required {
+  box-shadow: none;
 }
 
 .c1.error {
@@ -21858,6 +23211,10 @@ exports[`Storyshots Textarea disabled 1`] = `
 .c1:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1:required {
+  box-shadow: none;
 }
 
 .c1.error {
@@ -21956,6 +23313,10 @@ exports[`Storyshots Textarea error 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -22049,6 +23410,10 @@ exports[`Storyshots Textarea fires events 1`] = `
 .c1:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1:required {
+  box-shadow: none;
 }
 
 .c1.error {
@@ -22151,6 +23516,10 @@ exports[`Storyshots Textarea maxLength 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -22247,6 +23616,10 @@ exports[`Storyshots Textarea placeholder 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -22340,6 +23713,10 @@ exports[`Storyshots Textarea readOnly 1`] = `
 .c1:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c1:required {
+  box-shadow: none;
 }
 
 .c1.error {
@@ -22438,6 +23815,10 @@ exports[`Storyshots Textarea resize 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -22533,6 +23914,10 @@ exports[`Storyshots Textarea rows 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -22558,20 +23943,6 @@ exports[`Storyshots Textarea rows 1`] = `
 `;
 
 exports[`Storyshots Textarea sizes 1`] = `
-.c1 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-}
-
 .c0 {
   background-color: #FFF;
   padding: 20px;
@@ -22585,6 +23956,20 @@ exports[`Storyshots Textarea sizes 1`] = `
 .c3 {
   margin-bottom: 4px;
   width: 66.66666666666666%;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 
 .c5 {
@@ -22654,6 +24039,10 @@ exports[`Storyshots Textarea sizes 1`] = `
   border-color: #f3f3f3;
 }
 
+.c6:required {
+  box-shadow: none;
+}
+
 .c6.error {
   border-color: #C00316;
 }
@@ -22705,6 +24094,10 @@ exports[`Storyshots Textarea sizes 1`] = `
   border-color: #f3f3f3;
 }
 
+.c4:required {
+  box-shadow: none;
+}
+
 .c4.error {
   border-color: #C00316;
 }
@@ -22754,6 +24147,10 @@ exports[`Storyshots Textarea sizes 1`] = `
 .c7:disabled {
   background-color: #f3f3f3;
   border-color: #f3f3f3;
+}
+
+.c7:required {
+  box-shadow: none;
 }
 
 .c7.error {
@@ -22894,6 +24291,10 @@ exports[`Storyshots Textarea util props 1`] = `
   border-color: #f3f3f3;
 }
 
+.c1:required {
+  box-shadow: none;
+}
+
 .c1.error {
   border-color: #C00316;
 }
@@ -22916,6 +24317,19 @@ exports[`Storyshots Textarea util props 1`] = `
 `;
 
 exports[`Storyshots Timeline Basic 1`] = `
+.c2 {
+  margin-left: 24px;
+}
+
+.c1 {
+  margin: 40px;
+}
+
+.c9 {
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
 .c0 {
   padding: 20px;
   width: 100%;
@@ -22948,32 +24362,6 @@ exports[`Storyshots Timeline Basic 1`] = `
   justify-content: space-between;
 }
 
-.c2 {
-  margin-left: 24px;
-}
-
-.c1 {
-  margin: 40px;
-}
-
-.c9 {
-  margin-top: 16px;
-  margin-bottom: 4px;
-}
-
-.c7 {
-  font-size: 14px;
-  margin-bottom: 4px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
 .c3 {
   margin: 0px;
   margin-top: 24px;
@@ -23000,6 +24388,19 @@ exports[`Storyshots Timeline Basic 1`] = `
   font-size: 14px;
   line-height: 1.43;
   font-weight: 400;
+}
+
+.c7 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .c16 {
@@ -23430,6 +24831,10 @@ exports[`Storyshots Timeline Basic 1`] = `
 `;
 
 exports[`Storyshots Tooltip default 1`] = `
+.c2 {
+  margin: 80px;
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -23437,8 +24842,19 @@ exports[`Storyshots Tooltip default 1`] = `
   display: flex;
 }
 
-.c2 {
-  margin: 80px;
+.c4 {
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c4::before {
+  content: '\\f1f5';
 }
 
 .c1 {
@@ -23449,13 +24865,6 @@ exports[`Storyshots Tooltip default 1`] = `
   font-size: 14px;
   line-height: 1.43;
   font-weight: 400;
-}
-
-.c4::after {
-  display: inline-block;
-  font-family: Material-Design-Iconic-Font;
-  text-align: center;
-  content: '\\f1f5';
 }
 
 .c3 {
@@ -23513,7 +24922,7 @@ exports[`Storyshots Tooltip default 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          <span
+          <i
             className="c4 "
           />
         </div>
@@ -23532,7 +24941,7 @@ exports[`Storyshots Tooltip default 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          <span
+          <i
             className="c4 "
           />
         </div>
@@ -23551,7 +24960,7 @@ exports[`Storyshots Tooltip default 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          <span
+          <i
             className="c4 "
           />
         </div>
@@ -23570,7 +24979,7 @@ exports[`Storyshots Tooltip default 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          <span
+          <i
             className="c4 "
           />
         </div>
@@ -23580,7 +24989,710 @@ exports[`Storyshots Tooltip default 1`] = `
 </div>
 `;
 
+exports[`Storyshots TopNavBar default 1`] = `
+.c10 {
+  font-size: 16px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left-color: #FF5745;
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+.c12 {
+  margin-right: 24px;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c17 {
+  margin-left: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c17::before {
+  content: '\\f2f9';
+}
+
+.c8 {
+  width: 12px;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.c9 {
+  margin: 0px;
+  margin-left: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 19px;
+  line-height: 1.47;
+  font-weight: 400;
+}
+
+.c7 {
+  color: #FF5745;
+}
+
+.c14 {
+  color: #123466;
+  font-size: 14px;
+  margin-right: 32px;
+}
+
+.c16 {
+  display: block;
+  line-height: 1.33;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  font-size: 12px;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.c15 {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  color: #FFF;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #D6DEE9;
+  background-color: #303162;
+  opacity: 1;
+  object-fit: cover;
+}
+
+.c3 {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.c6 {
+  text-decoration: none;
+  color: #FF5745;
+  cursor: pointer;
+}
+
+.c6:link,
+.c6:visited {
+  color: #FF5745;
+}
+
+.c6:hover {
+  color: #FF5745;
+}
+
+.c6:active {
+  color: #FF5745;
+}
+
+.c13 {
+  text-decoration: none;
+  color: #123466;
+  cursor: pointer;
+}
+
+.c13:link,
+.c13:visited {
+  color: #123466;
+}
+
+.c13:hover {
+  color: #123466;
+}
+
+.c13:active {
+  color: #123466;
+}
+
+.c1 {
+  position: fixed;
+  height: 64px;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1031;
+  background-color: #FFF;
+  color: #123466;
+}
+
+.c0 {
+  height: 64px;
+}
+
+<div
+  className="c0 "
+>
+  <div
+    className="c1 c2 "
+  >
+    <div
+      className="c3 c4 "
+    >
+      <div
+        className="c5 "
+      >
+        <a
+          className="c6 c7"
+          href="/dashboard"
+          rel="noreferrer noopener "
+        >
+          <div
+            className="c5 "
+          >
+            <img
+              className="c8 "
+              src="https://www.zenefits.com/static/images/logos/icon-footer-zenefits.svg"
+            />
+            <p
+              className="c9"
+            >
+              zenefits
+            </p>
+          </div>
+        </a>
+        <div
+          className="c10 "
+        >
+          <div
+            className="c11 "
+          >
+            <span
+              className=""
+            >
+              Product Title
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="c5 "
+      >
+        <div
+          className="c12 "
+        />
+        <a
+          className="c13 c14"
+          href="/dashboard/#/support"
+          rel="noreferrer noopener "
+        >
+          Help
+        </a>
+        <div>
+          <div>
+            <div
+              className="button-group-child-item c5 "
+              onClick={[Function]}
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              target={
+                <Flex
+                  align="center"
+                  borderColor="grayscale.f"
+                  style={
+                    Object {
+                      "cursor": "pointer",
+                    }
+                  }
+                >
+                  <Avatar
+                    disabled={false}
+                    firstName={undefined}
+                    isSquare={false}
+                    lastName={undefined}
+                    photoUrl={undefined}
+                    s="small"
+                  />
+                  <I
+                    iconName="chevron-down"
+                    ml={2}
+                  />
+                </Flex>
+              }
+            >
+              <div
+                className="c15 "
+                disabled={false}
+              >
+                <span
+                  className="c16 "
+                  s="small"
+                  title="undefined undefined"
+                >
+                    
+                </span>
+              </div>
+              <i
+                className="c17 "
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots TopNavBar with children 1`] = `
+.c10 {
+  font-size: 16px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left-color: #FF5745;
+  border-left-width: 1px;
+  border-left-style: solid;
+}
+
+.c12 {
+  margin-left: 8px;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c21 {
+  margin-left: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c21::before {
+  content: '\\f2f9';
+}
+
+.c16 {
+  margin-right: 8px;
+  font-family: Material-Design-Iconic-Font;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.c16::before {
+  content: '\\f1c3';
+}
+
+.c8 {
+  width: 12px;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.c9 {
+  margin: 0px;
+  margin-left: 8px;
+  font-family: Circular,sans-serif;
+  font-size: 19px;
+  line-height: 1.47;
+  font-weight: 400;
+}
+
+.c7 {
+  color: #FF5745;
+}
+
+.c18 {
+  color: #123466;
+  font-size: 14px;
+  margin-right: 32px;
+}
+
+.c14 {
+  background-color: transparent;
+  color: #8D9BA7;
+}
+
+.c20 {
+  display: block;
+  line-height: 1.33;
+  -webkit-letter-spacing: 1px;
+  -moz-letter-spacing: 1px;
+  -ms-letter-spacing: 1px;
+  letter-spacing: 1px;
+  font-size: 12px;
+  text-align: center;
+  padding-top: 8px;
+}
+
+.c19 {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  color: #FFF;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #D6DEE9;
+  background-color: #303162;
+  opacity: 1;
+  object-fit: cover;
+}
+
+.c3 {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.c15 {
+  visibility: visible;
+}
+
+.c13 {
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration: none;
+  border-radius: 2px;
+  outline: 0;
+  line-height: 1.5;
+  text-align: center;
+  height: 40px;
+  min-width: 40px;
+  font-size: 16px;
+  padding: 8px 8px;
+}
+
+.c13:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.c13:focus:not(:disabled),
+.c13:hover:not(:disabled) {
+  color: #0081AA;
+  background-color: transparent;
+}
+
+.c13:active:not(:disabled) {
+  color: #144E6F;
+  background-color: rgba(18,52,102,0.1);
+}
+
+.c13:focus:not(:disabled) {
+  box-shadow: 0 0 0 2px rgba(18,52,102,0.1);
+}
+
+.c6 {
+  text-decoration: none;
+  color: #FF5745;
+  cursor: pointer;
+}
+
+.c6:link,
+.c6:visited {
+  color: #FF5745;
+}
+
+.c6:hover {
+  color: #FF5745;
+}
+
+.c6:active {
+  color: #FF5745;
+}
+
+.c17 {
+  text-decoration: none;
+  color: #123466;
+  cursor: pointer;
+}
+
+.c17:link,
+.c17:visited {
+  color: #123466;
+}
+
+.c17:hover {
+  color: #123466;
+}
+
+.c17:active {
+  color: #123466;
+}
+
+.c1 {
+  position: fixed;
+  height: 64px;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1031;
+  background-color: #FFF;
+  color: #123466;
+}
+
+.c0 {
+  height: 64px;
+}
+
+<div
+  className="c0 "
+>
+  <div
+    className="c1 c2 "
+  >
+    <div
+      className="c3 c4 "
+    >
+      <div
+        className="c5 "
+      >
+        <a
+          className="c6 c7"
+          href="/dashboard"
+          rel="noreferrer noopener "
+        >
+          <div
+            className="c5 "
+          >
+            <img
+              className="c8 "
+              src="https://www.zenefits.com/static/images/logos/icon-footer-zenefits.svg"
+            />
+            <p
+              className="c9"
+            >
+              zenefits
+            </p>
+          </div>
+        </a>
+        <div
+          className="c10 "
+        >
+          <div
+            className="c11 "
+          >
+            <span
+              className=""
+            >
+              Product Title
+            </span>
+            <div
+              className="c12 "
+            >
+              <button
+                className="c13 c14 "
+                disabled={false}
+                mode="transparent"
+                onClick={[Function]}
+                type="button"
+              >
+                <div
+                  className="c15 "
+                >
+                  <i
+                    className="c16 "
+                  />
+                  Search
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="c5 "
+      >
+        <a
+          className="c17 c18"
+          href="/dashboard/#/support"
+          rel="noreferrer noopener "
+        >
+          Help
+        </a>
+        <div>
+          <div>
+            <div
+              className="button-group-child-item c5 "
+              onClick={[Function]}
+              style={
+                Object {
+                  "cursor": "pointer",
+                }
+              }
+              target={
+                <Flex
+                  align="center"
+                  borderColor="grayscale.f"
+                  style={
+                    Object {
+                      "cursor": "pointer",
+                    }
+                  }
+                >
+                  <Avatar
+                    disabled={false}
+                    firstName={undefined}
+                    isSquare={false}
+                    lastName={undefined}
+                    photoUrl={undefined}
+                    s="small"
+                  />
+                  <I
+                    iconName="chevron-down"
+                    ml={2}
+                  />
+                </Flex>
+              }
+            >
+              <div
+                className="c19 "
+                disabled={false}
+              >
+                <span
+                  className="c20 "
+                  s="small"
+                  title="undefined undefined"
+                >
+                    
+                </span>
+              </div>
+              <i
+                className="c21 "
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots Truncate Basic 1`] = `
+.c1 {
+  margin-left: 24px;
+  margin-top: 24px;
+  width: 50%;
+}
+
 .c0 {
   padding: 20px;
   display: -webkit-box;
@@ -23589,20 +25701,10 @@ exports[`Storyshots Truncate Basic 1`] = `
   display: flex;
 }
 
-.c1 {
-  margin-left: 24px;
-  margin-top: 24px;
-  width: 50%;
-}
-
 .c2 {
   margin: 0px;
   margin-top: 8px;
   margin-bottom: 8px;
-}
-
-.c9 {
-  font-size: 12px;
 }
 
 .c6 {
@@ -23611,6 +25713,10 @@ exports[`Storyshots Truncate Basic 1`] = `
   font-size: 14px;
   line-height: 1.43;
   font-weight: 400;
+}
+
+.c9 {
+  font-size: 12px;
 }
 
 .c8 {
@@ -23728,7 +25834,7 @@ exports[`Storyshots Truncate Basic 1`] = `
         className="c7"
       >
         <a
-          className="c8 c9 "
+          className="c8 c9"
           href="https://www.google.com/"
           rel="noreferrer noopener "
           target="_blank"
@@ -23763,7 +25869,7 @@ exports[`Storyshots Truncate Basic 1`] = `
         className="c7"
       >
         <a
-          className="c8 c9 "
+          className="c8 c9"
           href="https://www.google.com/"
           rel="noreferrer noopener "
           target="_blank"
@@ -23798,7 +25904,7 @@ exports[`Storyshots Truncate Basic 1`] = `
         className="c7"
       >
         <a
-          className="c8 c9 "
+          className="c8 c9"
           href="https://www.google.com/"
           rel="noreferrer noopener "
           target="_blank"

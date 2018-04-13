@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount, render, shallow } from 'enzyme';
 import { ThemeProvider as SCThemeProvider } from 'styled-components';
+
 import { ThemeProvider } from '../index';
 
 export function mountWithTheme(children) {

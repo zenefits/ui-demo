@@ -1,6 +1,7 @@
 import React, { StatelessComponent } from 'react';
-import { WrappedFieldProps, Field as BaseField, Validator } from 'redux-form';
-import { FieldProps, FieldFormatWrapper } from './FieldWrapper';
+import { Field as BaseField, Validator, WrappedFieldProps } from 'redux-form';
+
+import { FieldFormatWrapper, FieldProps } from './FieldWrapper';
 import { generateValidators } from '../validators';
 import Input, { InputProps } from '../Input';
 

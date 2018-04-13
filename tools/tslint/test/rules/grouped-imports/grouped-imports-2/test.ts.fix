@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+import { afoo, foo, Type1 } from 'foo';
+
+import { bar } from 'local-module-1';
+import { bar1 } from 'local-module-3';
+import { bar1 } from 'local-module-2';
+
+import './zbx';
+import '../zbc';
+import './baz';
+import './ddd';
+import './baa';
+
+export class Test {}

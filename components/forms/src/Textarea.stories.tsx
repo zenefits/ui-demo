@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box, Flex } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+
+import { Box, Flex } from 'zbase';
+
 import Textarea from './Textarea';
 
 storiesOf('Textarea', module)
@@ -30,7 +32,7 @@ storiesOf('Textarea', module)
     </Flex>
   ))
   .add('default value', () => <Textarea defaultValue="Default" />)
-  .add('rows', () => <Textarea defaultValue="1\n2\n3\n4" rows={4} />)
+  .add('rows', () => <Textarea defaultValue={`1\n2\n3\n4`} rows={4} />)
   .add('disabled', () => <Textarea defaultValue="Cannot be edited, focused or submitted" disabled />)
   .add('readOnly', () => <Textarea defaultValue="Cannot be edited, but can be focused and submitted" readOnly />)
   .add('resize', () => <Textarea defaultValue="Cannot be resized by dragging corner" resize="none" />)

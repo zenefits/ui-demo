@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { FlattenInterpolation } from 'styled-components';
-import { A, AnchorProps, withUtilProps, ResultComponentProps } from 'zbase';
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from 'react-router-dom';
+
+import { withUtilProps, A, AnchorProps, ResultComponentProps } from 'zbase';
 import { color } from 'z-frontend-theme/utils';
 import { css, styled, ColorString } from 'z-frontend-theme';
 

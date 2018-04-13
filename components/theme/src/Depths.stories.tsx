@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { styled, withTheme } from './web/ThemeProvider';
 import depths from './depths';
 import { color } from './utils';

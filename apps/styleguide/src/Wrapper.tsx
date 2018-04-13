@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { IntlProvider } from 'react-intl';
+
 import { ThemeProvider } from 'z-frontend-theme';
 
 const exampleMessages = {

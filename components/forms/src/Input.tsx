@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { styled, css } from 'z-frontend-theme';
-import { color, radius, space, heights, fontSizes } from 'z-frontend-theme/utils';
+
+import { css, styled } from 'z-frontend-theme';
+import { color, fontSizes, heights, radius, space } from 'z-frontend-theme/utils';
 import { Input as ZbaseInput, InputProps as ZbaseInputProps } from 'zbase';
 
 // TODO: how to handle type="email" etc?
@@ -45,6 +46,10 @@ export const commonTextInputStyles = css`
   :disabled {
     background-color: ${color('secondary.c')};
     border-color: ${color('secondary.c')};
+  }
+
+  :required {
+    box-shadow: none; /* prevent firefox default */
   }
 
   &.error {

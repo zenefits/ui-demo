@@ -1,3 +1,4 @@
 export default function() {
-  return (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+  const lang = (navigator.languages && navigator.languages[0]) || navigator.language || 'en';
+  return lang.split('-')[0];
 }

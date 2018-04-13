@@ -1,9 +1,9 @@
 import { styled, ThemeInterface } from 'z-frontend-theme/native';
 import { color } from 'z-frontend-theme/utils';
 
-import withUtilProps, { WithUtilPropsOptions, ResultComponentProps } from '../withUtilProps';
+import withUtilProps, { ResultComponentProps, WithUtilPropsOptions } from '../withUtilProps';
 import { PropsMap } from '../commonTypes';
-import { UtilProps as AllUtilProps, StyledTagNative } from './types';
+import { StyledTagNative, UtilProps as AllUtilProps } from './types';
 
 export type FlexOnlyAdditionalProps = {
   /**

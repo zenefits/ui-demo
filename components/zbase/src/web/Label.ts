@@ -1,5 +1,7 @@
 import { LabelHTMLAttributes } from 'react';
+
 import { css } from 'z-frontend-theme';
+
 import withWebUtilProps, { ResultWebComponentProps } from './withUtilPropsWeb';
 
 type LabelAttrs = LabelHTMLAttributes<HTMLLabelElement>;
@@ -13,7 +15,7 @@ export default withWebUtilProps<LabelAttrs, {}>({
     align-items: center;
   `,
   defaultUtilProps: {
-    f: 1,
+    fontSize__deprecated__doNotUse: 1,
     mb: 1,
   },
 })('label');

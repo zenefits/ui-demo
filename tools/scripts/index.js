@@ -26,7 +26,7 @@ const isApp = /\/(apps|apps-native)\/[^\/]+$/.test(currentPath);
 const fullScriptsList = [
   {
     name: 'syncSchema',
-    info: 'download schema from your local yp3 and generate TS types for schema',
+    info: 'download schema from your local server and generate TS types for schema',
     appsOnly: true,
   },
   { name: 'rnPreBundle', info: '', packageWhitelist: ['z-frontend-talent-native'] },
@@ -35,6 +35,14 @@ const fullScriptsList = [
     name: 'generateAppTypes',
     info: 'generate TS types for queries, mutations and fragments in current app',
     appsOnly: true,
+  },
+  {
+    name: 'tslintPackage',
+    info: 'run tslint only for current package files (exclude dpendencies)',
+  },
+  {
+    name: 'newApp',
+    info: 'Creates a new app',
   },
 ];
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { IntlProvider, intlShape } from 'react-intl';
+import { intlShape, IntlProvider } from 'react-intl';
 import { mount, render } from 'enzyme';
-
 import { ThemeProvider as SCThemeProvider } from 'styled-components';
+
 import { ThemeProvider } from '../index';
 
 /**

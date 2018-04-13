@@ -1,8 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { Box, Flex, Icon } from 'zbase';
 import { HashRouter as Router } from 'react-router-dom';
+
+import { Box, Flex, Icon } from 'zbase';
 
 import Avatar from './Avatar';
 import ButtonGroup from './ButtonGroup';
@@ -14,10 +15,10 @@ storiesOf('Button Dropdown', module)
   .addDecorator(getStory => <Router>{getStory()}</Router>)
   .add('custom target', () => (
     <ButtonDropdown
-      fontSize={1}
+      fontSize__deprecated__doNotUse={1}
       target={
         <Button>
-          <Icon color="primary.a" fontSize={1} iconName="menu" mr={2} /> Click me!
+          <Icon color="primary.a" s="small" iconName="menu" mr={2} /> Click me!
         </Button>
       }
     >
@@ -43,7 +44,7 @@ storiesOf('Button Dropdown', module)
   ))
   .add('non-button target', () => (
     <ButtonDropdown
-      fontSize={1}
+      fontSize__deprecated__doNotUse={1}
       target={
         <Flex align="center" style={{ cursor: 'pointer' }}>
           <Avatar
@@ -72,32 +73,37 @@ storiesOf('Button Dropdown', module)
       <h1>Button Dropdown</h1>
 
       <ButtonGroup mr={3}>
-        <Button fontSize={1} onClick={action('main action')}>
+        <Button fontSize__deprecated__doNotUse={1} onClick={action('main action')}>
           Main Action
         </Button>
-        <ButtonDropdown fontSize={1} mode="primary">
+        <ButtonDropdown fontSize__deprecated__doNotUse={1} mode="primary">
           <ButtonDropdown.ItemButton onClick={action('item clicked')}>Run Review</ButtonDropdown.ItemButton>
           <ButtonDropdown.ItemButton onClick={action('delete clicked')}>Delete Results</ButtonDropdown.ItemButton>
           <ButtonDropdown.ItemButton onClick={action('duplicate clicked')}>Duplicate Review</ButtonDropdown.ItemButton>
         </ButtonDropdown>
       </ButtonGroup>
 
-      <ButtonDropdown fontSize={1} mode="transparent" mr={3} target={<Button>Or click me!</Button>}>
+      <ButtonDropdown
+        fontSize__deprecated__doNotUse={1}
+        mode="transparent"
+        mr={3}
+        target={<Button>Or click me!</Button>}
+      >
         <ButtonDropdown.ItemButton onClick={action('item clicked')}>
           Run Review
-          <Box color="grayscale.c" fontSize={0}>
+          <Box color="grayscale.c" fontSize__deprecated__doNotUse={0}>
             lorem ipsum dolor
           </Box>
         </ButtonDropdown.ItemButton>
         <ButtonDropdown.ItemButton onClick={action('delete clicked')}>
           Delete Results
-          <Box color="grayscale.c" fontSize={0}>
+          <Box color="grayscale.c" fontSize__deprecated__doNotUse={0}>
             only if they are
           </Box>
         </ButtonDropdown.ItemButton>
         <ButtonDropdown.ItemButton onClick={action('duplicate clicked')}>
           Duplicate Review
-          <Box color="grayscale.c" fontSize={0}>
+          <Box color="grayscale.c" fontSize__deprecated__doNotUse={0}>
             but what if not
           </Box>
         </ButtonDropdown.ItemButton>

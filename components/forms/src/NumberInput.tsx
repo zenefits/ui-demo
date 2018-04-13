@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import MaskedInput from 'react-text-mask';
-import { InputProps, commonTextInputStyles } from './Input';
-import { heights } from 'z-frontend-theme/utils';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+
+import { heights } from 'z-frontend-theme/utils';
 import { styled } from 'z-frontend-theme';
+
+import { commonTextInputStyles, InputProps } from './Input';
 
 export interface NumberInputProps extends InputProps {
   suffix?: string;

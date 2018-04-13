@@ -1,8 +1,10 @@
 import React from 'react';
+import moment from 'moment';
+
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import DatePicker from './DatePicker';
 import { formatIsoString } from './fields/DatePickerField';
-import moment from 'moment';
 
 jest.mock('react-day-picker/lib/style.css', () => jest.fn());
 

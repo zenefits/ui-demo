@@ -1,10 +1,12 @@
 import React, { Component, ComponentClass, StatelessComponent } from 'react';
-import { Box, Flex, FlexProps, P } from 'zbase';
-import { styled } from 'z-frontend-theme';
-import LoadingScreen from './LoadingScreen';
-import LoadingSpinner from './LoadingSpinner';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import { Box, Flex, FlexProps, P } from 'zbase';
+import { styled } from 'z-frontend-theme';
+
+import LoadingScreen from './loading-screen/LoadingScreen';
+import LoadingSpinner from './loading-spinner/LoadingSpinner';
 
 export const onGraphqlErrorAction = 'GRAPHQL_PROGRESS_LOADING_ERROR';
 

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { FilterConfig } from './filterUtils';
 import { SortConfig } from './sortUtils';
 

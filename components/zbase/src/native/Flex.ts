@@ -1,12 +1,14 @@
 import { ViewProperties } from 'react-native';
+
 import { css, theme } from 'z-frontend-theme/native';
+
 import { PropsMap } from '../commonTypes';
 import { UtilTypeBorder } from './types';
 import withUtilPropsNative, {
-  ResultNativeComponentProps,
-  FlexOnlyAdditionalProps,
-  flexOnlyPropsMap,
   borderPropsMap,
+  flexOnlyPropsMap,
+  FlexOnlyAdditionalProps,
+  ResultNativeComponentProps,
 } from './withUtilPropsNative';
 
 // Flex

@@ -1,10 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Box, Flex } from 'zbase';
 import { action } from '@storybook/addon-actions';
+import { reduxForm, Form } from 'redux-form';
+
+import { Box, Flex } from 'zbase';
+
 import DatePicker from './DatePicker';
 import DatePickerField, { formatIsoString } from './fields/DatePickerField';
-import { Form, reduxForm } from 'redux-form';
 import Button from './Button';
 
 const withDisabled = {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { theme, styled } from 'z-frontend-theme';
+
+import { styled, theme } from 'z-frontend-theme';
 import { color } from 'z-frontend-theme/utils';
 
 const TableWithBorders = styled.table`

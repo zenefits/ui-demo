@@ -1,6 +1,7 @@
 import React, { StatelessComponent } from 'react';
 import { WrappedFieldProps } from 'redux-form';
 import moment from 'moment';
+
 import FieldWrapper, { FieldProps } from './FieldWrapper';
 import DatePicker, { DatePickerProps } from '../DatePicker';
 

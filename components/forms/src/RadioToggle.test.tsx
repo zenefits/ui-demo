@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import RadioToggle from './RadioToggle';
 
 describe('RadioToggle', () => {

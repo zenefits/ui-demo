@@ -6,17 +6,17 @@ import { capitalize } from 'lodash';
 import styledWeb, { ThemedStyledInterface, ThemedStyledProps } from 'styled-components';
 /* tslint:enable:import-filter */
 
-import { color, space, fontSizes } from 'z-frontend-theme/utils';
+import { color, fontSizes, space } from 'z-frontend-theme/utils';
 
 import {
-  UtilProp,
-  PropsMap,
-  PropsMapValue,
-  ExtendedPropsMapValue,
-  ValueHelperFn,
   removeUtilProps,
   utilTypesMap,
+  ExtendedPropsMapValue,
+  PropsMap,
+  PropsMapValue,
   UtilsType,
+  UtilProp,
+  ValueHelperFn,
 } from './commonTypes';
 
 export function getCssStringForPropValue(
@@ -127,8 +127,7 @@ export const spaceValueHelper: ValueHelperFn = (propValue, props) => {
 const utilsPropsMap: PropsMap = {
   bg: { cssName: 'background-color', utilFn: color },
   color: { cssName: 'color', utilFn: color },
-  f: { cssName: 'font-size', utilFn: fontSizes },
-  fontSize: { cssName: 'font-size', utilFn: fontSizes },
+  fontSize__deprecated__doNotUse: { cssName: 'font-size', utilFn: fontSizes },
 
   m: { cssName: 'margin', valueHelper: spaceValueHelper },
   mx: [

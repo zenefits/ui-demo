@@ -15,5 +15,7 @@ export { default as Select } from './src/Select';
 export { default as Search, Option } from './src/Search';
 export { default as Timeline } from './src/Timeline';
 export { default as Truncate, TruncateProps } from './src/Truncate';
+export { default as Drawer } from './src/drawer/Drawer';
+export { default as TopNavBar } from './src/TopNavBar';
 
 export * from './src/fields';

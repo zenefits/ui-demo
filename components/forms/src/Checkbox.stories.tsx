@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Box } from 'zbase';
 import { action } from '@storybook/addon-actions';
+
+import { Box } from 'zbase';
+
 import Checkbox from './Checkbox';
 
 storiesOf('Checkbox', module)

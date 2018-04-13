@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Flex, Image } from 'zbase';
 import { storiesOf } from '@storybook/react';
+
+import { Box, Flex, Image } from 'zbase';
+
 import Avatar from './Avatar';
 
 const photoUrl =

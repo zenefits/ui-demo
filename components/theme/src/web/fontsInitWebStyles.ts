@@ -1,3 +1,9 @@
+import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.eot';
+import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.svg';
+import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.ttf';
+import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff';
+import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff2';
+
 import { fontStyles, FontStyleString } from './fonts';
 
 // import local fonts
@@ -9,13 +15,6 @@ import { fontStyles, FontStyleString } from './fonts';
 // import '../fonts/my-font-medium.svg';
 // import '../fonts/my-font-medium.ttf';
 // import '../fonts/my-font-medium.woff';
-
-// import material design icons
-import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.eot';
-import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.svg';
-import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.ttf';
-import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff';
-import 'material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff2';
 
 export const fontStyleTagMap: { [key: string]: FontStyleString } = {
   h1: 'headings.xxl',

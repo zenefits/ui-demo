@@ -1,7 +1,8 @@
 import React from 'react';
+import { storiesOf } from '@storybook/react';
+
 import { styled } from './web/ThemeProvider';
 import { color } from './utils';
-import { storiesOf } from '@storybook/react';
 import RenderFor from './RenderFor';
 import HideFor from './HideFor';
 

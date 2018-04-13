@@ -1,4 +1,5 @@
 import React from 'react';
+
 import createApolloClient, { ApolloClientOptions } from './createApolloClient';
 
 export default function createApolloDecorator(options: ApolloClientOptions) {

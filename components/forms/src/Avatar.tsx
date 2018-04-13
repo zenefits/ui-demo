@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { pickBy } from 'lodash';
-import { Box, BoxProps, Text, Image, ImageProps, isUtilProp, UtilProps } from 'zbase';
 
-import { heights, color, fontSizes, radius } from 'z-frontend-theme/utils';
-import { styled, css, avatarColors } from 'z-frontend-theme';
+import { isUtilProp, Box, BoxProps, Image, ImageProps, Text, UtilProps } from 'zbase';
+import { color, fontSizes, heights, radius } from 'z-frontend-theme/utils';
+import { avatarColors, css, styled } from 'z-frontend-theme';
 
 interface AvatarCommonProps {
   /** Background color to use for the initials avatar, otherwise randomized. */
   customColor?: string;
   /** Is the avatar disabled? */
   disabled?: Boolean;
-  /** Size of the avatar */
+  /** Size of the avatar. */
   s?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
   /** Description of the avatar, typically rendered as a tooltip by browsers. Defaults to a combination of firstName and lastName. */
   title?: string;

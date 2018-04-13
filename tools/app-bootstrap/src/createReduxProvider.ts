@@ -1,4 +1,4 @@
-import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { Provider, Store } from 'react-redux';
 
 export interface ReduxProviderFactoryOptions {

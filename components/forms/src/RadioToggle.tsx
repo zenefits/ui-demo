@@ -1,7 +1,8 @@
 import React, { StatelessComponent } from 'react';
-import { styled, css } from 'z-frontend-theme';
-import { color, space, fontStyles, radius } from 'z-frontend-theme/utils';
-import { Flex, Box, Label, Input, InputProps } from 'zbase';
+
+import { css, styled } from 'z-frontend-theme';
+import { color, fontStyles, radius, space } from 'z-frontend-theme/utils';
+import { Box, Flex, Input, InputProps, Label } from 'zbase';
 
 export declare type RadioToggleProps = InputProps & {
   onValue?: string;

@@ -14,5 +14,6 @@ export { default as HideFor } from './src/HideFor';
 export { default as RenderFor } from './src/RenderFor';
 
 export { FontStyleString, fontDescriptions } from './src/web/fonts';
+export { IconNameString } from './src/icons';
 
 export { theme, ThemeInterface } from './src/web/theme';

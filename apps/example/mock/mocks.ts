@@ -2,7 +2,7 @@
 import { MockList } from 'z-frontend-app-bootstrap';
 
 let idSoFar = 0;
-export const mocks = {
+export default {
   // Scalar Types
   ID: () => (idSoFar += 1),
   Int: () => 233,

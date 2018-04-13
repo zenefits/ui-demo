@@ -1,7 +1,9 @@
 import React from 'react';
-import { Box } from 'zbase';
 import SectionHeading from 'react-styleguidist/lib/rsg-components/SectionHeading';
+
+import { Box } from 'zbase';
 import { Card } from 'z-frontend-layout';
+
 import DocEditLink from './DocEditLink';
 
 interface SectionProps {

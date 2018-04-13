@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Flex, Box, Label } from 'zbase';
 import { action } from '@storybook/addon-actions';
+
+import { Box, Flex, Label } from 'zbase';
+
 import Radio from './Radio';
 
 storiesOf('Radio', module)
@@ -20,7 +22,7 @@ storiesOf('Radio', module)
   .add('supports util props', () => (
     <Box>
       <Radio name="option" value="one" label="Option 1 (margin)" my={20} />
-      <Radio name="option" value="two" label="Option 2 (font)" f={4} />
+      <Radio name="option" value="two" label="Option 2 (font)" fontSize__deprecated__doNotUse={4} />
     </Box>
   ))
   .add('default value', () => (

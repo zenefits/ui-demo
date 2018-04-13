@@ -1,5 +1,6 @@
 import React, { StatelessComponent } from 'react';
 import { WrappedFieldProps } from 'redux-form';
+
 import FieldWrapper, { FieldProps } from './FieldWrapper';
 import Select from '../Select';
 

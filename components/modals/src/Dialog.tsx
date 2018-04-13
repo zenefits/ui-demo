@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+
 import { styled } from 'z-frontend-theme';
 import { Box } from 'zbase';
-import { withFocusLoop, WithFocusLoopProps } from './FocusLoop';
 import { generateRandomId } from 'z-frontend-app-bootstrap/src/accessibilityUtils';
+
+import { withFocusLoop, WithFocusLoopProps } from './FocusLoop';
 
 export type DialogWrapperProps = {
   isVisible?: boolean;
