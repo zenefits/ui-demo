@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+import {bar} from 'local-module-1';
+import {bar1} from 'local-module-2';
+import {foo, afoo} from 'foo';
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Import sources of different groups must be sorted by: third parties, packages matching provided regex, relative imports.]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [Import sources within a group must be alphabetized.]
+        ~~~~~~~~~              [Named imports must be alphabetized.]
+
+import './zbx';
+import '../zbc';
+~~~~~~~~~~~~~~~~ [Import sources within a group must be alphabetized.]
+import './baz'; // required
+import './baa';
+~~~~~~~~~~~~~~~ [Import sources within a group must be alphabetized.]
+
+import x = require('y');
+
+export class Test {}

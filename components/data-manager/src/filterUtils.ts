@@ -1,4 +1,4 @@
-import { filter, every, includes, cloneDeep, concat, without } from 'lodash';
+import { cloneDeep, concat, every, filter, includes, without } from 'lodash';
 
 interface FilterConfigPerKey {
   matchAny?: string[];

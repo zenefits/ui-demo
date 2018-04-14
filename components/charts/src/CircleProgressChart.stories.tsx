@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import CircleProgressChart from './CircleProgressChart';
+
 import { Box } from 'zbase';
+
+import CircleProgressChart from './CircleProgressChart';
 
 storiesOf('Circle Progress', module).add('default', () => (
   <Box p={3}>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Flex, Box, P, Icon } from 'zbase';
 import { action } from '@storybook/addon-actions';
+
+import { Box, Flex, Icon, P } from 'zbase';
+
 import RadioToggle from './RadioToggle';
 
 storiesOf('Radio Toggle', module)

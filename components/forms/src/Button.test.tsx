@@ -1,8 +1,10 @@
 import React from 'react';
-import { mountWithTheme, renderWithTheme, shallowWithTheme } from 'z-frontend-theme/test-utils/theme';
-import Button from './Button';
-import { LoadingSpinner } from 'z-frontend-layout';
 import 'jest-styled-components';
+
+import { mountWithTheme, renderWithTheme, shallowWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { LoadingSpinner } from 'z-frontend-layout';
+
+import Button from './Button';
 
 describe('Button', () => {
   it('should mount without throwing an error', () => {

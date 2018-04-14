@@ -1,4 +1,5 @@
 import { TextProperties } from 'react-native';
+
 import { PropsMap } from '../commonTypes';
 import withUtilPropsNative, { ResultNativeComponentProps } from './withUtilPropsNative';
 
@@ -13,7 +14,7 @@ export type TextProps = ResultNativeComponentProps<TextProperties, TextAdditiona
 
 export const Text = withUtilPropsNative<TextProperties, TextAdditionalProps>({
   defaultUtilProps: {
-    f: 1,
+    fontSize__deprecated__doNotUse: 1,
     color: 'grayscale.b',
   },
   additionalPropsMap: textPropsMap,

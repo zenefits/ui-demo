@@ -1,5 +1,5 @@
 import getCookie from './get-cookie';
-// import eventLogger from '../event-logger';
+import eventLogger from '../event-logger';
 
 export default () => {
   const csrfmiddlewaretoken = getCookie('csrftoken');
@@ -20,6 +20,6 @@ export default () => {
       window.location.href = '/accounts/login/';
     })
     .catch(e => {
-      // eventLogger.log(`logout failed: ${e}`);
+      eventLogger.log(`logout failed: ${e}`);
     });
 };

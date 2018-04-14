@@ -1,11 +1,11 @@
 import {
-  getCssStringForPropValue,
-  getCssRuleForProp,
   getCssFromProps,
-  widthValueFn,
+  getCssRuleForProp,
+  getCssStringForPropValue,
   spaceValueHelper,
+  widthValueFn,
 } from './withUtilProps';
-import { PropsMapValue, PropsMap } from './commonTypes';
+import { PropsMap, PropsMapValue } from './commonTypes';
 
 const bp = [44, 55, 66];
 const theme = { breakpoints: bp };

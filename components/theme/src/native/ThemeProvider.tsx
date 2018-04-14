@@ -1,18 +1,19 @@
 import React, { StatelessComponent } from 'react';
 /* tslint:disable:import-filter */
 import {
-  ThemedStyledComponentsModule,
-  keyframes as baseKeyframes,
   injectGlobal as baseInjectGlobal,
+  keyframes as baseKeyframes,
+  ThemedStyledComponentsModule,
   ThemeProviderComponent,
 } from 'styled-components';
 import {
-  StyledInterface,
-  default as baseStyled,
-  ThemeProvider as BaseThemeProvider,
   css as baseCss,
+  default as baseStyled,
   withTheme as baseWithTheme,
+  StyledInterface,
+  ThemeProvider as BaseThemeProvider,
 } from 'styled-components/native';
+
 /* tslint:enable:import-filter */
 import { theme, ThemeInterface } from './theme';
 

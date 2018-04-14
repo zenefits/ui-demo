@@ -20,7 +20,7 @@ At the root we also have another package, that contains global dependencies as w
 
 * Install [nvm](https://github.com/creationix/nvm) `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash` (you might need reopen the terminal window or run `source ~/.bash_profile`)
 * Install node 9 using nvm `nvm install 9`
-* Install [yarn](https://yarnpkg.com/lang/en/docs/install/#alternatives-tab) `curl -o- -L https://yarnpkg.com/install.sh | bash -s`
+* Install [yarn](https://yarnpkg.com/lang/en/docs/install/#alternatives-tab) `curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.3.2`
 * Install lerna `npm i -g lerna@2.7` (or `yarn global add lerna@2.7`)
 
 It is recommended, but not required, to use [VS Code](https://code.visualstudio.com/) because it integrates so well with
@@ -60,7 +60,7 @@ We're following a slightly modified version of [git-flow](https://danielkummer.g
 
 * `master` is our main development branch, equivalent to `develop` in standard gitflow. Cut feature branches from here.
 * `release/*` used for releases. Cut from master. Merges to `production` and cascades to `master` when complete.
-* `production` reflects what's "active" in production, used for activations, during build. Equivalent to master in standard gitflow
+* `production` reflects what's "active" in production, used for activations, during build. Equivalent to master in standard gitflow.
 * `hotfix/*` used for hotfixes. Merges directly into `production` and cascades from there to `release/*` and `master`
 
 ### Creating an app
@@ -86,6 +86,8 @@ We're following a slightly modified version of [git-flow](https://danielkummer.g
 ### Coding style
 
 In most cases, our use of Prettier automates coding style if you have it configured in your IDE.
+
+Component filenames must be CamelCase, as per React conventions. Folder and package names, on the other hand, use `kebab-case`. For example: `date-time-text/DateTimeText.tsx`.
 
 Otherwise, please refer to our [Javascript style guide](https://github.com/zenefits/javascript). Although this is not Typescript specific, most Typescript constructs should be covered.
 

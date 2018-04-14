@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Box } from 'zbase';
+
 import Link from './Link';
 
 storiesOf('Link', module).add('default', () => (

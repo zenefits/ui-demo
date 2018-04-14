@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Box, Flex, Icon } from 'zbase';
 import { styled } from 'z-frontend-theme';
 import { color, space } from 'z-frontend-theme/utils';
-import { Checkbox, ButtonDropdown } from 'z-frontend-forms';
+import { ButtonDropdown, Checkbox } from 'z-frontend-forms';
 
 type CheckboxStatus = 'none' | 'partial' | 'all';
 
@@ -73,7 +73,7 @@ class BulkSelectDropdown extends Component<
     const showCheckbox = checkboxStatus === 'all' || checkboxStatus === 'none';
     return (
       <ButtonDropdown
-        fontSize={1}
+        fontSize__deprecated__doNotUse={1}
         target={
           <BulkSelectDropdownContainer px={2} border justify="center" align="center">
             {showCheckbox ? (

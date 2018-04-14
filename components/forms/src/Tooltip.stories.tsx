@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
+import { Box, Flex, Icon, P } from 'zbase';
+
 import Tooltip from './Tooltip';
-import { Box, Flex, P, Icon } from 'zbase';
 
 function makeTooltip(label) {
   return <P p={10}>{label}</P>;

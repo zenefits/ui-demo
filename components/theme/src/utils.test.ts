@@ -1,4 +1,4 @@
-import { color, heights, icon, fontSizes, space, zIndex } from './utils';
+import { color, fontSizes, heights, icon, space, zIndex } from './utils';
 import { ColorString } from './colors';
 
 declare global {

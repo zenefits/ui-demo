@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import Range from './Range';
 
 describe('Range', () => {

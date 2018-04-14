@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Box } from 'zbase';
+
 import Table from './Table';
 
 storiesOf('Table', module).add('default', () => (

@@ -1,10 +1,12 @@
 import path from 'path';
 import React from 'react';
 import Pathline from 'react-styleguidist/lib/rsg-components/Pathline';
+
 import { Card } from 'z-frontend-layout';
-import DocEditLink from './DocEditLink';
 import { styled } from 'z-frontend-theme';
-import { space, color } from 'z-frontend-theme/utils';
+import { color, space } from 'z-frontend-theme/utils';
+
+import DocEditLink from './DocEditLink';
 
 interface ReactComponentProps {
   name: string;

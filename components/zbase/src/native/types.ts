@@ -1,16 +1,16 @@
+import { ColorString, FontStyleString } from 'z-frontend-theme/native';
+
 import {
   UtilsMapCommon,
   UtilProp,
   UtilTypeBg as UtilTypeBgBase,
+  UtilTypeBorder as UtilTypeBorderBase,
   UtilTypeColor as UtilTypeColorBase,
   UtilTypeFont as UtilTypeFontBase,
+  UtilTypeMargin as UtilTypeMarginBase,
   UtilTypePadding as UtilTypePaddingBase,
   UtilTypeWidth as UtilTypeWidthBase,
-  UtilTypeMargin as UtilTypeMarginBase,
-  UtilTypeBorder as UtilTypeBorderBase,
 } from '../commonTypes';
-
-import { FontStyleString, ColorString } from 'z-frontend-theme/native';
 
 export interface UtilProps extends UtilsMapCommon<UtilProp, ColorString, FontStyleString> {}
 

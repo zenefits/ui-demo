@@ -1,7 +1,9 @@
-import { Textarea as ZbaseTextarea, TextareaProps as ZbaseTextareaProps } from 'zbase';
 import React, { Component } from 'react';
+
+import { Textarea as ZbaseTextarea, TextareaProps as ZbaseTextareaProps } from 'zbase';
 import { styled } from 'z-frontend-theme';
 import { space } from 'z-frontend-theme/utils';
+
 import { commonTextInputStyles } from './Input';
 
 export declare type TextareaProps = ZbaseTextareaProps & {

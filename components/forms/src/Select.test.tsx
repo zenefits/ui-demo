@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { mountWithTheme, shallowWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import Select from './Select';
 
 const combobox = 'input[role="combobox"]';

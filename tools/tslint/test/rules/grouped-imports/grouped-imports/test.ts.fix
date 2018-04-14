@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+import {afoo, foo} from 'foo';
+import x = require('y');
+
+import {bar} from 'local-module-1';
+import {bar1} from 'local-module-2';
+
+import '../zbc';
+import './baa';
+import './baz'; // required
+import './zbx';
+
+export class Test {}

@@ -1,8 +1,9 @@
 /* tslint:disable:import-filter */
 import { injectGlobal as baseInjectGlobal, ThemedStyledComponentsModule } from 'styled-components';
+
 /* tslint:enable:import-filter */
 import { themeCommon, ThemeInterfaceCommon } from '../themeCommon';
-import { fonts, fontSizes, weights, fontStyles } from './fonts';
+import { fonts, fontSizes, fontStyles, weights } from './fonts';
 
 const themeObject = {
   ...themeCommon,

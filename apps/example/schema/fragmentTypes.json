@@ -1,0 +1,30 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "Node",
+        "possibleTypes": [
+          {
+            "name": "Film"
+          },
+          {
+            "name": "Species"
+          },
+          {
+            "name": "Planet"
+          },
+          {
+            "name": "Person"
+          },
+          {
+            "name": "Starship"
+          },
+          {
+            "name": "Vehicle"
+          }
+        ]
+      }
+    ]
+  }
+}

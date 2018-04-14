@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import { Box } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { Form, reduxForm, InjectedFormProps } from 'redux-form';
-import { graphql, compose } from 'react-apollo';
+import { reduxForm, Form, InjectedFormProps } from 'redux-form';
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+
+import { Box } from 'zbase';
+
 import TextField from './fields/TextField';
 import CheckboxField from './fields/CheckboxField';
 import RadioField from './fields/RadioField';
 import TextareaField from './fields/TextareaField';
 import SelectField from './fields/SelectField';
 import DatePickerField from './fields/DatePickerField';
-import { FormRow, FieldsWrapper } from './fields/FieldWrapper';
+import { FieldsWrapper, FormRow } from './fields/FieldWrapper';
 import Button from './Button';
 
 const stories = storiesOf('Form', module);
@@ -85,8 +87,8 @@ class UserSimple extends Component<UserSimplePropsCombined> {
             label="Username *"
             name="username"
             required
-            min={5}
-            maxLength={2}
+            minLength={5}
+            maxLength={20}
             tooltipText="Enter your username"
           />
           <TextField label="Email" type="email" name="email" required minLength={3} tooltipText="Enter your email" />

@@ -1,12 +1,13 @@
-import React, { Component, cloneElement, ReactElement } from 'react';
+import React, { cloneElement, Component, ReactElement } from 'react';
 // TODO: use our own popover component
-import { Manager, Target, Popper } from 'react-popper';
+import { Manager, Popper, Target } from 'react-popper';
+
 import { Flex, Icon } from 'zbase';
-import { styled, css, withTheme } from 'z-frontend-theme';
+import { css, styled, withTheme } from 'z-frontend-theme';
 import { color, radius, space, zIndex } from 'z-frontend-theme/utils';
 
 import { childItemClassName } from './ButtonGroup';
-import Button, { ButtonBasicProps, ButtonRouteLinkProps, ButtonLinkProps } from './Button';
+import Button, { ButtonBasicProps, ButtonLinkProps, ButtonRouteLinkProps } from './Button';
 
 const ESC_KEYCODE = 27;
 
@@ -126,7 +127,7 @@ class ButtonDropdownComponent extends Component<ButtonBasicProps & Props, State>
       cloneElement(this.props.target as ReactElement<any>, targetProps) // pass onClick etc
     ) : (
       <Button {...targetProps}>
-        <Icon fontSize={1} iconName="more-vert" />
+        <Icon s="small" iconName="more-vert" />
       </Button>
     );
 
@@ -193,7 +194,7 @@ function styledItemHoc<P extends DefaultItemComponentProps>(ItemComponent: Compo
   class ButtonDropdownItem extends Component<P> {
     render() {
       return (
-        <ItemComponent {...this.props} w="100%" fontSize={1}>
+        <ItemComponent {...this.props} w="100%" fontSize__deprecated__doNotUse={1}>
           {this.props.children}
         </ItemComponent>
       );

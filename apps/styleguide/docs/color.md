@@ -14,4 +14,4 @@ const MyComponent = styled.div`
 `;
 ```
 
-To promote consistency and maintainability, _only_ these colors are available. This is enforced by [types](z-frontend/components/theme/src/colors.ts) and [linting](z-frontend/blob/master/.stylelintrc.js).
+To promote consistency and maintainability, _only_ these colors are available. This is enforced by [types](z-frontend/components/theme/src/colors.ts) and [linting](https://github.com/zenefits/ui-demo/blob/master/.stylelintrc.js).

@@ -1,8 +1,11 @@
 import React, { StatelessComponent } from 'react';
-import Button, { ButtonBasicProps } from './Button';
-import { Icon } from 'zbase';
 
-const IconButton: StatelessComponent<{ iconName: string } & ButtonBasicProps> = props => {
+import { Icon } from 'zbase';
+import { IconNameString } from 'z-frontend-theme';
+
+import Button, { ButtonBasicProps } from './Button';
+
+const IconButton: StatelessComponent<{ iconName: IconNameString } & ButtonBasicProps> = props => {
   const { iconName, ...rest } = props;
   return (
     <Button {...rest}>

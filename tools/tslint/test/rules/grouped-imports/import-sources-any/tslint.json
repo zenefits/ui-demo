@@ -1,0 +1,6 @@
+{
+  "rulesDirectory": ["../../../../rules"],
+  "rules": {
+    "grouped-imports": [true, { "import-sources-order": "any", "grouped-imports-regex": "^local-module-." }]
+  }
+}

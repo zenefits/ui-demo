@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { styled, css } from 'z-frontend-theme';
-import { Box, Flex, Label, P, Input, InputProps } from 'zbase';
-import { color, space, fontStyles } from 'z-frontend-theme/utils';
+
+import { css, styled } from 'z-frontend-theme';
+import { Box, Flex, Input, InputProps, Label, P } from 'zbase';
+import { color, fontStyles, space } from 'z-frontend-theme/utils';
 
 declare type RangeProps = InputProps & {
   showValuePercentage?: boolean;

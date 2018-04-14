@@ -1,14 +1,15 @@
-import { FontStyleString, ColorString } from 'z-frontend-theme';
+import { ColorString, FontStyleString } from 'z-frontend-theme';
+
 import {
-  UtilProp,
   UtilsMapCommon,
+  UtilProp,
   UtilTypeBg as UtilTypeBgBase,
+  UtilTypeBorder as UtilTypeBorderBase,
   UtilTypeColor as UtilTypeColorBase,
   UtilTypeFont as UtilTypeFontBase,
+  UtilTypeMargin as UtilTypeMarginBase,
   UtilTypePadding as UtilTypePaddingBase,
   UtilTypeWidth as UtilTypeWidthBase,
-  UtilTypeMargin as UtilTypeMarginBase,
-  UtilTypeBorder as UtilTypeBorderBase,
 } from '../commonTypes';
 
 export type ResponsiveUtilProp = UtilProp | UtilProp[];

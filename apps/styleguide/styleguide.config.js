@@ -1,8 +1,8 @@
 const path = require('path');
 const styleguideHelpers = require('./config/styleguideHelpers');
 
-function getPathFromPackage(package, relativePath) {
-  const dir = path.dirname(require.resolve(package));
+function getPathFromPackage(packageName, relativePath) {
+  const dir = path.dirname(require.resolve(packageName));
   return path.resolve(dir, relativePath);
 }
 
@@ -68,23 +68,31 @@ module.exports = {
         {
           name: 'Text content',
           components: () => [
-            getPathFromPackage('zbase', './src/web/P.tsx'),
-            getPathFromPackage('zbase', './src/web/Text.tsx'),
-            getPathFromPackage('zbase', './src/web/PluralText.tsx'),
-            getPathFromPackage('zbase', './src/web/DateText.tsx'),
-            getPathFromPackage('zbase', './src/web/TimeText.tsx'),
-            getPathFromPackage('zbase', './src/web/DateTimeText.tsx'),
-            getPathFromPackage('zbase', './src/web/RelativeText.tsx'),
-            getPathFromPackage('zbase', './src/web/NumberText.tsx'),
+            getPathFromPackage('zbase', './src/web/p/P.tsx'),
+            getPathFromPackage('zbase', './src/web/text/Text.tsx'),
+            getPathFromPackage('zbase', './src/web/plural-text/PluralText.tsx'),
+            getPathFromPackage('zbase', './src/web/date-text/DateText.tsx'),
+            getPathFromPackage('zbase', './src/web/time-text/TimeText.tsx'),
+            getPathFromPackage('zbase', './src/web/date-time-text/DateTimeText.tsx'),
+            getPathFromPackage('zbase', './src/web/relative-text/RelativeText.tsx'),
+            getPathFromPackage('zbase', './src/web/number-text/NumberText.tsx'),
+          ],
+        },
+        {
+          name: 'Text handling',
+          components: () => [
+            getPathFromPackage('z-frontend-text', './src/obscure/Obscure.tsx'),
+            getPathFromPackage('z-frontend-text', './src/obscure-toggle/ObscureToggle.tsx'),
           ],
         },
       ],
       components: () => [
-        getPathFromPackage('zbase', './src/web/Box.ts'),
-        getPathFromPackage('zbase', './src/web/Flex.ts'),
-        getPathFromPackage('zbase', './src/web/Heading.tsx'),
-        getPathFromPackage('zbase', './src/web/Badge.tsx'),
-        getPathFromPackage('zbase', './src/web/Image.ts'),
+        getPathFromPackage('zbase', './src/web/box/Box.ts'),
+        getPathFromPackage('zbase', './src/web/flex/Flex.ts'),
+        getPathFromPackage('zbase', './src/web/heading/Heading.tsx'),
+        getPathFromPackage('zbase', './src/web/badge/Badge.tsx'),
+        getPathFromPackage('zbase', './src/web/image/Image.ts'),
+        getPathFromPackage('zbase', './src/web/icon/Icon.tsx'),
         getPathFromPackage('z-frontend-forms', './src/Link.tsx'),
       ],
     },
@@ -95,7 +103,7 @@ module.exports = {
         getPathFromPackage('z-frontend-forms', './src/Avatar.tsx'),
         getPathFromPackage('z-frontend-forms', './src/Button.tsx'),
         getPathFromPackage('z-frontend-forms', './src/Checkbox.tsx'),
-        getPathFromPackage('z-frontend-layout', './src/LoadingScreen.tsx'),
+        getPathFromPackage('z-frontend-layout', './src/loading-screen/LoadingScreen.tsx'),
         getPathFromPackage('z-frontend-tables', './src/Table.tsx'),
       ],
     },
@@ -103,7 +111,7 @@ module.exports = {
       name: 'Layout',
       // TODO: list
       components: () => [
-        getPathFromPackage('z-frontend-layout', './src/Card.tsx'),
+        getPathFromPackage('z-frontend-layout', './src/card/Card.tsx'),
         // getPathFromPackage('z-frontend-forms', './src/Form.tsx'),
       ],
     },
@@ -114,6 +122,10 @@ module.exports = {
         {
           name: 'Testing',
           content: '../../docs/testing.md',
+        },
+        {
+          name: 'UIP SLAs',
+          content: '../../docs/uip-slas.md',
         },
       ],
     },

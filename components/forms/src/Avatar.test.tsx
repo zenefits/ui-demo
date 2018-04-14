@@ -1,7 +1,9 @@
 import React from 'react';
 import 'jest-styled-components';
-import Avatar from './Avatar';
+
 import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+
+import Avatar from './Avatar';
 
 describe('Avatar', () => {
   it('should mount without throwing an error', () => {

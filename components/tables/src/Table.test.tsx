@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, BoxProps } from 'zbase';
 import { shallow } from 'enzyme';
+
+import { Box, BoxProps } from 'zbase';
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Table from './Table';

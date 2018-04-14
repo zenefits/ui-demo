@@ -21,8 +21,7 @@ export const utilTypesMap = {
   },
   font: {
     fontStyle: true,
-    f: true,
-    fontSize: true,
+    fontSize__deprecated__doNotUse: true,
   },
   color: {
     color: true,
@@ -68,13 +67,10 @@ export interface UtilTypePadding<PropType> {
 
 export interface UtilTypeFont<PropType, FontPropType> {
   /**
-   * Shorthand for `fontSize`.
+   * @deprecated Please use `fontStyle` instead
    * */
-  f?: PropType;
-  /**
-   * @see See [Typography](#typography) for details.
-   * */
-  fontSize?: PropType; // TODO: replace with fontStyle
+  fontSize__deprecated__doNotUse?: PropType;
+  /** Set the font size, weight, line-height, etc. See [Typography](#typography) for details. */
   fontStyle?: FontPropType;
 }
 
@@ -143,8 +139,7 @@ export interface UtilsMapCommon<PropType, ColorPropType, FontPropType>
 const utilPropsMap: { [key in keyof UtilsMapCommon<any, any, any>]: any } = {
   bg: true,
   color: true,
-  f: true,
-  fontSize: true,
+  fontSize__deprecated__doNotUse: true,
   fontStyle: true,
   m: true,
   mb: true,

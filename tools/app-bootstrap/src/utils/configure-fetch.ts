@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 import getCookie from './get-cookie';
 
 const defaultOptions = {

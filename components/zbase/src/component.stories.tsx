@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { ThemeProvider } from 'z-frontend-theme';
-import { Flex, Box } from '../index';
+
+import { Box, Flex } from '../index';
 
 storiesOf('Utils System', module).add('responsive props', () => (
   <ThemeProvider>

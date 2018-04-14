@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { debounce, pickBy } from 'lodash';
+
 import { styled } from 'z-frontend-theme';
-import { Box, BoxProps, Icon, isUtilProp } from 'zbase';
+import { isUtilProp, Box, BoxProps, Icon } from 'zbase';
 import { color, fontSizes, heights, radius, space, zIndex } from 'z-frontend-theme/utils';
+
 import { commonTextInputStyles } from './Input';
 import Button from './Button';
 

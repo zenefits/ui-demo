@@ -1,9 +1,10 @@
 import React, { StatelessComponent } from 'react';
 import { FlattenInterpolation } from 'styled-components';
-import { styled, css } from 'z-frontend-theme';
-import { color, space, fontStyles } from 'z-frontend-theme/utils';
-import { Box, Flex, Label, P } from 'zbase';
 import moment from 'moment';
+
+import { css, styled } from 'z-frontend-theme';
+import { color, fontStyles, space } from 'z-frontend-theme/utils';
+import { Box, Flex, Label, P } from 'zbase';
 
 declare type TimelineProps = {
   otherData?: string;

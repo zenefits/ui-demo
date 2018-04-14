@@ -1,6 +1,13 @@
 import { Component } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-// import eventLogger from './event-logger';
+
+import eventLogger from './event-logger';
+
+declare global {
+  interface Window {
+    Intercom: any;
+  }
+}
 
 /**
  * NOTE: there are multiple blogposts suggesting to use createBrowserHistory directly from
@@ -18,14 +25,18 @@ export class AnalyticsProvider extends Component<RouteComponentProps<{}>> {
       // since this is not a routing concern
       // eventLogger.setTransitionInfo(nextProps.location.pathname);
       // eventLogger.timints.routeTransitionStart = new Date().getTime();
-      // const currentRoute = nextProps.location.pathname;
-      // eventLogger.setTransitionInfo(currentRoute);
-      // eventLogger.log('pageview', {
-      //   // It's silly to set it on the previous line, just to use it here
-      //   // let's make it the default
-      //   currentRoute,
-      //   transitionId: eventLogger.transitionId,
-      // });
+      const currentRoute = nextProps.location.pathname;
+      eventLogger.setTransitionInfo(currentRoute);
+      eventLogger.log('pageview', {
+        // It's silly to set it on the previous line, just to use it here
+        // let's make it the default
+        currentRoute,
+        transitionId: eventLogger.transitionId,
+      });
+      if (window.Intercom) {
+        // TODO: create an intercom provider and move it there.
+        window.Intercom('update');
+      }
     }
   }
   render() {

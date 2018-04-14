@@ -1,8 +1,6 @@
-const path = require('path');
 const webpack = require('webpack');
 const getAppName = require('./getAppName');
-
-const packageJson = require(path.join(process.cwd(), '/package.json')); // eslint-disable-line import/no-dynamic-require
+const getAppVersion = require('./getAppVersion');
 
 const ENV = process.env.NODE_ENV || 'development';
 const IS_PROD = ENV === 'production';
@@ -16,7 +14,7 @@ exports.createDefinePlugin = function createDefinePlugin() {
     'process.env.NODE_ENV': JSON.stringify(ENV),
     __APP_NAME__: JSON.stringify(getAppName()),
     // TODO: only use __APP_VERSION__ from index.html to avoid invalidating assets on each build
-    __APP_VERSION__: JSON.stringify(`${packageJson.version}.${Date.now()}`),
+    __APP_VERSION__: JSON.stringify(getAppVersion()),
     __CLIENT__: true,
     __DEVELOPMENT__: !IS_PROD,
     __MOCK_MODE__: MOCK_MODE === 'true',

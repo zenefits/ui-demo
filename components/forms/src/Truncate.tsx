@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import get from 'lodash/get';
 import { FlattenInterpolation } from 'styled-components';
-import { styled, css, theme, fontDescriptions } from 'z-frontend-theme';
-import { P, ParagraphProps } from 'zbase';
 import _ from 'lodash';
+
+import { css, fontDescriptions, styled, theme } from 'z-frontend-theme';
+import { P, ParagraphProps } from 'zbase';
 
 export type TruncateProps = ParagraphProps & {
   /** The number of lines that will appear before the text is clipped */

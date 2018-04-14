@@ -1,21 +1,22 @@
 import React from 'react';
+import { storiesOf } from '@storybook/react';
+import { FormattedDate, FormattedNumber, FormattedPlural, FormattedRelative, FormattedTime } from 'react-intl';
+
 import {
   Box,
-  Text,
+  DateText,
   DateTimeText,
   DateTimeTextProps,
-  DateText,
-  TimeText,
-  RelativeText,
-  RelativeTextProps,
-  NumberText,
-  NumberTextProps,
   Flex,
   Heading,
+  NumberText,
+  NumberTextProps,
   PluralText,
+  RelativeText,
+  RelativeTextProps,
+  Text,
+  TimeText,
 } from './index';
-import { storiesOf } from '@storybook/react';
-import { FormattedTime, FormattedDate, FormattedRelative, FormattedNumber, FormattedPlural } from 'react-intl';
 
 const someDate = new Date('2017-11-18 19:55:34');
 const initialNow = someDate.valueOf() + 100000;

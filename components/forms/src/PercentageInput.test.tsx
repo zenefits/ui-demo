@@ -1,6 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
+
 import { ThemeProvider } from 'z-frontend-theme';
+
 import PercentageInput from './PercentageInput';
 
 describe('PercentageInput', () => {

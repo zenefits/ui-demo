@@ -2,7 +2,7 @@
 
 source ./ci/setup_env.sh
 # TODO: collapse scripts in travis using travis_fold or similar
-NODE_ENV=production lerna run build --parallel=false $RUN_SINCE
+NODE_ENV=production lerna run build --concurrency 2 --parallel=false $RUN_SINCE
 
 ### deploys are disabled
 # lerna run deploy $RUN_SINCE

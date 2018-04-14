@@ -1,6 +1,7 @@
 import React, { StatelessComponent } from 'react';
+
 import { styled } from 'z-frontend-theme';
-import { Flex, Box, BoxProps } from 'zbase';
+import { Box, BoxProps, Flex } from 'zbase';
 import { color } from 'z-frontend-theme/utils';
 
 export const childItemClassName = 'button-group-child-item';

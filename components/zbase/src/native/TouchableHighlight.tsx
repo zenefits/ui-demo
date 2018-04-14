@@ -1,12 +1,13 @@
 import React, { StatelessComponent } from 'react';
 import { TouchableHighlightProperties, View } from 'react-native';
+
 import { styled } from 'z-frontend-theme/native';
 
 import { PropsMap } from '../commonTypes';
 import withUtilPropsNative, {
-  ResultNativeComponentProps,
-  FlexOnlyAdditionalProps,
   flexOnlyPropsMap,
+  FlexOnlyAdditionalProps,
+  ResultNativeComponentProps,
 } from './withUtilPropsNative';
 
 type TouchableHighlightAdditionalProps = FlexOnlyAdditionalProps & {

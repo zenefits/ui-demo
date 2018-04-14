@@ -1,6 +1,7 @@
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { ConfigManagerProps, Configs } from './GenericDataManager';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+
+import { Configs, ConfigManagerProps } from './GenericDataManager';
 
 // The config manager needs to have a getter and a setter for the configs.
 // The configs state needs to be an object with four fields:

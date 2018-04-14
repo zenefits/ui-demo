@@ -1,14 +1,15 @@
 import React from 'react';
 import { graphql, ChildProps } from 'react-apollo';
-import GenericDataManager, { GenericManagerRenderProps, ConfigManagerProps } from './GenericDataManager';
+
+import GenericDataManager, { ConfigManagerProps, GenericManagerRenderProps } from './GenericDataManager';
 import UrlStateManager, { UrlStateManagerInputProps } from './UrlStateManager';
 
-export declare type DataManagerWithDataProps = GenericManagerRenderProps & ChildProps<{}, any>;
+export declare type DataManagerWithDataProps<T> = GenericManagerRenderProps & ChildProps<{}, T>;
 
 export interface GraphqlDataManagerProps {
   query: any;
   variables?: any;
-  children: (gqlManagerProps: DataManagerWithDataProps) => React.ReactNode;
+  children: (gqlManagerProps: DataManagerWithDataProps<any>) => React.ReactNode;
 }
 
 // Generic render prop component - Used below to convert an hoc to a render prop

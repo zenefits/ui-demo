@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import NumberInput, { NumberInputProps } from './NumberInput';
 
 class PercentageInput extends Component<NumberInputProps> {

@@ -1,6 +1,8 @@
 import React from 'react';
 import 'jest-styled-components';
+
 import { mountWithTheme, renderWithTheme, shallowWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import Textarea from './Textarea';
 
 // fail test on console errors (this file only)

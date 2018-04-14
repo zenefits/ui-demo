@@ -1,8 +1,10 @@
-import React, { StatelessComponent, InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes, StatelessComponent } from 'react';
 import { Field as BaseField, WrappedFieldProps } from 'redux-form';
+
+import { LabelProps } from 'zbase';
+
 import { FieldProps } from './FieldWrapper';
 import CustomTileInput, { CustomTileInputProps } from '../CustomTileInput';
-import { LabelProps } from 'zbase';
 
 class Field extends BaseField<CustomTileInputProps> {}
 

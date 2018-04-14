@@ -1,11 +1,18 @@
-// TODO: move this test to a re-usable place so each app can include some share validations
-// of consumer contracts
-import { makeExecutableSchema } from 'graphql-tools';
-import typeDefs from '../../mock/typeDefs';
-import { resolvers } from '../../mock/resolvers';
+import { createApolloClient } from 'z-frontend-app-bootstrap';
+import runAppSchemaTests from 'z-frontend-yp-schema/runAppSchemaTests';
 
-describe('Example Graphql Schema', () => {
-  it('The schema and resolver are valid', () => {
-    makeExecutableSchema({ typeDefs, resolvers });
+import mocks from '../../mock/mocks';
+import resolvers from '../../mock/resolvers';
+const jsonSchema = require('../../schema/schema.json');
+const fragmentTypes = require('../../schema/fragmentTypes.json');
+
+describe('ExampleApp Graphql Schema', () => {
+  runAppSchemaTests({
+    createApolloClient,
+    fragmentTypes,
+    jsonSchema,
+    mocks,
+    resolvers,
+    appPath: __dirname + '/../../',
   });
 });

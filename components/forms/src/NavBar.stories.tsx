@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box } from 'zbase';
 import { storiesOf } from '@storybook/react';
+
+import { Box } from 'zbase';
+
 import NavBar from './NavBar';
 
 const links = [

@@ -60,7 +60,7 @@ class ImportFilterWalker extends Lint.RuleWalker {
 
           // check named exports
           // check for cases when importing the namespace with the star (import * from ...)
-          const nameSpaceImportKind = 240;
+          const nameSpaceImportKind = 244;
           if (
             node.importClause &&
             node.importClause.namedBindings &&

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import createIntlProvider from './createIntlProvider';
 
 export default function createReduxIntlDecorator(reducers = {}, createReduxProvider, localeData, additionalProps) {

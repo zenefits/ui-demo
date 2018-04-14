@@ -17,7 +17,7 @@ const apolloMockDecorator = createApolloDecorator({ mockConfig: apolloMockConfig
 const localeData = {
   en: {
     foo: 'foo {name}',
-    bar: 'bar { hello}',
+    bar: 'bar {hello}',
   },
   ru: {
     foo: 'фуу {name}',

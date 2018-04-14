@@ -1,4 +1,5 @@
-import { StatelessComponent, ReactNode, ReactElement } from 'react';
+import { ReactElement, ReactNode, StatelessComponent } from 'react';
+
 import { withTheme, ThemeInterface } from 'z-frontend-theme';
 
 type RenderWithThemeProps = {

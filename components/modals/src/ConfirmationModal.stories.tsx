@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Box } from 'zbase';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { Form, reduxForm, InjectedFormProps } from 'redux-form';
+import { reduxForm, Form, InjectedFormProps } from 'redux-form';
+
+import { Box } from 'zbase';
+import { Button } from 'z-frontend-forms';
+
 import ConfirmationModal from './ConfirmationModal';
 import { withDialog, WithDialogProps } from './DialogManager';
-import { Button } from 'z-frontend-forms';
 
 class SimpleModalContainer extends Component<WithDialogProps> {
   render() {

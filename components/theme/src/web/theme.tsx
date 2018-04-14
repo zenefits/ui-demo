@@ -1,12 +1,13 @@
 /* tslint:disable:import-filter */
 import {
-  keyframes as baseKeyframes,
   injectGlobal as baseInjectGlobal,
+  keyframes as baseKeyframes,
   ThemedStyledComponentsModule,
 } from 'styled-components';
+
 /* tslint:enable:import-filter */
-import { fonts, fontSizes, weights, fontStyles } from './fonts';
-import { ThemeInterfaceCommon, themeCommon } from '../themeCommon';
+import { fonts, fontSizes, fontStyles, weights } from './fonts';
+import { themeCommon, ThemeInterfaceCommon } from '../themeCommon';
 import zIndex from '../zIndex';
 
 const opacities = [0.65];

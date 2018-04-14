@@ -9,10 +9,10 @@
   "scripts": {
     "lint": "yarn eslint",
     "eslint": "z-frontend-eslint",
-    "compileRules": "tsc rules/*.ts",
+    "compileRules": "tsc --target es2015 --module commonjs --types node rules/*.ts",
     "compileRulesWatch": "yarn compileRules --watch",
     "nsp": "z-run nsp check",
-    "test": "tslint --test test/rules/*",
+    "test": "tslint --test test/rules/**/*",
     "testWatch": "onchange 'test/rules/**/*' 'rules/*.js' -- yarn test && echo '\n\n\n\n'"
   },
   "main": "index.js",
@@ -20,7 +20,8 @@
     "tslint": "^5.8.0",
     "tslint-config-airbnb": "^5.3.0",
     "tslint-react": "^3.2.0",
-    "typescript": "^2.6.1"
+    "tsutils": "2.12.2",
+    "typescript": "2.8.1"
   },
   "devDependencies": {
     "eslint-config-z-frontend": "*",

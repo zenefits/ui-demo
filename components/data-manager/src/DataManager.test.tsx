@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'enzyme';
+
 import DataManager from './DataManager';
 import { updateFilters } from './filterUtils';
 

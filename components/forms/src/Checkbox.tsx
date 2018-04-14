@@ -1,8 +1,9 @@
 import React, { Component, InputHTMLAttributes } from 'react';
-import { styled, css } from 'z-frontend-theme';
-import { Label, LabelProps, isUtilProp } from 'zbase';
-import { color, icon, fontSizes, radius, space } from 'z-frontend-theme/utils';
 import { omitBy, pickBy } from 'lodash';
+
+import { css, styled } from 'z-frontend-theme';
+import { isUtilProp, Label, LabelProps } from 'zbase';
+import { color, fontSizes, icon, radius, space } from 'z-frontend-theme/utils';
 
 const checkboxSize = '16px';
 
@@ -86,6 +87,10 @@ const StyledCheckbox = styled.input.attrs({
       cursor: not-allowed;
       color: ${color('grayscale.d')};
     }
+  }
+
+  :required {
+    box-shadow: none; /* prevent firefox default */
   }
 
   &.error {

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Box, Flex } from 'zbase';
 import { HashRouter as Router } from 'react-router-dom';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
+
+import { Box, Flex } from 'zbase';
+
 import Button from './Button';
 import Link from './Link';
 import IconButton from './IconButton';

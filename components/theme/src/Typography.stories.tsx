@@ -1,7 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withTheme, styled } from './web/ThemeProvider';
-import { FontStyleString, fontDescriptions, fontStyles } from './web/fonts';
+
+import { styled, withTheme } from './web/ThemeProvider';
+import { fontDescriptions, fontStyles, FontStyleString } from './web/fonts';
 import { convertToNestedMap, fontStyles as fsUtil } from './utils';
 
 const StyledTableHeader = styled.thead`

@@ -17,6 +17,7 @@ function getSchemaPaths(appRoot) {
     jsonPath: path.join(appRoot, 'schema/schema.json'),
     schemaTypesPath: path.join(appRoot, 'schema/schemaTypes.d.ts'),
     appTypesPath: path.join(appRoot, 'src/gqlTypes.d.ts'),
+    fragmentTypesPath: path.join(appRoot, 'schema/fragmentTypes.json'),
   };
 }
 

@@ -1,10 +1,12 @@
 import React, { Component, SelectHTMLAttributes } from 'react';
 import { omitBy, pickBy } from 'lodash';
-import { styled } from 'z-frontend-theme';
-import { Box, BoxProps, isUtilProp } from 'zbase';
-import { color, fontSizes, heights, radius, space, zIndex } from 'z-frontend-theme/utils';
-import { commonTextInputStyles } from './Input';
 import ReactSelect from 'react-select';
+
+import { styled } from 'z-frontend-theme';
+import { isUtilProp, Box, BoxProps } from 'zbase';
+import { color, fontSizes, heights, radius, space, zIndex } from 'z-frontend-theme/utils';
+
+import { commonTextInputStyles } from './Input';
 
 // NOTE-DZH: this component will not automatically open upwards when at the bottom of the screen
 // see https://github.com/JedWatson/react-select/issues/1515

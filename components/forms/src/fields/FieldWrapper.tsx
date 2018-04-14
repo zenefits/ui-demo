@@ -1,14 +1,16 @@
 import React, {
-  StatelessComponent,
   InputHTMLAttributes,
-  SelectHTMLAttributes,
-  TextareaHTMLAttributes,
   ReactElement,
+  SelectHTMLAttributes,
+  StatelessComponent,
+  TextareaHTMLAttributes,
 } from 'react';
-import { Flex, Box, BoxProps, Label, P, Icon } from 'zbase';
-import { Field, BaseFieldProps } from 'redux-form';
-import Tooltip from '../Tooltip';
+import { BaseFieldProps, Field } from 'redux-form';
+
+import { Box, BoxProps, Flex, Icon, Label, P } from 'zbase';
 import { HideFor } from 'z-frontend-theme';
+
+import Tooltip from '../Tooltip';
 import InputErrorText from './InputErrorText';
 
 const Fragment = (React as any).Fragment;

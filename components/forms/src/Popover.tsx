@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Manager, Target, Popper, Arrow } from 'react-popper';
+import { Arrow, Manager, Popper, Target } from 'react-popper';
+
 import { styled } from 'z-frontend-theme';
 import { Flex } from 'zbase';
-import { color, zIndex, space, radius, depth } from 'z-frontend-theme/utils';
+import { color, depth, radius, space, zIndex } from 'z-frontend-theme/utils';
 
 type FlipProp =
   | 'left'

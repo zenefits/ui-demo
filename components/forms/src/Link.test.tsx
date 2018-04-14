@@ -1,6 +1,8 @@
 import React from 'react';
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
 import { BrowserRouter } from 'react-router-dom';
+
+import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+
 import Link from './Link';
 
 describe('Link component', () => {

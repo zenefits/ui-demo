@@ -1,12 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import faker from 'faker';
+import { includes, range, uniqBy } from 'lodash';
+
+import { Button, Checkbox, InputWithIcon } from 'z-frontend-forms';
+import { Box, Flex } from 'zbase';
+
 import DataManager, { DataManagerRenderProps } from './DataManager';
 import { updateFilters } from './filterUtils';
 import { updateSorter } from './sortUtils';
-import { Button, Checkbox, InputWithIcon } from 'z-frontend-forms';
-import { Box, Flex } from 'zbase';
-import faker from 'faker';
-import { range, uniqBy, includes } from 'lodash';
 import Pager from './Pager';
 
 interface EmployeeType {

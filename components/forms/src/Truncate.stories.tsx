@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Flex, Box, Heading } from 'zbase';
+
+import { Box, Flex, Heading } from 'zbase';
+
 import Link from './Link';
 import Truncate from './Truncate';
 
@@ -9,7 +11,7 @@ const defaultText =
 
 function getCustomEllipsis() {
   return (
-    <Link href="https://www.google.com/" target="_blank" fontSize={0}>
+    <Link href="https://www.google.com/" target="_blank" fontSize__deprecated__doNotUse={0}>
       Custom ellipsis
     </Link>
   );

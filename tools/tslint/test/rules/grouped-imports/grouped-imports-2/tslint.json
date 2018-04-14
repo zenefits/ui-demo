@@ -1,0 +1,13 @@
+{
+  "rulesDirectory": ["../../../../rules"],
+  "rules": {
+    "grouped-imports": [
+      true,
+      {
+        "import-sources-order": "any",
+        "named-imports-order": "lowercase-first",
+        "grouped-imports-regex": "^local-module-."
+      }
+    ]
+  }
+}

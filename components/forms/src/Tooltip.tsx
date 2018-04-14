@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+
 import { color, zIndex } from 'z-frontend-theme/utils';
-import Popover, { PopoverProps } from './Popover';
 import { Flex } from 'zbase';
 import { styled } from 'z-frontend-theme';
+
+import Popover, { PopoverProps } from './Popover';
 
 const StyledContainer = styled(Flex)`
   display: inline-block;

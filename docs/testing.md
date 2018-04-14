@@ -25,7 +25,7 @@ Stories also automatically generate snapshots via [storyshots](https://storybook
 
 #### Snapshots
 
-Snapshots provide a serialized, diffable dump of your component ([example](https://github.com/zenefits/z-frontend/pull/389/files#diff-4f3bf4b73fe3b5251fa343024b939b49)).
+Snapshots provide a serialized, diffable dump of your component.
 They're useful to make sure unexpected changes don't happen. Unfortunately, they render everything, even sub-components,
 so they tend to change frequently and be relatively brittle.
 
