@@ -38,4 +38,10 @@ const getCssRule = () => ({
   use: ['style-loader', 'css-loader'],
 });
 
-module.exports = { getTypescriptRule, getFontsRule, getCssRule };
+const getCoveoSvgRule = () => ({
+  test: /\.svg$/,
+  include: [/node_modules\/coveo-search-ui/],
+  use: ['file-loader'],
+});
+
+module.exports = { getTypescriptRule, getFontsRule, getCssRule, getCoveoSvgRule };

@@ -8,7 +8,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
-    rules: [rules.getTypescriptRule(isDev), rules.getFontsRule(), rules.getCssRule()],
+    rules: [rules.getTypescriptRule(isDev), rules.getFontsRule(), rules.getCssRule(), rules.getCoveoSvgRule()],
   },
   plugins: [plugins.createDefinePlugin()],
 };

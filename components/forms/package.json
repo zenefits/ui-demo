@@ -20,6 +20,7 @@
     "node": "^9.3.0"
   },
   "dependencies": {
+    "coveo-search-ui": "^2.5652.7",
     "lodash": "^4.17.4",
     "material-design-iconic-font": "2.2.0",
     "moment": "^2.19.2",

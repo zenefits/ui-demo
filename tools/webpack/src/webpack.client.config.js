@@ -81,6 +81,7 @@ module.exports = function getConfig(options = { useAsyncTsCheck: false, disableY
         },
         rules.getFontsRule(),
         rules.getCssRule(),
+        rules.getCoveoSvgRule(),
         {
           test: /\.(graphql|gql)$/,
           exclude: /node_modules/,
