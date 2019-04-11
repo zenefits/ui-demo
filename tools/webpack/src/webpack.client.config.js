@@ -95,6 +95,7 @@ module.exports = function getConfig(options = {}) {
         },
         rules.getFontsRule(),
         rules.getCssRule(),
+        rules.getCoveoSvgRule(),
         {
           test: /\.(graphql|gql)$/,
           exclude: /node_modules/,

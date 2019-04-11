@@ -47,10 +47,17 @@ const getStorySourceAddonRule = () => ({
   enforce: 'pre',
 });
 
+const getCoveoSvgRule = () => ({
+  test: /\.svg$/,
+  include: [/node_modules\/coveo-search-ui/],
+  use: ['file-loader'],
+});
+
 module.exports = {
   getFontsRule,
   getCssRule,
   getImageRule,
   getMjsRule,
   getStorySourceAddonRule,
+  getCoveoSvgRule,
 };
