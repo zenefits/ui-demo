@@ -7,6 +7,6 @@ import CoveoSearch from './CoveoSearch';
 
 storiesOf('CoveoSearch', module).add('default', () => (
   <Box p={20} bg="grayscale.white">
-    <CoveoSearch/>
+    <CoveoSearch />
   </Box>
 ));

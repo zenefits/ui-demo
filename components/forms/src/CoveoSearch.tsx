@@ -12,7 +12,15 @@ class SearchUI extends Component {
 
   componentDidMount() {
     Coveo.SearchEndpoint.configureSampleEndpointV2();
-    Coveo.init(this.searchInterface.current as HTMLElement);
+
+    // initialize the search box as an external component if found
+    const options = window['CoveoSearchbox']
+      ? {
+          externalComponents: [window['CoveoSearchbox'].getSearchInterface()],
+        }
+      : {};
+
+    Coveo.init(this.searchInterface.current, options);
   }
 
   render() {
@@ -46,10 +54,7 @@ class CoveoSearch extends Component {
           <div className="coveo-tab-section">
             <a className="CoveoTab" data-id="All" data-caption="All Content" />
           </div>
-          <div className="coveo-search-section">
-            <div className="CoveoSettings" />
-            <div className="CoveoSearchbox" data-enable-omnibox="true" />
-          </div>
+          <div className="coveo-search-section" />
           <div className="coveo-main-section">
             <div className="coveo-facet-column">
               <div className="CoveoFacet" data-title="Type" data-field="@objecttype" data-tab="All" />
