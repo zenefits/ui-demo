@@ -1,6 +1,7 @@
 import React from 'react';
 import 'jest-styled-components';
 
+import 'z-frontend-jest/modified-jest-styled-components';
 import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import { Image } from '../index';
@@ -23,6 +24,12 @@ describe('Image', () => {
     const mounted = mountWithTheme(<Image p={123} bg="grayscale.black" />);
     expect(mounted).toHaveStyleRule('padding', '123px');
     expect(mounted).toHaveStyleRule('background-color', '#000');
+  });
+
+  it('width/height prop should override default', () => {
+    const mounted = mountWithTheme(<Image width={100} height={100} />);
+    expect(mounted).toHaveStyleRule('width', '100px');
+    expect(mounted).toHaveStyleRule('height', '100px');
   });
 
   it('should not render util props as attributes', () => {

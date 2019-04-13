@@ -13,7 +13,7 @@ const AContainer: StatelessComponent<AnchorProps> = ({ textKey, textValues, text
   if (textKey) {
     return (
       <FormattedMessage id={textKey} values={textValues} defaultMessage={textDefault}>
-        {str => <a {...removeUtilProps(rest)}>{str}</a>}
+        {(str: string) => <a {...removeUtilProps(rest)}>{str}</a>}
       </FormattedMessage>
     );
   }

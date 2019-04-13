@@ -1,5 +1,5 @@
 // TODO: unify with what we have in zen-js and ui-infra and merge it
-export default function getCookie(name) {
+export default function getCookie(name: string) {
   if (document.cookie && document.cookie !== '') {
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i = i + 1) {
@@ -10,4 +10,5 @@ export default function getCookie(name) {
       }
     }
   }
+  return null;
 }

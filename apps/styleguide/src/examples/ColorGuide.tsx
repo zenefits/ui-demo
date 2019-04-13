@@ -1,47 +1,88 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import { Box, Flex, Heading, P } from 'zbase';
+import { Badge, Box, Flex, Heading, TextBlock } from 'zbase';
+import { Button } from 'z-frontend-elements';
 import { styled, withTheme, ColorString, ThemeInterface } from 'z-frontend-theme';
-import { convertToNestedMap, depth, heights, radius } from 'z-frontend-theme/utils';
+import { convertToNestedMap, radius } from 'z-frontend-theme/utils';
 
 const ColorBox = styled(Box)`
-  width: ${heights('xxlarge')};
-  border-radius: ${radius};
-  box-shadow: ${depth(1)};
+  height: 100%;
 `;
 
-const ColorLabel = styled(P)`
-  overflow: hidden;
-  text-overflow: ellipsis;
+const StyledContainer = styled(Flex)`
+  border-radius: ${radius()};
 `;
 
 interface ColorGuideProps {
   theme: ThemeInterface;
 }
 
-class ColorGuide extends React.Component<ColorGuideProps> {
+interface ColorSwatchProps {
+  colorString: ColorString;
+  colorHex: string;
+}
+
+class ColorSwatch extends Component<ColorSwatchProps> {
   render() {
+    const { colorString, colorHex } = this.props;
+    return (
+      <StyledContainer w={1} border mb={3}>
+        <ColorBox w={1 / 2} bg={colorString} />
+        <Box p={3} borderLeft>
+          <TextBlock mb={2}>{colorString}</TextBlock>
+          <Badge bg="grayscale.f" color="text.default" fontStyle="controls.s" mx={0}>
+            {colorHex}
+          </Badge>
+        </Box>
+      </StyledContainer>
+    );
+  }
+}
+
+class ColorGuide extends Component<ColorGuideProps> {
+  state = {
+    showAll: false,
+  };
+  render() {
+    const { showAll } = this.state;
     const colorsMap = convertToNestedMap(this.props.theme.colors);
-    return Object.keys(colorsMap).map(categoryKey => (
+    delete colorsMap.inherit;
+    delete colorsMap.initial;
+    delete colorsMap.transparent;
+
+    let categories = Object.keys(colorsMap);
+    if (!this.state.showAll) {
+      categories = categories.slice(0, 2);
+    }
+
+    const colors = categories.map(categoryKey => (
       <Box key={categoryKey} mb={4}>
-        <Heading level={5} mb={2}>
+        <Heading level={5} mb={2} textTransform="capitalize">
           {categoryKey}
         </Heading>
         <Flex wrap>
-          {Object.keys(colorsMap[categoryKey]).map((colorKey, i) => (
-            <Flex direction="column" key={i} mr={2} mb={2} align="center">
-              <ColorBox bg={`${categoryKey}.${colorKey}` as ColorString}>
-                <Flex bg="grayscale.white" mt="40px" borderTop justify="center">
-                  <ColorLabel title={colorKey} p={1}>
-                    {colorKey}
-                  </ColorLabel>
-                </Flex>
-              </ColorBox>
-            </Flex>
+          {Object.keys(colorsMap[categoryKey]).map(colorKey => (
+            <ColorSwatch
+              key={colorKey}
+              colorString={`${categoryKey}.${colorKey}` as ColorString}
+              colorHex={colorsMap[categoryKey][colorKey]}
+            />
           ))}
         </Flex>
       </Box>
     ));
+    return (
+      <div>
+        {colors}
+        {!showAll && (
+          <Flex justify="center">
+            <Button s="large" onClick={() => this.setState({ showAll: !showAll })}>
+              Show All Colors
+            </Button>
+          </Flex>
+        )}
+      </div>
+    );
   }
 }
 

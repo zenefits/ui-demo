@@ -4,3 +4,5 @@ tools/eslint/bin/z-frontend-eslint.js
 tools/scripts/bin/**
 **/dist/**
 tools/tslint/rules/**
+yarn/**
+native-apps/*/globals-processed.js

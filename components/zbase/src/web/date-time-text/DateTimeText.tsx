@@ -3,7 +3,7 @@ import { DateSource, FormattedDate } from 'react-intl';
 
 import withWebUtilProps, { ResultWebComponentProps, TimeElProps } from '../withUtilPropsWeb';
 import { removeUtilProps } from '../../commonTypes';
-import TimeTag from '../TimeTag';
+import TimeTag from '../time-tag/TimeTag';
 
 // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
 // TODO: document these
@@ -71,7 +71,7 @@ const TextContainer: StatelessComponent<DateTimeTextProps> = ({
       hour12={hour12}
       timeZone={timeZone}
     >
-      {str => (
+      {(str: string) => (
         <TimeTag {...propsWithNoUtils} value={value}>
           {str}
         </TimeTag>

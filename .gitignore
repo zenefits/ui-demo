@@ -1,11 +1,13 @@
 .DS_Store
 .idea/
+.history/
 node_modules/
 dist/
 tmp/
 npm-debug.log
 lerna-debug.log
 yarn-error.log
+native-apps/*/globals-processed.js
 
 .vscode/
 !.vscode/settings.json
@@ -16,3 +18,16 @@ yarn-error.log
 storybook-static/
 
 coverage/
+
+/local-settings.json
+
+## gitignored for now to avoid pushing binaries to cypress
+## need to understand better how these work
+**/cypress/videos/**
+**/cypress/screenshots/**
+
+components/example/src/MyComponent.md
+
+# we use yarn
+package-lock.json
+npm-shrinkwrap.json

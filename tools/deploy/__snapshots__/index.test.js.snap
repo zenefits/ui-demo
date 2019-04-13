@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given the correct process.env for a production deployTarget generateStorybookDeployConfig matches snapshot using gondor env vars 1`] = `
+Object {
+  "build": Object {
+    "environment": "production",
+    "outputPath": "./storybook-static/",
+  },
+  "display-revisions": Object {
+    "amount": 10,
+    "revisions": [Function],
+  },
+  "github-deployment-status": Object {
+    "environment": "stories",
+    "org": "zenefits",
+    "ref": "FAKE_NOTIFICATION_SHA",
+    "repo": "z-frontend",
+    "targetUrl": "http://ui.zenefits.com/app/stories/index.html:FAKE_SHA",
+    "token": "FAKE_GITHUB_TOKEN",
+  },
+  "pipeline": Object {
+    "alias": Object {
+      "s3-index": Object {
+        "as": Array [
+          "s3-index",
+          "s3-iframe",
+        ],
+      },
+    },
+  },
+  "revision-data": Object {
+    "type": "git-commit",
+  },
+  "s3": Object {
+    "accessKeyId": "FAKE_AWS_ACCESS_KEY_ID",
+    "bucket": "ui.zenefits.com",
+    "filePattern": "{**,docs}/*.{js,css,png,gif,ico,jpg,map,xml,txt,svg,swf,eot,ttf,woff,woff2,otf}",
+    "prefix": "app/stories",
+    "region": "us-east-1",
+    "secretAccessKey": "FAKE_AWS_SECRET",
+  },
+  "s3-iframe": Object {
+    "accessKeyId": "FAKE_AWS_ACCESS_KEY_ID",
+    "allowOverwrite": true,
+    "bucket": "ui.zenefits.com",
+    "filePattern": "iframe.html",
+    "prefix": "app/stories",
+    "region": "us-east-1",
+    "revisionKey": "FAKE_SHA",
+    "secretAccessKey": "FAKE_AWS_SECRET",
+  },
+  "s3-index": Object {
+    "accessKeyId": "FAKE_AWS_ACCESS_KEY_ID",
+    "allowOverwrite": true,
+    "bucket": "ui.zenefits.com",
+    "prefix": "app/stories",
+    "region": "us-east-1",
+    "revisionKey": "FAKE_SHA",
+    "secretAccessKey": "FAKE_AWS_SECRET",
+  },
+}
+`;
+
+exports[`Given the correct process.env for a production deployTarget generateStorybookDeployConfig matches snapshot using travis env vars 1`] = `
+Object {
+  "build": Object {
+    "environment": "production",
+    "outputPath": "./storybook-static/",
+  },
+  "display-revisions": Object {
+    "amount": 10,
+    "revisions": [Function],
+  },
+  "github-deployment-status": Object {
+    "environment": "stories",
+    "org": "zenefits",
+    "ref": "FAKE_TRAVIS_PULL_REQUEST_SHA",
+    "repo": "z-frontend",
+    "targetUrl": "http://ui.zenefits.com/app/stories/index.html:FAKE_TRAVIS_COMMIT",
+    "token": "FAKE_GITHUB_TOKEN",
+  },
+  "pipeline": Object {
+    "alias": Object {
+      "s3-index": Object {
+        "as": Array [
+          "s3-index",
+          "s3-iframe",
+        ],
+      },
+    },
+  },
+  "revision-data": Object {
+    "type": "git-commit",
+  },
+  "s3": Object {
+    "accessKeyId": "FAKE_AWS_ACCESS_KEY_ID",
+    "bucket": "ui.zenefits.com",
+    "filePattern": "{**,docs}/*.{js,css,png,gif,ico,jpg,map,xml,txt,svg,swf,eot,ttf,woff,woff2,otf}",
+    "prefix": "app/stories",
+    "region": "us-east-1",
+    "secretAccessKey": "FAKE_AWS_SECRET",
+  },
+  "s3-iframe": Object {
+    "accessKeyId": "FAKE_AWS_ACCESS_KEY_ID",
+    "allowOverwrite": true,
+    "bucket": "ui.zenefits.com",
+    "filePattern": "iframe.html",
+    "prefix": "app/stories",
+    "region": "us-east-1",
+    "revisionKey": "FAKE_TRAVIS_COMMIT",
+    "secretAccessKey": "FAKE_AWS_SECRET",
+  },
+  "s3-index": Object {
+    "accessKeyId": "FAKE_AWS_ACCESS_KEY_ID",
+    "allowOverwrite": true,
+    "bucket": "ui.zenefits.com",
+    "prefix": "app/stories",
+    "region": "us-east-1",
+    "revisionKey": "FAKE_TRAVIS_COMMIT",
+    "secretAccessKey": "FAKE_AWS_SECRET",
+  },
+}
+`;

@@ -1,11 +1,12 @@
 import React from 'react';
+// @ts-ignore
 import { storiesOf } from '@storybook/react';
 
 import { ThemeProvider } from 'z-frontend-theme';
 
 import { Box, Flex } from '../index';
 
-storiesOf('Utils System', module).add('responsive props', () => (
+storiesOf('zbase|Utils System', module).add('responsive props', () => (
   <ThemeProvider>
     <div style={{ width: '100%' }}>
       <Flex

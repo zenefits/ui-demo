@@ -3,7 +3,9 @@ import { Field as BaseField, Validator, WrappedFieldProps } from 'redux-form';
 
 import { FieldFormatWrapper, FieldProps } from './FieldWrapper';
 import { generateValidators } from '../validators';
-import Input, { InputProps } from '../Input';
+import Input, { InputProps } from '../input/Input';
+import MoneyInput from '../money-input/MoneyInput';
+import PercentageInput from '../percentage-input/PercentageInput';
 
 type AllInputProps = InputProps & WrappedFieldProps & FieldProps;
 
@@ -17,10 +19,12 @@ export const InputField: StatelessComponent<AllInputProps> = ({
   errorText,
   tooltipText,
   fieldFormat,
+  type,
   ...rest
 }) => {
   const { touched, error } = meta;
   const finalErrorText = (touched && error) || errorText;
+  const InputComponent = getInputComponent(type);
   return (
     <FieldFormatWrapper
       label={label}
@@ -29,10 +33,26 @@ export const InputField: StatelessComponent<AllInputProps> = ({
       fieldFormat={fieldFormat}
       errorText={finalErrorText}
     >
-      <Input {...rest} {...input} aria-invalid={!!finalErrorText} hasError={!!finalErrorText} />
+      <InputComponent
+        {...rest}
+        {...input}
+        aria-invalid={!!finalErrorText}
+        hasError={!!finalErrorText}
+        required={false}
+      />
     </FieldFormatWrapper>
   );
 };
+
+function getInputComponent(type: string) {
+  if (type === 'money') {
+    return MoneyInput;
+  }
+  if (type === 'percent') {
+    return PercentageInput;
+  }
+  return Input;
+}
 
 const TextField: StatelessComponent<FieldProps> = ({ validate, ...rest }) => {
   const validators = [
@@ -40,8 +60,8 @@ const TextField: StatelessComponent<FieldProps> = ({ validate, ...rest }) => {
       required: rest.required,
       minLength: rest.minLength,
       maxLength: rest.maxLength,
-      minVal: Number(rest.min),
-      maxVal: Number(rest.max),
+      minVal: rest.min,
+      maxVal: rest.max,
     }),
     ...((validate as Validator[]) || []),
   ];

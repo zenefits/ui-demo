@@ -1,0 +1,3958 @@
+"""
+schema generated using server commit fa837e0f3fe3ed76ce5018319d249c995ecc0fd1
+"""
+type AddPlan {
+  planAuditStage: String
+  flatPremium: Boolean
+  guaranteeIssueIncrements: Boolean
+  parentPlan: AddPlan
+  dependentOnlyPlan: Boolean
+  customPlanCompanyId: Int
+  hasGuaranteeIssue: Boolean
+  migrationStatus: String
+  basicPlanIncrements: Boolean
+  shortCircuitPlanType: String
+  id: ID
+  productCode: String
+  totalCompensationBasedEarnings: Boolean
+  stateCarrier: Carrier
+  ageRedetermination: String
+  planUrl: String
+  comments: String
+  zipCodeBasedRates: Boolean
+  benefitsAugmentation: Boolean
+  isShortCircuitPlan: Boolean
+  rateUrl: String
+  applicableEnrollees: String
+  secondaryGuaranteeIssue: Boolean
+  salaryRedetermination: String
+  oldRateType: String
+  customPlan: Boolean
+  familyTieredRates: Boolean
+  newGroupExpiryDate: String
+  salaryBasedIncrements: Boolean
+  name: String
+  planType: String
+  contributionScheme: Boolean
+  dependentsOnBasicPlan: Boolean
+  multipleSamePlanTypedPlans: Boolean
+  renewalExpiryDate: String
+  tobaccoRates: Boolean
+  previousStatusBasedMax: Boolean
+  resource_uri: String
+  participationRequirement: Int
+  ageBasedOnRenewalDate: Boolean
+  evidenceOfInsurabilityForm: String
+  lineOfCoverage: String
+}
+
+type Address {
+  city: String
+  fax: String
+  street1: String
+  street2: String
+  phone: String
+  state: String
+  country: String
+  postalCode: String
+  id: ID
+  isActive: Boolean
+  resource_uri: String
+}
+
+type AddressSubAction {
+  isCompleted: Boolean
+  completionDate: String
+  description: String
+  city: String
+  street1: String
+  street2: String
+  completedBy_id: Int
+  state: String
+  ctaText: String
+  uniqueId: String
+  country: String
+  postalCode: String
+  inboxSubAction: InboxSubAction
+  descriptionWithNamesAndVariables: String
+  id: ID
+  resource_uri: String
+}
+
+type AddressSubActionTemplate {
+  id: ID
+  resource_uri: String
+  description: String
+  inboxSubActionTemplate: InboxSubActionTemplate
+}
+
+type all_employee {
+  status: EmployeeStatus
+
+  """
+  status value when you don't have access to the employee as admin/manager etc
+  """
+  allStatus: EmployeeStatus
+  preferredName: String
+  preferredOrFirstName: String
+  last_name: String
+  photoUrl: String
+  creationMethod: String
+  overridePayStartWeekDay: Int
+  reportToEmployee: AllEmployee
+  tShirtSize: String
+  sex: String
+  obfuscatedId: String
+  workPhoneExtension: String
+
+  """
+  paySchedule: CompanyPaySchedule
+  """
+  deductionsEffectiveStartDate: DateTime
+  isHighlyCompensated: Boolean
+  isSFBayArea: Boolean
+  isFicaExempt: Boolean
+  location: CompanyLocation
+  id: ID
+  city: String
+  first_name: String
+  middle_name: String
+  underMedicare: Boolean
+  zip: String
+  title: String
+  isDisabled: Boolean
+  personalPronounsId: Int
+  company: Company
+  socialSecurityCardUrl: String
+  isKeyEmployee: Boolean
+  overridePayFirstCheckDay: Int
+  overrideAnchorPayCheckDate: DateTime
+  socialSecurityProofUrl: String
+  qeCreated: Boolean
+  type: EmployeeType
+  address2: String
+  selectedPlan: Int
+  department: Department
+  selectedDentalPlan: Int
+  state: String
+  overridePayArrears: Int
+  visionApprovalStatus: String
+  version_id: Int
+  genderIdentity: String
+  phone: String
+  payrollId: String
+  address: String
+  selectedVisionPlan: Int
+  dietaryRestrictions: String
+  socialSecurityExpectedDate: DateTime
+  overrideAnchorPayDate: DateTime
+  medicalApprovalStatus: String
+  taReportingMethod: String
+  overridePayFrequency: String
+  paymentDistributionMethod: String
+  dentalApprovalStatus: String
+  dob: String
+  paymentMethod: String
+  photoThumbnailUrl: String
+  marital_status: String
+  email: String
+  overridePaySecondCheckDay: Int
+  isWaitingForSSNInfo: Boolean
+  socialSecurity: String
+  socialSecurityDecrypted: String
+  ageRange: String
+  w4Signature: Signature
+  workPhone: String
+  homeAddress: Address
+  inDE9C: Boolean
+  hasCertOfNonResidenceForTaxState: Boolean
+
+  """
+  is the current user requesting the API an administrator of this employee
+  """
+  canAdminister: Boolean
+
+  """
+  is the current user requesting the API a manager of this employee
+  """
+  canManage: Boolean
+  isManager: Boolean
+
+  """
+  hire date as a string in the from MM/DD/YYYY
+  """
+  hireDate: String
+
+  """
+  Are they your manager, subordinates or siblings
+  """
+  isTeamMember: Boolean
+
+  """
+  the employee object for the user that made this API request
+  """
+  isRequester: Boolean
+  employmentType: EmploymentType
+  terminationType: TerminationType
+  terminationCategory: String
+
+  """
+  termination date as a string in the from MM/DD/YYYY
+  """
+  terminationDate: String
+
+  """
+  for international employees their pay currency
+  """
+  currency: String
+
+  """
+  compensation type
+  """
+  compType: CompType
+  payRate: Float
+  salaryAnnual: Float
+
+  """
+  list of available plans for this employee
+  """
+  benefitsPlanOptions(lineOfCoverage: String!, effectiveDate: String!): [CompanyHealthPlan]
+  benefitsEnrollments(benefitsType: String): [BenefitsEnrollment]
+  benefitsTransactions(benefitsType: String): [BenefitsTransaction]
+  effectiveBenefitsTransactions(benefitsTypes: [String!]!, effectiveDate: String): [BenefitsTransaction]
+  nextEffectiveBenefitsTransactions(benefitsType: [String!]!, effectiveDate: String): [BenefitsTransaction]
+  dependents: [Dependent]
+  productEligibilityTag: EmployeeProductEligibilityTag
+}
+
+type AllEmployee {
+  status: EmployeeStatus
+
+  """
+  status value when you don't have access to the employee as admin/manager etc
+  """
+  allStatus: EmployeeStatus
+  preferredName: String
+  preferredOrFirstName: String
+  last_name: String
+  photoUrl: String
+  creationMethod: String
+  overridePayStartWeekDay: Int
+  reportToEmployee: AllEmployee
+  tShirtSize: String
+  sex: String
+  obfuscatedId: String
+  workPhoneExtension: String
+
+  """
+  paySchedule: CompanyPaySchedule
+  """
+  deductionsEffectiveStartDate: DateTime
+  isHighlyCompensated: Boolean
+  isSFBayArea: Boolean
+  isFicaExempt: Boolean
+  location: CompanyLocation
+  id: ID
+  city: String
+  first_name: String
+  middle_name: String
+  underMedicare: Boolean
+  zip: String
+  title: String
+  isDisabled: Boolean
+  personalPronounsId: Int
+  company: Company
+  socialSecurityCardUrl: String
+  isKeyEmployee: Boolean
+  overridePayFirstCheckDay: Int
+  overrideAnchorPayCheckDate: DateTime
+  socialSecurityProofUrl: String
+  qeCreated: Boolean
+  type: EmployeeType
+  address2: String
+  selectedPlan: Int
+  department: Department
+  selectedDentalPlan: Int
+  state: String
+  overridePayArrears: Int
+  visionApprovalStatus: String
+  version_id: Int
+  genderIdentity: String
+  phone: String
+  payrollId: String
+  address: String
+  selectedVisionPlan: Int
+  dietaryRestrictions: String
+  socialSecurityExpectedDate: DateTime
+  overrideAnchorPayDate: DateTime
+  medicalApprovalStatus: String
+  taReportingMethod: String
+  overridePayFrequency: String
+  paymentDistributionMethod: String
+  dentalApprovalStatus: String
+  dob: String
+  paymentMethod: String
+  photoThumbnailUrl: String
+  marital_status: String
+  email: String
+  overridePaySecondCheckDay: Int
+  isWaitingForSSNInfo: Boolean
+  socialSecurity: String
+  socialSecurityDecrypted: String
+  ageRange: String
+  w4Signature: Signature
+  workPhone: String
+  homeAddress: Address
+  inDE9C: Boolean
+  hasCertOfNonResidenceForTaxState: Boolean
+
+  """
+  is the current user requesting the API an administrator of this employee
+  """
+  canAdminister: Boolean
+
+  """
+  is the current user requesting the API a manager of this employee
+  """
+  canManage: Boolean
+  isManager: Boolean
+
+  """
+  hire date as a string in the from MM/DD/YYYY
+  """
+  hireDate: String
+
+  """
+  Are they your manager, subordinates or siblings
+  """
+  isTeamMember: Boolean
+
+  """
+  the employee object for the user that made this API request
+  """
+  isRequester: Boolean
+  employmentType: EmploymentType
+  terminationType: TerminationType
+  terminationCategory: String
+
+  """
+  termination date as a string in the from MM/DD/YYYY
+  """
+  terminationDate: String
+
+  """
+  for international employees their pay currency
+  """
+  currency: String
+
+  """
+  compensation type
+  """
+  compType: CompType
+  payRate: Float
+  salaryAnnual: Float
+
+  """
+  list of available plans for this employee
+  """
+  benefitsPlanOptions(lineOfCoverage: String!, effectiveDate: String!): [CompanyHealthPlan]
+  benefitsEnrollments(benefitsType: String): [BenefitsEnrollment]
+  benefitsTransactions(benefitsType: String): [BenefitsTransaction]
+  effectiveBenefitsTransactions(benefitsTypes: [String!]!, effectiveDate: String): [BenefitsTransaction]
+  nextEffectiveBenefitsTransactions(benefitsType: [String!]!, effectiveDate: String): [BenefitsTransaction]
+  dependents: [Dependent]
+  productEligibilityTag: EmployeeProductEligibilityTag
+}
+
+type BankSubAction {
+  isCompleted: Boolean
+  completionDate: String
+  description: String
+  bankName: String
+  country: String
+  bankAccountType: String
+  bankSwiftCode: String
+  completedBy_id: Int
+  bankBranchName: String
+  additionalRoutingNumber: String
+  ctaText: String
+  uniqueId: String
+  inboxSubAction: InboxSubAction
+  bankRoutingNumber: String
+  resource_uri: String
+  descriptionWithNamesAndVariables: String
+  id: ID
+  isActive: Boolean
+  bankAccountNumber: String
+}
+
+type BankSubActionTemplate {
+  id: ID
+  resource_uri: String
+  description: String
+  inboxSubActionTemplate: InboxSubActionTemplate
+}
+
+enum BenAdminCompanyState {
+  STEADY
+  ENROLLMENT
+  ALL
+  RENEWAL_SETUP
+  RENEWAL_INVITE
+  RENEWAL_SUBMIT
+}
+
+type BeneficiaryContext {
+  firstName: String
+  lastName: String
+  percentage: String
+  relationship: String
+}
+
+type benefits_transaction {
+  event: String
+  eventCycle: String
+  maxAnnualContribution: String
+  employeeContribution: Float
+  proratingStrategy: String
+  id: ID
+  employeePlanCost: String
+  employee: AllEmployee
+  effectiveDate: String
+  dependentsPlanCost: String
+  benefitsCost: BenefitsCost
+  employeeRiderCost: String
+  employeeDeduction: Float
+  benefitsContext: BenefitsContext
+  payloadContext_id: ID
+  deactivationDate: DateTime
+  dependentsContribution: Float
+  reason: String
+  creationDate: DateTime
+  dependentsRiderCost: String
+  dependentsDeduction: Float
+  benefitsType: String
+  maxAnnualDeduction: String
+  contributionBreakdown: ContributionBreakdown
+  isContributionAsPercentage: Boolean
+  isDeductionAsPercentage: Boolean
+  logs: [BenefitsTransactionLog]
+  initiativeRelationships: [BenefitsTransactionRelationship]
+  passiveRelationships: [BenefitsTransactionRelationship]
+  fulfillmentInfo: BenefitsFulfillmentInfo
+}
+
+type BenefitsContext {
+  employee: EmployeeContext
+  dependentsRenamed: [DependentContext]
+  dependents: [dependent_context]
+}
+
+type BenefitsCost {
+  employeePlanCost: Float
+  employeeRidersCost: Float
+  employeeVoluntaryPlanCost: Float
+  dependentsPlanCost: Float
+  dependentsRidersCost: Float
+  dependentsVoluntaryPlanCost: Float
+  spousePlanCost: Float
+  spouseRidersCost: Float
+  spouseVoluntaryPlanCost: Float
+  childrenPlanCost: Float
+  childrenRidersCost: Float
+  childrenVoluntaryPlanCost: Float
+}
+
+type BenefitsEnrollment {
+  id: ID
+  employee_id: ID
+  benefitsType: String
+  enrollmentType: String
+  effectiveDate: DateTime
+  status: String
+  benefitsEvent: String
+  startDate: DateTime
+  endDate: DateTime
+  validity: String
+  benefitsContext: BenefitsContext
+  companyHealthEnrollment_id: ID
+  qualifyingEvent_id: ID
+}
+
+type BenefitsFulfillmentChangelogTransaction {
+  timestamp: DateTime!
+  message: String!
+  sendChannelName: String
+  status: BenefitsSettlementStatus!
+  links: [BenefitsFulfillmentHelpLink!]
+}
+
+type BenefitsFulfillmentCurrentStatus {
+  statusSummary: String!
+  settlementStatus: BenefitsSettlementStatus!
+}
+
+type BenefitsFulfillmentHelpLink {
+  identifier: String!
+  name: String!
+  href: String!
+}
+
+type BenefitsFulfillmentInfo {
+  currentStatus: BenefitsFulfillmentCurrentStatus!
+  details: BenefitsFulfillmentInfoDetails
+  benConnectInfo: BenefitsFulfillmentInfo
+  benefitsTransactionId: ID!
+}
+
+type BenefitsFulfillmentInfoDetails {
+  changeLogTransactions: [BenefitsFulfillmentChangelogTransaction!]
+}
+
+union BenefitsPlan = Plan | DentalPlan | VisionPlan | LifePlanNew | AddPlan | StdPlanNew | LtdPlanNew
+
+type BenefitsSettlementBundle {
+  id: ID
+  carrier: Carrier
+  employee: AllEmployee
+  company: Company
+  effectiveDate: Date
+  sendChannelName: String
+  action_id: String
+  event: String
+  dependsOnBundleIds: String
+  status: String
+  current_context: BundleCurrentContext
+}
+
+enum BenefitsSettlementStatus {
+  created
+  send_fail
+  send_channel_processing
+  aborted
+  sent
+  completed
+}
+
+type BenefitsTransaction {
+  event: String
+  eventCycle: String
+  maxAnnualContribution: String
+  employeeContribution: Float
+  proratingStrategy: String
+  id: ID
+  employeePlanCost: String
+  employee: AllEmployee
+  effectiveDate: String
+  dependentsPlanCost: String
+  benefitsCost: BenefitsCost
+  employeeRiderCost: String
+  employeeDeduction: Float
+  benefitsContext: BenefitsContext
+  payloadContext_id: ID
+  deactivationDate: DateTime
+  dependentsContribution: Float
+  reason: String
+  creationDate: DateTime
+  dependentsRiderCost: String
+  dependentsDeduction: Float
+  benefitsType: String
+  maxAnnualDeduction: String
+  contributionBreakdown: ContributionBreakdown
+  isContributionAsPercentage: Boolean
+  isDeductionAsPercentage: Boolean
+  logs: [BenefitsTransactionLog]
+  initiativeRelationships: [BenefitsTransactionRelationship]
+  passiveRelationships: [BenefitsTransactionRelationship]
+  fulfillmentInfo: BenefitsFulfillmentInfo
+}
+
+type BenefitsTransactionHelpFlow {
+  id: ID
+  company: Company
+  employee: AllEmployee
+  benefitsType: String
+  originalContext: BenefitsContext
+  originalCost: BenefitsCost
+  originalContribution: ContributionBreakdown
+  newCost: BenefitsCost
+  newContribution: ContributionBreakdown
+  triageData: String
+  contextChange: BenefitsContext
+  costChange: BenefitsCost
+  contributionChange: ContributionBreakdown
+  flow: Flow
+  jiraTicket: String
+  isApproved: Boolean
+  isCompleted: Boolean
+  createdAt: DateTime
+  createdBy: User
+  approvedBy: User
+  completedAt: DateTime
+}
+
+type BenefitsTransactionLog {
+  creationDate: DateTime
+  employee_id: Int
+  requestEmployee: AllEmployee
+  requesterCategory: String
+  user_id: Int
+  success: Boolean
+  benefitsType: String
+  errorMessage: String
+  funcName: String
+  requestData: String
+  time: DateTime
+  commitHash: String
+  fileName: String
+  id: ID
+}
+
+type BenefitsTransactionRelationship {
+  id: ID
+  name: String
+  initiativeTransaction: BenefitsTransaction
+  passiveTransaction: BenefitsTransaction
+  contextChange: String
+  contextChangeError: Boolean
+  costChange: String
+  costChangeError: Boolean
+  contributionChange: String
+  contributionChangeError: Boolean
+  effectiveDateChange: String
+}
+
+type BundleCurrentContext {
+  personalInfoRenamed: BenefitsTransaction
+  personalInfo: benefits_transaction
+  medicalRenamed: BenefitsTransaction
+  medical: benefits_transaction
+  dentalRenamed: BenefitsTransaction
+  dental: benefits_transaction
+  visionRenamed: BenefitsTransaction
+  vision: benefits_transaction
+  group_term_life_insuranceRenamed: BenefitsTransaction
+  group_term_life_insurance: benefits_transaction
+  adndRenamed: BenefitsTransaction
+  adnd: benefits_transaction
+  vol_ltd_insuranceRenamed: BenefitsTransaction
+  vol_ltd_insurance: benefits_transaction
+  vol_std_insuranceRenamed: BenefitsTransaction
+  vol_std_insurance: benefits_transaction
+}
+
+"""
+Message structure used to represent the enrollment cancellation for a specific line.
+"""
+input CancelEmployeeBenefitsEnrollment {
+  lineOfCoverage: String!
+  effectiveDate: Date!
+}
+
+type Carrier {
+  liveQuoteMedical: Boolean
+  agentName: String
+  liveQuoteVision: Boolean
+  businessInsuranceAgentIdOverride: String
+  liveQuoteEmbargoDays: Int
+  isMedicalCarrier: Boolean
+  agentId: String
+  id: ID
+  agencyId: String
+  appointmentNotes: String
+  isDentalCarrier: Boolean
+  businessInsuranceAgentId: Int
+  onlineEoiUrl: String
+  isTrust: Boolean
+  state: String
+  rxGroup: String
+  isEDISupported: Boolean
+  businessInsuranceAgencyId: String
+  supportsAutopay: Boolean
+  logoUrl: String
+  isDisabilityCarrier: Boolean
+  employerAccessMode: String
+  liveQuoteDental: Boolean
+  newHireApprovalProcessingDays: Int
+  isVisionCarrier: Boolean
+  isLifeCarrier: Boolean
+  displayName: String
+  name: String
+  crawlDriver: String
+  appointmentStatus: String
+  rxPCN: String
+  logoKey: String
+  agentModelId: Int
+  rxBinNumber: String
+  isBusinessInsuranceCarrier: Boolean
+  ein: String
+  autopayInstruction: String
+  carrierID: Int
+  copy: CarrierCopy
+}
+
+type CarrierCopy {
+  lgEmployeeDeclineWaiver: String
+  achAuthorization: String
+  hmoMedicalDisplayText: String
+  id: ID
+  hmoDentalDisplayText: String
+  employeeAgreement: String
+  dentalClaimsAddress: String
+  ltdClaimsAddress: String
+  hmoMedicalUrl: String
+  hmoDentalUrl: String
+  onlyPercentPolicy: Boolean
+  stdClaimsAddress: String
+  employeeDeclineWaiver: String
+  lgEmployeeAgreement: String
+  website: String
+  hmoClaimsPhone: String
+  ppoClaimsPhone: String
+  phone: String
+  visionClaimsAddress: String
+  employerLoginUrl: String
+  companyAgreement: String
+  claimsAddress: String
+  disclaimerStatement: String
+  officerStatement: String
+  medicalClaimsAddress: String
+}
+
+"""
+Message structure used to represent the enrollment date change for a single line.
+"""
+input ChangeEmployeeBenefitsEnrollment {
+  lineOfCoverage: String!
+  effectiveDate: Date!
+  newEffectiveDate: Date
+  newEndDate: Date
+}
+
+type Company {
+  legalAddress2: String
+  overridePayStartWeekDay: Int
+  phoneExtension: String
+  stateTaxID: String
+  nextPayPeriodDate: DateTime
+  payFrequency: String
+  payrollPin: String
+  regEmployeeCount: Int
+  logoUrl: String
+  payrollHomeDir: String
+  accountantEmail: String
+  county: String
+  payrollProviderUrl: String
+  stateTaxIDState: String
+  syncStatus: String
+  payrollProvider: String
+  isOwnerOnlyCompany: Boolean
+  id: ID
+  city: String
+  lastGoodSync: DateTime
+  legalCity: String
+  _enrollmentStatus: String
+  stateOfIncorporation: String
+  zip: String
+  benefitsOnly: Boolean
+  dayBusinessEstablished: String
+  obfuscatedId: String
+  address2: String
+  overridePayFirstCheckDay: Int
+  overrideAnchorPayCheckDate: DateTime
+  payrollPhone: String
+  lastBulkUnRegEmailResend: DateTime
+  businessDescription: String
+  shortCircuitEmployeeCount: Int
+  type: String
+  payrollCredentialAccountType: String
+  overridePaySecondCheckDay: Int
+  naicsCode: String
+  fax: String
+  payrollPassword: String
+  selectedCarrier: String
+  salesforceIndustry: String
+  overridePayArrears: Int
+  legalName: String
+  payrollEmail: String
+  version_id: Int
+  deactivationDate: DateTime
+  payrollUsername: String
+  selectedStateCarrier: Carrier
+  state: String
+  monthBusinessEstablished: String
+  address: String
+  employeeCount: Int
+  legalAddress: String
+  isReal: Boolean
+  syncedPayrollProvider: String
+  groupId: String
+  isActive: Boolean
+  payrollSyncType: String
+  legalZip: String
+  name: String
+  phone: String
+  legalState: String
+  logoKey: String
+  syncErrorMessage: String
+  lastSyncRun: DateTime
+  browserQueue: String
+  payrollClientId: String
+  payrollLoginIsOurs: Boolean
+  isLargeGroup: Boolean
+  sicCode: String
+  overrideAnchorPayDate: DateTime
+  yearBusinessEstablished: String
+  payrollCookies: String
+  ein: String
+  hrProxy: CompanyHrProxy
+  healthProxy: CompanyHealthProxy
+
+  """
+  auxProxy: CompanyAuxProxy
+  internationalProxy: CompanyInternationalProxy
+  payrollProxy: CompanyPayrollProxy
+  ptoProxy: CompanyPtoProxy
+  taProxy: CompanyTaProxy
+  stockoptionProxy: CompanyStockoptionProxy
+  """
+  employees: [AllEmployee]
+  currentHealthEnrollments: [CompanyHealthEnrollment]
+  upcomingHealthEnrollments: [CompanyHealthEnrollment]
+}
+
+type CompanyBenefitsCost {
+  lineOfCoverage: String
+  numberOfEnrollments: Int
+  totalCost: String
+  totalDeduction: String
+  totalContribution: String
+}
+
+type CompanyCobra {
+  cobraBankAccountNumber: String
+  previousAdminEmail: String
+  cobraBankAuthDate: String
+  id: ID
+  cobraPartTimeCountRawData: String
+  takeoverAdminSignature: String
+  cobraBankRoutingNumber: String
+  company: Company
+  takeoverAdminName: String
+  cobraBankAccountType: String
+  status: String
+  countEmployees: String
+  previousAdminName: String
+  previousHaveParticipants: Boolean
+  cobraBankAuthSignature: String
+  cobraFullTimeCount: Int
+  cobraClassification: [CompanyCobra]
+  isBankInfoComplete: Boolean
+  cobraBankName: String
+  takeoverDate: String
+  offboardingDate: String
+  coolingOffDays: Int
+  cobraPartTimeCount: Float
+  cobraBankAuthName: String
+  takeoverAdminTitle: String
+  previousAdministratorType: String
+  takeoverSignDate: String
+  hasActiveCobraEmployees: Boolean
+
+  """
+  previousAdministrator: CobraThirdPartyAdministrator
+  """
+  resource_uri: String
+}
+
+type CompanyHealthCarrier {
+  raf: String
+  openEnrollmentMonth: String
+  isPrimaryCarrier: Boolean
+  ptWaitingPeriodChangeEffectiveDate: String
+  skipPackageSizeValidation: Boolean
+  dependentMaxAge: Int
+  isOpenEnrollmentInProgress: Boolean
+  dentalBasePlan: DentalPlan
+  carrier: Carrier
+  openEnrollmentStart: String
+  isOpenEnrollment: Boolean
+  onlineAccessUsername: String
+  depCountFixedDeductions: String
+  waitingPeriod: String
+  depFixedContributions: String
+  basePlan: Plan
+  id: ID
+  basePlanName: String
+  hasEmployerAccess: Boolean
+  waitingPeriodDisplayText: String
+  renewalPacketUrl: String
+  ptWaitingPeriodDisplayText: String
+  employeeContributionSchemes: String
+  ediStatus: String
+  company: Company
+  openEnrollmentEndDate: String
+  shortCircuitOEManualOverrideOn: Boolean
+  fixedContributionOverallMax: String
+  isSelfAdministered: Boolean
+  borStatus: String
+  companyHealthEnrollment: CompanyHealthEnrollment
+  rxGroup: String
+  renewalDate: String
+  status: String
+  planContributionSchemes: String
+  oktaNotes: String
+  planDepTypeContributionSchemes: String
+  ptWaitingPeriod: String
+  onlineAccessPassword: String
+  terminationPolicy: String
+  terminationPolicyDisplayText: String
+  terminationPolicyChangeReason: String
+  contractLength: Int
+  autoPayAckSignature: String
+  contributionEmployee: String
+  waitingPeriodChangeEffectiveDate: String
+  employeeFixedDeductions: String
+  waitingPeriodChangeReason: String
+  ptWaitingPeriodChangeReason: String
+  contributionType: String
+  isUnderImplementation: Boolean
+  autoPayAckName: String
+  contributionTypeChangeReason: String
+  approvedDate: String
+  commissionID: String
+  approvalLetterUrl: String
+  submittedTimestamp: DateTime
+  contributionDependents: String
+  _openEnrollmentStart: String
+  invoiceUrl: String
+  oktaLink: String
+  rxBinNumber: String
+  rxPCN: String
+  fixedContributionEmployeeMax: String
+  disableDependentCoverageChanges: Boolean
+  lineOfCoverage: String
+  doWeAutoPay: Boolean
+  hasCustomContributions: Boolean
+  eligibleForShortCircuitOpenEnrollment: String
+  openEnrollmentPeriod: Int
+  depTypeContributionSchemes: String
+  contributionTypeChangeEffectiveDate: String
+  switchCancellationPolicy: String
+  fixedContributionDependentMax: String
+  groupID: String
+  planFixedDeductions: String
+  resource_uri: String
+  companyHealthPlans: [CompanyHealthPlan]
+  effectiveDate: String
+  effectiveEndDate: String
+}
+
+type CompanyHealthEnrollment {
+  startDate: String
+  endDate: String
+  authDate: String
+  desiredEffectiveDate: String
+  confirmedGuardianContract: Boolean
+  escalationTimestamp: DateTime
+  inStateState: InStateState
+  authWebsite: String
+  renewalPackages: String
+  confirmedPayrollHistory: Boolean
+  enrollmentCompleteEmailTimestamp: DateTime
+  isCompositeRated: Boolean
+  cobraType: String
+  company: Company
+  id: ID
+  authTitle: String
+  lineOfCoverage: String
+  enrollmentType: String
+  progress: String
+  employeeLifeDisabilityEnrollments: [EmployeeLifeDisabilityEnrollment]
+  participationState: ParticipationState
+  companySicCode: String
+  authSignature: String
+  disableEmployeeWQItems: Boolean
+  implementationCompleteDate: String
+  isEnrollmentComplete: Boolean
+  authPhone: String
+  enrollmentStatus: String
+  employeeCount: Int
+  planMapping: String
+  isActive: Boolean
+  companyZip: String
+  enrollmentBegunTimestamp: DateTime
+  confirmedWorkersComp: Boolean
+  confirmedVspContract: Boolean
+  isDocumentRequirementGenerated: Boolean
+  documentsReminderTimestamp: DateTime
+  confirmedPreviousCoverage: Boolean
+  previousEnrollment: CompanyHealthEnrollment
+  numOfOpenDocuments: Int
+  enrollmentDocumentsTimestamp: DateTime
+  isReviewing: Boolean
+  censusUrl: String
+  addExistingTimestamp: DateTime
+  authName: String
+  overrideRateEffectiveDate: String
+  enrollmentCompleteTimestamp: DateTime
+  resource_uri: String
+  companyHealthCarrier: CompanyHealthCarrier
+}
+
+type CompanyHealthPlan {
+  carrierSpecificData: String
+  invoiceName: String
+  companyHealthCarrier: CompanyHealthCarrier
+  isHraEnabled: Boolean
+  id: ID
+  companySpecificHMOPPO: String
+  planId: Int
+  dentalPediatricProductCode: String
+  companySpecificProductCode: String
+  lineOfCoverage: String
+  plan: String
+  isAvailableForNewHires: Boolean
+  summaryPlanDescriptionDocument: Document
+  visionPediatricProductCode: String
+  planNumber: String
+  certificateOfCoverageDocument: Document
+  isDefault: Boolean
+  resource_uri: String
+  benefitsPlan: BenefitsPlan
+}
+
+type CompanyHealthProxy {
+  """
+  deductionHeuristics: CompanyDeductionHeuristics
+  """
+  companyInfo: CompanyInfo
+  companyCobra: CompanyCobra
+
+  """
+  settings: CompanySettings
+  benefitsPreview: BenefitsPreview
+  """
+  id: ID
+}
+
+type CompanyHrProxy {
+  """
+  terminationSettings: TerminationSettings
+  """
+  hrContact: EmployeeHrContact
+
+  """
+  approverSettings: ApproverCompanySettings
+  onboardingSettings: OnboardingSettings
+  eeoReport: EeoReport
+  """
+  id: ID
+  departments: [Department]
+  locations: [CompanyLocation]
+  adminName: String
+  adminEmail: String
+}
+
+type CompanyInfo {
+  entityTypeForTaxPurposes: String
+  billingAddressState: String
+  bankName: String
+  entityType: String
+  establishedYear: Int
+  physicalAddressZip: String
+  entityChangedRecently: Boolean
+  dbaName: String
+  bankRoutingNumber: String
+  id: ID
+  industryType: String
+  numberOfLocations: Int
+  fifteenAllowed: Boolean
+  fullTimeEmployeeCount: Int
+  company: Company
+  isQuarterlyWageTaxAvailable: Boolean
+  outOfStateEmployeeCount: Int
+  physicalAddressCity: String
+  entityChangedOnPayrollQWTR: Boolean
+  website: String
+  checkUrl: String
+  bankAccountNumber: String
+  establishedMonth: Int
+  businessDescription: String
+  medicareEmployeeCount: Int
+  billingAddressStreet2: String
+  billingAddressStreet1: String
+  billingAddressCity: String
+  numUnionMember: Int
+  physicalAddressState: String
+  partTimeEmployeeCount: Int
+  physicalAddressStreet2: String
+  numPreviousAverageEmployees: Int
+  physicalAddressStreet1: String
+  name: String
+  physicalAddressCounty: String
+  billingAddressZip: String
+  isBillingSame: Boolean
+  resource_uri: String
+  ein: String
+}
+
+type CompanyLocation {
+  wfCoCode: String
+  officialName: String
+  id: ID
+  city: String
+  zip: String
+  isOfficialComplete: Boolean
+  company: Company
+  intlAddress: Address
+  state: String
+  officialPhone: String
+  getTimeZone: String
+  naicsCode: String
+  isEeoReportComplete: Boolean
+  deleted: Boolean
+  street1: String
+  street2: String
+  phone: String
+  officialEmail: String
+  officialTitle: String
+  payrollLocationId: String
+  intlCompanyTax: String
+  name: String
+  country: String
+  countryHumanReadable: String
+  eeoId: String
+  isHeadquarters: Boolean
+  eeoFiledLastYear: Boolean
+  resource_uri: String
+}
+
+type CompanyProductTag {
+  subcategory: String
+  tags: [CompanyTag]
+  company: Company
+  mutuallyExclusiveAllowed: Boolean
+  productName: String
+  id: ID
+  isActive: Boolean
+  resource_uri: String
+}
+
+type CompanyRenewalInfo {
+  lineOfCoverage: String
+  status: BenAdminCompanyState
+}
+
+type CompanyReview {
+  id: ID!
+  status: ReviewStatus!
+  title: String!
+  schedules: [TalentFlowSchedule]
+  startDate: Date
+  createdAt: DateTime!
+
+  """
+  the actual value is a subset of all_employees, refer to the api
+  """
+  createdBy: all_employee!
+
+  """
+  the actual value is a subset of all_employees, refer to the api
+  """
+  subjects: [all_employee]
+}
+
+type CompanyTag {
+  description: String
+  resource_uri: String
+  ruleExpressionStr: String
+  isNonDeterministicTag: Boolean
+  isOverwritableByAdmin: Boolean
+  isDisplayableToAdmin: Boolean
+  isEligible: Boolean
+  eligibilityStartDate: String
+  companyProductTag: CompanyProductTag
+  eligibilityNegatedTag: CompanyTag
+  displayableEmployeeGroups: JSON
+  isEligibilityNegatedTag: Boolean
+  id: ID
+  isActive: Boolean
+  name: String
+}
+
+type CompositeFactor {
+  effectiveDate: String
+  youAndSpouseFactor: String
+  familyFactor: String
+  youFactor: String
+  compositeFactorSet: CompositeFactorSet
+  id: ID
+  youAndChildFactor: String
+  resource_uri: String
+}
+
+type CompositeFactorSet {
+  name: String
+  carrier: Carrier
+  id: ID
+  youAndSpouseFactor: String
+  youFactor: String
+  compositeFactors: [CompositeFactor]
+  familyFactor: String
+  youAndChildFactor: String
+  resource_uri: String
+}
+
+type CompositeRule {
+  lowerBound: Int
+  effectiveDate: String
+  compositeRuleSet: CompositeRuleSet
+  ratingStyle: String
+  upperBound: Int
+  censusStyle: String
+  id: ID
+  resource_uri: String
+}
+
+type CompositeRuleSet {
+  compositeRules: [CompositeRule]
+  resource_uri: String
+  id: ID
+  carrier: Carrier
+  name: String
+}
+
+enum CompType {
+  S
+  H
+  A
+  N
+}
+
+type ConfirmationSubAction {
+  isCompleted: Boolean
+  completionDate: String
+  description: String
+  ctaInfo: String
+  completedBy_id: Int
+  ctaText: String
+  value: Boolean
+  uniqueId: String
+  secondaryCtaText: String
+  redirectUrl: String
+  inboxSubAction: InboxSubAction
+  descriptionWithNamesAndVariables: String
+  id: ID
+  resource_uri: String
+}
+
+type ConfirmationSubActionTemplate {
+  id: ID
+  resource_uri: String
+  description: String
+  inboxSubActionTemplate: InboxSubActionTemplate
+}
+
+type ContributionBreakdown {
+  employeeDeduction: Float
+  employeeContribution: Float
+  dependentsDeduction: Float
+  dependentsContribution: Float
+  maxAnnualDeduction: Float
+  maxAnnualContribution: Float
+  isDeductionAsPercentage: Boolean
+  isContributionAsPercentage: Boolean
+}
+
+type CourtOrder {
+  employee: AllEmployee
+  visionPlan: VisionPlan
+  id: ID
+  proofUrl: String
+  isProcessed: Boolean
+  visionEffectiveDate: String
+  noticeDate: String
+  processingDate: String
+  employeeMaxWithholdPercentage: Int
+  medicalPlan: Plan
+  medicalEffectiveDate: String
+  signature: Signature
+  dentalEffectiveDate: String
+  orderDate: String
+  dentalPlan: DentalPlan
+  resource_uri: String
+}
+
+type CoverageContext {
+  lineOfCoverage: String
+  effectiveDate: String
+  enrollmentTier: String
+  contributionTier: String
+  enrollmentCompleteDate: String
+  status: String
+  rawEnrollmentStatus: String
+  enrollmentType: String
+  isInGroupApp: Boolean
+  signatureId: ID
+  signatureDate: String
+  carrierMemberId: String
+  applicationStatus: String
+  isNewHire: Boolean
+  divisionCode: String
+  isEligibleForBenefits: Boolean
+  eligibilityStartDate: String
+  isEligibleForCobra: Boolean
+  isCobraEnrollee: Boolean
+  isCarrierMapped: Boolean
+  cobra: EmployeeCobraContext
+  carrierId: ID
+  carrierName: String
+  carrier: Carrier
+  brokerSignatureId: ID
+  primaryBenefitsPlan: PrimaryBenefitsPlanContext
+  lndBasicPlanRenamed: DisabilityBenefitsPlanContext
+  lndBasicPlan: disability_benefits_plan_context
+  lndVoluntaryPlanRenamed: DisabilityBenefitsPlanContext
+  lndVoluntaryPlan: disability_benefits_plan_context
+  primaryHealthCarePhysician: HmoPhysicianContext
+  oldPlans: [PlanContext]
+  defaultPlan: PlanContext
+  waiver: WaiverContext
+  riders: [RiderContext]
+  qualifyingEvent: QualifyingEventContext
+  cancellationReason: String
+}
+
+"""
+Message structure used to represent the creation of an enrollment for a specific line.
+"""
+input CreateEmployeeBenefitsEnrollment {
+  lineOfCoverage: String!
+  effectiveDate: Date!
+  enrollmentType: String!
+  endDate: Date!
+}
+
+type CustomZenefitsEmployee {
+  status: String
+  firstName: String
+  title: String
+  lastName: String
+  id: ID
+  isContractor: Boolean
+  department: String
+  email: String
+  zenefitsEmployees: JSON
+}
+
+type Dashboard {
+  id: ID
+  user_id: ID
+  user: User
+  company: Company
+  isSpoofing: Boolean
+  demoSourceType: String
+  isDemoAccount: Boolean
+  isMTAUser: Boolean
+  isMTAPartnerUser: Boolean
+  partner: Partner
+  partnerUser: PartnerUser
+  isConsoleUser: Boolean
+  employeeRenamed: AllEmployee
+  employee: all_employee
+  switches(switches: [String!]): JSON
+  emailVerified: Boolean
+  features: JSON
+  permission: JSON
+  profile: JSON
+  userIntercomHash: String
+  employees(
+    first: Int
+    offset: Int
+    allStatus: EmployeeStatus
+    status: EmployeeStatus
+    status__in: [EmployeeStatus]
+    status__not: [EmployeeStatus]
+    status__not_in: [EmployeeStatus]
+    type: EmployeeType
+    type__in: [EmployeeType]
+    type__not: [EmployeeType]
+    type__not_in: [EmployeeType]
+    canManage: Boolean
+    canAdminister: Boolean
+    isPastHireDate: Boolean
+    isTeamMember: Boolean
+    isManager: Boolean
+    hireDate__gte: String
+    hireDate__lte: String
+    hireDate__range: String
+    canManageOrAdminister: Boolean
+    isPendingOrRecentHire: Boolean
+  ): [AllEmployee]
+  zAppInstallSubscriptions(appUniqueIds: [String!]): [ZAppInstallSubscription]
+}
+
+"""
+Dummy Date, represented as a string
+"""
+scalar Date
+
+"""
+Dummy DateTime, represented as a string
+"""
+scalar DateTime
+
+scalar Decimal
+
+type DentalPlan {
+  planUrl: String
+  availableOOS: Boolean
+  coInsuranceOrthoOutOfNetwork: String
+  deductibleIndividual: Int
+  useSicRaf: Boolean
+  group: String
+  scalingRootPlaningOutOfNetwork: String
+  singleTierRate: Boolean
+  lastCommentDate: String
+  planOrder: Int
+  freePlan: Boolean
+  coInsuranceOrtho: String
+  liveQuoteForRenewal: Boolean
+  rateStyle: String
+  needsPCP: Boolean
+  orthoCoverage: Boolean
+  orthoMaxBenefits: Int
+  name: String
+  coInsuranceEndoOutOfNetwork: String
+  coInsuranceOrthoOutOfNetworkChild: String
+  network: Network
+  filling: String
+  sourcePlanId: Int
+  genderBandedStyle: Int
+  crown: String
+  customPlanCompanyId: Int
+  coInsuranceEndo: String
+  hasWaitingPeriods: Boolean
+  scalingRootPlaning: String
+  shortCircuitPlanType: String
+  fillingOutOfNetwork: String
+  fundingType: String
+  coInsuranceMajor: String
+  oralExamOutOfNetwork: String
+  stateCarrier: Carrier
+  state: String
+  isNewStyle: String
+  isShortCircuitPlan: Boolean
+  orthoMaxAge: Int
+  benefitFeeStructure: String
+  coInsuranceBasicOutOfNetwork: String
+  customPlan: Boolean
+  rootCanalOutOfNetwork: String
+  displayNote: String
+  deductibleFamily: Int
+  carrier: String
+  consoleUrl: String
+  adjustableRates: Boolean
+  overrideCarrierDefaultRegion: Boolean
+  availableOOSStates: String
+  isVisionBundled: Boolean
+  hasNetworkProviders: Boolean
+  recommendedRenewalPlan: DentalPlan
+  expiryDate: String
+  oralExam: String
+  deductibleFamilyOutOfNetwork: Int
+  coInsurancePerio: String
+  rootCanal: String
+  maxBenefits: Int
+  coInsuranceMajorOutOfNetwork: String
+  largeGroup: Boolean
+  newGroupExpiryDate: String
+  postACA: Boolean
+  coInsuranceBasic: String
+  showName: String
+  coInsurancePeriodOutOfNetwork: String
+  customPlanReason: String
+  maxLives: Int
+  isVoluntary: Boolean
+  coInsuranceOrthoChild: String
+  id: ID
+  productCode: String
+  planRequestLink: String
+  minLives: Int
+  liveQuote: Boolean
+  coInsurancePreventativeOutOfNetwork: String
+  compositeRuleSet: CompositeRuleSet
+  progressiveBenefitLevels: Boolean
+  benefitPeriod: String
+  compositeFactorSet: CompositeFactorSet
+  deductibleIndividualOutOfNetwork: Int
+  displayName: String
+  orthoDeductible: Int
+  useGenderBandedPrefixForRegionMapping: Boolean
+  crownOutOfNetwork: String
+  useDependentAge: Boolean
+  HMOPPO: String
+  inProgress: Boolean
+  coInsurancePreventative: String
+  resource_uri: String
+  lineOfCoverage: String
+}
+
+type Department {
+  id: ID
+  resource_uri: String
+  company: Company
+  wfCoCode: String
+  name: String
+}
+
+type Dependent {
+  medicalCoverageEndDate: String
+  dentalCoverageStartDate: String
+  weight: String
+  dentalEnrollment: EmployeeHealthEnrollment
+  hmoDentalName: String
+  isFullTimeStudent: Boolean
+  visionCoverageStartDate: String
+  height: String
+  visionCancelledDate: String
+  proofDate: String
+  dentalCoverageEndDate: String
+  courtOrder: CourtOrder
+  id: ID
+  cancelledDate: String
+  city: String
+  hmoDentalProviderNumber: String
+  zip: String
+  hasMedicalCoverage: Boolean
+  marriageDate: String
+  enrolledInDental: Boolean
+  visionCoverageEndDate: String
+  proofUrl: String
+  dateOfBirth: String
+  state: String
+  medicalEnrollment: EmployeeHealthEnrollment
+  medicalCoverageStartDate: String
+  reason: String
+  dentalCancelledDate: String
+  type: String
+  autoSelectDentalPCP: Boolean
+  enrolledInMedical: Boolean
+  hasVisionCoverage: Boolean
+  status: String
+  enrollInDental: Boolean
+  sameEmail: Boolean
+  sameAddress: Boolean
+  address2: String
+  courtOrderEndDate: String
+  samePCP: Boolean
+  sameDentalPCP: Boolean
+  autoSelectPCP: Boolean
+  hmoDentalExistingPatient: Boolean
+  isCourtOrderedDependent: Boolean
+  employee: AllEmployee
+  hmoPhysicianProviderPPGNumber: String
+  objId: Int
+  address: String
+  enrollInMedical: Boolean
+  isDependentDisabled: Boolean
+  age: Int
+  medicalApprovalStatus: String
+  gender: String
+  enrollInVision: Boolean
+  isCourtOrderActive: Boolean
+  effectiveDate: String
+  firstName: String
+  dentalApprovalStatus: String
+  dob: String
+  dentalEffectiveDate: String
+  hmoPhysicianName: String
+  hasDentalCoverage: Boolean
+  isMarried: Boolean
+  visionApprovalStatus: String
+  email: String
+  visionEffectiveDate: String
+  isSmoker: Boolean
+  socialSecurity: String
+  socialSecurityDecrypted: String
+  hmoPhysicianProviderPAOrMGNumber: String
+  visionEnrollment: EmployeeHealthEnrollment
+  lastName: String
+  hmoPhysicianExistingPatient: Boolean
+  hasStateException: Boolean
+  enrolledInVision: Boolean
+  hmoPhysicianProviderNumber: String
+  hasMedicalCoverage_is_set: Boolean
+  resource_uri: String
+}
+
+type dependent_context {
+  personalInfo: PersonalInfoContext
+  coverage: DependentCoverageContext
+}
+
+type DependentAddPlan {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: DependentLifeDisabilityEnrollment
+  selection: DependentLifeDisabilitySelection
+  electedAmount: String
+  plan: AddPlan
+  id: ID
+  resource_uri: String
+}
+
+type DependentContext {
+  personalInfo: PersonalInfoContext
+  coverage: DependentCoverageContext
+}
+
+type DependentCoverageContext {
+  lineOfCoverage: String
+  effectiveDate: String
+  enrollmentCompleteDate: String
+  status: String
+  type: String
+  declineReason: String
+  primaryHealthCarePhysician: HmoPhysicianContext
+  isEnrolled: Boolean
+  lndBasicPlanRenamed: DisabilityBenefitsPlanContext
+  lndBasicPlan: disability_benefits_plan_context
+  lndVoluntaryPlanRenamed: DisabilityBenefitsPlanContext
+  lndVoluntaryPlan: disability_benefits_plan_context
+}
+
+type DependentLifeDisabilityEnrollment {
+  status: String
+  authSignature: String
+  type: String
+  enrollmentBegunTimestamp: DateTime
+  authDate: String
+  lineOfCoverage: String
+  dependentStdPlans: [DependentStdPlan]
+  authName: String
+  effectiveDate: Date
+  authTitle: String
+  dependentAddPlans: [DependentAddPlan]
+  isEnrollmentComplete: Boolean
+  resource_uri: String
+  employeeLifeDisabilityEnrollment: EmployeeLifeDisabilityEnrollment
+  dependentLtdPlans: [DependentLtdPlan]
+  dependent: Dependent
+  enrollmentCompleteTimestamp: DateTime
+  id: ID
+  isActive: Boolean
+  dependentLifePlans: [DependentLifePlan]
+}
+
+type DependentLifeDisabilitySelection {
+  resource_uri: String
+  id: ID
+  dependent: Dependent
+}
+
+type DependentLifePlan {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: DependentLifeDisabilityEnrollment
+  selection: DependentLifeDisabilitySelection
+  electedAmount: String
+  plan: LifePlanNew
+  id: ID
+  resource_uri: String
+}
+
+type DependentLtdPlan {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: DependentLifeDisabilityEnrollment
+  selection: DependentLifeDisabilitySelection
+  electedAmount: String
+  plan: LtdPlanNew
+  id: ID
+  resource_uri: String
+}
+
+type DependentStdPlan {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: DependentLifeDisabilityEnrollment
+  selection: DependentLifeDisabilitySelection
+  electedAmount: String
+  plan: StdPlanNew
+  id: ID
+  resource_uri: String
+}
+
+type disability_benefits_plan_context {
+  id: ID
+  planId: ID
+  name: String
+  planType: String
+  companyHealthPlanId: ID
+  policyNumber: String
+  productCode: String
+  effectiveDate: String
+  amount: String
+  electedAmount: String
+  evidenceOfInsurabilityForm: String
+  isOverGI: Boolean
+  isSalaryBased: Boolean
+  beneficiaries: [BeneficiaryContext]
+}
+
+type DisabilityBenefitsPlanContext {
+  id: ID
+  planId: ID
+  name: String
+  planType: String
+  companyHealthPlanId: ID
+  policyNumber: String
+  productCode: String
+  effectiveDate: String
+  amount: String
+  electedAmount: String
+  evidenceOfInsurabilityForm: String
+  isOverGI: Boolean
+  isSalaryBased: Boolean
+  beneficiaries: [BeneficiaryContext]
+}
+
+type Document {
+  mimetype: String
+  uploadTime: DateTime
+  employee: AllEmployee
+  reviewState: String
+  embeddableDocId: String
+  reviewComment: String
+  resource_uri: String
+  url: String
+  description: String
+  company: Company
+  reviewTime: DateTime
+  reviewedBy: User
+  isAgreement: Boolean
+  date: String
+  documentStatusNotificationTimestamp: DateTime
+  uploadedBy: User
+  id: ID
+  isActive: Boolean
+  name: String
+}
+
+type EmployeeAddPlan {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: EmployeeLifeDisabilityEnrollment
+  selection: EmployeeLifeDisabilitySelection
+  electedAmount: String
+  plan: AddPlan
+  id: ID
+  resource_uri: String
+}
+
+type EmployeeBenefitsEnrollment {
+  """
+  Identifier which uniquely represents an enrollment object.
+  """
+  id: ID!
+
+  """
+  Employee id
+  """
+  employeeId: ID!
+  employee: AllEmployee!
+
+  """
+  Line of coverage.
+  """
+  lineOfCoverage: String!
+
+  """
+  Effective date of the enrollment.
+  """
+  effectiveDate: Date!
+
+  """
+  Type of the enrollment, one of the granulat EmployeeEnrollmentTypes.
+  """
+  enrollmentType: String
+
+  """
+  raw enrollment status -- complete, selected, decline, cancelled
+  """
+  status: String
+
+  """
+  Is the enrollment currently blocked?
+  """
+  isCardBlocked: Boolean
+
+  """
+  Start date of the enrollment
+  """
+  startDate: Date
+
+  """
+  Enrollment end date
+  """
+  endDate: Date
+}
+
+type EmployeeBenefitsEnrollmentEditResult {
+  success: Boolean!
+  error: String
+  enrollment: EmployeeBenefitsEnrollment
+}
+
+type EmployeeCobraContext {
+  reason: String
+  type: String
+  coverageStartDate: String
+  coverageEndDate: String
+}
+
+type EmployeeContext {
+  personalInfoRenamed: PersonalInfoContext
+  personalInfo: personal_info_context
+  employmentRenamed: EmploymentContext
+  employment: employment_context
+  coverage: CoverageContext
+}
+
+type EmployeeException {
+  employee: AllEmployee
+  endDate: String
+  effectiveDate: String
+  lineOfCoverage: String
+  type: String
+  id: ID
+  resource_uri: String
+}
+
+type EmployeeHealthEnrollment {
+  startDate: String
+  isSwitchCarrierEnrollment: Boolean
+  endDate: String
+  companyVisionEnrollmentCompleteDate: String
+  isInitialEnrollment: Boolean
+  medicalCarrierStatus: String
+  coverage_type: String
+  isOpenEnrollment: Boolean
+  applicationStatus: String
+  companyEnrollment: CompanyHealthEnrollment
+  isSubmitted: Boolean
+  medicalPlan: Plan
+  hasSignedWaiver: Boolean
+  companyEffectiveDate: String
+  dentalPlan: DentalPlan
+  isApplicationSubmitted: Boolean
+  id: ID
+  createdAt: DateTime
+  employee: AllEmployee
+  effectiveDate: String
+  isOffCycleEnrollment: Boolean
+  isPastEnrollmentDeadline: Boolean
+  applicationStatusDate: String
+  addedDependents: String
+  daysUntilDeadline: String
+  companyMedicalEnrollmentCompleteDate: String
+  isCardBlocked: Boolean
+  qualifyingEvent: QualifyingEvent
+  isNewHireOEOrSW: Boolean
+  enrollmentCompleteDate: String
+  progress: String
+  type: String
+  status: String
+  enrollmentType: String
+  authSignatureId: Int
+  version_id: Int
+  dependentCoverageChanged: Boolean
+  premiumsMap: String
+  submittedDate: String
+  resource_uri: String
+  date: String
+  visionCarrierStatus: String
+  dentalCarrierStatus: String
+  authSignature_id: Int
+  removedDependents: String
+  isActive: Boolean
+  isEnrolledPlanHraCompatible: Boolean
+  oldPlan: Int
+  name: String
+  visionPlan: VisionPlan
+  companyDentalEnrollmentCompleteDate: String
+  isEnrollmentOngoing: Boolean
+  isRealizationSuccessful: Boolean
+  employeeException: EmployeeException
+  title: String
+  previousCoverageExpirationDate: String
+  includedInGroupApp: Boolean
+  oldCost: String
+  stateCarrier: Carrier
+  isEnrollmentException: Boolean
+  signature: String
+  oldCompanyHealthPlan: CompanyHealthPlan
+  needDocument: Boolean
+  disableDependentCoverageChanges: String
+  companyHealthPlan: CompanyHealthPlan
+  defaultPlan: Int
+}
+
+type EmployeeHrContact {
+  hrContactName: String
+  hrContactPhone: String
+  company: Company
+  hrContactEmail: String
+  id: ID
+  resource_uri: String
+}
+
+type EmployeeLifeDisabilityEnrollment {
+  startDate: Date
+  endDate: Date
+  authDate: String
+  id: ID
+  authSignature: String
+  employee: AllEmployee
+  employeeStdPlans: [EmployeeStdPlanNew]
+  effectiveDate: Date
+  dependentLifeDisabilityEnrollments: [DependentLifeDisabilityEnrollment]
+  authTitle: String
+  enrollmentType: String
+  companyHealthEnrollment: CompanyHealthEnrollment
+  progress: String
+  prevEnrollment: EmployeeLifeDisabilityEnrollment
+  status: String
+  isEnrollmentPendingEOI: Boolean
+  employeeLifePlans: [EmployeeLifePlanNew]
+  isEnrollmentComplete: Boolean
+  isActive: Boolean
+  employeeAddPlans: [EmployeeAddPlan]
+  enrollmentBegunTimestamp: DateTime
+  employeeLtdPlans: [EmployeeLtdPlanNew]
+  lineOfCoverage: String
+  authName: String
+  enrollmentCompleteTimestamp: DateTime
+  resource_uri: String
+}
+
+type EmployeeLifeDisabilitySelection {
+  employee: AllEmployee
+  id: ID
+  resource_uri: String
+}
+
+type EmployeeLifePlanNew {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: EmployeeLifeDisabilityEnrollment
+  selection: EmployeeLifeDisabilitySelection
+  electedAmount: String
+  plan: LifePlanNew
+  id: ID
+  resource_uri: String
+}
+
+type EmployeeLtdPlanNew {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: EmployeeLifeDisabilityEnrollment
+  selection: EmployeeLifeDisabilitySelection
+  electedAmount: String
+  plan: LtdPlanNew
+  id: ID
+  resource_uri: String
+}
+
+type EmployeeProductEligibilityTag {
+  addEligibilityStartDate: String
+  isEligibleForCommuterBenefits: Boolean
+  stdEligibilityStartDate: String
+  lifeEligibilityStartDateOverridden: Boolean
+  isEligibleForHSA: Boolean
+  isEligibleForPTO: Boolean
+  isEligibleForLife: Boolean
+  visionEligibilityStartDateOverridden: Boolean
+  id: ID
+  isEligibleForDental: Boolean
+  employee: AllEmployee
+  isEligibleForLTD: Boolean
+  isEligibleForVision: Boolean
+  dentalEligibilityStartDateOverridden: Boolean
+  isEligibleForHRA: Boolean
+  isEligibleForSTD: Boolean
+  medicalEligibilityStartDateOverridden: Boolean
+  isEligibleForMedical: Boolean
+  isACAFullTimeEligible: Boolean
+  addEligibilityStartDateOverridden: Boolean
+  isEligibleForHealth: Boolean
+  visionEligibilityStartDate: String
+  isEligibleForTA: Boolean
+  lifeEligibilityStartDate: String
+  isEligibleForAdd: Boolean
+  ltdEligibilityStartDateOverridden: Boolean
+  dentalEligibilityStartDate: String
+  ltdEligibilityStartDate: String
+  isEligibleForFSA: Boolean
+  stdEligibilityStartDateOverridden: Boolean
+  medicalEligibilityStartDate: String
+  isEligibleForLifeOrAdd: Boolean
+  isEligibleForLifeOrDisability: Boolean
+  resource_uri: String
+}
+
+"""
+Different statuses of employees
+"""
+enum EmployeeStatus {
+  """
+  Active
+  """
+  Act
+
+  """
+  Requested
+  """
+  Req
+
+  """
+  Setting Up
+  """
+  Set
+
+  """
+  Terminated
+  """
+  Ter
+
+  """
+  Deleted
+  """
+  Del
+
+  """
+  Leave of Absence (this is not well supported by our system, don't set it)
+  """
+  LOA
+}
+
+type EmployeeStdPlanNew {
+  evidenceOfInsurabilityFormDocument: Document
+  premium: String
+  guaranteeIssue: String
+  amount: String
+  enrollment: EmployeeLifeDisabilityEnrollment
+  selection: EmployeeLifeDisabilitySelection
+  electedAmount: String
+  plan: StdPlanNew
+  id: ID
+  resource_uri: String
+}
+
+type EmployeeTag {
+  employee: AllEmployee
+  companyTag: CompanyTag
+  companyProductTag: CompanyProductTag
+  id: ID
+  isActive: Boolean
+  resource_uri: String
+}
+
+type EmployeeTestContext {
+  personalInfo: PersonalInfoContext
+}
+
+"""
+Different types of employees
+"""
+enum EmployeeType {
+  """
+  Admin
+  """
+  AD
+
+  """
+  Regular
+  """
+  RE
+
+  """
+  Contractor
+  """
+  HC
+
+  """
+  International
+  """
+  IN
+
+  """
+  Stock Holder
+  """
+  SH
+
+  """
+  Temporary
+  """
+  TE
+}
+
+type employment_context {
+  employmentStatus: String
+  jobTitle: String
+  compensationType: String
+  hourlyPay: String
+  hoursWorked: String
+  annualSalary: String
+  employmentType: String
+  hireDate: String
+  fullTimeStartDate: String
+  fullTimeEndDate: String
+  terminationDate: String
+}
+
+type EmploymentContext {
+  employmentStatus: String
+  jobTitle: String
+  compensationType: String
+  hourlyPay: String
+  hoursWorked: String
+  annualSalary: String
+  employmentType: String
+  hireDate: String
+  fullTimeStartDate: String
+  fullTimeEndDate: String
+  terminationDate: String
+}
+
+"""
+The employee's employment status/type
+"""
+enum EmploymentType {
+  """
+  full-time
+  """
+  FT
+
+  """
+  part-time
+  """
+  PT
+
+  """
+  Temporary
+  """
+  TP
+
+  """
+  Contractor
+  """
+  CO
+}
+
+type FilterEmployee {
+  id: ID
+  user_id: ID
+  first_name: String
+  last_name: String
+}
+
+type Flow {
+  name: String
+  dispatcherArgs: String
+  version_id: Int
+  isComplete: Boolean
+  sections: [FlowSection]
+  id: ID
+  isActive: Boolean
+  resource_uri: String
+}
+
+type FlowError {
+  code: String
+  section: FlowSection
+  field: String
+  mustChangeValue: String
+  reasonCode: String
+  id: ID
+  isActive: Boolean
+  resource_uri: String
+}
+
+type FlowSection {
+  index: Int
+  isReady: Boolean
+  errors: [FlowError]
+  name: String
+  dispatcherArgs: String
+  isEntered: Boolean
+  isComplete: Boolean
+  flow: Flow
+  id: ID
+  isActive: Boolean
+  resource_uri: String
+}
+
+type FulfillmentFormData {
+  id: ID!
+  pdfUrl: String
+  validationErrorCount: Int
+  templateName: String
+}
+
+type FulfillmentInboxAction {
+  id: ID!
+  templateName: String!
+  variables: InboxTaskVariables
+  titleWithNamesAndVariables: String
+  descriptionWithNamesAndVariables: String
+}
+
+type FulfillmentTaskEmployee {
+  employeeId: ID!
+  fullName: String!
+  firstName: String
+  lastName: String
+  companyId: ID!
+  companyName: String!
+
+  """
+  Employee's email
+  """
+  email: String
+
+  """
+  Employee's status -- Act, Ter, Set, Del
+  """
+  status: String
+  score: Float
+}
+
+type Goal {
+  id: ID!
+  questionFlow: QuestionFlow!
+  startDate: Date!
+  dueDate: Date!
+  owner: AllEmployee!
+  createdBy: AllEmployee!
+  status: GoalStatus!
+  progress: Int!
+  progressUpdatedAt: DateTime
+}
+
+enum GoalStatus {
+  IN_PROGRESS
+  COMPLETE
+}
+
+type HmoPhysicianContext {
+  hmoPhysicianExistingPatient: Boolean
+  hmoPhysicianProviderNumber: String
+  hmoPhysicianName: String
+}
+
+type InboxAction {
+  attachments: [InboxAttachment]
+  hideCannotComplete: Boolean
+  variables: String
+  requestCompletionDate: String
+  tag: String
+  id: ID
+  descriptionWithNamesAndVariables: String
+  dueDate: String
+  completionDate: String
+  completionNotificationList: String
+  title: String
+  internalNote: String
+  priority: String
+  isForDashboard: Boolean
+  zAppId: String
+  type: String
+  isAutomated: Boolean
+  status: String
+  description: String
+  deletedReason: String
+  isBlocking: Boolean
+  errorMsg: String
+  inboxSubActions: [InboxSubAction]
+  version_id: Int
+  requestDate: String
+  contextObjectId: String
+  disableClientEmails: Boolean
+  requester: User
+  viewCount: Int
+  cannotCompleteReason: String
+  isUserInputCompleted: Boolean
+  forceUnique: Int
+  completedBy_id: Int
+  titleWithNamesAndVariables: String
+  inboxOwners: [InboxOwner]
+  template: InboxActionTemplate
+  resource_uri: String
+}
+
+type InboxActionPartial {
+  id: ID
+  isForDashboard: Boolean
+  requestDate: String
+  status: String
+  titleWithNamesAndVariables: String
+  type: String
+  viewCount: Int
+  zAppId: String
+}
+
+type InboxActionTag {
+  resource_uri: String
+  template: InboxActionTemplate
+  name: String
+  id: ID
+}
+
+type InboxActionTemplate {
+  templateDir: String
+  zAppId: String
+  description: String
+  tags: [InboxActionTag]
+  title: String
+  variables: String
+  templateDescription: String
+  inboxSubActionTemplates: [InboxSubActionTemplate]
+  isAutomated: Boolean
+  priority: String
+  multiActionType: String
+  isForDashboard: Boolean
+  isBlocking: Boolean
+  disableClientEmails: Boolean
+  subActions: String
+  resource_uri: String
+  type: String
+  id: ID
+  isActive: Boolean
+  name: String
+}
+
+type InboxAttachment {
+  url: String
+  inboxAction: InboxAction
+  resource_uri: String
+  id: ID
+  filename: String
+}
+
+type InboxOwner {
+  inboxAction: InboxAction
+  resource_uri: String
+  id: ID
+  owner_id: Int
+}
+
+type InboxProductIntro {
+  seenDate: String
+  resource_uri: String
+  employeeId: Int
+  id: ID
+}
+
+type InboxSnoozeLog {
+  snoozeDate: String
+  inboxAction: InboxAction
+  snoozedFor: Int
+  reason: String
+  id: ID
+  resource_uri: String
+}
+
+type InboxSubAction {
+  signatureSubActions: [SignatureSubAction]
+  bankSubActions: [BankSubAction]
+  description: String
+  inboxAction: InboxAction
+  singleValueSubActions: [SingleValueSubAction]
+  addressSubActions: [AddressSubAction]
+  confirmationSubActions: [ConfirmationSubAction]
+  employee_id: Int
+  id: ID
+  resource_uri: String
+}
+
+type InboxSubActionChoice {
+  singleValueSubAction: SingleValueSubAction
+  id: ID
+  value: String
+  resource_uri: String
+}
+
+type InboxSubActionChoiceTemplate {
+  value: String
+  id: ID
+  singleValueSubActionTemplate: SingleValueSubActionTemplate
+  resource_uri: String
+}
+
+type InboxSubActionTemplate {
+  addressSubActionTemplates: [AddressSubActionTemplate]
+  bankSubActionTemplates: [BankSubActionTemplate]
+  confirmationSubActionTemplates: [ConfirmationSubActionTemplate]
+  inboxActionTemplate: InboxActionTemplate
+  singleValueSubActionTemplates: [SingleValueSubActionTemplate]
+  resource_uri: String
+  signatureSubActionTemplates: [SignatureSubActionTemplate]
+  id: ID
+  description: String
+}
+
+type InboxTask {
+  id: ID!
+  ownerIds: [ID]
+  status: String
+  creationDate: String
+  completionDate: String
+  completedById: String
+  completedByName: String
+  benefitsData: InboxTaskBenefitsData
+  coreData: InboxTaskCoreData
+  template: InboxTaskTemplate
+  inboxAction: FulfillmentInboxAction
+}
+
+type InboxTaskBenefitsData {
+  effectiveDate: String
+  carrierId: String
+  linesOfCoverage: [String!]
+  carrierName: String
+  taskType: String
+  bundleId: ID
+  benefitsTransactionId: ID
+  fulfillmentForms: [FulfillmentFormData!]
+}
+
+type InboxTaskCloseResult {
+  success: Boolean!
+  taskId: ID!
+  error: String
+  task: InboxTask
+}
+
+type InboxTaskCoreData {
+  employeeId: String
+  companyName: String
+  employeeName: String
+  companyId: String
+}
+
+type InboxTasksCloseResult {
+  success: Boolean!
+  error: String
+  data: [InboxTaskCloseResult!]
+}
+
+type InboxTaskSearchResult {
+  hits: Int
+  offset: Int
+  size: Int
+  data: [InboxTask!]
+}
+
+type InboxTaskTemplate {
+  id: ID!
+  name: String
+  isBlocking: Boolean
+  isForDashboard: Boolean
+}
+
+type InboxTaskVariables {
+  benefitsTransactionRenamed: BenefitsTransaction
+  benefitsTransaction: benefits_transaction
+  benefitsSettlementBundle: BenefitsSettlementBundle
+  benefitsSettlementBundles: [BenefitsSettlementBundle]
+  renewalGroupLines: String
+  newGroupLines: String
+}
+
+type InStateRule {
+  softDeleted: Boolean
+  maxGroupSize: Int
+  minStyle: String
+  lineOfCoverage: String
+  minEmployees: Int
+  additionalNotes: String
+  id: ID
+  minGroupSize: Int
+  resource_uri: String
+}
+
+type InStateState {
+  status: String
+  inStateRuleName: String
+  percentInState: String
+  inStateRule: InStateRule
+  qualifiedInState: Int
+  decliningInState: Int
+  inStateStates: String
+  enrollingInState: Int
+  enrolling: Int
+  decliningOutOfState: Int
+  isFailing: Boolean
+  qualified: Int
+  enrollingOutOfState: Int
+  resource_uri: String
+  companyHealthEnrollment: CompanyHealthEnrollment
+  isByEnrolling: Boolean
+  qualifiedOutOfState: Int
+  id: ID
+  declining: Int
+  inStateRuleV2: String
+}
+
+interface IQFQuestionResponse {
+  id: ID!
+  questionId: ID!
+  contextId: ID
+}
+
+interface IQFSession {
+  status: QFSessionStatus
+  responses: [QFQuestionResponse!]!
+  completedAt: DateTime
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type LifePlanNew {
+  planAuditStage: String
+  flatPremium: Boolean
+  guaranteeIssueIncrements: Boolean
+  parentPlan: LifePlanNew
+  dependentOnlyPlan: Boolean
+  customPlanCompanyId: Int
+  migrationStatus: String
+  basicPlanIncrements: Boolean
+  shortCircuitPlanType: String
+  id: ID
+  productCode: String
+  totalCompensationBasedEarnings: Boolean
+  stateCarrier: Carrier
+  ageRedetermination: String
+  planUrl: String
+  comments: String
+  zipCodeBasedRates: Boolean
+  benefitsAugmentation: Boolean
+  isShortCircuitPlan: Boolean
+  rateUrl: String
+  applicableEnrollees: String
+  secondaryGuaranteeIssue: Boolean
+  salaryRedetermination: String
+  customPlan: Boolean
+  familyTieredRates: Boolean
+  newGroupExpiryDate: String
+  salaryBasedIncrements: Boolean
+  name: String
+  planType: String
+  contributionScheme: Boolean
+  dependentsOnBasicPlan: Boolean
+  multipleSamePlanTypedPlans: Boolean
+  renewalExpiryDate: String
+  tobaccoRates: Boolean
+  previousStatusBasedMax: Boolean
+  resource_uri: String
+  participationRequirement: Int
+  ageBasedOnRenewalDate: Boolean
+  evidenceOfInsurabilityForm: String
+  lineOfCoverage: String
+}
+
+type LtdPlanNew {
+  planAuditStage: String
+  flatPremium: Boolean
+  guaranteeIssueIncrements: Boolean
+  parentPlan: LtdPlanNew
+  dependentOnlyPlan: Boolean
+  customPlanCompanyId: Int
+  migrationStatus: String
+  basicPlanIncrements: Boolean
+  shortCircuitPlanType: String
+  id: ID
+  productCode: String
+  totalCompensationBasedEarnings: Boolean
+  benefitsDuration: String
+  stateCarrier: Carrier
+  ageRedetermination: String
+  ownOccPeriod: String
+  planUrl: String
+  comments: String
+  zipCodeBasedRates: Boolean
+  ownOccPeriodStructured: String
+  benefitsAugmentation: Boolean
+  preExistingCondition: String
+  isShortCircuitPlan: Boolean
+  eliminationPeriod: String
+  rateUrl: String
+  applicableEnrollees: String
+  secondaryGuaranteeIssue: Boolean
+  salaryRedetermination: String
+  customPlan: Boolean
+  benefitsDurationStructured: Int
+  benefitsDurationChar: String
+  familyTieredRates: Boolean
+  newGroupExpiryDate: String
+  salaryBasedIncrements: Boolean
+  name: String
+  planType: String
+  contributionScheme: Boolean
+  dependentsOnBasicPlan: Boolean
+  multipleSamePlanTypedPlans: Boolean
+  renewalExpiryDate: String
+  tobaccoRates: Boolean
+  eliminationPeriodAccidentIllness: Int
+  previousStatusBasedMax: Boolean
+  resource_uri: String
+  participationRequirement: Int
+  ageBasedOnRenewalDate: Boolean
+  evidenceOfInsurabilityForm: String
+  lineOfCoverage: String
+}
+
+type MobileInboxSubAction {
+  null: [ConfirmationSubAction]
+  description: String
+  inboxAction: InboxAction
+  employee_id: Int
+  id: ID
+  resource_uri: String
+}
+
+type Mutation {
+  """
+  BenConnect mutations
+  """
+  recalculateContribution(employeeId: ID!, benefitsType: String!, effectiveDate: String!): BenefitsTransaction
+  recalculateCost(employeeId: ID!, benefitsType: String!, effectiveDate: String!): BenefitsTransaction
+  enrollEmployee(
+    employeeId: ID!
+    benefitsType: String!
+    enrollmentType: String!
+    companyHealthPlanId: ID!
+    volCompanyHealthPlanId: ID
+    enrollingDependentIds: [String!]
+    effectiveDate: String!
+    employeeApprovedBasicAmount: String
+    spouseApprovedBasicAmount: String
+    childrenApprovedBasicAmount: String
+    employeeApprovedVoluntaryAmount: String
+    spouseApprovedVoluntaryAmount: String
+    childrenApprovedVoluntaryAmount: String
+  ): BenefitsTransaction
+  createDependentRecord(
+    employeeId: ID!
+    type: String!
+    firstName: String!
+    lastName: String!
+    dob: String!
+    gender: String!
+    zip: String!
+  ): Dependent
+  editDependentPersonalInfo(
+    dependentId: ID!
+    type: String!
+    firstName: String!
+    lastName: String!
+    dob: String!
+    gender: String!
+    ssn: String
+    zip: String
+  ): Dependent
+  addDependentsToCoverage(
+    employeeId: ID!
+    benefitsType: String!
+    dependentIds: [String]!
+    effectiveDate: String!
+  ): BenefitsTransaction
+  removeDependentsFromCoverage(
+    employeeId: ID!
+    benefitsType: String!
+    dependentIds: [String]!
+    effectiveDate: String!
+  ): BenefitsTransaction
+  cancelCoverage(employeeId: ID!, benefitsType: String!, effectiveDate: String!): BenefitsTransaction
+  terminateBenefit(employeeId: ID!, benefitsType: String!, effectiveDate: String!): BenefitsTransaction
+  planCorrection(
+    employeeId: ID!
+    benefitsType: String!
+    effectiveDate: String!
+    planId: String!
+    companyHealthPlanId: String!
+    planName: String!
+    carrierId: String!
+    carrierName: String!
+  ): BenefitsTransaction
+  changeTransactionEffectiveDate(
+    employeeId: ID!
+    benefitsType: String!
+    effectiveDate: String!
+    newEffectiveDate: String!
+  ): BenefitsTransaction
+  setCompanyContext(employeeId: ID!): Boolean
+  createOrUpdateReview(id: ID, title: String!, description: String, targetRule: JSON!): Review
+  createReview(title: String!, description: String, targetRule: JSON!): Review
+  launchReview(reviewId: ID!, startDate: Date, schedules: [TalentFlowScheduleInput!]!, duration: Int!): Review
+  endReview(reviewId: ID!): Review
+  updateReviewers(runId: ID!, reviewerIds: [ID!]!): ReviewRun
+  createReviewFromTemplate(reviewTemplateId: ID, questionFlowId: ID): Review
+  scheduleReviewRun(runId: ID!, startDate: Date!): ReviewRun
+  updateReviewRunSettings(id: ID!, startDate: Date!, endDate: Date!, reviewerIds: [ID!]!): ReviewRun
+  createOrUpdateReviewTemplate(
+    title: String!
+    status: ReviewTemplateStatus!
+    description: String
+    id: ID
+    sourceQuestionFlowId: ID
+  ): ReviewTemplate
+  deleteReviewTemplate(id: ID!): Boolean
+  extendReviewDueDates(id: ID!, duration: Int!): Review
+
+  """
+  question flow mutations
+  """
+  updateQuestionFlow(questionFlowId: ID!, title: String, description: String, targetRule: JSON): QuestionFlow
+  createOrUpdateQFQuestion(
+    questionId: ID
+    sectionId: ID!
+    order: Int!
+    title: String!
+    description: String
+    questionType: QFQuestionType!
+    config: JSON!
+  ): QFSection
+  deleteQFQuestion(questionId: ID!, sectionId: ID!): QFSection
+  submitSessionResponses(
+    sessionId: ID!
+
+    """
+    A JSON in the format [questionId, response]
+    """
+    responses: [JSON!]!
+    status: QFSessionStatus!
+  ): Boolean
+  submitSessionComments(sessionId: ID!, comments: [QFCommentInput!]!, status: QFSessionStatus!): Boolean
+  generateReviewRunResponsesPdf(runId: ID!, includeDraftRemarks: Boolean!, isManagerVersion: Boolean!): String
+  createOrUpdateGoal(id: ID, title: String!, description: String, startDate: Date!, dueDate: Date!): Goal
+  updateGoalProgress(id: ID!, progress: Int!, status: GoalStatus!): Goal
+  deleteGoal(id: ID!): Boolean
+  updatePDFInfo(id: ID!, updatedValues: JSON): PdfInfo
+
+  """
+  partner dashboard mutations
+  """
+  closeInboxTask(id: ID!): InboxTask
+  closeInboxTasks(taskIds: [ID!]!): InboxTasksCloseResult
+
+  """
+  start enrollment mutations
+  """
+  updateEnrollmentDates(
+    employeeId: ID!
+    effectiveDate: Date!
+    benefitsType: String!
+    newEffectiveDate: Date
+    startDate: Date
+    endDate: Date
+  ): Boolean
+  deleteEnrollment(employeeId: ID!, effectiveDate: Date!, benefitsType: String!): Boolean
+  declineEnrollment(employeeId: ID!, effectiveDate: Date!, benefitsType: String!): Boolean
+  submitEnrollmentSelection(
+    employeeId: ID!
+    effectiveDate: Date!
+    benefitsType: String!
+    chpId: ID!
+    dependentIds: [ID]!
+    electedAmount: Float
+    dependentElectedAmounts: [Float]
+  ): Boolean
+  createEmployeeBenefitsEnrollments(
+    employeeId: ID!
+    data: [CreateEmployeeBenefitsEnrollment!]!
+  ): [EmployeeBenefitsEnrollmentEditResult!]!
+  changeEmployeeBenefitsEnrollments(
+    employeeId: ID!
+    data: [ChangeEmployeeBenefitsEnrollment!]!
+  ): [EmployeeBenefitsEnrollmentEditResult!]!
+  cancelEmployeeBenefitsEnrollments(
+    employeeId: ID!
+    data: [CancelEmployeeBenefitsEnrollment!]!
+  ): [EmployeeBenefitsEnrollmentEditResult!]!
+  addPartnerUser(
+    firstName: String!
+    lastName: String!
+    email: String!
+    roles: [String!]!
+    permissions: [String!]!
+  ): PartnerUser!
+  editPartnerUser(
+    id: ID!
+    firstName: String!
+    lastName: String!
+    roles: [String!]!
+    permissions: [String!]!
+  ): PartnerUser!
+  changePartnerUserStatus(id: ID!, status: String!): PartnerUser!
+}
+
+type Network {
+  isNationwide: Boolean
+  lineOfCoverage: String
+  isNarrowOverride: Boolean
+  name: String
+  id: ID
+}
+
+type ParticipationRule {
+  isStrict: Boolean
+  contributoryType: String
+  softDeleted: Boolean
+  lineOfCoverage: String
+  minEmployees: Int
+  minEmployeesCount: Int
+  planGroup: String
+  andOrOr: String
+  additionalNotes: String
+  percentage: String
+  resource_uri: String
+  id: ID
+  maxEmployees: Int
+}
+
+type ParticipationRuleOverride {
+  isStrict: Boolean
+  minPercentage: String
+  softDeleted: Boolean
+  reason: String
+  minEmployees: Int
+  companyHealthEnrollment: CompanyHealthEnrollment
+  id: ID
+  resource_uri: String
+}
+
+type ParticipationState {
+  isFailing: Boolean
+  qualifiedNonNewHires: Int
+  qualifiedNewHires: Int
+  invalidDeclinedNonNewHires: Int
+  participationRuleV2: String
+  id: ID
+  invalidDeclinedNewHires: Int
+  participationRule: ParticipationRule
+  invalidDeclined: Int
+  participationRuleOverride: ParticipationRuleOverride
+  companyHealthEnrollment: CompanyHealthEnrollment
+  remaining: Int
+  validDeclinedNonNewHires: Int
+  percentEnrolled: String
+  status: String
+  participationRuleName: String
+  remainingNewHires: Int
+  enrolledNonNewHires: Int
+  isUnsure: Boolean
+  qualified: Int
+  enrolledNewHires: Int
+  remainingNonNewHires: Int
+  validDeclined: Int
+  validDeclinedNewHires: Int
+  enrolled: Int
+  resource_uri: String
+}
+
+type Partner {
+  id: ID!
+  companyId: ID!
+  config: PartnerConfiguration!
+  name: String!
+  partnerUsers: [PartnerUser!]!
+}
+
+type PartnerConfiguration {
+  """
+  example: ['onedigital.com', 'foo.com']
+  """
+  allowedEmailDomains: [String!]!
+}
+
+type PartnerUser {
+  """
+  Id of employee in partner's company
+  """
+  id: ID!
+  userId: ID!
+  partnerId: ID!
+
+  """
+  partner's companyId
+  """
+  companyId: ID!
+
+  """
+  Permission.BENEFITS_BROKER_PARTNER_ADMIN
+  Permission.BENEFITS_FULFILLMENT_MANAGER
+  Permission.BENEFITS_RENEWALS_MANAGER
+  Permission.BENEFITS_ANALYST
+  """
+  roles: [String!]!
+
+  """
+  Permission.EDIT_EMPLOYEE_BENEFITS_DATA
+  """
+  permissions: [String!]!
+
+  """
+  'Act': active
+  'Sus': suspended
+  """
+  status: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  phone: String
+  phoneExtension: String
+}
+
+type PdfElement {
+  id: Int
+  name: String
+  type: String
+  value: String
+  error: String
+  top: Float
+  left: Float
+  height: Float
+  width: Float
+  page_num: Int
+  font_size: Float
+}
+
+type PdfInfo {
+  id: ID
+  fields: [PdfElement]
+  error: String
+  success: Boolean
+  images: [String]
+}
+
+type Permission {
+  codename: String
+  productName: String
+  description: String
+  id: ID
+}
+
+type personal_info_context {
+  id: ID
+  email: String
+  type: String
+  status: String
+  firstName: String
+  lastName: String
+  midName: String
+  dateOfBirth: String
+  height: String
+  weight: String
+  gender: String
+  ssn: String
+  maritalStatus: String
+  phoneNumber: String
+  address1: String
+  address2: String
+  city: String
+  state: String
+  zip: String
+  isDisabled: Boolean
+  isSmoker: Boolean
+}
+
+type PersonalInfoContext {
+  id: ID
+  email: String
+  type: String
+  status: String
+  firstName: String
+  lastName: String
+  midName: String
+  dateOfBirth: String
+  height: String
+  weight: String
+  gender: String
+  ssn: String
+  maritalStatus: String
+  phoneNumber: String
+  address1: String
+  address2: String
+  city: String
+  state: String
+  zip: String
+  isDisabled: Boolean
+  isSmoker: Boolean
+}
+
+type Plan {
+  hasNetworkProviders: Boolean
+  rxCoPayBrandRetailCondition: Int
+  availableOOS: Boolean
+  deductibleIndividual: Int
+  urgentCarePreferredNetwork: String
+  oopMaxFamilyOutOfNetwork: Int
+  rxCoPayBrandRetailSecondary: String
+  HSA: Boolean
+  group: String
+  hospitalInpatientSecondaryPreferredNetwork: String
+  lastCommentDate: String
+  planOrder: Int
+  hospitalOutpatientSecondaryPreferredNetwork: String
+  oopMaxIndividualOutOfNetwork: Int
+  carrierRxCode: String
+  coPayPreferredNetwork: String
+  dailyLimits: String
+  coInsurance: String
+  emergencyServiceCondition: Int
+  specialistCoPay: String
+  liveQuoteForRenewal: Boolean
+  minHRAContribution: Int
+  rateStyle: String
+  preventativeCareOutOfNetwork: String
+  HRA: Boolean
+  estimatedSevereOOPCost: Int
+  urgentCareSecondary: String
+  name: String
+  network: Network
+  notes: String
+  urgentCareSecondaryPreferredNetwork: String
+  hospitalInpatient: String
+  urgentCareCondition: Int
+  emergencyService: String
+  carrierCode: String
+  sourcePlanId: Int
+  emergencyServicePrimaryPreferredNetwork: String
+  genderBandedStyle: Int
+  specialtyPharmacySecondary: String
+  customPlanCompanyId: Int
+  shortCircuitPlanType: String
+  minLives: Int
+  isMinimumEffectiveCoverage: Boolean
+  fundingType: String
+  hospitalOutpatient: String
+  useGenderBandedPrefixForRegionMapping: Boolean
+  emergencyServiceConditionPreferredNetwork: Int
+  urgentCare: String
+  state: String
+  hospitalOutpatientSecondary: String
+  useEEZipAvailability: Boolean
+  outOfNetworkCoInsurance: String
+  rxCoPayNonFormularyRetailSecondary: String
+  rxCoPayGenericRetail: String
+  isShortCircuitPlan: Boolean
+  oopMaxIndividualPreferredNetwork: Int
+  specialtyPharmacyCondition: Int
+  rxCoPayNonFormularyRetailCondition: Int
+  preventativeCare: String
+  emergencyServiceSecondaryPreferredNetwork: String
+  emergencyCoPay: Int
+  displayNote: String
+  networkSize: String
+  maxDays: Int
+  dailyLimitsPreferredNetwork: String
+  deductibleFamily: Int
+  carrier: String
+  consoleUrl: String
+  pharmacyCoverage: Boolean
+  hospitalInpatientPreferredNetwork: String
+  overrideCarrierDefaultRegion: Boolean
+  emergencyServiceSecondary: String
+  customPlan: Boolean
+  hospitalOutpatientPreferredNetwork: String
+  availableOOSStates: String
+  isVisionBundled: Boolean
+  pharmacyDeductibleOutOfNetwork: Int
+  specialistCoPayOutOfNetwork: String
+  rxCoPayBrandRetail: String
+  recommendedRenewalPlan: Plan
+  expiryDate: String
+  deductibleFamilyOutOfNetwork: Int
+  pharmacyDeductiblePreferredNetwork: Int
+  rxCoPayNonFormularyRetail: String
+  oopMaxIncludeDeductible: Boolean
+  rxCoPayGenericRetailCondition: Int
+  isMinimumValueCoverage: Boolean
+  isDentalBundled: Boolean
+  deductibleIndividualPreferredNetwork: Int
+  minHSAContribution: Int
+  oopMaxFamilyPreferredNetwork: Int
+  largeGroup: Boolean
+  isVoluntary: Boolean
+  newGroupExpiryDate: String
+  coPayOutOfNetwork: String
+  postACA: Boolean
+  preventativeCarePreferredNetwork: String
+  emergencyCoInsurance: String
+  showName: String
+  hospitalInpatientConditionPreferredNetwork: Int
+  customPlanReason: String
+  hospitalInpatientCondition: Int
+  pharmacyDeductible: Int
+  maxLives: Int
+  hospitalOutpatientConditionPreferredNetwork: Int
+  deductibleFamilyPreferredNetwork: Int
+  id: ID
+  metalTier: String
+  productCode: String
+  planUrl: String
+  bundledOldStyleDentalPlan: DentalPlan
+  specialtyPharmacy: String
+  liveQuote: Boolean
+  hospitalInpatientSecondary: String
+  maxHRAContribution: Int
+  maxDaysPreferredNetwork: Int
+  rxCoPayGenericRetailSecondary: String
+  isOldStyle: String
+  preferredNetworkCoInsurance: String
+  oopMaxIndividual: Int
+  afterDeductibles: String
+  compositeRuleSet: CompositeRuleSet
+  coPay: String
+  applyRaf: Boolean
+  needsPCP: Boolean
+  rxSupplyDaysRetail: Int
+  compositeFactorSet: CompositeFactorSet
+  deductibleIndividualOutOfNetwork: Int
+  planRequestLink: String
+  carrierInternalCode: String
+  maxHSAContribution: Int
+  urgentCareConditionPreferredNetwork: Int
+  displayName: String
+  hospitalOutpatientCondition: Int
+  oopMaxFamily: Int
+  emergencyServicePrimary: String
+  stateCarrier: Carrier
+  useDependentAge: Boolean
+  HMOPPO: String
+  inProgress: Boolean
+  specialistCoPayPreferredNetwork: String
+  resource_uri: String
+  lineOfCoverage: String
+}
+
+type PlanContext {
+  id: ID
+  name: String
+  companyHealthPlanId: ID
+}
+
+type PrimaryBenefitsPlanContext {
+  id: ID
+  name: String
+  companyHealthPlanId: ID
+  policyNumber: String
+  productCode: String
+  effectiveDate: String
+}
+
+type QFComment {
+  id: ID
+  questionId: ID
+  sectionId: ID
+  text: String
+}
+
+input QFCommentInput {
+  questionId: ID
+  sectionId: ID
+  text: String!
+}
+
+type QFQuestion {
+  id: ID!
+  title: String!
+  description: String
+  order: Int!
+  questionType: QFQuestionType!
+  config: JSON!
+}
+
+union QFQuestionResponse = QFRatingResponse | QFTextResponse
+
+enum QFQuestionType {
+  RATING
+  TEXT
+}
+
+type QFRatingResponse implements IQFQuestionResponse {
+  id: ID!
+  questionId: ID!
+  rating: Int!
+  comment: String
+  contextId: ID
+}
+
+type QFSection {
+  id: ID!
+  title: String!
+  order: Int!
+  questions: [QFQuestion!]!
+}
+
+enum QFSessionStatus {
+  ACTIVE
+  INACTIVE
+  IN_PROGRESS
+  COMPLETE
+  EXPIRED
+  PENDING
+}
+
+type QFTargetRule {
+  scope: QFTargetRuleScope
+  reviewer: [TargetRuleReviewer!]
+  reviewers: QFTargetRuleReviewers
+}
+
+type QFTargetRuleReviewers {
+  predefinedRules: [TargetRuleReviewer!]
+  reviewersForAll: [ID!]
+  specificReviewers: JSON
+}
+
+type QFTargetRuleScope {
+  type: TargetRuleScopeType
+  departments: [ID!]
+  locations: [ID!]
+  specificEmployees: [ID!]
+  additionalEmployees: [ID!]
+  titles: [String!]
+  compTypes: [CompType!]
+  employmentTypes: [EmploymentType!]
+  workerTypes: [WorkerType!]
+}
+
+type QFTextResponse implements IQFQuestionResponse {
+  id: ID!
+  questionId: ID!
+  text: String!
+  contextId: ID
+}
+
+type QualifyingEvent {
+  proofUpdateTimestamp: DateTime
+  qualifyingEventWaivers: [QualifyingEventWaiver]
+  resource_uri: String
+  proofURL: String
+  proofDocumentTypes: JSON
+  eventDate: String
+  subtype: String
+  reason: String
+  proofType: String
+  knowledgeTime: DateTime
+  employee: AllEmployee
+  type: String
+  id: ID
+  dependent: Dependent
+}
+
+type QualifyingEventContext {
+  type: String
+  subtype: String
+  eventDate: DateTime
+  proofURL: String
+  proofType: String
+}
+
+type QualifyingEventWaiver {
+  migratedFrom: String
+  otherReason: String
+  otherIDNumber: String
+  idCardUrl: String
+  datetime: DateTime
+  lineOfCoverage: String
+  reason: String
+  waiveReason: WaiverMetadata
+  signature: String
+  qualifyingEvent: QualifyingEvent
+  otherCarrier: String
+  id: ID
+  resource_uri: String
+}
+
+type Query {
+  dashboard(id: ID): Dashboard
+  currentZenefitsEmployee: ZenefitsEmployee
+  prerequisiteRedirect: JSON
+
+  """
+  employeeImpersonations: [EmployeeImpersonation]
+  inboxActionPartials: [InboxActionPartial]
+  zAppInstallSubscriptions: [ZAppInstallSubscription]
+  pageHelpArticles: [PageHelpArticle]
+  zAppActionUrls: [ZAppActionUrl]
+  spoof_machines(machineCategory: SpoofMachineCategory): [SpoofMachine]
+  inbox_action(id: ID): InboxAction
+  """
+  company(id: ID): Company
+  employeeRenamed(id: ID): AllEmployee
+  employee(id: ID): all_employee
+  signature(id: ID): Signature
+  benefitsEnrollment(id: ID): BenefitsEnrollment
+  benefitsEnrollments_bulk(employee_id: ID, effectiveDate: Date, benefitsType: String): [BenefitsEnrollment]
+  benefitsTransaction(id: ID): BenefitsTransaction
+  benefitsTransactions(companyId: ID!, employeeId: ID!, benefitsTypes: [String!], sort: String): [BenefitsTransaction]
+  benefits_transaction_help_flow(id: ID): BenefitsTransactionHelpFlow
+  benefits_transaction_help_flows(
+    employeeId: ID!
+    benefitsType: String
+    jiraTicket: String
+  ): [BenefitsTransactionHelpFlow]
+  searchClients(text: String): [SearchClientsResult]
+  review(reviewId: ID!, companyId: ID): Review
+  reviewTemplates(id: ID, status: ReviewTemplateStatus): [ReviewTemplate!]!
+  reviews(limit: Int, companyId: ID): [Review!]!
+  goals(status: GoalStatus, id: ID): [Goal!]!
+  questionFlows(limit: Int, questionFlowId: ID, isTemplate: Boolean): [QuestionFlow!]!
+  inboxTask(id: ID!): InboxTask
+
+  """
+  Query for talent permissions
+  """
+  talentPermission: TalentPermission!
+
+  """
+  Query for inbox task items for partner dashboard
+  """
+  filteredCompanies(ids: [ID!]): [Company]
+  inboxTaskSearch(
+    """
+    Open/Closed task status
+    """
+    status: [String!]
+    carriers: [ID!]
+    groups: [ID!]
+    employees: [ID!]
+    events: [String!]
+
+    """
+    Column header sort, ascending: [Carrier, employee, effectiveDate, company]
+    descending: [-carrier, -employee, -effectiveDate, -company]
+    """
+    sort: String
+    effectiveDateMax: String
+    effectiveDateMin: String
+    creationDateMax: String
+    creationDateMin: String
+    assigneeUserIds: [ID!]
+
+    """
+    Pagination page value
+    """
+    offset: Int
+
+    """
+    Number of tasks per pagination
+    """
+    size: Int
+  ): InboxTaskSearchResult
+  getPDFInfo(id: ID!): PdfInfo
+
+  """
+  employees to be used for filtering partner dashboard fulfillment tasks
+  """
+  fulfillmentTaskEmployees(
+    """
+    Search keyword for employee names, return no employee if name is null
+    """
+    name: String
+
+    """
+    IDs of companies where the search is restricted to
+    """
+    company: [ID!]
+
+    """
+    The max number of results returned, for default search for SIZE_EMPLOYEE_SEARCH
+    """
+    size: Int
+  ): [FulfillmentTaskEmployee!]!
+  autocompletedCompanies(name: String, size: Int): [SuggestedCompany!]!
+  currentPartner: Partner!
+  currentPartnerUser: PartnerUser!
+  partner(id: ID!): Partner!
+  partnerUser(id: ID!): PartnerUser!
+
+  """
+  Query for benconnect
+  """
+  employeeHealthEnrollments(
+    companyId: ID
+    employeeId: ID
+    isActive: Boolean
+    includedInGroupApp: Boolean
+  ): [EmployeeHealthEnrollment]
+  employeeBenefitsEnrollments(
+    employeeId: ID!
+    linesOfCoverage: [String!]
+    activeOnly: Boolean!
+  ): [EmployeeBenefitsEnrollment]
+  companyBenefitsCost(companyId: ID): [CompanyBenefitsCost]
+  companyRenewalData(companyId: ID): [CompanyRenewalInfo]
+  fulfillmentTaskAssignees: [FilterEmployee]
+
+  """
+  Talent Console
+  """
+  companyReviews(companyId: ID!): [CompanyReview!]!
+
+  """
+  Fulfillment Log
+  """
+  benefitsFulfillmentDetails(btIds: [ID]!): [BenefitsFulfillmentInfo]
+}
+
+type QuestionFlow {
+  id: ID!
+  title: String!
+  description: String
+  isTemplate: Boolean!
+  targetRule: QFTargetRule!
+  sections: [QFSection!]!
+  createdBy: AllEmployee!
+  createdAt: DateTime!
+  clonedFrom: QuestionFlow
+}
+
+type Review {
+  id: ID!
+  questionFlow: QuestionFlow!
+  schedules(event: TalentFlowScheduleEvent): [TalentFlowSchedule!]!
+  runs(runId: ID, revieweeId: ID, offset: Int, first: Int): [ReviewRun!]!
+  runsCount(revieweeId: ID): Int!
+  status: ReviewStatus!
+  startDate: Date
+  targetedEmployees(targetScope: JSON): [AllEmployee]
+  newTargetedEmployees(targetScope: JSON): [all_employee]
+  newTargetedEmployeesRenamed(targetScope: JSON): [AllEmployee]
+  targetableEmployees: [AllEmployee!]!
+  applicableGoals(employeeId: ID!): [Goal!]!
+  permission: ReviewPermission!
+  action: ReviewAction!
+}
+
+type ReviewAction {
+  reviewId: ID!
+  extendDueDates: Boolean!
+}
+
+type ReviewPermission {
+  reviewId: ID!
+  canEndReview: Boolean!
+  canSaveReviewAsTemplate: Boolean!
+  canExtendDueDates: Boolean!
+}
+
+type ReviewRun {
+  id: ID!
+  createdBy: AllEmployee!
+  createdAt: DateTime!
+  reviewSessions(sessionId: ID): [ReviewSession!]!
+  summarySessions(sessionId: ID): [ReviewSession!]!
+  reviewee: AllEmployee!
+  permission: RunPermission!
+  action: RunAction!
+  startDate: Date
+  endDate: Date
+  goals: [Goal!]!
+  status: ReviewRunStatus!
+  maxPossibleEndDate: Date
+}
+
+enum ReviewRunStatus {
+  PENDING
+  RUNNING
+  ENDED
+  INACTIVE
+}
+
+type ReviewSession implements IQFSession {
+  id: ID!
+  status: QFSessionStatus!
+  completedAt: DateTime
+  responses: [QFQuestionResponse!]!
+  comments: [QFComment!]!
+  reviewer: AllEmployee!
+  reviewee: AllEmployee!
+  type: ReviewSessionType!
+  permission: SessionPermission!
+}
+
+enum ReviewSessionType {
+  REVIEW
+  SUMMARY
+}
+
+enum ReviewStatus {
+  DRAFT
+  STARTING
+  RUNNING
+  ENDED
+}
+
+type ReviewTemplate {
+  id: ID!
+  companyId: ID
+  createdBy: AllEmployee!
+  status: ReviewTemplateStatus!
+  questionFlow: QuestionFlow!
+  permission: ReviewTemplatePermission!
+}
+
+type ReviewTemplatePermission {
+  templateId: ID!
+  canEditReviewTemplate: Boolean!
+}
+
+enum ReviewTemplateStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type RiderContext {
+  id: ID
+  planId: ID
+  riderType: String
+}
+
+type Role {
+  rght: Int
+  name: String
+  parent: Role
+  level: Int
+  lft: Int
+  tree_id: Int
+  id: ID
+  isActive: Boolean
+  permissions: [Permission]
+}
+
+type RunAction {
+  runId: ID!
+  editReviewers: Boolean!
+  scheduleReview: Boolean!
+  updateRunSettings: Boolean!
+}
+
+type RunPermission {
+  runId: ID!
+  canEditReviewers: Boolean!
+  canViewResults: Boolean!
+  canScheduleReview: Boolean!
+  canUpdateRunSettings: Boolean!
+}
+
+type SearchClientsResult {
+  _type: String
+  _score: Float
+  _id: String
+  _source: SearchClientsSource
+  _index: String
+}
+
+type SearchClientsSource {
+  isReal: Boolean
+  id: Int
+  enrollmentStatus: String
+  name: String
+}
+
+type SessionPermission {
+  qfSessionId: ID!
+  canViewResponses: Boolean!
+}
+
+type Signature {
+  employee: AllEmployee
+  signatureName: String
+  signatureBlob_id: Int
+  signatureDataUrl: String
+  signatureTitle: String
+  id: ID
+}
+
+type SignatureSubAction {
+  isCompleted: Boolean
+  completionDate: String
+  description: String
+  completedBy_id: Int
+  ctaText: String
+  uniqueId: String
+  signature: String
+  inboxSubAction: InboxSubAction
+  resource_uri: String
+  descriptionWithNamesAndVariables: String
+  id: ID
+  name: String
+}
+
+type SignatureSubActionTemplate {
+  id: ID
+  resource_uri: String
+  description: String
+  inboxSubActionTemplate: InboxSubActionTemplate
+}
+
+type SingleValueSubAction {
+  isCompleted: Boolean
+  completionDate: String
+  description: String
+  descriptionWithNamesAndVariables: String
+  completedBy_id: Int
+  choices: [InboxSubActionChoice]
+  ctaText: String
+  value: String
+  uniqueId: String
+  inboxSubAction: InboxSubAction
+  resource_uri: String
+  type: String
+  id: ID
+  null: [InboxSubActionChoice]
+  name: String
+}
+
+type SingleValueSubActionTemplate {
+  description: String
+  value: String
+  name: String
+  choices: [InboxSubActionChoiceTemplate]
+  inboxSubActionTemplate: InboxSubActionTemplate
+  type: String
+  id: ID
+  resource_uri: String
+}
+
+type StdPlanNew {
+  planAuditStage: String
+  flatPremium: Boolean
+  guaranteeIssueIncrements: Boolean
+  eliminationPeriodAccident: Int
+  parentPlan: StdPlanNew
+  dependentOnlyPlan: Boolean
+  customPlanCompanyId: Int
+  migrationStatus: String
+  basicPlanIncrements: Boolean
+  stateDisabilityInsurance: Boolean
+  shortCircuitPlanType: String
+  id: ID
+  productCode: String
+  totalCompensationBasedEarnings: Boolean
+  benefitsDuration: String
+  stateCarrier: Carrier
+  ageRedetermination: String
+  ownOccPeriod: String
+  planUrl: String
+  eliminationPeriodIllness: Int
+  comments: String
+  zipCodeBasedRates: Boolean
+  benefitsAugmentation: Boolean
+  preExistingCondition: String
+  isShortCircuitPlan: Boolean
+  eliminationPeriod: String
+  rateUrl: String
+  applicableEnrollees: String
+  secondaryGuaranteeIssue: Boolean
+  salaryRedetermination: String
+  customPlan: Boolean
+  benefitsDurationStructured: Int
+  familyTieredRates: Boolean
+  newGroupExpiryDate: String
+  salaryBasedIncrements: Boolean
+  name: String
+  planType: String
+  contributionScheme: Boolean
+  dependentsOnBasicPlan: Boolean
+  multipleSamePlanTypedPlans: Boolean
+  renewalExpiryDate: String
+  tobaccoRates: Boolean
+  previousStatusBasedMax: Boolean
+  resource_uri: String
+  participationRequirement: Int
+  ageBasedOnRenewalDate: Boolean
+  evidenceOfInsurabilityForm: String
+  lineOfCoverage: String
+}
+
+type SuggestedCompany {
+  companyId: ID!
+  companyName: String!
+  score: Float
+}
+
+type TagsProductMeta {
+  isProductName: Boolean
+  subcategories: [TagsProductMeta]
+  adminDisplayName: String
+  name: String
+  adminDisplayContext: String
+  contentObjectDetails: String
+  permission: Permission
+  isDisplayableToAdmin: Boolean
+  lineOfCoverage: String
+  consoleDisplayName: String
+  id: ID
+  isActive: Boolean
+  resource_uri: String
+}
+
+type TalentFlowSchedule {
+  id: ID!
+  event: TalentFlowScheduleEvent!
+  timeAfterEvent: Int!
+  timeUnit: TalentTimeUnit!
+  duration: Int!
+}
+
+enum TalentFlowScheduleEvent {
+  HIRE_DATE
+  PREV_RUN
+  ONE_TIME_RUN
+}
+
+input TalentFlowScheduleInput {
+  event: TalentFlowScheduleEvent!
+  timeAfterEvent: Int!
+  timeUnit: TalentTimeUnit!
+}
+
+type TalentPermission {
+  canCreateReview: Boolean!
+  canLaunchAllEmployeesReview: Boolean!
+}
+
+enum TalentTimeUnit {
+  DAY
+  MONTH
+}
+
+enum TargetRuleReviewer {
+  MANAGER
+  PEERS
+  DIRECT_REPORTS
+  SELF
+}
+
+enum TargetRuleScopeType {
+  ALL
+  CREATOR_TEAM
+  CUSTOM
+  SPECIFIC_EMPLOYEES
+}
+
+enum TerminationType {
+  IN
+  VR
+  VN
+  UN
+  NS
+}
+
+"""
+Dummy Time, represented as a string
+"""
+scalar Time
+
+type User {
+  first_name: String
+  last_name: String
+  is_active: Boolean
+  id: ID
+  objId: Int
+  email: String
+}
+
+type VisionPlan {
+  genderBandedStyle: Int
+  hasNetworkProviders: Boolean
+  frameAllowable: String
+  showName: String
+  availableOOS: Boolean
+  customPlanReason: String
+  isVoluntary: Boolean
+  customPlanCompanyId: Int
+  availableOOSStates: String
+  lensFrequency: Int
+  maxLives: Int
+  id: ID
+  shortCircuitPlanType: String
+  expiryDate: String
+  minLives: Int
+  retailDiscountAvailable: Boolean
+  fundingType: String
+  productCode: String
+  contactsFrequency: Int
+  group: String
+  resource_uri: String
+  stateCarrier: Carrier
+  recommendedRenewalPlan: VisionPlan
+  planUrl: String
+  lastCommentDate: String
+  planOrder: Int
+  lasikCoverage: Boolean
+  state: String
+  liveQuote: Boolean
+  examFrequency: Int
+  frameAllowableSecondary: String
+  consoleUrl: String
+  freePlan: Boolean
+  lensAllowable: String
+  isNewStyle: String
+  isShortCircuitPlan: Boolean
+  planRequestLink: String
+  compositeRuleSet: CompositeRuleSet
+  coPay: String
+  singleTierRate: Boolean
+  liveQuoteForRenewal: Boolean
+  rateStyle: String
+  customPlan: Boolean
+  HMOPPO: String
+  largeGroup: Boolean
+  compositeFactorSet: CompositeFactorSet
+  contactsAllowableSecondary: String
+  frameFrequency: Int
+  displayNote: String
+  newGroupExpiryDate: String
+  displayName: String
+  name: String
+  network: Network
+  useSicRaf: Boolean
+  postACA: Boolean
+  useGenderBandedPrefixForRegionMapping: Boolean
+  contactsAllowableCondition: Int
+  lensAllowableCondition: Int
+  lensAllowableSecondary: String
+  carrier: String
+  useDependentAge: Boolean
+  sourcePlanId: Int
+  inProgress: Boolean
+  contactsAllowable: String
+  adjustableRates: Boolean
+  frameAllowableCondition: Int
+  overrideCarrierDefaultRegion: Boolean
+  lineOfCoverage: String
+}
+
+type WaiverContext {
+  hasSignedWaiver: Boolean
+  otherCarrier: String
+  reasonForDecliningCoverage: String
+  waiveReasonName: String
+  otherIdNumber: String
+  signatureId: ID
+}
+
+type WaiverMetadata {
+  category: String
+  applicableDependentTypes: String
+  description: String
+  resource_uri: String
+  softDeleted: Boolean
+  name: String
+  requiresCarrierInfo: Boolean
+  id: ID
+  isDefaultValid: Boolean
+}
+
+enum WorkerType {
+  AW
+  CW
+  VE
+  IC
+  IN
+}
+
+type ZApp {
+  id: ID
+  uniqueId: String
+  packageId: String
+  developerId: Int
+  title: String
+  shortTitle: String
+  delegate: String
+  preferences: JSON
+  appUrl: String
+  appIconSqUrl: String
+  role: String
+  primaryCategory: String
+  secondaryCategory: String
+  status: Int
+  autoSubMode: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  isPublishedRollout: Boolean
+  scopes: JSON
+}
+
+type ZAppActionUrl {
+  id: ID
+  title: JSON
+  actionUrl: JSON
+  role: JSON
+}
+
+type ZAppInstall {
+  id: ID
+  app: ZApp
+  company: Company
+  preferences: JSON
+  status: Int
+  autoSubMode: String
+  installedAt: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ZAppInstallSubscription {
+  id: ID
+  appInstall: ZAppInstall
+  company: Company
+  employee: AllEmployee
+  preferences: JSON
+  status: Int
+  inheritedStatus: Int
+  subscribedAt: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ZenefitsEmployee {
+  """
+  contractor: Contractor
+  """
+  employee: AllEmployee
+  user: User
+
+  """
+  roles: [Role]
+  permissions: [Permission]
+  """
+  id: ID
+  isActive: Boolean
+}

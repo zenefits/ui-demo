@@ -1,8 +1,6 @@
 // @ts-check
 
 const path = require('path');
-const _ = require('lodash');
-const glob = require('glob');
 const fs = require('fs');
 const crypto = require('crypto');
 const chalk = require('chalk');
@@ -22,7 +20,9 @@ if (operation === '--check') {
   let currentHash = null;
   try {
     currentHash = fs.readFileSync(yarnHashPath).toString();
-  } catch (e) {}
+  } catch (e) {
+    // do nothing
+  }
 
   if (currentHash && hash !== currentHash) {
     console.log(chalk`\n\n{red INTEGRITY CHECK FAILED} {yellow.bold Please run "lerna bootstrap"}\n\n`);
@@ -32,7 +32,9 @@ if (operation === '--check') {
   let cacheDirExists = false;
   try {
     cacheDirExists = fs.statSync(cacheDir).isDirectory();
-  } catch (e) {}
+  } catch (e) {
+    // do nothing
+  }
 
   if (!cacheDirExists) {
     fs.mkdirSync(cacheDir);

@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-ignore
 import { storiesOf } from '@storybook/react';
 
 import { styled, withTheme } from './web/ThemeProvider';
@@ -11,11 +12,12 @@ const StyledTableHeader = styled.thead`
 `;
 
 // NOTE: avoiding zbase dependency
-const TypographySample = styled<{ fontStyle?: string }>(props => <div {...props} />)`
-  ${props => fsUtil(props.fontStyle)};
+const untypedFsUtil = fsUtil as any;
+const TypographySample = styled<{ fontStyle?: FontStyleString }>((props: any) => <div {...props} />)`
+  ${props => untypedFsUtil(props.fontStyle)};
 `;
 
-const sizeNamesMap = {};
+const sizeNamesMap: { [size: string]: boolean } = {};
 Object.keys(fontDescriptions).forEach(fontCategory => {
   Object.keys(fontDescriptions[fontCategory]).forEach(size => {
     sizeNamesMap[size] = true;
@@ -23,13 +25,13 @@ Object.keys(fontDescriptions).forEach(fontCategory => {
 });
 const supportedSizeParam = Object.keys(sizeNamesMap);
 
-const placeholders = {
+const placeholders: { [key: string]: string } = {
   headings: 'Heading Text',
   paragraphs: 'Fusce vehicula dolor arcu, sit amet blandit dolor mollis nec.',
   controls: 'Control Text',
 };
 
-const Page = props => {
+const Page = (props: any) => {
   const fontsStylesMap = convertToNestedMap(fontStyles);
   const rulesFlattened = supportedSizeParam.map(s =>
     Object.keys(fontsStylesMap)
@@ -47,7 +49,9 @@ const Page = props => {
           <th>Sizes</th>
           <th>Headings</th>
           <th>
-            Controls<br />(button, input, avatar)
+            Controls
+            <br />
+            (button, input, avatar)
           </th>
           <th>Paragraphs</th>
         </tr>
@@ -70,4 +74,4 @@ const Page = props => {
 
 const PageWithTheme = withTheme(Page);
 
-storiesOf('Typography', module).add('All', () => <PageWithTheme />);
+storiesOf('theme|Typography', module).add('All', () => <PageWithTheme />);

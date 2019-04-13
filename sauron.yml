@@ -1,0 +1,429 @@
+end_state: EndState
+state_machine:
+  EndState:
+    status_checks: []
+    on_success:
+      transition_state: EndState
+    on_failure:
+      transition_state: EndState
+  CodeReviewState:
+    status_checks:
+      - LGTM:
+          default:
+            sticky: true
+            keywords:
+              - ':+1:'
+              - LGTM
+          QA:
+            sticky: false
+            keywords:
+              - 'QA-LGTM'
+            approved_team_names:
+              - QA-Benefits
+            conditions:
+              label:
+                label_names:
+                  - 'QA Required: Benefits'
+      - merge-label:
+          label_name: 'SAURON-BOT: Merge It!'
+      # - gh/travis-ci: {}
+      - buildkite-fullsuite: {}
+      - gh/ci/chromatic:
+          get_latest_result: true
+    skip-ci: true
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: QueuedState
+  QueuedState:
+    status_checks:
+      - merged: {}
+    on_failure:
+      transition_state: CodeReviewState
+    on_success:
+      transition_state: EndState
+
+initial_state: CodeReviewState
+merged_state: EndState
+branch_regex: 'master|production-?.*'
+
+label_locks:
+  'QA Required: Benefits':
+    team_exemptions:
+      - QA-Benefits
+    actions_blacklist:
+      - unlabeled
+
+rule_engine:
+  tools_packages:
+    actions:
+      pr_comment:
+        comment_body: 'changes to tools/*, assigned @gcoombe'
+      assign:
+        assignees:
+          - gcoombe
+    included_paths:
+      - tools/
+    min_files: 1
+    excluded_branches:
+      - release\/.*
+  root_scripts:
+    actions:
+      pr_comment:
+        comment_body: 'changes to src/scripts/*, assigned @gcoombe'
+      assign:
+        assignees:
+          - gcoombe
+    included_paths:
+      - src/scripts/
+    min_files: 1
+    excluded_branches:
+      - release\/.*
+  infra_configs:
+    actions:
+      pr_comment:
+        comment_body: 'changes to infra configs, assigned @gcoombe'
+      assign:
+        assignees:
+          - gcoombe
+    included_paths:
+      - yarn.lock
+      - tsconfig.json
+      - tslint.json
+      - prettier.config.js
+      - package.json
+      - lerna.json
+      - jest.config.js
+      - .yarnrc
+      - .travis.yml
+      - .prettierignore
+      - .nvmrc
+      - .gitignore
+      - .eslintrc.js
+      - .eslintignore
+      - .editorconfig
+      - .babelrc
+      - yarn/
+    min_files: 1
+    excluded_branches:
+      - release\/.*
+  react_native_changes:
+    actions:
+      pr_comment:
+        comment_body: 'changes to native-apps/*, assigned @zenefits-brody'
+      assign:
+        assignees:
+          - zenefits-brody
+    included_paths:
+      - native-apps/
+    min_files: 1
+    excluded_branches:
+      - release\/.*
+  content_security_policy_changes:
+    actions:
+      pr_comment:
+        comment_body: '@zenefits/ui-eng @zenefits/security - changes to z-frontend/tools/webpack/contentSecurityPolicy.js'
+      require_lgtm:
+        approved_team_names:
+          - ui-eng
+          - security
+    included_paths:
+      - tools/webpack/src/contentSecurityPolicy.js
+    min_files: 1
+  package_dependencies:
+    actions:
+      pr_comment:
+        comment_body: "@zenefits/zfrontend-maintainers.\n- [ ] dependencies look good \n\nthis PR touches:"
+      require_lgtm:
+        approved_team_names:
+          - zfrontend-maintainers
+    included_paths:
+      - package.json
+      - yarn.lock
+    min_files: 1
+    excluded_branches:
+      - release\/.*
+  non_app_files:
+    actions:
+      pr_comment:
+        comment_body: "@zenefits/zfrontend-maintainers\n- [ ] changes look good (@zenefits/zfrontend-maintainers)\n\nThis PR touches:"
+      require_lgtm:
+        approved_team_names:
+          - zfrontend-maintainers
+    excluded_paths:
+      - apps/
+    excluded_branches:
+      - release\/.*
+  ben_connect_employee_app:
+    actions:
+      pr_comment:
+        comment_body: '@JamesLiuZen, this PR touches:'
+    included_paths:
+      - apps/benconnect/src/coverages
+      - apps/benconnect/src/employee-enrollment-flow
+      - apps/benconnect/src/employees/employee
+      - apps/benconnect/src/timeline
+    comment_filter:
+      - '@JamesLiuZen'
+    min_files: 1
+  benconnect_app_qe:
+    actions:
+      pr_comment:
+        comment_body: '@rperumalsamy, this PR touches:'
+    included_paths:
+      - apps/benconnect/
+    comment_filter:
+      - '@rperumalsamy'
+    min_files: 1
+  tslint_disable:
+    actions:
+      pr_comment:
+        comment_body: '@zenefits/zfrontend-maintainers This PR contains `tslint:disable`.'
+      require_lgtm:
+        approved_team_names:
+          - zfrontend-maintainers
+    strings_to_check:
+      check_added:
+        - 'tslint:disable'
+    included_paths:
+      - '.tsx'
+      - '.ts'
+    excluded_branches:
+      - release\/.*
+  production-merge-benconnect:
+    included_base_branches:
+      - production-benconnect
+    actions:
+      pr_comment:
+        comment_body: '@zenefits/qa-benefits, new PR for production branch:'
+      label:
+        label_name: 'QA Required: Benefits'
+  ## dont edit the following rules, we autogenerate them using zcli generateAppReviewsRules from the root
+  ## and the following template:
+  # ${appName}app_uie:
+  #   actions:
+  #     pr_comment:
+  #       comment_body: '${@uieGitHubHandle}, this PR touches:'
+  #   included_paths:
+  #     - apps/${appName}/
+  #   comment_filter:
+  #     - '@${uieGitHubHandle}'
+  #   min_files: 1
+  ### Generated code begins
+  benconnect_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@gcoombe, this PR touches:'
+    included_paths:
+      - apps/benconnect/
+    comment_filter:
+      - '@gcoombe'
+    min_files: 1
+  boot_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@MiguelMadero, this PR touches:'
+    included_paths:
+      - apps/boot/
+    comment_filter:
+      - '@MiguelMadero'
+    min_files: 1
+  company-documents_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@zenefits-brody, this PR touches:'
+    included_paths:
+      - apps/company-documents/
+    comment_filter:
+      - '@zenefits-brody'
+    min_files: 1
+  company-hub_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@zenefits-brody, this PR touches:'
+    included_paths:
+      - apps/company-hub/
+    comment_filter:
+      - '@zenefits-brody'
+    min_files: 1
+  company-setup_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@zenefits-brody, this PR touches:'
+    included_paths:
+      - apps/company-setup/
+    comment_filter:
+      - '@zenefits-brody'
+    min_files: 1
+  demo-center_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@zenefits-brody, this PR touches:'
+    included_paths:
+      - apps/demo-center/
+    comment_filter:
+      - '@zenefits-brody'
+    min_files: 1
+  deployment-dashboard_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/deployment-dashboard/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  documents_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@gcoombe, this PR touches:'
+    included_paths:
+      - apps/documents/
+    comment_filter:
+      - '@gcoombe'
+    min_files: 1
+  example_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/example/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  form-mapping-tool_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@nealfwilliams2, this PR touches:'
+    included_paths:
+      - apps/form-mapping-tool/
+    comment_filter:
+      - '@nealfwilliams2'
+    min_files: 1
+  iframe-router-example_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@nealfwilliams2, this PR touches:'
+    included_paths:
+      - apps/iframe-router-example/
+    comment_filter:
+      - '@nealfwilliams2'
+    min_files: 1
+  implementation-dashboard_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/implementation-dashboard/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  payroll_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@nealfwilliams2, this PR touches:'
+    included_paths:
+      - apps/payroll/
+    comment_filter:
+      - '@nealfwilliams2'
+    min_files: 1
+  people_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@nealfwilliams2, this PR touches:'
+    included_paths:
+      - apps/people/
+    comment_filter:
+      - '@nealfwilliams2'
+    min_files: 1
+  people-analytics_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/people-analytics/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  people-hub_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@MiguelMadero, this PR touches:'
+    included_paths:
+      - apps/people-hub/
+    comment_filter:
+      - '@MiguelMadero'
+    min_files: 1
+  scheduling_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@zenefits-brody, this PR touches:'
+    included_paths:
+      - apps/scheduling/
+    comment_filter:
+      - '@zenefits-brody'
+    min_files: 1
+  z-styleguide_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/z-styleguide/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  talent_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/talent/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  training_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/training/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  well-being_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/well-being/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  zscore_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/zscore/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  hr-groups_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@MiguelMadero, this PR touches:'
+    included_paths:
+      - apps/hr-groups/
+    comment_filter:
+      - '@MiguelMadero'
+    min_files: 1
+  talent-native_app_uie:
+    actions:
+      pr_comment:
+        comment_body: '@wachunga, this PR touches:'
+    included_paths:
+      - apps/talent-native/
+    comment_filter:
+      - '@wachunga'
+    min_files: 1
+  ### Generated code ends

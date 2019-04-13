@@ -1,4 +1,5 @@
-import { ViewProperties } from 'react-native';
+import { View, ViewProperties } from 'react-native';
+import { ObjectOmit } from 'typelevel-ts';
 
 import { theme } from 'z-frontend-theme/native';
 
@@ -19,10 +20,10 @@ const boxPropsMap: PropsMap = Object.assign({}, flexOnlyPropsMap, {
   ...borderPropsMap,
 });
 
-export const Box = withUtilPropsNative<ViewProperties, BoxAdditionalProps>({
+export const Box = withUtilPropsNative<ObjectOmit<ViewProperties, keyof BoxAdditionalProps>, BoxAdditionalProps>({
   displayName: 'Box',
   additionalPropsMap: boxPropsMap,
   defaultUtilProps: {
     borderColor: theme.borderColor,
   },
-})('View');
+})(__DEVELOPMENT__ ? View : 'View');

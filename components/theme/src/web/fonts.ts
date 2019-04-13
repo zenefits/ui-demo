@@ -1,121 +1,151 @@
 import { convertToNestedMap } from '../utils';
+import { getColor, ColorString } from '../colors';
 
 export const fontSizes = [12, 14, 16, 19, 24, 32, 45, 48];
 export const fonts = ['Circular, sans-serif'];
-export const weights = [400, 600, 700]; // TODO: update them to only the ones we support
+export const weights = [400, 700]; // normal, bold
 
-export const fontDescriptionsMap = {
+type FontConfig = {
+  fontSize: number;
+  lineHeight: string;
+  fontWeight: number;
+  color: ColorString;
+  uppercase?: boolean;
+};
+
+type FontStyleWeb =
+  | 'headings.xxl'
+  | 'headings.xl'
+  | 'headings.l'
+  | 'headings.m'
+  | 'headings.s'
+  | 'headings.xs'
+  | 'controls.xxl'
+  | 'controls.xl'
+  | 'controls.l'
+  | 'controls.m'
+  | 'controls.s'
+  | 'paragraphs.xxl'
+  | 'paragraphs.xl'
+  | 'paragraphs.l'
+  | 'paragraphs.m'
+  | 'paragraphs.s';
+
+export const fontDescriptionsMap: { [key in FontStyleWeb]: FontConfig } = {
   'headings.xxl': {
-    fontFamily: 0,
     fontSize: 7,
     lineHeight: '1',
     fontWeight: 1,
+    color: 'text.dark',
   },
   'headings.xl': {
-    fontFamily: 0,
     fontSize: 5,
     lineHeight: '1.25',
-    fontWeight: 2,
+    fontWeight: 1,
+    color: 'text.dark',
   },
   'headings.l': {
-    fontFamily: 0,
     fontSize: 4,
     lineHeight: '1.33',
-    fontWeight: 2,
+    fontWeight: 1,
+    color: 'text.dark',
   },
   'headings.m': {
-    fontFamily: 0,
     fontSize: 3,
     lineHeight: '1.26',
-    fontWeight: 2,
+    fontWeight: 1,
+    color: 'text.dark',
   },
   'headings.s': {
-    fontFamily: 0,
     fontSize: 2,
     lineHeight: '1.5',
     fontWeight: 0,
+    color: 'text.dark',
   },
   'headings.xs': {
-    fontFamily: 0,
     fontSize: 0,
     lineHeight: '1.33',
-    fontWeight: 2,
+    fontWeight: 1,
+    color: 'text.dark',
     uppercase: true,
   },
   'controls.xxl': {
-    fontFamily: 0,
     fontSize: 4,
     lineHeight: '1.17',
     fontWeight: 1,
+    color: 'text.dark',
   },
   'controls.xl': {
-    fontFamily: 0,
     fontSize: 3,
     lineHeight: '1.26',
     fontWeight: 1,
+    color: 'text.dark',
   },
   'controls.l': {
-    fontFamily: 0,
     fontSize: 2,
     lineHeight: '1.25',
     fontWeight: 1,
+    color: 'text.dark',
   },
   'controls.m': {
-    fontFamily: 0,
     fontSize: 1,
     lineHeight: '1.14',
     fontWeight: 1,
+    color: 'text.dark',
   },
   'controls.s': {
-    fontFamily: 0,
     fontSize: 0,
     lineHeight: '1',
     fontWeight: 1,
+    color: 'text.dark',
   },
   'paragraphs.xxl': {
-    fontFamily: 0,
     fontSize: 4,
     lineHeight: '1.33',
     fontWeight: 0,
+    color: 'text.default',
   },
   'paragraphs.xl': {
-    fontFamily: 0,
     fontSize: 3,
     lineHeight: '1.47',
     fontWeight: 0,
+    color: 'text.default',
   },
   'paragraphs.l': {
-    fontFamily: 0,
     fontSize: 2,
     lineHeight: '1.5',
     fontWeight: 0,
+    color: 'text.default',
   },
   'paragraphs.m': {
-    fontFamily: 0,
     fontSize: 1,
     lineHeight: '1.43',
     fontWeight: 0,
+    color: 'text.default',
   },
   'paragraphs.s': {
-    fontFamily: 0,
     fontSize: 0,
     lineHeight: '1.33',
     fontWeight: 0,
+    color: 'text.default',
   },
 };
 
 export type FontStyleString = keyof (typeof fontDescriptionsMap);
 
-export const fontStyles: { [key: string]: string } = Object.keys(fontDescriptionsMap).reduce((rules, fontStyleName) => {
-  const fontData = fontDescriptionsMap[fontStyleName];
-  rules[fontStyleName] = `
-  font-family: ${fonts[fontData.fontFamily]};
+export const fontStyles: { [key: string]: string } = Object.keys(fontDescriptionsMap).reduce(
+  (rules: { [key: string]: string }, fontStyleName: FontStyleWeb) => {
+    const fontData = fontDescriptionsMap[fontStyleName];
+    rules[fontStyleName] = `
   font-size: ${fontSizes[fontData.fontSize]}px;
   line-height: ${fontData.lineHeight};
   font-weight: ${weights[fontData.fontWeight]};
-  ${fontData.uppercase ? 'text-transform: uppercase;' : ''}
+  color: ${getColor(fontData.color)};
+  text-transform: ${fontData.uppercase ? 'uppercase' : 'none'};
   `;
-  return rules;
-}, {});
+    return rules;
+  },
+  {},
+);
 
 export const fontDescriptions = convertToNestedMap(fontDescriptionsMap);

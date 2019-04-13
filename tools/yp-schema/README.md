@@ -4,35 +4,35 @@
 
 This package provides:
 
-* **Full schema** for our GraphQL server along with **TypeScript types for the schema**
-* **Webpack plugin** which generates TypeScript types for GraphQL queries, mutations and fragments in app files
-* **Mock schema** to use in apps with Apollo library
+- **Full schema** for our GraphQL server ([yourPeople3/graphql](https://github.com/zenefits/yourPeople3/tree/master/graphql)) along with **TypeScript types for the schema**
+- **Webpack plugin** which generates TypeScript types for GraphQL queries, mutations and fragments in app files
+- **Mock schema** to use in apps with Apollo library
 
-## Developer workflow for server schema changes
+## Developer workflow for yp3 schema changes
 
-When changes to server schema are made, the JSON schema file in your app needs to be synced with server schema.
+When changes to yp3 schema are made, the JSON schema file in your app needs to be synced with yp3 schema.
 
 Usual developer workflow is repeating these 2 steps until changes are good to go:
 
-1. change the GraphQL schema in server
-2. sync the schema in your z-frontend app and test the changes
+1.  change the GraphQL schema in yp3
+2.  sync the schema in your z-frontend app and test the changes
 
-For step 1 changes need to be made in local server repo and then JSON schema should be regenerated. For that need to use zcli tool from your z-fronted app folder:
+For step 1 changes need to be made in local yp3 repo and then JSON schema should be regenerated. For that need to use zcli tool from your z-fronted app folder:
 
 ```
 yarn zcli syncSchema
 ```
 
-This command will start **your local server/graphql** server, download JSON schema to `<your-app>/schema/schema.json` and generate TS types for it in `<your-app>/schema/schemaTypes.d.ts`.
+This command will start **your local yp3/graphql** server, download GraphQL schema to `<your-app>/schema/schema.generated.graphql` and generate TS types for it in `<your-app>/schema/schemaTypes.ts`.
 
-By default, it looks for server repo in `../server`. if you have your server repo in different place, you can provide the location with SERVER env variable:
+By default, it looks for yp3 repo in `../yourPeople3`. if you have your yp3 repo in different place, you can provide the location with YP3 env variable:
 
 ```
-SERVER=../my-server yarn zcli syncSchema
+YP3=../yp3 yarn zcli syncSchema
 ```
 
-After changes to server schema are final, 2 pull requests should be created - one for server with the schema changes and one for z-frontend with regenerated JSON schema, regenerated types and possible app changes.
-Please always add a link to other repo PR to the description, so it's easier to review the changes. In most cases the server PR should be merged and deployed first, since **schema changes should always be backward compatible**.
+After changes to yp3 schema are final, 2 pull requests should be created - one for yp3 with the schema changes and one for z-frontend with regenerated JSON schema, regenerated types and possible app changes.
+Please always add a link to other repo PR to the description, so it's easier to review the changes. In most cases the yp3 PR should be merged and deployed first, since **schema changes should always be backward compatible**.
 
 ## Developer workflow for query/mutation changes in z-frontend apps
 
@@ -51,8 +51,9 @@ This namespace exports a type of whole query, mutation or fragment as `Query`, `
 import gql from 'graphql-tag';
 
 const MyQuery = gql`
-  query appQuery {
-    dashboard(id: "me") {
+  query AppQuery {
+    dashboard {
+      id
       user_id
       employee {
         id

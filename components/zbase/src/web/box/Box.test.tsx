@@ -1,6 +1,7 @@
 import React from 'react';
 import 'jest-styled-components';
 
+import 'z-frontend-jest/modified-jest-styled-components';
 import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
 import { getColor, styled, theme } from 'z-frontend-theme';
 
@@ -49,7 +50,8 @@ describe('Box', () => {
   });
 
   it('should not render passed util props as attributes', () => {
-    const rendered = renderWithTheme(<Box p={123} mt={456} flex="1" order={2} />);
+    const myRef = React.createRef();
+    const rendered = renderWithTheme(<Box elementRef={myRef} p={123} mt={456} flex="1" order={2} />);
     const attributeKeys = Object.keys(rendered.get(0).attribs);
     expect(attributeKeys).toHaveLength(1);
     expect(attributeKeys).toContain('class');
@@ -67,5 +69,11 @@ describe('Box', () => {
     const attributeKeys = Object.keys(rendered.get(0).attribs);
     expect(attributeKeys).toHaveLength(1);
     expect(attributeKeys).toContain('class');
+  });
+
+  it('should pass ref down', () => {
+    const myRef = React.createRef();
+    const wrapper = mountWithTheme(<Box elementRef={myRef} />);
+    expect(myRef.current).toBe(wrapper.getDOMNode());
   });
 });

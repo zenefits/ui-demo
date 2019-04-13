@@ -22,7 +22,10 @@
           "blacklist": ["foo", "bar", "lorem"]
         },
         "module7/*": true,
-        "module8/src/*": true
+        "module8/src/*": true,
+        "module9/*": {
+          "whitelist": ["module9/ok"]
+        }
       }
     ]
   }

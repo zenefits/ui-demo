@@ -1,0 +1,3 @@
+{
+  "ignoreTestFiles": "!**/*.spec.{ts,tsx}"
+}

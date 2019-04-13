@@ -1,33 +1,11 @@
-const getTypescriptRule = (isDevMode, tsLoaderTranspileOnly = false) => ({
-  test: /\.(ts|tsx)$/,
-  use: [
-    {
-      loader: require.resolve('babel-loader'),
-      options: {
-        cacheDirectory: true,
-      },
-    },
-    {
-      loader: require.resolve('ts-loader'),
-      options: {
-        transpileOnly: tsLoaderTranspileOnly,
-        compilerOptions: {
-          noUnusedLocals: !isDevMode,
-        },
-      },
-    },
-  ],
-  exclude: [/node_modules/],
-});
-
 const getFontsRule = () => ({
   test: /\.(woff|woff2|otf|ttf|eot|svg)?$/,
-  exclude: [/node_modules\/(?!material-design-iconic-font).*/],
+  exclude: [/node_modules\/(?!material-design-iconic-font).*/, /src\/images\/(.*)/],
   use: [
     {
       loader: require.resolve('file-loader'),
       options: {
-        name: 'assets/fonts/[name].[ext]',
+        name: 'assets/fonts/[name].[hash].[ext]',
       },
     },
   ],
@@ -38,4 +16,41 @@ const getCssRule = () => ({
   use: ['style-loader', 'css-loader'],
 });
 
-module.exports = { getTypescriptRule, getFontsRule, getCssRule };
+const getImageRule = () => ({
+  test: /src\/images\/(.*)/,
+  exclude: [/node_modules\//],
+  use: [
+    {
+      loader: require.resolve('file-loader'),
+      options: {
+        name: 'assets/images/[name].[ext]',
+      },
+    },
+  ],
+});
+
+// Avoid "require is not defined" errors, this rule should be the first
+const getMjsRule = () => ({
+  test: /\.mjs$/,
+  include: /node_modules/,
+  type: 'javascript/auto',
+});
+
+const getStorySourceAddonRule = () => ({
+  test: /\.stories\.tsx?$/,
+  loaders: [
+    {
+      loader: require.resolve('@storybook/addon-storysource/loader'),
+      options: { parser: 'typescript' },
+    },
+  ],
+  enforce: 'pre',
+});
+
+module.exports = {
+  getFontsRule,
+  getCssRule,
+  getImageRule,
+  getMjsRule,
+  getStorySourceAddonRule,
+};

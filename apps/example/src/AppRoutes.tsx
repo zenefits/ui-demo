@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { Text } from 'zbase';
-import { NavBar, TopNavBar } from 'z-frontend-forms';
-import { ProductNavContainer, ProductPageContainer } from 'z-frontend-layout';
+import { TextInline } from 'zbase';
+import { NavBar, ProductNavContainer, ProductPageContainer, TopNavBar } from 'z-frontend-layout';
 
 import Overview from './overview/Overview';
 import ArticlesRoutes from './articles/ArticlesRoutes';
-
-const Fragment = (React as any).Fragment;
+import WidgetsRoutes from './widgets/WidgetsRoutes';
 
 class AppRouters extends Component<{}> {
   render() {
     return (
-      <Fragment>
+      <>
         <TopNavBar productTitleKey="nav.productTitle" productTitleDefault="Example app" />
 
         <ProductNavContainer>
           <NavBar mode="product">
             <NavBar.RouterNavLink to="/overview">
-              <Text textKey="nav.overview" textDefault="Overview" />
+              <TextInline textKey="nav.overview" textDefault="Overview" />
             </NavBar.RouterNavLink>
             <NavBar.RouterNavLink to="/articles">
-              <Text textKey="nav.articles" textDefault="Articles" />
+              <TextInline textKey="nav.articles" textDefault="Articles" />
+            </NavBar.RouterNavLink>
+            <NavBar.RouterNavLink to="/widgets">
+              <TextInline textKey="nav.widgets" textDefault="Widgets" />
             </NavBar.RouterNavLink>
           </NavBar>
         </ProductNavContainer>
@@ -31,10 +32,11 @@ class AppRouters extends Component<{}> {
           <Switch>
             <Route path="/overview" component={Overview} />
             <Route path="/articles" component={ArticlesRoutes} />
+            <Route path="/widgets" component={WidgetsRoutes} />
             <Redirect to="/overview" />
           </Switch>
         </ProductPageContainer>
-      </Fragment>
+      </>
     );
   }
 }

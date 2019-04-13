@@ -1,57 +1,72 @@
 import React from 'react';
-import { graphql, ChildProps } from 'react-apollo';
+import { QueryResult } from 'react-apollo';
+import { ObjectOmit } from 'typelevel-ts';
 
-import GenericDataManager, { ConfigManagerProps, GenericManagerRenderProps } from './GenericDataManager';
-import UrlStateManager, { UrlStateManagerInputProps } from './UrlStateManager';
+import { Query, QueryProps } from 'z-frontend-layout';
 
-export declare type DataManagerWithDataProps<T> = GenericManagerRenderProps & ChildProps<{}, T>;
+import { AsyncFilterConfig } from './filterUtils';
+import GenericDataManager, { GenericManagerRenderProps } from './GenericDataManager';
+import UrlStateManager, { ASC_INDICATOR, DESC_INDICATOR, UrlStateManagerInputProps } from './UrlStateManager';
 
-export interface GraphqlDataManagerProps {
-  query: any;
-  variables?: any;
-  children: (gqlManagerProps: DataManagerWithDataProps<any>) => React.ReactNode;
-}
+export type GraphqlDataManagerQueryVariables = {
+  filter?: AsyncFilterConfig;
+  sort?: string;
+  offset?: number;
+  first?: number;
+};
 
-// Generic render prop component - Used below to convert an hoc to a render prop
-// Ref: https://reactrocket.com/post/turn-your-hocs-into-render-prop-components/
-const RenderProp = ({ children, ...props }) => children(props);
+type GraphqlDataManagerOwnProps<TData, TVariables> = {
+  queryVariables?: any;
+  children: (managerProps: GenericManagerRenderProps & QueryResult<TData, TVariables>) => React.ReactNode;
+};
 
-// This wrapper generator is a stop-gap till Apollo 2.1 gets integrated into our codebase.
-// After that we can just use the Query component and get rid of this function.
-const graphqlWrapper = (query, variables, managerProps) => {
+export type GraphqlDataManagerProps<TData, TVariables> = ObjectOmit<
+  QueryProps<TData, TVariables>,
+  keyof GraphqlDataManagerOwnProps<TData, TVariables>
+> &
+  GraphqlDataManagerOwnProps<TData, TVariables>;
+
+const getDataManagerQueryVariables = (managerProps: GenericManagerRenderProps): GraphqlDataManagerQueryVariables => {
+  const variables: GraphqlDataManagerQueryVariables = {};
+
+  // filtering prop
+  if (managerProps.filtering.config) {
+    variables.filter = managerProps.filtering.config;
+  }
+
+  // sorting prop
+  if (managerProps.sorting.config[0]) {
+    const { key, isAscending } = managerProps.sorting.config[0];
+    variables.sort = `${isAscending ? ASC_INDICATOR : DESC_INDICATOR}${key}`;
+  }
+
+  // paging props
   const currentPage = managerProps.paging.currentPage;
   const pageSize = managerProps.paging.pageSize;
   variables.offset = (currentPage - 1) * pageSize;
   variables.first = pageSize;
-  const options = () => ({ variables, fetchPolicy: 'cache-and-network' });
-  return graphql(query, { options })(RenderProp);
+
+  return variables;
 };
 
-export class GraphqlDataManager extends React.Component<
-  GraphqlDataManagerProps & { configManager: ConfigManagerProps }
+export class GraphqlDataManager<TData, TVariables> extends React.Component<
+  GraphqlDataManagerProps<TData, TVariables> & UrlStateManagerInputProps
 > {
   render() {
+    const { queryVariables = {}, children, pageSize, prefix, ...queryProps } = this.props;
     return (
-      <GenericDataManager configManager={this.props.configManager}>
-        {managerProps => {
-          const GqlWrapper = graphqlWrapper(this.props.query, this.props.variables || {}, managerProps);
-          return <GqlWrapper>{({ data }) => this.props.children({ ...managerProps, data })}</GqlWrapper>;
-        }}
-      </GenericDataManager>
-    );
-  }
-}
-
-export declare type GraphqlDataManagerWithUrlProps = GraphqlDataManagerProps & UrlStateManagerInputProps;
-
-export class GraphqlDataManagerWithUrl extends React.Component<GraphqlDataManagerWithUrlProps> {
-  render() {
-    return (
-      <UrlStateManager pageSize={this.props.pageSize}>
+      <UrlStateManager pageSize={pageSize} prefix={prefix}>
         {configManager => (
-          <GraphqlDataManager configManager={configManager} {...this.props}>
-            {this.props.children}
-          </GraphqlDataManager>
+          <GenericDataManager configManager={configManager}>
+            {managerProps => (
+              <Query<TData, TVariables>
+                variables={{ ...queryVariables, ...getDataManagerQueryVariables(managerProps) }}
+                {...queryProps}
+              >
+                {props => children({ ...managerProps, ...props })}
+              </Query>
+            )}
+          </GenericDataManager>
         )}
       </UrlStateManager>
     );

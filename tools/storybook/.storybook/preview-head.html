@@ -1,0 +1,26 @@
+<!--
+  Setup web font early so that Chromatic can detect it.
+  This helps it avoid rendering before the fonts are ready, which can cause flaky visual tests.
+-->
+<style>
+  @font-face {
+    font-family: 'Circular';
+    font-style: normal;
+    font-weight: 600;
+    src: url('assets/fonts/lineto-circular-pro-medium.eot') format('eot');
+    src: url('assets/fonts/lineto-circular-pro-medium.eot?#iefix') format('eot'),
+      url('assets/fonts/lineto-circular-pro-medium.woff') format('woff'),
+      url('assets/fonts/lineto-circular-pro-medium.ttf') format('truetype'),
+      url('assets/fonts/lineto-circular-pro-medium.svg') format('svg');
+  }
+
+  @font-face {
+    font-family: 'Circular';
+    font-weight: 400;
+    src: url('assets/fonts/lineto-circular-pro-book.eot') format('eot');
+    src: url('assets/fonts/lineto-circular-pro-book.eot?#iefix') format('eot'),
+      url('assets/fonts/lineto-circular-pro-book.woff') format('woff'),
+      url('assets/fonts/lineto-circular-pro-book.ttf') format('truetype'),
+      url('assets/fonts/lineto-circular-pro-book.svg') format('svg');
+  }
+</style>

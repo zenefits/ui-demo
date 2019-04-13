@@ -2,29 +2,38 @@
   "name": "z-frontend-jest",
   "description": "Jest rules for Zenefits",
   "version": "0.1.0",
+  "zenefits": {
+    "level": "tool"
+  },
   "private": true,
   "engines": {
     "yarn": "^1.3.2",
-    "node": "^9.3.0"
+    "node": "^10.14.1"
   },
   "main": "jest.config.js",
   "scripts": {
     "lint": "yarn eslint",
     "eslint": "z-frontend-eslint",
-    "test": "echo \"No tests configuration only\""
+    "test": "jest"
   },
   "dependencies": {
-    "@storybook/addon-storyshots": "^3.3.3",
-    "@types/jest": "^21.1.6",
-    "babel-jest": "^21.2.0",
-    "enzyme": "^3.1.1",
-    "enzyme-adapter-react-16": "^1.0.4",
-    "jest": "^21.2.1",
+    "@babel/core": "^7.1.0",
+    "@types/jest": "^23.3.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-require-context-hook": "^1.0.0",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "jest": "^23.6.0",
     "jest-enzyme": "^4.0.1",
-    "jest-styled-components": "^4.9.0",
-    "react-test-renderer": "^16.2.0",
+    "jest-environment-jsdom-thirteen": "0.0.2",
+    "jest-specific-snapshot": "^1.0.0",
+    "jest-styled-components": "^6.2.1",
+    "mockdate": "^2.0.2",
+    "react-test-renderer": "^16.6.3",
     "resolve": "^1.4.0",
-    "ts-jest": "^21.2.2"
+    "ts-jest": "^23.10.2",
+    "url-search-params-polyfill": "^5.0.0"
   },
   "devDependencies": {
     "eslint-config-z-frontend": "*"

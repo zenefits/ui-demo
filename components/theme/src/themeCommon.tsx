@@ -2,7 +2,7 @@ import { colorsMap, ColorString } from './colors';
 import icons from './icons';
 import depths from './depths';
 
-const opacities = [0.65];
+export const opacities = [0.65];
 
 // TODO: move to another place
 const images = {
@@ -25,11 +25,13 @@ const themeObject = {
     large: 48,
     xlarge: 64,
     xxlarge: 80,
+    xxxlarge: 152,
   },
   borderColor: 'grayscale.f' as ColorString,
+  topNavHeight: '65px',
 };
 
-interface ThemeInterfaceCommon {
+export interface ThemeInterfaceCommon {
   colors: typeof colorsMap;
   opacities: typeof themeObject.opacities;
   icons: typeof themeObject.icons;
@@ -40,8 +42,15 @@ interface ThemeInterfaceCommon {
   heights: typeof themeObject.heights;
   depths: typeof themeObject.depths;
   borderColor: ColorString;
+  topNavHeight: string;
+  fontSizes?: number[];
+  fontStyles?: { [key: string]: string };
+  fonts?: string[];
+  font?: string;
+  weights?: number[];
+  breakpoints?: number[];
+  zIndex?: { [key: string]: number };
+  iconFont?: string;
 }
 
-const themeCommon: ThemeInterfaceCommon = themeObject;
-
-export { opacities, ThemeInterfaceCommon, themeCommon };
+export const themeCommon: ThemeInterfaceCommon = themeObject;

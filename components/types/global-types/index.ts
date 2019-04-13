@@ -7,3 +7,6 @@ declare const __NATIVE__: boolean;
 declare const __ANDROID__: boolean;
 declare const __IOS__: boolean;
 declare const __EXPO__: boolean;
+declare const __ROUTES_SET__: 'A' | 'B';
+declare const __IS_STORYBOOK__: boolean;
+declare const __TEST__: boolean;

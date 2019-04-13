@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Zenefits</title>
 
-<head>
-  <title>Zenefits</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="origin" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://zenefits.imgix.net/12f0f2cd0af6d3b7017a0f1e6c1b9ad0205eb96e/static/marketing2017/images/icons/ZEN_Favicon_32.png?auto=compress,format"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://zenefits.imgix.net/12f0f2cd0af6d3b7017a0f1e6c1b9ad0205eb96e/static/marketing2017/images/icons/ZEN_Favicon_16.png?auto=compress,format"
+      sizes="16x16"
+    />
+    <meta name="appInfo/version" id="appInfo/version" content="<%=htmlWebpackPlugin.options.appVersion %>" />
+    <meta http-equiv="Content-Security-Policy" content="<%=htmlWebpackPlugin.options.contentSecurityPolicy %>" />
+  </head>
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="referrer" content="origin">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-  <link rel="icon" type="image/png" href="https://zenefits.imgix.net/12f0f2cd0af6d3b7017a0f1e6c1b9ad0205eb96e/static/marketing2017/images/icons/ZEN_Favicon_32.png?auto=compress,format"
-    sizes="32x32" />
-  <link rel="icon" type="image/png" href="https://zenefits.imgix.net/12f0f2cd0af6d3b7017a0f1e6c1b9ad0205eb96e/static/marketing2017/images/icons/ZEN_Favicon_16.png?auto=compress,format"
-    sizes="16x16" />
-  <meta name="appInfo/version" id="appInfo/version" content="<%=htmlWebpackPlugin.options.appVersion %>">
-</head>
-
-<body>
-  <div id="appRoot"></div>
-</body>
-
+  <body>
+    <div style="position:fixed;top:0;width:100%;height:65px;background-color:#FFF;">
+      <img
+        src="/static/img/rebranding/zenefits-trademark-pink.svg"
+        alt="Zenefits"
+        style="position:fixed;top:10px;left:50%;width:61px;height:42px;margin-left:-30px;"
+      />
+    </div>
+    <div id="appRoot"></div>
+  </body>
 </html>

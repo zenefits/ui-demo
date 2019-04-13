@@ -1,6 +1,61 @@
-import { prepareExampleCode, checkLoadExample, normalizeExamplePath } from './styleguideHelpers';
+import {
+  prepareExampleCode,
+  checkLoadExample,
+  normalizeExamplePath,
+  convertIndexFileToAST,
+  getComponentPathsFromPackageIndex,
+  componentExportsMap,
+} from './styleguideHelpers';
+
+const fs = require('fs');
+const ts = require('typescript');
+
+fs.writeFileSync = jest.fn(); // never write anything in tests
 
 describe('styleguideHelpers', () => {
+  describe('convertIndexFileToAST', () => {
+    it('should return the right list of paths and a list of relevant AST nodes', () => {
+      const file = fs.readFileSync(`${__dirname}/indexForTesting.ts`).toString();
+      const checked = convertIndexFileToAST(file);
+      const expected = {
+        listOfPaths: [
+          '../src/components/DocEditLink',
+          '../src/components/LinkRenderer',
+          '../src/examples/indexForTesting',
+          '../src/components/SectionRenderer',
+        ],
+        listOfNodes: [
+          { kind: ts.SyntaxKind.Identifier, text: 'default' },
+          { kind: ts.SyntaxKind.Identifier, text: 'DocEditLink' },
+          { kind: ts.SyntaxKind.StringLiteral, text: '../src/components/DocEditLink' },
+          { kind: ts.SyntaxKind.Identifier, text: 'default' },
+          { kind: ts.SyntaxKind.Identifier, text: 'LinkRenderer' },
+          { kind: ts.SyntaxKind.StringLiteral, text: '../src/components/LinkRenderer' },
+          { kind: ts.SyntaxKind.StringLiteral, text: '../src/examples/indexForTesting' },
+          { kind: ts.SyntaxKind.ExportDeclaration, text: '*' },
+          { kind: ts.SyntaxKind.Identifier, text: 'default' },
+          { kind: ts.SyntaxKind.Identifier, text: 'SectionRenderer' },
+          { kind: ts.SyntaxKind.StringLiteral, text: '../src/components/SectionRenderer' },
+        ],
+      };
+      expect(checked).toEqual(expected);
+    });
+  });
+
+  describe('getComponentPathsFromPackageIndex', () => {
+    it('should return a list of full paths of components exported in the package index file', () => {
+      // chose z-frontend-component-example to test as the index should not change as much for the expected value
+      const componentPathList = getComponentPathsFromPackageIndex('z-frontend-component-example');
+      expect(componentPathList).toHaveLength(1);
+      expect(componentPathList[0]).toMatch(/\/src\/MyComponent.tsx$/);
+    });
+    it('should build the right componentsExportMap', () => {
+      getComponentPathsFromPackageIndex('z-frontend-component-example');
+      const expected = { './src/MyComponent': ['default', 'MyComponent'] };
+      expect(componentExportsMap).toEqual(expected);
+    });
+  });
+
   describe('checkLoadExample', () => {
     it('detects loadExample', () => {
       const checked = checkLoadExample('// loadExample("somePath");');
@@ -145,8 +200,8 @@ export default () => <ComponentExample />`;
     });
 
     it('strips typescript assertions', () => {
-      const withTypeAssertion = `<Text fontStyle={fs as FontStyleString}>text</Text>`;
-      const withoutTypeAssertion = `<Text fontStyle={fs}>text</Text>`;
+      const withTypeAssertion = `<TextInline fontStyle={fs as FontStyleString}>text</TextInline>`;
+      const withoutTypeAssertion = `<TextInline fontStyle={fs}>text</TextInline>`;
       const prepared = prepareExampleCode(withTypeAssertion);
       expect(prepared).toMatch(withoutTypeAssertion);
     });

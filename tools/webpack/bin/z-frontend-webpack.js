@@ -10,4 +10,16 @@ if (command !== 'build') {
   checkDependencies();
 }
 
-webpackCommands[command]();
+(async () => {
+  let outputPath;
+  try {
+    outputPath = await webpackCommands[command]();
+  } catch (e) {
+    console.log('\n', e, '\n');
+    process.exit(1);
+  }
+
+  if (outputPath) {
+    console.log(`\nSuccessfully built at ${outputPath}\n`);
+  }
+})();

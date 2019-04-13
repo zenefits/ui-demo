@@ -1,26 +1,27 @@
-const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 const ypSchema = require('./index');
 
 const appPath = process.cwd();
 
-function generateTypes(callback) {
+function generateTypesForApp(callback) {
   const schemaPaths = ypSchema.getSchemaPaths(appPath);
   ypSchema
     .generateTypes({
-      files: [appPath + '/src/**/*.*'],
+      files: [`${appPath}/src/**/*.*`],
       generateDocuments: true,
-      schemaPath: schemaPaths.jsonPath,
+      schemaPath: fs.existsSync(schemaPaths.graphqlPath) ? schemaPaths.graphqlPath : schemaPaths.jsonPath,
     })
     .then(
       generatedTypesStr => {
         let currentFile;
         try {
           currentFile = fs.readFileSync(schemaPaths.appTypesPath).toString();
-        } catch (e) {}
+        } catch (e) {
+          // NOTE: intentionally swallowed the error
+        }
 
         if (generatedTypesStr !== currentFile) {
-          fs.writeFile(schemaPaths.appTypesPath, generatedTypesStr, err => {
+          fs.outputFile(schemaPaths.appTypesPath, generatedTypesStr, () => {
             console.log('\nTS types for app queries and mutations are generated!\n');
             callback();
           });
@@ -35,14 +36,14 @@ function generateTypes(callback) {
     );
 }
 
-const GqlTsGenWebpackPlugin = function() {};
+const GqlTsGenWebpackPlugin = function GqlTsGenWebpackPlugin() {};
 
-GqlTsGenWebpackPlugin.prototype.apply = function(compiler) {
-  compiler.plugin('run', function(compilation, callback) {
-    generateTypes(callback);
+GqlTsGenWebpackPlugin.prototype.apply = function apply(compiler) {
+  compiler.plugin('run', (compilation, callback) => {
+    generateTypesForApp(callback);
   });
-  compiler.plugin('watch-run', function(compiler, callback) {
-    generateTypes(callback);
+  compiler.plugin('watch-run', (compilation, callback) => {
+    generateTypesForApp(callback);
   });
 };
 

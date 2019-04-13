@@ -116,7 +116,7 @@ const TextContainer: StatelessComponent<NumberTextProps> = ({
       minimumSignificantDigits={minimumSignificantDigits}
       maximumSignificantDigits={maximumSignificantDigits}
     >
-      {str => <span {...propsWithNoUtils}>{str}</span>}
+      {(str: string) => <span {...propsWithNoUtils}>{str}</span>}
     </FormattedNumber>
   );
 };

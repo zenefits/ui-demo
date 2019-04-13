@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Ref } from 'react';
 import { ObjectOmit } from 'typelevel-ts';
-import { capitalize } from 'lodash';
+import { capitalize, castArray, flatten, sortBy } from 'lodash';
 
 /* tslint:disable:import-filter */
-import styledWeb, { ThemedStyledInterface, ThemedStyledProps } from 'styled-components';
+import styledWeb, { StyledComponentClass, ThemedStyledInterface, ThemedStyledProps } from 'styled-components';
 /* tslint:enable:import-filter */
 
 import { color, fontSizes, space } from 'z-frontend-theme/utils';
@@ -22,7 +22,7 @@ import {
 export function getCssStringForPropValue(
   propVal: UtilProp,
   breakpoint: number | null,
-  props,
+  props: any,
   propsMapValue: PropsMapValue,
 ) {
   const { cssName, utilFn } = propsMapValue as ExtendedPropsMapValue;
@@ -64,17 +64,16 @@ export function getCssStringForPropValue(
 }
 
 export function getCssRuleForProp(propName: string, propsMapValue: PropsMapValue) {
-  return (props): string => {
+  return (props: any): string => {
     const propVal = props[propName];
     if (propVal === null || propVal === undefined) {
       return '';
     }
 
-    const isArr = Array.isArray(propVal);
-
-    return (isArr ? (propVal as UtilProp[]) : [propVal as UtilProp])
+    const isArray = Array.isArray(propVal);
+    return castArray(propVal)
       .map((v, i) => {
-        const breakpoint = isArr && i > 0 ? i - 1 : null;
+        const breakpoint = isArray && i > 0 ? i - 1 : null;
         return getCssStringForPropValue(v, breakpoint, props, propsMapValue);
       })
       .filter(v => v)
@@ -83,26 +82,31 @@ export function getCssRuleForProp(propName: string, propsMapValue: PropsMapValue
 }
 
 export function getCssFromProps(propsMap: PropsMap, defaultUtilProps = {}) {
-  return (props): string =>
-    Object.keys(propsMap)
-      .map(propName => {
-        const arr: PropsMapValue[] = Array.isArray(propsMap[propName])
-          ? (propsMap[propName] as PropsMapValue[])
-          : [propsMap[propName] as PropsMapValue];
-        const propsWithDefaults = Object.assign({}, /* defaultUtilProps, */ props);
-        return arr
-          .map(propsMapValue => getCssRuleForProp(propName, propsMapValue)(propsWithDefaults))
-          .filter(v => v)
-          .join('');
+  const normalizedPropsMap = flatten(
+    Object.keys(propsMap).map(propName => {
+      const propsMapValues: PropsMapValue[] = castArray(propsMap[propName]);
+      return propsMapValues.map(propsMapValue => {
+        return { propName, propsMapValue };
+      });
+    }),
+  );
+  const sortedPropsMap = sortBy(normalizedPropsMap, value => (value.propsMapValue as ExtendedPropsMapValue).order || 0);
+
+  return (props: any): string => {
+    const propsWithDefaults = Object.assign({}, /* defaultUtilProps, */ props);
+    return sortedPropsMap
+      .map(propsMap => {
+        return getCssRuleForProp(propsMap.propName, propsMap.propsMapValue)(propsWithDefaults);
       })
       .filter(v => v)
       .join('\n');
+  };
 }
 
-export const widthValueFn = v => {
+export const widthValueFn = (v: any) => {
   if (typeof v === 'number') {
     if (v <= 1) {
-      return v / 1 * 100 + '%';
+      return (v / 1) * 100 + '%';
     } else {
       return v + 'px';
     }
@@ -159,16 +163,21 @@ const utilsPropsMap: PropsMap = {
 
   w: { cssName: 'width', valueHelper: widthValueFn },
   width: { cssName: 'width', valueHelper: widthValueFn },
+  minWidth: { cssName: 'min-width', valueHelper: widthValueFn },
+  maxWidth: { cssName: 'max-width', valueHelper: widthValueFn },
+  minHeight: { cssName: 'min-height', valueHelper: widthValueFn },
+  maxHeight: { cssName: 'max-height', valueHelper: widthValueFn },
+  height: { cssName: 'height', valueHelper: widthValueFn },
 };
 
-export declare type ResultComponentProps<ComponentProps, AdditionalProps = {}, UtilProps = {}> = ObjectOmit<
+export type ResultComponentProps<ComponentProps, AdditionalProps = {}, UtilProps = {}> = ObjectOmit<
   ComponentProps,
-  keyof (AdditionalProps & UtilProps)
+  Extract<keyof (AdditionalProps & UtilProps), string>
 > &
   AdditionalProps &
-  UtilProps;
+  UtilProps & { elementRef?: Ref<any> };
 
-export declare interface WithUtilPropsOptions<ComponentProps, AdditionalProps, UtilProps, Theme> {
+export interface WithUtilPropsOptions<ComponentProps, AdditionalProps, UtilProps, Theme> {
   displayName?: string;
   componentAttrs?: {
     [K in keyof (ComponentProps & AdditionalProps & UtilProps)]:
@@ -199,13 +208,15 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
   const styledFn = (styled || styledWeb) as ThemedStyledInterface<Theme>;
 
   return (BaseComponent: StringTag | React.ComponentType<ComponentProps>) => {
-    let ComponentToExtend: React.ComponentType<ComponentProps>;
-    if (typeof BaseComponent === 'string') {
+    type ComponentToExtendProps = ComponentProps & ({ elementRef?: Ref<any> } | { innerRef?: (instance: any) => void });
+    let ComponentToExtend: React.ComponentType<ComponentToExtendProps>;
+    const isBaseStyledComponent = typeof BaseComponent === 'string';
+    if (isBaseStyledComponent) {
       const stringTag = BaseComponent as StringTag;
       // TODO: fix this "any"
       ComponentToExtend = (styledFn as any)[stringTag]``; // eg styled['div'] or styled['TouchableHighlight']
     } else {
-      ComponentToExtend = BaseComponent as React.ComponentType<ComponentProps>;
+      ComponentToExtend = BaseComponent as React.ComponentType<ComponentToExtendProps>;
     }
 
     let resultDisplayName: string;
@@ -215,7 +226,7 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
       if (typeof BaseComponent === 'string') {
         resultDisplayName = capitalize(BaseComponent as string);
       } else {
-        const Comp = BaseComponent as React.ComponentType<ComponentProps>;
+        const Comp = BaseComponent as React.ComponentType<ComponentToExtendProps>;
         resultDisplayName = `zbase(${Comp.displayName || Comp.name || 'Component'}`;
       }
     }
@@ -224,26 +235,48 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
       static displayName = `zbaseInner(${resultDisplayName})`;
       render() {
         const resultProps = removeUtilProps(this.props, additionalPropsMap) as ComponentProps;
-        return <ComponentToExtend {...resultProps} />;
+        const otherProps = isBaseStyledComponent
+          ? { innerRef: this.props.elementRef }
+          : { elementRef: this.props.elementRef };
+        return <ComponentToExtend {...resultProps} {...otherProps} />;
       }
     }
 
     let resultUtilsPropsMap = utilsPropsMap;
     if (utilTypes) {
-      resultUtilsPropsMap = utilTypes.reduce((resultMap, type) => {
+      resultUtilsPropsMap = utilTypes.reduce((resultMap: any, type) => {
         Object.keys(utilTypesMap[type]).forEach(k => (resultMap[k] = utilsPropsMap[k]));
         return resultMap;
       }, {});
     }
 
-    const ResultUtilComponent = styledFn(ResultComponentRenderer).attrs<
-      AdditionalProps,
+    // We are using a css-namespace plugin that automatically bumps up the priority
+    // of css styles added by styled-components.
+    // @quickbaseoss/babel-plugin-styled-components-css-namespace
+    //
+    // This template tag is not recognized by the plugin as a styled tag, so we
+    // need to use && to bump the specificity directly.
+    // This should be removed if we remove the plugin
+    const ResultUtilComponentWithOriginalType = styledFn(ResultComponentRenderer).attrs<
+      AllProps,
       ComponentProps & AdditionalProps
-    >(componentAttrs)`
-      ${getCssFromProps({ ...resultUtilsPropsMap, ...additionalUtilsPropsMap }, defaultUtilProps)};
-      ${additionalCss || ''};
-      ${additionalPropsMap ? getCssFromProps(additionalPropsMap) : ''};
+    >(componentAttrs || ({} as any))`
+      &&&& {
+        ${getCssFromProps({ ...resultUtilsPropsMap, ...additionalUtilsPropsMap }, defaultUtilProps)};
+        ${additionalCss || ''};
+        ${additionalPropsMap ? getCssFromProps(additionalPropsMap) : ''};
+      }
     `;
+
+    const extendProps = function<NewProps>() {
+      return (ResultUtilComponent as any) as StyledComponentClass<AllProps & NewProps, Theme>;
+    };
+
+    const ResultUtilComponent = ResultUtilComponentWithOriginalType as typeof ResultUtilComponentWithOriginalType & {
+      extendProps: typeof extendProps;
+    };
+
+    ResultUtilComponent.extendProps = extendProps;
 
     ResultUtilComponent.defaultProps = defaultUtilProps as AllProps;
 

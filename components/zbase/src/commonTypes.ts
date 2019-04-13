@@ -32,6 +32,7 @@ export const utilTypesMap = {
   width: {
     w: true,
     width: true,
+    height: true,
   },
 };
 
@@ -83,6 +84,26 @@ export interface UtilTypeWidth<PropType> {
    * Width of a component (border area), typically specified as a fraction (eg `w={1 / 2}`).
    * */
   width?: PropType;
+  /**
+   * Min width of a component (border area), typically specified as a fraction (eg `w={1 / 2}`).
+   * */
+  minWidth?: PropType;
+  /**
+   * Max width of a component (border area), typically specified as a fraction (eg `w={1 / 2}`).
+   * */
+  maxWidth?: PropType;
+  /**
+   * Height of a component (border area). Typically the content determines this.
+   * */
+  height?: PropType;
+  /**
+   * Min height of a component (border area).
+   * */
+  minHeight?: PropType;
+  /**
+   * Max height of a component (border area).
+   * */
+  maxHeight?: PropType;
 }
 
 export interface UtilTypeBg<ColorPropType> {
@@ -128,6 +149,19 @@ export interface UtilTypeBorder<ColorStringType> {
   borderColor?: ColorStringType;
 }
 
+const borderPropsMap: { [key in keyof UtilTypeBorder<any>]: boolean } = {
+  border: true,
+  borderTop: true,
+  borderRight: true,
+  borderBottom: true,
+  borderLeft: true,
+  borderColor: true,
+};
+
+export function isBorderProp(key: string): boolean {
+  return borderPropsMap.hasOwnProperty(key);
+}
+
 export interface UtilsMapCommon<PropType, ColorPropType, FontPropType>
   extends UtilTypeMargin<PropType>,
     UtilTypePadding<PropType>,
@@ -136,7 +170,7 @@ export interface UtilsMapCommon<PropType, ColorPropType, FontPropType>
     UtilTypeBg<ColorPropType>,
     UtilTypeColor<ColorPropType> {}
 
-const utilPropsMap: { [key in keyof UtilsMapCommon<any, any, any>]: any } = {
+const utilPropsMap: { [key in keyof UtilsMapCommon<any, any, any>]: boolean } = {
   bg: true,
   color: true,
   fontSize__deprecated__doNotUse: true,
@@ -157,20 +191,22 @@ const utilPropsMap: { [key in keyof UtilsMapCommon<any, any, any>]: any } = {
   py: true,
   w: true,
   width: true,
+  height: true,
 };
 
-export function removeUtilProps(props, additionalProps = {}) {
-  const result = {};
+export function removeUtilProps(props: any, additionalProps: any = {}) {
+  const result = {} as any;
   Object.keys(props).forEach(key => {
     const inAdditionalProps = additionalProps && additionalProps[key];
-    if (!utilPropsMap[key] && !inAdditionalProps) {
+    if (!(utilPropsMap as any)[key] && !inAdditionalProps) {
       result[key] = props[key];
     }
   });
+  delete result.elementRef;
   return result;
 }
 
-export function isUtilProp(key): boolean {
+export function isUtilProp(key: string): boolean {
   return utilPropsMap.hasOwnProperty(key);
 }
 
@@ -182,11 +218,17 @@ export type PropsMapValue = ValueHelperFn | ExtendedPropsMapValue;
 
 export interface ExtendedPropsMapValue {
   /**
-   * name of the css rule, e.g. 'border-bottom'
+   * Name of the css rule, e.g. 'border-bottom'.
    */
   cssName?: string;
   valueHelper?: ValueHelper;
   utilFn?: UtilFn;
+  /**
+   * Order applied in CSS, where higher numbers appear later (and take precedence) over lower.
+   *
+   * @default 0
+   */
+  order?: number;
 }
 
 export interface PropsMap {
@@ -201,9 +243,33 @@ export interface IntlTextProps {
   /**
    * Shallow object used to fill placeholders in the message.
    */
-  textValues?: { [key: string]: string };
+  textValues?: { [key: string]: string | number };
   /**
    * Fallback message to display if no message for current locale.
    */
   textDefault?: string;
+}
+
+const intlTextPropsMap: { [key in keyof IntlTextProps]: boolean } = {
+  textKey: true,
+  textValues: true,
+  textDefault: true,
+};
+
+export function isIntlTextProp(key: string): boolean {
+  return intlTextPropsMap.hasOwnProperty(key);
+}
+
+export interface TextCommonProps {
+  /** Use bold font weight. */
+  bold?: boolean;
+  /** Determine how contained whitespace is handled. */
+  whiteSpace?: 'normal' | 'nowrap' | 'pre' | 'pre-wrap' | 'pre-line';
+  /** Determine how to handle text overflowing its content box */
+  wordBreak?: 'normal' | 'break-all' | 'keep-all' | 'break-word';
+}
+
+export interface TextAlignProps {
+  /** Alignment of inline content such as text. */
+  textAlign?: 'left' | 'right' | 'center' | 'justify' | 'initial';
 }

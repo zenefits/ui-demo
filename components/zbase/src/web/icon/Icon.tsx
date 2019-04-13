@@ -27,6 +27,7 @@ type AdditionalProps = {
 
 export type IconProps = ResultWebComponentProps<HTMLAttributes<HTMLSpanElement>, AdditionalProps>;
 
+const fontSizeHelper = (props: any) => props.s && fontSizes((iconFontSizeMap as any)[props.s]);
 // inherit font-size and color
 export const iconStyle = css`
   font-family: ${props => props.theme.iconFont};
@@ -34,7 +35,7 @@ export const iconStyle = css`
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
-  font-size: ${props => props.s && fontSizes(iconFontSizeMap[props.s])};
+  font-size: ${fontSizeHelper};
   text-rendering: auto;
   line-height: 1;
   -webkit-font-smoothing: antialiased;

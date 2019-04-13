@@ -1,7 +1,8 @@
 export default {
   en: {
-    'nav.productTitle': 'Example',
+    'nav.productTitle': 'Example application',
     'nav.articles': 'Articles',
+    'nav.widgets': 'Widgets',
   },
   es: {
     'nav.productTitle': 'Ejemplo',

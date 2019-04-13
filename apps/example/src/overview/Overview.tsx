@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { compose, graphql, ChildDataProps } from 'react-apollo';
 
-import { Box, Flex, Heading } from 'zbase';
-import { withGraphqlProgress } from 'z-frontend-layout';
-import { Link } from 'z-frontend-forms';
+import { Box } from 'zbase';
+import { withGraphqlProgress, OverviewLayout } from 'z-frontend-layout';
+import { Button, Link } from 'z-frontend-elements';
+import { Card } from 'z-frontend-composites';
 
 import { OverviewPageQuery } from '../gqlTypes';
+import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
 
 interface Props {}
 
@@ -17,28 +19,44 @@ class OverviewPage extends Component<AllProps> {
     const article1 = 222;
     const article2 = 333;
     return (
-      <Flex column>
-        <Heading level={2}>Overview page</Heading>
-        <Flex column>
-          <Box mb={3}>
-            <Link to={`/articles/${article1}`}>Article 1</Link>
+      <OverviewLayout
+        isHeroLoading={this.props.data.loading}
+        heroTitle="Example App"
+        heroSubtitle="Example App Sub Header"
+        heroRender={() => (
+          <Button.RouteLink mode="primary" to="/widgets/new">
+            Create Widget
+          </Button.RouteLink>
+        )}
+        mainRender={() => (
+          <Card>
+            <Card.Header>Recent Articles</Card.Header>
+            <Card.Row>
+              <Box mb={3}>
+                <Link to={`/articles/${article1}`}>Article 1</Link>
+              </Box>
+              <Box mb={3}>
+                <Link to={`/articles/${article2}`}>Article 2</Link>
+              </Box>
+            </Card.Row>
+          </Card>
+        )}
+        sideRender={() => (
+          <Box>
+            <FrequentlyAskedQuestions />
           </Box>
-          <Box mb={3}>
-            <Link to={`/articles/${article2}`}>Article 2</Link>
-          </Box>
-        </Flex>
-      </Flex>
+        )}
+      />
     );
   }
 }
 
 const overviewPageQuery = gql`
-  query overviewPageQuery {
-    allFilms {
-      edges {
-        node {
-          title
-        }
+  query OverviewPageQuery {
+    dashboard {
+      id
+      employee {
+        id
       }
     }
   }

@@ -1,11 +1,11 @@
 require('./checkEngines');
 const fs = require('fs');
 const path = require('path');
-const execSync = require('child_process').execSync;
+const { execSync } = require('child_process');
 
-var yarnLockFound = false;
-var count = 0;
-var currentDir = process.cwd();
+let yarnLockFound = false;
+let count = 0;
+let currentDir = process.cwd();
 
 module.exports = function checkDependencies() {
   while (!yarnLockFound && count < 10) {
@@ -13,7 +13,9 @@ module.exports = function checkDependencies() {
     try {
       const stats = fs.statSync(path.join(currentDir, 'yarn.lock'));
       yarnLockFound = stats.isFile();
-    } catch (e) {}
+    } catch (e) {
+      // do nothing
+    }
     if (!yarnLockFound) {
       currentDir = path.join(currentDir, '..');
     }
@@ -24,7 +26,9 @@ module.exports = function checkDependencies() {
   }
 
   try {
-    execSync('yarn run checkIntegrity', { cwd: currentDir });
+    execSync('yarn run checkIntegrity', {
+      cwd: currentDir,
+    });
   } catch (e) {
     console.log('\n\nDEPENDENCY CHECK FAILED\nPLEASE RUN lerna bootstrap\n');
     process.exit(1);

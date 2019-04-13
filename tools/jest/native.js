@@ -1,7 +1,7 @@
 const path = require('path');
 const getZFrontendConfig = require('./jest.config');
 
-module.exports = function({ root }) {
+module.exports = function getNativeJestConfig({ root }) {
   const zFrontendConfig = getZFrontendConfig({ root });
 
   // remove setupFiles and setupTestFrameworkScriptFile because they are for web projects
@@ -33,7 +33,7 @@ module.exports = function({ root }) {
       // use react-native preset for all TS files, including other z-* packages
       'ts-jest': {
         useBabelrc: false,
-        tsConfigFile: root ? root + '/tsconfig.json' : undefined,
+        tsConfigFile: root ? `${root}/tsconfig.json` : undefined,
         babelConfig: {
           presets: ['react-native'],
         },
@@ -41,16 +41,13 @@ module.exports = function({ root }) {
     }),
 
     // ignore expo-wrapper
-    modulePathIgnorePatterns: [
-      '<rootDir>/apps-native/expo-wrapper/',
-      '<rootDir>/node_modules/[^\\/]+/node_modules/react-native/',
-    ],
+    modulePathIgnorePatterns: ['<rootDir>/expo-wrapper/', '<rootDir>/node_modules/[^\\/]+/node_modules/react-native/'],
 
     transform: {
       // use custom babel transformer, that uses calls babel-jest with react-native preset instead of .babelrc files
-      // '^.+\\.graphql$': path.join(__dirname, 'transformers/nativeGraphqlTransformer.js'),
+      '\\.graphql$': path.join(__dirname, 'transformers/nativeGraphqlTransformer.js'),
       '^.+\\.(js|jsx)$': path.join(__dirname, 'transformers/nativeBabelTransformer.js'),
-      '^.+\\.(ts|tsx)$': 'ts-jest/dist/preprocessor.js',
+      '^.+\\.(ts|tsx)$': 'ts-jest',
     },
     notify: false,
   });

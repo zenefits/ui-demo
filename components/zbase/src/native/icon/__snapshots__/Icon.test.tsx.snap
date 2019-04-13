@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon component should render a Text component with icon as a child 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "fontFamily": "Material-Design-Iconic-Font",
+        "fontSize": 24,
+      },
+      undefined,
+    ]
+  }
+>
+  
+</Text>
+`;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FilterConfig } from './filterUtils';
+import { AsyncFilterConfig as FilterConfig } from './filterUtils';
 import { SortConfig } from './sortUtils';
 
 // A generic data manager has to have a render prop, and a config manager.

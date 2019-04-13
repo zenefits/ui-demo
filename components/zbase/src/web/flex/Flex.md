@@ -3,7 +3,7 @@ A block-level container that simplifies layout and alignment using the [CSS Flex
 The `Flex` component is implicitly a flex container. Flex containers enable flex props for all their immediate children,
 which are called "flex items".
 
-Common use cases are handled using grid layouts (see [`Grid`](#grid)), but Flex is much more versatile. For convenience,
+Common use cases are handled using grid layouts (see [Grid](#!/Grid)), but Flex is much more versatile. For convenience,
 the most common flexbox-related CSS properties are available as `Flex` props. For full details on each property, see [A complete guide to flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/).
 
 #### Flex containers

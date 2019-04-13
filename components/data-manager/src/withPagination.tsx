@@ -4,15 +4,15 @@ import { RouteComponentProps } from 'react-router-dom';
 export interface PaginationProps {
   pagination: {
     currentPage: number;
-    onPageChange: (page: string | number) => any;
+    onPageChange: (page: string | number) => void;
   };
 }
 
-declare type RouteProps = RouteComponentProps<{}>;
-function withPagination<P extends PaginationProps & RouteProps>() {
-  return function withPagination(WrappedComponent: ComponentType<P>) {
+type RouteProps = RouteComponentProps<{}>;
+function withPagination<P extends RouteProps>() {
+  return function withPagination(WrappedComponent: ComponentType<P & PaginationProps>) {
     class PaginationWrapper extends Component<P> {
-      onPageChange = pageNumber => {
+      onPageChange = (pageNumber: string | number) => {
         const page = Number(pageNumber);
         const params = new URLSearchParams(this.props.location.search);
         if (page > 1) {

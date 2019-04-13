@@ -2,10 +2,10 @@
 
 This package includes providers that can be added to your react app. It currently includes the following providers:
 
-* Redux
-* GraphQL (Apollo)
-* Router v4
-* Hot reloading
+- Redux
+- GraphQL (Apollo)
+- Router v4
+- Hot reloading
 
 ## Installation
 
@@ -26,7 +26,8 @@ Run `lerna bootstrap` at the root of your app to install node dependencies.
 In your app, you can add any or all of the providers as follows:
 
 ```
-import { renderApp, createReduxProvider, createApolloClient, createRouterProvider } from 'z-frontend-app-bootstrap';
+import { createReduxProvider, createApolloClient, createRouterProvider } from 'z-frontend-app-bootstrap';
+import renderApp from 'z-frontend-render-app';
 
 renderApp({
   App,
@@ -41,8 +42,8 @@ renderApp({
 
 `renderApp` is a function that accepts a settings configuration object with the following known parameters:
 
-* `App`: any; Component for your application
-* `element?`: HTMLElement; Optional element to specify the container to render the app;
+- `App`: any; Component for your application
+- `element?`: HTMLElement; Optional element to specify the container to render the app;
   If nothing is specified, will default to element with id `appRoot`
-* `providers`: any[]; Array of any providers to include
-* `hotReloadCallback`: Function; Callback for hot reloading
+- `providers`: any[]; Array of any providers to include
+- `hotReloadCallback`: Function; Callback for hot reloading

@@ -2,8 +2,7 @@ import React from 'react';
 
 import { styled } from 'z-frontend-theme';
 import { Flex, FlexProps } from 'zbase';
-
-import LoadingSpinner from '../loading-spinner/LoadingSpinner';
+import { LoadingSpinner } from 'z-frontend-elements';
 
 const StyledContainer = styled<FlexProps>(Flex)`
   position: absolute;

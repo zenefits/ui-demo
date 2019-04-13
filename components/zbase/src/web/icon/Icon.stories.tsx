@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
+// @ts-ignore
 import { storiesOf } from '@storybook/react';
 
 import { withTheme, IconNameString, ThemeInterface } from 'z-frontend-theme';
 
-import { Box, Flex, Heading, Icon, P } from '../index';
+import { Box, Flex, Heading, Icon, TextBlock } from '../index';
 import { iconFontSizeMap, IconSize } from './Icon';
 
-class IconList extends React.Component<{ theme: ThemeInterface }, { showAll: boolean }> {
-  constructor(props) {
+type Props = { theme: ThemeInterface };
+
+type State = { showAll: boolean };
+
+class IconList extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       showAll: false,
@@ -39,7 +44,7 @@ class IconList extends React.Component<{ theme: ThemeInterface }, { showAll: boo
           {iconNames.map((iconName: IconNameString) => (
             <Flex key={iconName} w={[1, 1 / 4, 1 / 6]} p={3} align="center" direction="column">
               <Icon iconName={iconName} />
-              <P mb={2}>{iconName}</P>
+              <TextBlock mb={2}>{iconName}</TextBlock>
             </Flex>
           ))}
         </Flex>
@@ -54,13 +59,13 @@ const IconListWithTheme = withTheme(IconList);
 const spin = (
   <Flex w={[1, 1 / 2, 1 / 4]} p={3} align="center" direction="column">
     <Icon iconName="block" spin />
-    <P mb={2}>Block</P>
+    <TextBlock mb={2}>Block</TextBlock>
     <Icon iconName="compass" spin />
-    <P mb={2}>Compass</P>
+    <TextBlock mb={2}>Compass</TextBlock>
     <Icon iconName="chart-donut" spin />
-    <P mb={2}>Chart Donut</P>
+    <TextBlock mb={2}>Chart Donut</TextBlock>
     <Icon iconName="triangle-up" spin />
-    <P mb={2}>Triangle Up</P>
+    <TextBlock mb={2}>Triangle Up</TextBlock>
   </Flex>
 );
 
@@ -109,7 +114,7 @@ const sizes = (
   </Box>
 );
 
-storiesOf('Icons', module)
+storiesOf('zbase|Icon', module)
   .add('list', () => <IconListWithTheme />)
   .add('spin', () => spin)
   .add('fontSizes', () => fontSizes)

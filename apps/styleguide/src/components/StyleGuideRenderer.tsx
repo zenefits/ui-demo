@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import { styled, theme, ThemeProvider } from 'z-frontend-theme';
-import { Box, Flex, Image, P } from 'zbase';
-import { Link } from 'z-frontend-forms';
+import { styled, theme, APP_STYLE_ROOT_CLASS, ThemeProvider } from 'z-frontend-theme';
+import { Box, Flex, Image, TextBlock } from 'zbase';
+import { Link } from 'z-frontend-elements';
 import { color, space, zIndex } from 'z-frontend-theme/utils';
 
 const topNavHeight = 64;
-const sideNavWidth = 200;
+const sideNavWidth = 225;
 
 const SimpleTopContainer = styled(Flex)`
   position: fixed;
@@ -23,47 +23,52 @@ const SimpleTopContainer = styled(Flex)`
 
 // TODO: semantically <nav>
 const SideNav = styled(Box)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  width: 100%;
   overflow: auto;
-  width: ${sideNavWidth}px;
   margin-top: ${topNavHeight}px;
   background: ${color('grayscale.white')};
-  border-right: 1px solid ${color('grayscale.f')};
-`;
+  border-bottom: 1px solid ${color('grayscale.f')};
 
-const navBorderColor = '#264b74';
-
-const StyledTitle = styled(Box)`
-  border-left: 1px solid ${navBorderColor};
+  @media (min-width: ${props => props.theme.breakpoints[0]}em) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: ${sideNavWidth}px;
+    border-right: 1px solid ${color('grayscale.f')};
+  }
 `;
 
 class SimpleTopNav extends React.Component {
   render() {
     return (
       <SimpleTopContainer align="center">
-        <Link href="/dashboard" color="grayscale.g">
-          <Flex align="center">
-            <Image w={12} src={theme.images.logo} />
-            <P fontStyle="paragraphs.xl" ml={2}>
-              zenefits
-            </P>
-          </Flex>
-        </Link>
-        <StyledTitle ml={3} pl={3} fontSize__deprecated__doNotUse={2}>
-          {this.props.children}
-        </StyledTitle>
+        <Flex align="center">
+          <Image w={12} src={theme.images.logo} />
+          <TextBlock fontStyle="paragraphs.xl" ml={2} color="grayscale.white">
+            zenefits
+          </TextBlock>
+        </Flex>
+        <Box borderLeft borderColor="avatar.c" ml={3} pl={3} fontStyle="headings.s">
+          <Link href="#!/Introduction" color="grayscale.white">
+            {this.props.children}
+          </Link>
+        </Box>
       </SimpleTopContainer>
     );
   }
 }
 
 const PageContainer = styled.main`
-  max-width: ${1200 - sideNavWidth}px;
-  margin-left: ${sideNavWidth}px;
+  width: 100%;
   padding: 80px ${space(3)} 0;
+  max-width: ${1300 - sideNavWidth}px;
+  margin-left: ${sideNavWidth}px;
+
+  @media (max-width: ${props => props.theme.breakpoints[0]}em) {
+    max-width: ${1000 - sideNavWidth}px;
+    margin-left: 0;
+  }
 `;
 
 interface StyleGuideProps {
@@ -75,16 +80,17 @@ interface StyleGuideProps {
 }
 
 // override default to provide our theme and add our TopNav
-class StyleGuideRenderer extends React.Component<StyleGuideProps> {
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/StyleGuide/StyleGuideRenderer.js
+class StyleGuideRenderer extends Component<StyleGuideProps> {
   render() {
     const { children, toc, hasSidebar } = this.props;
     return (
       <ThemeProvider>
-        <Box>
-          <SimpleTopNav>Style Guide</SimpleTopNav>
-          <PageContainer>{children}</PageContainer>
+        <div className={APP_STYLE_ROOT_CLASS}>
+          <SimpleTopNav>Design System</SimpleTopNav>
           {hasSidebar && <SideNav p={3}>{toc}</SideNav>}
-        </Box>
+          <PageContainer>{children}</PageContainer>
+        </div>
       </ThemeProvider>
     );
   }

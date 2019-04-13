@@ -1,4 +1,6 @@
 import React, {
+  Component,
+  ComponentType,
   InputHTMLAttributes,
   ReactElement,
   SelectHTMLAttributes,
@@ -6,14 +8,13 @@ import React, {
   TextareaHTMLAttributes,
 } from 'react';
 import { BaseFieldProps, Field } from 'redux-form';
+import { ObjectOmit } from 'typelevel-ts';
 
-import { Box, BoxProps, Flex, Icon, Label, P } from 'zbase';
+import { Box, BoxProps, Flex, Icon, Label, TextBlock, UtilProps } from 'zbase';
 import { HideFor } from 'z-frontend-theme';
+import { Tooltip } from 'z-frontend-overlays';
 
-import Tooltip from '../Tooltip';
 import InputErrorText from './InputErrorText';
-
-const Fragment = (React as any).Fragment;
 
 interface Props {
   label?: string | JSX.Element;
@@ -28,11 +29,12 @@ interface WrapperProps extends Props {
   labelBoxProps?: BoxProps;
 }
 
-declare type GenericFieldHTMLAttributes = InputHTMLAttributes<HTMLInputElement> &
+type GenericFieldHTMLAttributes = InputHTMLAttributes<HTMLInputElement> &
   SelectHTMLAttributes<HTMLSelectElement> &
   TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export declare type FieldProps = Props & GenericFieldHTMLAttributes & BaseFieldProps & BoxProps;
+export type FieldProps<P = {}> = ObjectOmit<Props & GenericFieldHTMLAttributes & BoxProps, keyof BaseFieldProps<P>> &
+  BaseFieldProps<P>;
 
 export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
   label,
@@ -45,7 +47,7 @@ export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
   children,
 }) => {
   // We only want to wrap simple fields in labels, but all form rows to look the same, so we style Box as label.
-  const OuterWrapper = wrapWithLabel ? Label : Box;
+  const OuterWrapper: ComponentType<UtilProps> = wrapWithLabel ? Label : Box;
   const showHelpText = !errorText && helpText;
   switch (fieldFormat) {
     case 'form-row':
@@ -73,10 +75,10 @@ export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
               {children}
               {errorText && <InputErrorText>{errorText} </InputErrorText>}
               {showHelpText && (
-                <P fontStyle="controls.s" color="grayscale.d" mt={2}>
+                <TextBlock fontStyle="controls.s" color="grayscale.d" mt={2}>
                   <Icon iconName="info-outline" mr={1} />
                   {helpText}
-                </P>
+                </TextBlock>
               )}
             </Box>
           </Flex>
@@ -89,7 +91,12 @@ export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
         </Box>
       );
     case 'raw':
-      return <Fragment>{children}</Fragment>;
+      return (
+        <>
+          {children}
+          {errorText && <InputErrorText>{errorText} </InputErrorText>}
+        </>
+      );
   }
 };
 
@@ -107,27 +114,23 @@ export const FormRow: StatelessComponent<WrapperProps> = ({ children, ...rest })
 
 export const FormCell = FormRow;
 
-export const FieldWrapper: StatelessComponent<FieldProps> = ({
-  label,
-  helpText,
-  tooltipText,
-  fieldFormat,
-  children,
-  errorText,
-  ...rest
-}) => {
-  return (
-    <FieldFormatWrapper
-      label={label}
-      helpText={helpText}
-      fieldFormat={fieldFormat}
-      errorText={errorText}
-      tooltipText={tooltipText}
-    >
-      <Field {...rest}>{children}</Field>
-    </FieldFormatWrapper>
-  );
-};
+export class FieldWrapper<P = {}> extends Component<FieldProps<P>> {
+  render() {
+    const { label, helpText, tooltipText, fieldFormat, children, errorText, ...rest } = this.props;
+
+    return (
+      <FieldFormatWrapper
+        label={label}
+        helpText={helpText}
+        fieldFormat={fieldFormat}
+        errorText={errorText}
+        tooltipText={tooltipText}
+      >
+        <Field<{}> {...rest}>{children}</Field>
+      </FieldFormatWrapper>
+    );
+  }
+}
 
 export const FieldsWrapper: StatelessComponent<Props> = ({ children, ...rest }) => (
   <FieldFormatWrapper wrapWithLabel={false} {...rest}>

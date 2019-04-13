@@ -1,0 +1,22 @@
+const wrongCssTag = css`
+                    ~~~~
+  ${myStyles as any};
+~~~~~~~~~~~~~~~~~~~~~
+`;
+~ [You may not perform type casting in the body of styled components tag.]
+
+const wrongStyledTag = styled(MyComponent)`
+                       ~~~~~~~~~~~~~~~~~~~~
+  ${myStyles as any};
+~~~~~~~~~~~~~~~~~~~~~~
+`;
+~ [You may not perform type casting in the body of styled components tag.]
+
+
+const correctCssTag = css`
+  ${myStyles};
+`;
+
+const correctStyledTag = styled(MyComponent)`
+  ${myStyles};
+`;

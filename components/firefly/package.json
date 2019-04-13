@@ -1,0 +1,64 @@
+{
+  "name": "z-frontend-firefly",
+  "version": "0.1.0",
+  "zenefits": {
+    "level": "composites"
+  },
+  "main": "index.ts",
+  "scripts": {
+    "prestart": "cd ../../ && yarn checkIntegrity",
+    "build-storybook": "zrun build-storybook-storybook",
+    "eslint": "zrun z-frontend-eslint",
+    "lint": "zrun 'yarn tslint && yarn eslint && yarn stylelint && yarn tsCheck'",
+    "stylelint": "zrun z-frontend-stylelint",
+    "test": "zrun jest",
+    "tsCheck": "zrun tsc --noEmit",
+    "tslint": "zrun zcli tslintPackage",
+    "start": "start-storybook -p $npm_package_config_port",
+    "generateAppTypes": "zrun zcli generateAppTypes"
+  },
+  "config": {
+    "port": "6015"
+  },
+  "private": true,
+  "engines": {
+    "yarn": "^1.3.2",
+    "node": "^10.14.1"
+  },
+  "dependencies": {
+    "apollo-client": "2.2.8",
+    "graphql-tag": "^2.6.1",
+    "prop-types": "^15.6.1",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "styled-components": "^2.2.3",
+    "z-frontend-theme": "*",
+    "z-frontend-layout": "*",
+    "zbase": "*"
+  },
+  "devDependencies": {
+    "@storybook/react": "4.0.11",
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.12.12",
+    "@types/react": "^16.7.17",
+    "@types/react-dom": "^16.0.11",
+    "babel-jest": "^23.6.0",
+    "babel-preset-z-frontend": "*",
+    "enzyme": "^3.6.0",
+    "eslint-config-z-frontend": "*",
+    "faker": "^4.1.0",
+    "jest": "^23.6.0",
+    "jest-enzyme": "^4.0.1",
+    "jest-styled-components": "^6.2.1",
+    "react-test-renderer": "^16.6.3",
+    "stylelint-config-z-frontend": "*",
+    "tslint": "^5.8.0",
+    "typescript": "3.2.2",
+    "z-frontend-app-bootstrap": "*",
+    "z-frontend-jest": "*",
+    "z-frontend-scripts": "*",
+    "z-frontend-storybook-config": "*",
+    "z-frontend-webpack": "*",
+    "z-frontend-yp-schema": "*"
+  }
+}

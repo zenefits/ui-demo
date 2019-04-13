@@ -36,3 +36,8 @@ import { foo } from 'module8/src/sdsgfg';
 
 import { foo } from 'module8';
 
+
+import { foo } from 'module9';
+import { foo } from 'module9/foo';
+                    ~~~~~~~~~~~~~                                  [Imports from folder 'module9/' are not allowed except for 'module9/ok'. Instead please use named imports from the package.]
+import { foo } from 'module9/ok';

@@ -26,18 +26,27 @@ class ImportFilterWalker extends Lint.RuleWalker {
           // if specified modulename ends with `/*`, ban all the imports from that folder
           const opts = options[0][moduleName];
 
-          if (opts) {
+          if (opts === true) {
             this.createNodeError(
               node.moduleSpecifier,
               `Imports from folder '${folder}' are not allowed. Instead please use named imports from the package.`,
             );
+          } else if (opts && opts.whitelist) {
+            if (!opts.whitelist.includes(foundModuleName)) {
+              this.createNodeError(
+                node.moduleSpecifier,
+                `Imports from folder '${folder}' are not allowed except for '${opts.whitelist.join(
+                  ',',
+                )}'. Instead please use named imports from the package.`,
+              );
+            }
           }
         }
       } else if (foundModuleName === moduleName) {
         const opts = options[0][moduleName];
 
         if (opts === true) {
-          // check if while module is not allowed
+          // check if whole module is not allowed
           this.createNodeError(node.moduleSpecifier, `Imports from module '${moduleName}' are not allowed.`);
         } else {
           // check the default export
@@ -60,11 +69,10 @@ class ImportFilterWalker extends Lint.RuleWalker {
 
           // check named exports
           // check for cases when importing the namespace with the star (import * from ...)
-          const nameSpaceImportKind = 244;
           if (
             node.importClause &&
             node.importClause.namedBindings &&
-            node.importClause.namedBindings.kind === nameSpaceImportKind
+            node.importClause.namedBindings.kind === ts.SyntaxKind.NamespaceImport
           ) {
             this.createNodeError(
               node.importClause.namedBindings,

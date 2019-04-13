@@ -1,8 +1,8 @@
-declare type WebpackRequire = {
+type WebpackRequire = {
   context: any;
 } & NodeRequire;
 
-export default function(schemaDir) {
+export default function(schemaDir: string) {
   if (__CLIENT__) {
     const schemaContext = (require as WebpackRequire).context(
       `../../../apps/${__APP_NAME__}/schema/`,
@@ -15,6 +15,6 @@ export default function(schemaDir) {
     const glob = require('glob');
     const pattern = './**/*.graphql';
     const fileNames = glob.sync(pattern, { cwd: schemaDir, absolute: true });
-    return fileNames.map(f => String(fs.readFileSync(f)));
+    return fileNames.map((f: string) => String(fs.readFileSync(f)));
   }
 }

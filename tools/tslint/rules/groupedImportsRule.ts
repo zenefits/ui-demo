@@ -94,7 +94,8 @@ export class Rule extends Lint.Rules.AbstractRule {
   };
   /* tslint:enable:object-literal-sort-keys */
 
-  public static IMPORT_SOURCES_NOT_GROUPED = 'Import sources of different groups must be sorted by: third parties, packages matching provided regex, relative imports.';
+  public static IMPORT_SOURCES_NOT_GROUPED =
+    'Import sources of different groups must be sorted by: third parties, packages matching provided regex, relative imports.';
   public static IMPORT_SOURCES_UNORDERED = 'Import sources within a group must be alphabetized.';
   public static NAMED_IMPORTS_UNORDERED = 'Named imports must be alphabetized.';
 
@@ -155,8 +156,7 @@ function parseOptions(ruleArguments: any[]): Options {
     'import-sources-order': sources = 'case-insensitive',
     'named-imports-order': named = 'case-insensitive',
     'module-source-path': path = 'full',
-  } =
-    optionSet === undefined ? {} : optionSet;
+  } = optionSet === undefined ? {} : optionSet;
 
   if (!isGrouped) {
     throw new Error('grouped-imports-regex param for rule grouped-imports must be defined');

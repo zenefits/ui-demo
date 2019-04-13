@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import { Box, Flex, Icon, P } from 'zbase';
-import { Button } from 'z-frontend-forms';
+import { Box, Flex, Icon, TextBlock } from 'zbase';
+import { Button } from 'z-frontend-elements';
 import { color } from 'z-frontend-theme/utils';
 import { styled } from 'z-frontend-theme';
 
 interface Props {
-  onPageChange: (number) => void;
+  onPageChange: (page: number) => void;
   pageSize: number;
   currentPage: number;
   totalItemsCount: number;
@@ -18,10 +18,6 @@ const StyledSpan = styled.span`
 `;
 
 class Pager extends Component<Props> {
-  constructor(props) {
-    super(props);
-  }
-
   onPageBackwards = () => {
     const pageBackward = this.props.currentPage - 1;
     this.props.onPageChange(pageBackward);
@@ -32,13 +28,13 @@ class Pager extends Component<Props> {
     this.props.onPageChange(pageForward);
   };
 
-  getItemRange = (currentPage, pageSize, totalItemsCount) => {
+  getItemRange = (currentPage: number, pageSize: number, totalItemsCount: number) => {
     const start = currentPage * pageSize - pageSize + 1;
     const end = Math.min(currentPage * pageSize, totalItemsCount);
     return (
-      <P my="auto">
+      <TextBlock my="auto">
         {start}-{end} <StyledSpan>(of {totalItemsCount})</StyledSpan>
-      </P>
+      </TextBlock>
     );
   };
 
