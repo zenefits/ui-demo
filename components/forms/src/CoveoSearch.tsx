@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as Coveo from 'coveo-search-ui';
 import 'coveo-search-ui/bin/css/CoveoFullSearch.css';
 
-class SearchUI extends Component {
+class SearchUI extends Component<{ organizationId: string; accessToken: string }> {
   searchInterface: React.RefObject<HTMLDivElement>;
 
   constructor(props) {
@@ -11,7 +11,7 @@ class SearchUI extends Component {
   }
 
   componentDidMount() {
-    Coveo.SearchEndpoint.configureSampleEndpointV2();
+    Coveo.SearchEndpoint.configureCloudV2Endpoint(this.props.organizationId, this.props.accessToken);
 
     // initialize the search box as an external component if found
     const options = window['CoveoSearchbox']
@@ -32,7 +32,7 @@ class SearchUI extends Component {
   }
 }
 
-class CoveoSearch extends Component {
+class CoveoSearch extends Component<{ organizationId: string; accessToken: string }> {
   getTemplateContent() {
     return `
        <div class='coveo-result-frame'>
@@ -49,7 +49,7 @@ class CoveoSearch extends Component {
   render() {
     return (
       <div>
-        <SearchUI>
+        <SearchUI {...this.props}>
           <div className="CoveoAnalytics" />
           <div className="coveo-tab-section">
             <a className="CoveoTab" data-id="All" data-caption="All Content" />

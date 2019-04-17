@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import * as Coveo from 'coveo-search-ui';
 import 'coveo-search-ui/bin/css/CoveoFullSearch.css';
 
-class CoveoSearchbox extends Component<{ initSearchbox?: boolean; url?: string }> {
+class CoveoSearchbox extends Component<{
+  organizationId: string;
+  accessToken: string;
+  url?: string;
+  initSearchbox?: boolean;
+}> {
   searchInterface: React.RefObject<HTMLDivElement>;
 
   constructor(props) {
@@ -12,7 +17,7 @@ class CoveoSearchbox extends Component<{ initSearchbox?: boolean; url?: string }
 
   componentDidMount() {
     if (this.props.initSearchbox) {
-      Coveo.SearchEndpoint.configureSampleEndpointV2();
+      Coveo.SearchEndpoint.configureCloudV2Endpoint(this.props.organizationId, this.props.accessToken);
       Coveo.initSearchbox(this.searchInterface.current, this.props.url || '');
     }
   }
