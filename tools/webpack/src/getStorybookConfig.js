@@ -56,6 +56,7 @@ const getConfig = pathToManagerEntrypoint => (baseConfig, env, defaultConfig) =>
 
   // adding image loader
   baseConfig.module.rules.push(rules.getImageRule());
+  baseConfig.module.rules.push(rules.getCoveoSvgRule());
 
   const commitSha = process.env.BUILD_SHA || process.env.TRAVIS_COMMIT;
   baseConfig.plugins.push(

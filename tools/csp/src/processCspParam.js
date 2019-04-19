@@ -20,6 +20,7 @@ module.exports = function processCspParam(cspParam, ...additionalPolicies) {
     contentSecurityPolicies.walkMeCsp,
     contentSecurityPolicies.plaidCsp,
     contentSecurityPolicies.driftCsp,
+    contentSecurityPolicies.coveo,
   ];
 
   const allCsps = defaultCsps.concat(additionalPolicies);

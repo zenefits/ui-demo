@@ -6,6 +6,7 @@ const googleMapsCsp = require('./googleMaps');
 const walkMeCsp = require('./walkMe');
 const plaidCsp = require('./plaid');
 const driftCsp = require('./drift');
+const coveo = require('./coveo');
 
 module.exports = {
   sharedCsp,
@@ -16,4 +17,6 @@ module.exports = {
   walkMeCsp,
   plaidCsp,
   driftCsp,
+  // TODO: make it optional so only apps that needs this have the policy
+  coveo,
 };
