@@ -1,32 +1,45 @@
 import React, { Component } from 'react';
 import * as Coveo from 'coveo-search-ui';
 import 'coveo-search-ui/bin/css/CoveoFullSearch.css';
-import CoveoSearchbox from './CoveoSearchbox';
 
-type CoveoSearchProps = {
+type CoveoDeflectionSearchProps = {
+  subject: string;
   organizationId: string;
   accessToken: string;
-  searchbox?: React.RefObject<CoveoSearchbox>;
+  delayMilliseconds?: number;
 };
 
-class SearchUI extends Component<CoveoSearchProps> {
+class SearchUI extends Component<CoveoDeflectionSearchProps> {
   searchInterface: React.RefObject<HTMLDivElement>;
+  searchTimeout: number;
 
-  constructor(props: CoveoSearchProps) {
+  constructor(props: CoveoDeflectionSearchProps) {
     super(props);
     this.searchInterface = React.createRef();
   }
 
+  handleBuildingQuery(e: Event, args: Coveo.IBuildingQueryEventArgs) {
+    if (this.props.subject) {
+      args.queryBuilder.longQueryExpression.add(this.props.subject);
+      args.queryBuilder.addContext({
+        subject: this.props.subject
+      });
+    }
+  }
+
   componentDidMount() {
     Coveo.SearchEndpoint.configureCloudV2Endpoint(this.props.organizationId, this.props.accessToken);
+    Coveo.$$(this.searchInterface.current).on('buildingQuery', this.handleBuildingQuery.bind(this));
+    Coveo.init(this.searchInterface.current);
+  }
 
-    // initialize the search box as an external component if found
-    const options = this.props.searchbox && this.props.searchbox.current
-      ? {
-          externalComponents: [this.props.searchbox.current.getSearchInterface()],
-        }
-      : {};
-    Coveo.init(this.searchInterface.current, options);
+  componentDidUpdate() {
+    clearTimeout(this.searchTimeout);
+
+    this.searchTimeout = window.setTimeout(() => {
+      Coveo.logSearchEvent(this.searchInterface.current, { name: 'inputChange', type: 'caseCreation' }, {});
+      Coveo.executeQuery(this.searchInterface.current);
+    }, this.props.delayMilliseconds || 1000);
   }
 
   render() {
@@ -38,7 +51,7 @@ class SearchUI extends Component<CoveoSearchProps> {
   }
 }
 
-class CoveoSearch extends Component<CoveoSearchProps> {
+class CoveoDeflection extends Component<CoveoDeflectionSearchProps> {
   componentDidMount() {
     Coveo.TemplateCache.registerTemplate("default", Coveo.HtmlTemplate.fromString(`
       <div class='coveo-result-frame'>
@@ -63,16 +76,8 @@ class CoveoSearch extends Component<CoveoSearchProps> {
       <div>
         <SearchUI {...this.props}>
           <div className="CoveoAnalytics" />
-          <div className="coveo-tab-section">
-            <a className="CoveoTab" data-id="All" data-caption="All Content" />
-          </div>
           <div className="coveo-search-section" />
           <div className="coveo-main-section">
-            <div className="coveo-facet-column">
-              <div className="CoveoFacet" data-title="Type" data-field="@objecttype" data-tab="All" />
-              <div className="CoveoFacet" data-title="FileType" data-field="@filetype" data-tab="All" />
-              <div className="CoveoFacet" data-title="Author" data-field="@author" data-tab="All" />
-            </div>
             <div className="coveo-results-column">
               <div className="CoveoShareQuery" />
               <div className="CoveoPreferencesPanel">
@@ -114,4 +119,4 @@ class CoveoSearch extends Component<CoveoSearchProps> {
   }
 }
 
-export default CoveoSearch;
+export default CoveoDeflection;

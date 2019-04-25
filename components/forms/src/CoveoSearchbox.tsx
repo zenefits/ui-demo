@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import * as Coveo from 'coveo-search-ui';
 import 'coveo-search-ui/bin/css/CoveoFullSearch.css';
 
-class CoveoSearchbox extends Component<{
+type CoveoSearchboxProps = {
   organizationId: string;
   accessToken: string;
   url?: string;
   initSearchbox?: boolean;
-}> {
+};
+
+class CoveoSearchbox extends Component<CoveoSearchboxProps> {
   searchInterface: React.RefObject<HTMLDivElement>;
 
-  constructor(props) {
+  constructor(props: CoveoSearchboxProps) {
     super(props);
     this.searchInterface = React.createRef();
   }

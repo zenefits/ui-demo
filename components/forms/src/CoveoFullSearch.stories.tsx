@@ -3,12 +3,12 @@ import { storiesOf } from '../.storybook/storyHelpers';
 
 import { Box } from 'zbase';
 
-import CoveoDeflection from './CoveoDeflection';
+import CoveoFullSearch from './CoveoFullSearch';
 
-storiesOf('forms|CoveoDeflection', module)
+storiesOf('forms|CoveoFullSearch', module)
   .addDecorator((getStory: Function) => (
     <Box p={20} w={[1, 1]} bg="grayscale.white">
       {getStory()}
     </Box>
   ))
-  .add('default', () => <CoveoDeflection />);
+  .add('default', () => <CoveoFullSearch />);

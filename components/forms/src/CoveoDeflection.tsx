@@ -1,126 +1,47 @@
 import React, { Component } from 'react';
-import * as Coveo from 'coveo-search-ui';
-import 'coveo-search-ui/bin/css/CoveoFullSearch.css';
+import CoveoDeflectionSearch from './CoveoDeflectionSearch';
+import CoveoDummyDeflectionForm from './CoveoDummyDeflectionForm';
 
-class SearchUI extends Component<
-  { organizationId: string; accessToken: string; delayMilliseconds?: number },
-  { subject: string }
-> {
-  searchInterface: React.RefObject<HTMLDivElement>;
-  searchTimeout: number;
+const rowStyle = {
+  display: 'flex',
+};
+const columnStyle = {
+  flex: '50%',
+};
 
-  constructor(props) {
+class CoveoDeflection extends Component<{}, { subject: string }> {
+  coveoDeflectionSearch: React.RefObject<CoveoDeflectionSearch>;
+
+  constructor(props: any){
     super(props);
-
     this.state = {
-      subject: '',
+      subject: ""
     };
-
-    this.searchInterface = React.createRef();
-    this.handleBuildingQuery = this.handleBuildingQuery.bind(this);
+    this.coveoDeflectionSearch = React.createRef();
+    this.formChange = this.formChange.bind(this);
   }
-
-  handleBuildingQuery(e, args) {
-    if (this.state.subject) {
-      args.queryBuilder.longQueryExpression.add(this.state.subject);
-      args.queryBuilder.addContext(this.state);
-    }
+  
+  formChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      subject: event.target.value
+    });
   }
-
-  componentDidMount() {
-    // Listen to form change event
-    window['CoveoGlobalEvents'].callback = data => {
-      this.setState({ subject: data.subject });
-    };
-
-    Coveo.SearchEndpoint.configureCloudV2Endpoint(this.props.organizationId, this.props.accessToken);
-
-    Coveo.$$(this.searchInterface.current).on('buildingQuery', this.handleBuildingQuery);
-
-    Coveo.init(this.searchInterface.current);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    clearTimeout(this.searchTimeout);
-
-    this.searchTimeout = window.setTimeout(() => {
-      Coveo.logSearchEvent(this.searchInterface.current, { name: 'inputChange', type: 'caseCreation' }, {});
-      Coveo.executeQuery(this.searchInterface.current);
-    }, this.props.delayMilliseconds || 1000);
-  }
-
+  
   render() {
-    return (
-      <div id="search" className="CoveoSearchInterface" data-enable-history="true" ref={this.searchInterface}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
-
-class CoveoDeflection extends Component<{ organizationId: string; accessToken: string; delayMilliseconds?: number }> {
-  getTemplateContent() {
-    return `
-       <div class='coveo-result-frame'>
-           <div class='coveo-result-row'>
-             <a class='CoveoResultLink'></a>
-           </div>
-           <div class='coveo-result-row'>
-             <div class='CoveoExcerpt'></div>
-           </div>
-       </div>
-      `;
-  }
-
-  render() {
-    return (
+    return(
       <div>
-        <SearchUI {...this.props}>
-          <div className="CoveoAnalytics" />
-          <div className="coveo-search-section" />
-          <div className="coveo-main-section">
-            <div className="coveo-results-column">
-              <div className="CoveoShareQuery" />
-              <div className="CoveoPreferencesPanel">
-                <div className="CoveoResultsPreferences" />
-                <div className="CoveoResultsFiltersPreferences" />
-              </div>
-              <div className="CoveoTriggers" />
-              <div className="CoveoBreadcrumb" />
-              <div className="CoveoDidYouMean" />
-              <div className="coveo-results-header">
-                <div className="coveo-summary-section">
-                  <span className="CoveoQuerySummary" />
-                  <span className="CoveoQueryDuration" />
-                </div>
-                <div className="coveo-result-layout-section">
-                  <span className="CoveoResultLayout" />
-                </div>
-                <div className="coveo-sort-section">
-                  <span className="CoveoSort" data-sort-criteria="relevancy" data-caption="Relevance" />
-                  <span className="CoveoSort" data-sort-criteria="date descending,date ascending" data-caption="Date" />
-                </div>
-              </div>
-              <div className="CoveoHiddenQuery" />
-              <div className="CoveoErrorReport" data-pop-up="false" />
-              <div
-                className="CoveoResultList"
-                data-layout="list"
-                data-wait-animation="fade"
-                data-auto-select-fields-to-include="false"
-              >
-                <script
-                  className="result-template"
-                  type="text/underscore"
-                  dangerouslySetInnerHTML={{ __html: this.getTemplateContent() }}
-                />
-              </div>
-              <div className="CoveoPager" />
-              <div className="CoveoLogo" />
-              <div className="CoveoResultsPerPage" />
-            </div>
+        <div style={rowStyle}>
+          <div style={columnStyle}>
+            <CoveoDummyDeflectionForm handleChange={this.formChange} />
           </div>
-        </SearchUI>
+          <div style={columnStyle}>
+            <CoveoDeflectionSearch
+              subject={this.state.subject}
+              organizationId="searchuisamples"
+              accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
+              ref={this.coveoDeflectionSearch} />
+          </div>
+        </div>
       </div>
     );
   }

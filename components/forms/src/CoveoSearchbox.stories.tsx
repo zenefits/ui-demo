@@ -1,32 +1,21 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '../.storybook/storyHelpers';
 
 import { Box } from 'zbase';
 
-import CoveoSearch from './CoveoSearch';
 import CoveoSearchbox from './CoveoSearchbox';
 
-storiesOf('CoveoSearchbox', module).add('default', () => (
-  <Box p={10} bg="grayscale.white">
+storiesOf('forms|CoveoSearchbox', module)
+  .addDecorator((getStory: Function) => (
+    <Box p={20} w={[1, 1]} bg="grayscale.white">
+      {getStory()}
+    </Box>
+  ))
+  .add('default', () => (
     <CoveoSearchbox
       organizationId="searchuisamples"
       accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
       url="search"
       initSearchbox
     />
-  </Box>
-));
-
-storiesOf('CoveoSearchbox', module).add('external component', () => (
-  <Box p={20} bg="grayscale.white">
-    <CoveoSearchbox
-      organizationId="searchuisamples"
-      accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
-      ref={ref => {
-        window['CoveoSearchbox'] = ref;
-      }}
-    />
-    <br />
-    <CoveoSearch organizationId="searchuisamples" accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457" />
-  </Box>
-));
+  ));
