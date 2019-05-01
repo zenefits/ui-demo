@@ -1,4 +1,7 @@
 #!/bin/bash
 
 source ./ci/setup_env.sh
-lerna run test --concurrency 2 --parallel=false $RUN_SINCE
+
+CONCURRENT_EXEC_COUNT=1 node ./ci/runScriptLerna.js test $RUN_SINCE
+
+NODE_ENV=production node ./ci/runScriptLerna.js rn-build $RUN_SINCE

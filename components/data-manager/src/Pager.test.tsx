@@ -1,23 +1,24 @@
 import React from 'react';
+import { ReactWrapper } from 'enzyme';
 
-import { Button } from 'z-frontend-forms';
+import { Button } from 'z-frontend-elements';
 import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Pager from './Pager';
 
 describe('Pager', () => {
   let props;
-  let wrapper;
-  let onPageChange;
+  let wrapper: ReactWrapper;
+  let onPageChange: jest.Mock;
 
   beforeEach(() => {
-    props = { totalItemsCount: 50, currentPage: 1, pageSize: 20, s: 'large' };
+    props = { totalItemsCount: 50, currentPage: 1, pageSize: 20, s: 'large' as any };
     onPageChange = jest.fn();
     wrapper = mountWithTheme(<Pager {...props} onPageChange={onPageChange} />);
   });
 
   it('should mount without throwing an error', () => {
-    expect(wrapper.find('Pager')).toHaveLength(1);
+    expect(wrapper).toHaveLength(1);
   });
 
   it('should have two buttons', () => {

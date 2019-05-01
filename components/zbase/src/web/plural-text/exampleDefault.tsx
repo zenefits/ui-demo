@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { PluralText, Text } from '../index';
+import { PluralText } from '../index';
 
-const count = 10;
+const count = 1234;
 export default () => (
-  <Text>
-    You have {count} <PluralText value={count} one="message" other="messages" />
-  </Text>
+  <PluralText none="No reviews" one="{count, number} review" other="{count, number} reviews" count={count} />
 );

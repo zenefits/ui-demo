@@ -1,6 +1,7 @@
 import React from 'react';
 import 'jest-styled-components';
 
+import 'z-frontend-jest/modified-jest-styled-components';
 import { mountWithThemeIntl, renderWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
 
 import { A } from './index';

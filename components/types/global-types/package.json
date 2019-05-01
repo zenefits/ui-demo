@@ -2,6 +2,9 @@
   "name": "z-frontend-global-types",
   "private": true,
   "version": "0.1.0",
+  "zenefits": {
+    "level": "tool"
+  },
   "description": "TypeScript definitions for globals",
   "main": "index.ts",
   "scripts": {

@@ -1,6 +1,8 @@
 import React from 'react';
+import { FormattedDate, FormattedNumber, FormattedRelative, FormattedTime } from 'react-intl';
+
+// @ts-ignore
 import { storiesOf } from '@storybook/react';
-import { FormattedDate, FormattedNumber, FormattedPlural, FormattedRelative, FormattedTime } from 'react-intl';
 
 import {
   Box,
@@ -11,19 +13,18 @@ import {
   Heading,
   NumberText,
   NumberTextProps,
-  PluralText,
   RelativeText,
   RelativeTextProps,
-  Text,
+  TextInline,
   TimeText,
 } from './index';
 
 const someDate = new Date('2017-11-18 19:55:34');
 const initialNow = someDate.valueOf() + 100000;
 
-const stories = storiesOf('ZBase Components', module);
+const stories = storiesOf('zbase|Components', module);
 
-function renderExampleMap(map) {
+function renderExampleMap(map: any) {
   return Object.keys(map).map(k => (
     <Flex key={k}>
       <Box w={300}>{k}</Box>
@@ -75,10 +76,10 @@ stories.add('all', () => (
   <Box p={2} w={[1, 4 / 5, 3 / 4, 2 / 3]}>
     <Heading level="4">Text component with key and with children</Heading>
     <Flex column>
-      <Text p={2} textKey="hello" textValues={{ name: 'David' }} />
-      <Text color="affirmation.c" p={3}>
-        Info: <Text color="affirmation.b" textKey="workingAt" textValues={{ company: 'Zenefitness' }} />
-      </Text>
+      <TextInline p={2} textKey="hello" textValues={{ name: 'David' }} />
+      <TextInline color="affirmation.c" p={3}>
+        Info: <TextInline color="affirmation.b" textKey="workingAt" textValues={{ company: 'Zenefitness' }} />
+      </TextInline>
     </Flex>
     <hr />
 
@@ -111,61 +112,31 @@ stories.add('all', () => (
     <Flex mb={3}>
       <Flex column mr={2}>
         Original FormattedRelative
-        {timeProps.map((props, i) => <FormattedRelative key={i} initialNow={initialNow} {...props} />)}
+        {timeProps.map((props, i) => (
+          <FormattedRelative key={i} initialNow={initialNow} {...props} />
+        ))}
       </Flex>
       <Flex column>
         RelativeDate component
-        {timeProps.map((props, i) => <RelativeText key={i} initialNow={initialNow} {...props} bg="affirmation.c" />)}
+        {timeProps.map((props, i) => (
+          <RelativeText key={i} initialNow={initialNow} {...props} bg="affirmation.c" />
+        ))}
       </Flex>
     </Flex>
 
     <Flex mb={5}>
       <Flex column mr={2}>
         Original FormattedNumber
-        {numberProps.map((props, i) => <FormattedNumber key={i} {...props} />)}
+        {numberProps.map((props, i) => (
+          <FormattedNumber key={i} {...props} />
+        ))}
       </Flex>
       <Flex column>
         NumberText component numberProps
-        {numberProps.map((props, i) => <NumberText key={i} {...props} bg="affirmation.c" />)}
+        {numberProps.map((props, i) => (
+          <NumberText key={i} {...props} bg="affirmation.c" />
+        ))}
       </Flex>
     </Flex>
-
-    <hr />
-
-    <Heading level={2}>Plural component</Heading>
-    <Flex mb={5}>
-      <Flex column mr={2}>
-        Original FormattedPlural
-        <Box>
-          10 <FormattedPlural value={10} one="message" other="messages" />
-        </Box>
-        <Box>
-          1 <FormattedPlural value={1} one="message" other="messages" />
-        </Box>
-      </Flex>
-      <Flex column>
-        Plural component
-        <Box>
-          10 <PluralText bg="affirmation.c" value={10} one="message" other="messages" />
-        </Box>
-        <Box>
-          1 <PluralText bg="affirmation.c" value={1} one="message" other="messages" />
-        </Box>
-      </Flex>
-    </Flex>
-
-    <hr />
-
-    <span>Heading component:</span>
-    <Heading level="1">header</Heading>
-    <Heading level="2">header</Heading>
-    <Heading level="3">header</Heading>
-    <Heading level="4">header</Heading>
-    <Heading level="5">header</Heading>
-    <Heading level="6">header</Heading>
-
-    <hr />
-    <span>Heading component with textKey and textValues:</span>
-    <Heading level="2" textKey="hello" textValues={{ name: 'Miguel' }} />
   </Box>
 ));

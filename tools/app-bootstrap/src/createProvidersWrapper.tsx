@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 
-export default function createProvidersWrapper(providerConfigurations: any[]) {
-  let Wrapper;
+export default function createProvidersWrapper(providerConfigurations: any[]): ComponentType {
+  let Wrapper: ComponentType | null = null;
   providerConfigurations.reverse().forEach((providerOrProviderConfiguration, i) => {
     if (!providerOrProviderConfiguration) {
       return;
@@ -28,6 +28,10 @@ export default function createProvidersWrapper(providerConfigurations: any[]) {
       };
     }
   });
+
+  if (!Wrapper) {
+    throw new Error('Wrapper is not created');
+  }
 
   return Wrapper;
 }

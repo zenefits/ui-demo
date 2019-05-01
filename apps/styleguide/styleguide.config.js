@@ -1,43 +1,155 @@
 const path = require('path');
-const styleguideHelpers = require('./config/styleguideHelpers');
-
-function getPathFromPackage(packageName, relativePath) {
-  const dir = path.dirname(require.resolve(packageName));
-  return path.resolve(dir, relativePath);
-}
+const {
+  componentExportsMap,
+  getComponentPathsFromPackageIndex,
+  getPathFromPackage,
+  loadExternalExamples,
+} = require('./config/styleguideHelpers');
+const { withCustomConfig } = require('react-docgen-typescript');
 
 const propsParserOptions = {
-  propFilter: {
-    skipPropsWithoutDoc: true,
-  },
-  // if we need more control:
-  // propFilter: (props, component) => {
-  //   // console.log(component.name, props.name, props.description, props.type.name);
-  //   return props.description.length !== 0;
+  // propFilter: {
+  //   skipPropsWithoutDoc: true,
+  //   skipPropsWithName
   // },
+  propFilter: props => {
+    // console.log(component.name, props.name, props.description, props.type.name);
+    const isAriaProp = props.name.startsWith('aria-'); // too many to show
+    return !isAriaProp;
+  },
 };
 
 module.exports = {
-  title: 'Style Guide | Zenefits',
-  propsParser: require('react-docgen-typescript').withCustomConfig('./tsconfig.json', propsParserOptions).parse,
+  title: 'Design System | Zenefits',
+  propsParser(filePath, source, resolver, handlers) {
+    // react-docgen-typescript blocks the use of a custom resolver. See here https://github.com/styleguidist/react-styleguidist/issues/837
+    const result = withCustomConfig('./tsconfig.json', propsParserOptions).parse(filePath, source, resolver, handlers);
+    // if there are multiple components per file, only show appropriate props
+    if (result.length > 1) {
+      const fileSubString = `./src${filePath.split('src')[1].replace('.tsx', '')}`;
+      if (fileSubString in componentExportsMap) {
+        const exportedMods = componentExportsMap[fileSubString];
+        const isDefaultExport = exportedMods.indexOf('default');
+        if (isDefaultExport > -1 && isDefaultExport + 1 < exportedMods.length) {
+          const compToExport = exportedMods[isDefaultExport + 1];
+          return result.filter(val => val.displayName === compToExport);
+        }
+        const filtered = result.filter(val => exportedMods.includes(val.displayName));
+        if (filtered.length > 0) {
+          return filtered;
+        }
+      }
+    }
+    return result;
+  },
   ignore: ['**/*.test.{js,jsx,ts,tsx}', '**/*.stories.{js,jsx,ts,tsx}'],
   require: [path.resolve(__dirname, 'src/setup.ts')],
   showUsage: true,
+  pagePerSection: true,
   styleguideDir: 'dist', // build directory
-  template: 'src/template/index.html',
-  updateExample: styleguideHelpers.loadExternalExamples,
+  template: {
+    title: 'Design System | Zenefits',
+    favicon:
+      'https://zenefits.imgix.net/12f0f2cd0af6d3b7017a0f1e6c1b9ad0205eb96e/static/marketing2017/images/icons/ZEN_Favicon_32.png?auto=compress,format',
+    head: {
+      raw: `<script type="text/javascript">
+      window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(r?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
+
+      var appId = window.location.hostname === 'ui.zenefits.com' ? '1291113735' : '33225357';
+      heap.load(appId);
+    </script>`,
+    },
+  },
+  updateExample: loadExternalExamples, // TODO: remove this once we switch all .md files away from using `loadExample`
+  updateDocs(docs) {
+    // show sub-components correctly in docs
+    // TODO: why is manual displayName on component not recognized?
+    if (/^Form[A-Z]/.test(docs.displayName)) {
+      // eslint-disable-next-line no-param-reassign
+      docs.displayName = docs.displayName.replace(/^Form/, 'Form.');
+    } else if (/^Chart[A-Z]/.test(docs.displayName)) {
+      // eslint-disable-next-line no-param-reassign
+      docs.displayName = docs.displayName.replace(/^Chart/, 'Chart.');
+    } else if (/^Table[A-Z]/.test(docs.displayName)) {
+      // eslint-disable-next-line no-param-reassign
+      docs.displayName = docs.displayName.replace(/^Table/, 'Table.');
+    }
+    return docs;
+  },
   sections: [
     {
       name: 'Introduction',
       sections: [
         {
-          name: 'Getting started',
+          name: 'Getting Started',
           content: '../../docs/getting-started.md',
         },
-        // {
-        //   name: 'Voice and tone',
-        //   content: '../../docs/voice.md',
-        // },
+        {
+          name: 'Voice and Tone',
+          content: '../../docs/voice.md',
+        },
+        {
+          name: 'Examples',
+          content: '../../docs/examples.md',
+        },
+        {
+          name: 'Component Status',
+          content: './docs/component-status.md',
+        },
+      ],
+    },
+    {
+      name: 'Guides',
+      sections: [
+        {
+          name: 'Component Best Practices',
+          content: '../../docs/component.md',
+        },
+        {
+          name: 'Design System Proposals',
+          content: '../../docs/design-system-proposals.md',
+        },
+        {
+          name: 'Ember-React Integration',
+          content: '../../docs/ember-react-integration.md',
+        },
+        {
+          name: 'FAQs',
+          content: '../../docs/faqs.md',
+        },
+        {
+          name: "Development Dos and Don'ts",
+          content: '../../docs/development-dos-and-donts.md',
+        },
+        {
+          name: 'Select Components',
+          content: '../../docs/select-guide.md',
+        },
+        {
+          name: 'Storybook Best Practices',
+          content: '../../docs/storybook.md',
+        },
+        {
+          name: 'Testing',
+          sections: [
+            {
+              name: 'Intro',
+              content: '../../docs/testing.md',
+            },
+            {
+              name: 'Cypress',
+              content: '../../docs/cypress.md',
+            },
+            {
+              name: 'Cross Browser Testing',
+              content: '../../docs/vm.md',
+            },
+          ],
+        },
+        {
+          name: 'UIP SLAs',
+          content: '../../docs/uip-slas.md',
+        },
       ],
     },
     {
@@ -59,81 +171,93 @@ module.exports = {
           name: 'Spacing',
           content: getPathFromPackage('zbase', './docs/spacing.md'),
         },
+        {
+          name: 'Responsiveness',
+          content: './docs/responsiveness.md',
+        },
+        {
+          name: 'Depth',
+          content: './docs/depth.md',
+        },
       ],
     },
     {
-      name: 'Elements',
-      // TODO: inputs
+      name: 'Components',
       sections: [
         {
-          name: 'Text content',
-          components: () => [
-            getPathFromPackage('zbase', './src/web/p/P.tsx'),
-            getPathFromPackage('zbase', './src/web/text/Text.tsx'),
-            getPathFromPackage('zbase', './src/web/plural-text/PluralText.tsx'),
-            getPathFromPackage('zbase', './src/web/date-text/DateText.tsx'),
-            getPathFromPackage('zbase', './src/web/time-text/TimeText.tsx'),
-            getPathFromPackage('zbase', './src/web/date-time-text/DateTimeText.tsx'),
-            getPathFromPackage('zbase', './src/web/relative-text/RelativeText.tsx'),
-            getPathFromPackage('zbase', './src/web/number-text/NumberText.tsx'),
-          ],
+          name: 'Chat',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-chat'),
         },
         {
-          name: 'Text handling',
-          components: () => [
-            getPathFromPackage('z-frontend-text', './src/obscure/Obscure.tsx'),
-            getPathFromPackage('z-frontend-text', './src/obscure-toggle/ObscureToggle.tsx'),
-          ],
-        },
-      ],
-      components: () => [
-        getPathFromPackage('zbase', './src/web/box/Box.ts'),
-        getPathFromPackage('zbase', './src/web/flex/Flex.ts'),
-        getPathFromPackage('zbase', './src/web/heading/Heading.tsx'),
-        getPathFromPackage('zbase', './src/web/badge/Badge.tsx'),
-        getPathFromPackage('zbase', './src/web/image/Image.ts'),
-        getPathFromPackage('zbase', './src/web/icon/Icon.tsx'),
-        getPathFromPackage('z-frontend-forms', './src/Link.tsx'),
-      ],
-    },
-    {
-      name: 'Composites',
-      // pagination, calendar, sidenav, popover, list-parts, form components
-      components: () => [
-        getPathFromPackage('z-frontend-forms', './src/Avatar.tsx'),
-        getPathFromPackage('z-frontend-forms', './src/Button.tsx'),
-        getPathFromPackage('z-frontend-forms', './src/Checkbox.tsx'),
-        getPathFromPackage('z-frontend-layout', './src/loading-screen/LoadingScreen.tsx'),
-        getPathFromPackage('z-frontend-tables', './src/Table.tsx'),
-      ],
-    },
-    {
-      name: 'Layout',
-      // TODO: list
-      components: () => [
-        getPathFromPackage('z-frontend-layout', './src/card/Card.tsx'),
-        // getPathFromPackage('z-frontend-forms', './src/Form.tsx'),
-      ],
-    },
-    // TODO: patterns: wizard
-    {
-      name: 'Guides',
-      sections: [
-        {
-          name: 'Testing',
-          content: '../../docs/testing.md',
+          name: 'Charts',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-charts'),
         },
         {
-          name: 'UIP SLAs',
-          content: '../../docs/uip-slas.md',
+          name: 'Composites',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-composites'),
+        },
+        {
+          name: 'Data Manager',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-data-manager'),
+        },
+        {
+          name: 'Drag and Drop',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-drag-and-drop'),
+        },
+        {
+          name: 'Elements',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-elements'),
+        },
+        {
+          name: 'Forms',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-forms'),
+        },
+        {
+          name: 'Layout',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-layout'),
+        },
+        {
+          name: 'Overlays',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-overlays'),
+        },
+        {
+          name: 'Tables',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-tables'),
+        },
+        {
+          name: 'Theme',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-theme'),
+        },
+        {
+          name: 'Utilities',
+          components: () => getComponentPathsFromPackageIndex('z-frontend-app-bootstrap'),
+        },
+        {
+          name: 'Zbase',
+          content: getPathFromPackage('zbase', './docs/intro.md'),
+          components: () => getComponentPathsFromPackageIndex('zbase'),
         },
       ],
     },
   ],
+  editorConfig: {
+    theme: 'monokai', // default of base16-light has low contrast
+  },
+  // allow template strings inside examples https://github.com/styleguidist/react-styleguidist/issues/720
+  compilerConfig: {
+    transforms: {
+      dangerousTaggedTemplateString: true,
+    },
+  },
   // match theme fonts
   theme: {
     fontFamily: {
-      base: ['"Circular", sans-serif'],
+      base: ['"Circular"', 'sans-serif'],
+      monospace: ['monospace'], // more consistent sizing relative to Circular
+    },
+    color: {
+      name: '#155457', // auxiliary.b
+      type: '#4E2E5E', // auxiliary.a
     },
     fontSize: {
       base: 14,
@@ -147,27 +271,6 @@ module.exports = {
       h6: 16,
     },
   },
-  // getComponentPathLine(componentPath) {
-  //   return componentPath;
-  // },
-  styles: {
-    Markdown: {
-      code: {
-        cursor: 'inherit',
-        fontSize: 13, // default font size is way too large
-      },
-    },
-    Table: {
-      cell: {
-        '& p': {
-          margin: 0,
-        },
-        '& code': {
-          fontSize: 'inherit',
-        },
-      },
-    },
-  },
   styleguideComponents: {
     Wrapper: path.join(__dirname, 'src/Wrapper'),
     StyleGuideRenderer: path.join(__dirname, 'src/components/StyleGuideRenderer'),
@@ -176,5 +279,12 @@ module.exports = {
     SectionHeadingRenderer: path.join(__dirname, 'src/components/SectionHeadingRenderer'),
     SectionRenderer: path.join(__dirname, 'src/components/SectionRenderer'),
     ReactComponentRenderer: path.join(__dirname, 'src/components/ReactComponentRenderer'),
+    TableRenderer: path.join(__dirname, 'src/components/TableRenderer'),
+    PlaygroundRenderer: path.join(__dirname, 'src/components/PlaygroundRenderer'),
+  },
+  // Styleguidist puts all components in the global namespace, this causes an issue with heap-analytics since it overrides default window.Image
+  dangerouslyUpdateWebpackConfig(webpackConfig) {
+    webpackConfig.entry.push(path.join(__dirname, 'src/monkeyPatchImage'));
+    return webpackConfig;
   },
 };

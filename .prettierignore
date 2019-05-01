@@ -3,3 +3,10 @@ src/scripts/lib/semver.js
 checkEngines.js
 tools/eslint/bin/z-frontend-eslint.js
 tools/stylelint/bin/z-frontend-stylelint.js
+expo-wrapper/.expo/
+expo-wrapper/_universe/
+dist/
+.tmp/
+storybook-static/
+yarn/
+componentStatusObject.json

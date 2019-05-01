@@ -218,23 +218,27 @@ async function upgradeDependencies(packages, packageList, upgrades, writeFiles =
     const packagesToUpgrade = Object.keys(versionsMap[versionsArr[0]]);
     console.log(`  old version for ${name} is ${oldVersion}, installed in ${packagesToUpgrade.join(', ')}`);
 
-    packageList.filter(({ json }) => packagesToUpgrade.includes(json.name)).forEach(({ pkg, json, pkgPath }) => {
-      if (json.dependencies[name]) {
-        json.dependencies[name] = newVersion;
-      }
-      if (json.devDependencies[name]) {
-        json.devDependencies[name] = newVersion;
-      }
-      filesToWrite[json.name] = true;
-    });
+    packageList
+      .filter(({ json }) => packagesToUpgrade.includes(json.name))
+      .forEach(({ pkg, json, pkgPath }) => {
+        if (json.dependencies[name]) {
+          json.dependencies[name] = newVersion;
+        }
+        if (json.devDependencies[name]) {
+          json.devDependencies[name] = newVersion;
+        }
+        filesToWrite[json.name] = true;
+      });
   });
 
   if (writeFiles) {
     upgrades.forEach(({ name, newVersion }) => {
-      packageList.filter(({ json }) => filesToWrite[json.name]).forEach(({ json, pkgPath }) => {
-        console.log(`  write updates to ${pkgPath}/package.json`);
-        fs.writeFileSync(path.join(pkgPath, 'package.json'), JSON.stringify(json, undefined, '  ') + '\n');
-      });
+      packageList
+        .filter(({ json }) => filesToWrite[json.name])
+        .forEach(({ json, pkgPath }) => {
+          console.log(`  write updates to ${pkgPath}/package.json`);
+          fs.writeFileSync(path.join(pkgPath, 'package.json'), JSON.stringify(json, undefined, '  ') + '\n');
+        });
       console.log(`  package.json files updated`);
     });
   }

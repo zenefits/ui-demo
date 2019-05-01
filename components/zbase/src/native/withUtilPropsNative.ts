@@ -1,9 +1,8 @@
-import { styled, ThemeInterface } from 'z-frontend-theme/native';
-import { color } from 'z-frontend-theme/utils';
+import { getColor, styled, ThemeInterface } from 'z-frontend-theme/native';
 
 import withUtilProps, { ResultComponentProps, WithUtilPropsOptions } from '../withUtilProps';
 import { PropsMap } from '../commonTypes';
-import { StyledTagNative, UtilProps as AllUtilProps } from './types';
+import { StyledTagNative, UtilProps as AllUtilProps, UtilTypeBorder } from './types';
 
 export type FlexOnlyAdditionalProps = {
   /**
@@ -16,6 +15,7 @@ export type FlexOnlyAdditionalProps = {
    */
   flex?: number;
 };
+
 export const flexOnlyPropsMap: PropsMap = {
   flex: { cssName: 'flex' },
 };
@@ -36,13 +36,13 @@ export default function withWebUtilProps<ComponentProps, AdditionalProps = {}, U
 }
 
 function getBorderHelper(side?: string) {
-  return (propValue: boolean, props) => {
+  return (propValue: boolean, props: UtilTypeBorder) => {
     if (!propValue) {
-      return;
+      return '';
     }
     const borderSelectorStart = side ? `border-${side}` : 'border';
     const selectors = [
-      `${borderSelectorStart}-color: ${color(props.borderColor)(props)};`,
+      `${borderSelectorStart}-color: ${props.borderColor ? getColor(props.borderColor) : ''};`,
       `${borderSelectorStart}-width: 1px;`,
       `border-style: solid;`, // native does not support border-<side>-style for some reason
     ];

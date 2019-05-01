@@ -1,4 +1,4 @@
-The basis of our grid system is [`<Flex>`](#flex). This enables flexible, responsive layouts with any number of
+The basis of our grid system is [Flex](#!/Flex). This enables flexible, responsive layouts with any number of
 columns.
 
 In practice, however, it's useful to assume a 12 column grid and only use widths that evenly divide 12

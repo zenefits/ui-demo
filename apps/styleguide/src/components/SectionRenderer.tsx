@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import SectionHeading from 'react-styleguidist/lib/rsg-components/SectionHeading';
 
 import { Box } from 'zbase';
-import { Card } from 'z-frontend-layout';
+import { Card } from 'z-frontend-composites';
 
 import DocEditLink from './DocEditLink';
 
@@ -18,7 +18,8 @@ interface SectionProps {
 }
 
 // override default to use our Card styling
-class SectionRenderer extends React.Component<SectionProps> {
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/Section/SectionRenderer.js
+class SectionRenderer extends Component<SectionProps> {
   render() {
     const { name, slug, filepath, content, components, sections, depth } = this.props;
     const heading = name && (

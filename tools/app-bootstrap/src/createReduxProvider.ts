@@ -1,21 +1,26 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore, Reducer } from 'redux';
 import { Provider, Store } from 'react-redux';
 
+import { setStore } from './getStore';
+
 export interface ReduxProviderFactoryOptions {
-  reducers?: { [key: string]: any };
+  reducers?: { [key: string]: any } | Reducer<any>;
   middleware?: any[];
-  composeFn?: (any) => any;
+  composeFn?: (p: any) => any;
 }
 
-export declare type ReduxProviderFactoryResult = [typeof Provider, { store: Store<{}> }];
+export type ReduxProviderFactoryResult = [typeof Provider, { store: Store<{}> }];
 
-export default function createReduxProvider({
-  reducers = { foo: (state = {}) => state },
-  middleware = [],
-  composeFn,
-}: ReduxProviderFactoryOptions = {}): ReduxProviderFactoryResult {
+export default function createReduxProvider(params: ReduxProviderFactoryOptions = {}): ReduxProviderFactoryResult {
+  const { reducers = { foo: (state = {}) => state }, middleware = [], composeFn } = params;
   const composeEnhancers = composeFn || compose;
-  const resultMiddleware = [].concat(middleware);
-  const store = createStore(combineReducers(reducers), {}, composeEnhancers(applyMiddleware(...resultMiddleware)));
+  const resultMiddleware = middleware.slice();
+  const finalReducer: Reducer<any> =
+    typeof reducers === 'function' ? (reducers as Reducer<any>) : combineReducers(reducers);
+
+  const store = createStore(finalReducer, {}, composeEnhancers(applyMiddleware(...resultMiddleware)));
+
+  setStore(store);
+
   return [Provider, { store }];
 }

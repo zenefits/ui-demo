@@ -1,0 +1,45 @@
+{
+  "name": "z-frontend-cypress",
+  "version": "0.1.0",
+  "zenefits": {
+    "level": "tool"
+  },
+  "typings": "typings",
+  "scripts": {
+    "cy:open": "CYPRESS_BASEURL='' zcli cypress open",
+    "cy:run": "CYPRESS_BASEURL='' zcli cypress run",
+    "cy:ci": "yarn run cy:run",
+    "start": "z-frontend-webpack start",
+    "eslint": "zrun z-frontend-eslint",
+    "lint": "zrun 'yarn eslint && yarn tslint && yarn tsCheck'",
+    "test": "echo 'no tests'",
+    "tsCheck": "zrun tsc --noEmit",
+    "tslint": "zrun zcli tslintPackage",
+    "zcli": "zcli"
+  },
+  "config": {
+    "port": "3044"
+  },
+  "private": true,
+  "engines": {
+    "yarn": "^1.3.2",
+    "node": "^10.14.1"
+  },
+  "dependencies": {
+    "@cypress/webpack-preprocessor": "^3.0.0",
+    "cypress": "^3.1.5",
+    "cypress-testing-library": "^2.3.6",
+    "cypress-react-unit-test": "^1.2.1",
+    "react": "^16.6.3",
+    "z-frontend-cypress-types": "*",
+    "z-frontend-webpack": "*"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "eslint-config-z-frontend": "*",
+    "lodash": "^4.17.5",
+    "jest": "^23.6.0",
+    "tslint": "^5.8.0",
+    "z-frontend-scripts": "*"
+  }
+}

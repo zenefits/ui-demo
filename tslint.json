@@ -2,5 +2,13 @@
   "extends": "tslint-config-z-frontend",
   "linterOptions": {
     "exclude": ["**/*.js", "**/*.jsx"]
+  },
+  "rules": {
+    "ban": [
+      true,
+      { "name": ["window", "fetch"], "message": "Use fetchWrapper not window.fetch" },
+      { "name": ["fetch"], "message": "Use fetchWrapper not global fetch" },
+      { "name": ["saveAs"] }
+    ]
   }
 }

@@ -1,28 +1,33 @@
 {
   "name": "babel-preset-z-frontend",
   "version": "0.1.0",
+  "zenefits": {
+    "level": "tool"
+  },
   "private": true,
   "engines": {
     "yarn": "^1.3.2",
-    "node": "^9.3.0"
+    "node": "^10.14.1"
   },
   "scripts": {
-    "lint": "yarn eslint",
-    "eslint": "z-frontend-eslint",
-    "nsp": "z-run nsp check",
+    "lint": "zrun yarn eslint",
+    "eslint": "zrun z-frontend-eslint",
     "test": "echo 'no tests for babel-preset-z-frontend'"
   },
   "main": "index.js",
   "dependencies": {
-    "babel-plugin-styled-components": "^1.1.7",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1"
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "babel-plugin-dynamic-import-node-babel-7": "^2.0.7",
+    "@quickbaseoss/babel-plugin-styled-components-css-namespace": "^0.1.1",
+    "babel-plugin-styled-components": "^1.8.0"
   },
   "devDependencies": {
-    "babel-helper-plugin-test-runner": "^6.24.0",
     "eslint-config-z-frontend": "*",
     "z-frontend-scripts": "*"
   }

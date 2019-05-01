@@ -1,17 +1,20 @@
 import { styled } from 'z-frontend-theme';
-import { Box, Flex } from 'zbase';
+import { Box, BoxProps, Flex, FlexProps } from 'zbase';
 import { space } from 'z-frontend-theme/utils';
 
-export const AppContentContainerFlex = styled(Flex)`
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+type AppContentContainerFlexProps = FlexProps & { isFullWidth?: boolean };
+
+export const AppContentContainerFlex = styled<AppContentContainerFlexProps>(Flex)`
+  max-width: ${props => (props.isFullWidth ? 'none' : '1200px')};
+  margin: ${props => (props.isFullWidth ? '0 32px' : '0 auto')};
   padding-left: ${space(3)};
   padding-right: ${space(3)};
-` as typeof Flex;
+`;
 
-export const AppContentContainerBox = styled(Box)`
-  max-width: 1200px;
+export type AppContentContainerBoxProps = BoxProps & { isFullWidth?: boolean };
+
+export const AppContentContainerBox = styled<AppContentContainerBoxProps>(Box)`
+  max-width: ${props => (props.isFullWidth ? 'none' : '1200px')};
   margin-left: auto;
   margin-right: auto;
   padding-left: ${space(3)};

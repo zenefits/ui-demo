@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "types": ["cypress", "cypress-testing-library", "z-frontend-cypress-types"]
+  },
+  "exclude": ["node_modules/**", "dist/**"]
+}

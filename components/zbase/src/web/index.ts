@@ -1,8 +1,22 @@
 // export all web components and types
+/** @styleguide-autodiscovery-ignore-start */
+export { UtilProps, ResponsiveUtilProp, ResponsiveFontStyleProp } from './types';
+export { isUtilProp, isBorderProp, isIntlTextProp } from '../commonTypes';
+export {
+  default as withUtilProps,
+  ResultWebComponentProps as ResultComponentProps,
+  isFlexItemProp,
+} from './withUtilPropsWeb';
+export * from './Button';
+export { default as Button } from './Button';
+export * from './Textarea';
+export { default as Textarea } from './Textarea';
 
-export { UtilProps } from './types';
-export { isUtilProp } from '../commonTypes';
-export { default as withUtilProps, ResultWebComponentProps as ResultComponentProps } from './withUtilPropsWeb';
+export * from './Input';
+export { default as Input } from './Input';
+export * from './A';
+export { default as A } from './A';
+/** @styleguide-autodiscovery-ignore-end */
 export * from './badge/Badge';
 export { default as Badge } from './badge/Badge';
 export * from './box/Box';
@@ -19,25 +33,18 @@ export * from './icon/Icon';
 export { default as Icon } from './icon/Icon';
 export * from './image/Image';
 export { default as Image } from './image/Image';
+export * from './text-block/TextBlock';
+export { default as TextBlock } from './text-block/TextBlock';
+export * from './text-inline/TextInline';
+export { default as TextInline } from './text-inline/TextInline';
 export * from './number-text/NumberText';
 export { default as NumberText } from './number-text/NumberText';
-export * from './p/P';
-export { default as P } from './p/P';
 export * from './plural-text/PluralText';
 export { default as PluralText } from './plural-text/PluralText';
 export * from './relative-text/RelativeText';
 export { default as RelativeText } from './relative-text/RelativeText';
-export * from './text/Text';
-export { default as Text } from './text/Text';
 export * from './time-text/TimeText';
 export { default as TimeText } from './time-text/TimeText';
-export * from './Textarea';
-export { default as Textarea } from './Textarea';
-export * from './Input';
-export { default as Input } from './Input';
-export * from './Label';
-export { default as Label } from './Label';
-export * from './A';
-export { default as A } from './A';
-export * from './Button';
-export { default as Button } from './Button';
+export * from './label/Label';
+export { default as Label } from './label/Label';
+export { default as TimeTag } from './time-tag/TimeTag';

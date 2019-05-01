@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import { Box, Text } from 'zbase';
+import { Box, TextInline } from 'zbase';
 
 import { LoadingScreen } from '../../index';
 
-class LoadingExample extends React.Component<{}, { loading: boolean; intervalId?: number }> {
+class LoadingExample extends Component<{}, { loading: boolean; intervalId?: number }> {
+  // @ts-ignore
   constructor(props) {
     super(props);
     this.state = {
       loading: true,
     };
   }
+
   componentDidMount() {
-    const intervalId = setInterval(this.toggleLoading.bind(this), 4000);
+    const intervalId = setInterval(this.toggleLoading.bind(this), 3000);
     this.setState({ intervalId });
   }
   componentWillUnmount() {
@@ -22,7 +24,7 @@ class LoadingExample extends React.Component<{}, { loading: boolean; intervalId?
     this.setState(prevState => ({ loading: !prevState.loading }));
   }
   render() {
-    const realContent = <Text p={2}>Done loading for now.</Text>;
+    const realContent = <TextInline p={2}>Done loading for now.</TextInline>;
     return (
       <Box style={{ height: 100, position: 'relative' }}>{this.state.loading ? <LoadingScreen /> : realContent}</Box>
     );

@@ -16,7 +16,7 @@ const BadgeContainer: StatelessComponent<BadgeProps> = ({ textKey, textValues, t
   if (textKey) {
     return (
       <FormattedMessage id={textKey} values={textValues} defaultMessage={textDefault}>
-        {str => <span {...removeUtilProps(rest)}>{str}</span>}
+        {(str: string) => <span {...removeUtilProps(rest)}>{str}</span>}
       </FormattedMessage>
     );
   }
@@ -34,6 +34,6 @@ export default withWebUtilProps<SpanProps, AdditionalBadgeProps>({
   additionalCss: css`
     display: inline-block;
     vertical-align: middle;
-    border-radius: ${radius};
+    border-radius: ${radius()};
   `,
 })(BadgeContainer);

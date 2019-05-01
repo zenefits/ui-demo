@@ -2,17 +2,8 @@ import { addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 
-import {
-  createApolloClient,
-  createIntlProvider,
-  createReduxProvider,
-  createRouterProvider,
-  getBrowserLocale,
-  renderApp,
-  ApolloClientOptions,
-} from 'z-frontend-app-bootstrap';
-import { createThemeProvider } from 'z-frontend-theme';
-import { createLocaleReducer } from 'z-frontend-app-bootstrap/src/createIntlProvider';
+import { sessionTimer, ApolloClientOptions } from 'z-frontend-app-bootstrap';
+import renderApp from 'z-frontend-render-app';
 
 import localeData from './locales';
 import reducers from './reducers';
@@ -28,34 +19,29 @@ const apolloClientOptions: ApolloClientOptions = {
 
 if (__MOCK_MODE__) {
   // TODO: move back to imports after upgrade to webpack v4
-  const jsonSchema = require('../schema/schema.json');
+  const gqlSchema = require('../schema/schema.generated.graphql');
   const resolvers = require('../mock/resolvers');
   const mocks = require('../mock/mocks');
   apolloClientOptions.mockConfig = {
-    jsonSchema: jsonSchema.default || jsonSchema,
+    gqlSchema,
     mocks: mocks.default || mocks,
     resolvers: resolvers.default || resolvers,
   };
 }
 
 renderApp({
+  localeData,
   App: AppRoutes,
-  providers: [
-    createReduxProvider({
-      reducers: {
-        ...reducers,
-        locale: createLocaleReducer(__DEVELOPMENT__ ? getBrowserLocale() : 'en'),
-      },
-    }),
-    createApolloClient(apolloClientOptions),
-    createIntlProvider(localeData),
-    createThemeProvider(),
-    createRouterProvider(),
-  ],
+  reduxParams: {
+    reducers,
+  },
+  apolloParams: apolloClientOptions,
   hotReloadCallback: renderApp => {
     module.hot.accept('./AppRoutes', () => {
       renderApp(AppRoutes);
     });
   },
-  onBoot: () => {},
+  onBoot: () => {
+    sessionTimer.start();
+  },
 });

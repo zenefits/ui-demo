@@ -9,12 +9,17 @@ module.exports = {
     node: true,
     jest: true,
   },
+  globals: {
+    cy: true,
+  },
   rules: {
     'no-console': 'off',
     'no-alert': 'off',
     'react/prop-types': 'off', // TODO: enable later
     'react/forbid-prop-types': 'off', // TODO: enable later
     'jsx-a11y/no-static-element-interactions': 'off', // TODO: enable later
+    'no-restricted-properties': ['error', { object: 'window', property: 'fetch' }],
+    'no-restricted-globals': ['error', 'fetch', 'saveAs'],
     // 'jsx-a11y/label-has-for': 'off',
     // 'max-len': ['error', 120, 2, {
     //   ignoreUrls: true,

@@ -1,17 +1,19 @@
+// Overview of theme colors: http://ui.zenefits.com/#!/Color
+
 const sunsetOrange = '#FF5745';
 const navyBlue = '#123466';
 const botticelli = '#D6DEE9';
+const catskillWhite = '#F1F7F9';
 const turquoise = '#2FCDD0';
 const morningGlory = '#8BDDDF';
 const iceberg = '#D3F3F3';
 
 const black = '#000';
-const mirage = '#1C2534';
-const shuttleGray = '#53616E';
-const regentGray = '#8D9BA7';
-const submarine = '#B4BDC5';
-const iron = '#DBDFE3';
-const fog = '#f3f3f3';
+// const mirage = '#1C2534';
+// const shuttleGray = '#53616E';
+// const regentGray = '#8D9BA7';
+// const submarine = '#B4BDC5';
+// const iron = '#DBDFE3';
 const white = '#FFF';
 
 const pacificBlue = '#009BC0';
@@ -27,7 +29,9 @@ const monza = '#C00316';
 const vividTangerine = '#FF897C';
 const yourPink = '#FFCBC6';
 const bridesmaid = '#FEF1F0';
-const spicyMustard = '#6F5D0F';
+
+const rawUmber = '#885500';
+const corn = '#DDAA00';
 const festival = '#FDE66B';
 const lemonChiffon = '#FFF9CD';
 
@@ -44,6 +48,13 @@ const defaultNormal = '#D6DEE9';
 const defaultHover = '#C8D0DB';
 const defaultActive = '#BCC4CF';
 
+const mineShaft = '#333';
+const emperor = '#555';
+const boulder = '#777';
+const dustyGray = '#999';
+const alto = '#DDD';
+const fog = '#f3f3f3';
+
 export const avatarColors = {
   'avatar.a': rhino,
   'avatar.b': bossanova,
@@ -55,26 +66,85 @@ export const avatarColors = {
   'avatar.h': eden,
 };
 
-export const colorsMap = {
+export type ColorString =
+  | 'primary.a'
+  | 'secondary.a'
+  | 'secondary.b'
+  | 'secondary.c'
+  | 'tertiary.a'
+  | 'tertiary.b'
+  | 'tertiary.c'
+  | 'grayscale.b'
+  | 'grayscale.c'
+  | 'grayscale.d'
+  | 'grayscale.e'
+  | 'grayscale.f'
+  | 'grayscale.g'
+  | 'grayscale.white'
+  | 'grayscale.black'
+  | 'text.dark'
+  | 'text.default'
+  | 'text.light'
+  | 'text.off'
+  | 'link.normal'
+  | 'link.hover'
+  | 'link.active'
+  | 'auxiliary.a'
+  | 'auxiliary.b'
+  | 'affirmation.a'
+  | 'affirmation.b'
+  | 'affirmation.c'
+  | 'affirmation.d'
+  | 'negation.a'
+  | 'negation.b'
+  | 'negation.c'
+  | 'negation.d'
+  | 'caution.a'
+  | 'caution.b'
+  | 'caution.c'
+  | 'caution.d'
+  | 'button.defaultNormal'
+  | 'button.defaultHover'
+  | 'button.defaultActive'
+  | 'button.primaryHover'
+  | 'button.primaryActive'
+  | 'button.primaryNormal'
+  | 'avatar.a'
+  | 'avatar.b'
+  | 'avatar.c'
+  | 'avatar.d'
+  | 'avatar.e'
+  | 'avatar.f'
+  | 'avatar.g'
+  | 'avatar.h'
+  | 'inherit'
+  | 'initial'
+  | 'transparent';
+
+export const colorsMap: { [key in ColorString]: string } = {
   'primary.a': sunsetOrange,
 
   'secondary.a': navyBlue,
   'secondary.b': botticelli,
-  'secondary.c': fog,
+  'secondary.c': catskillWhite,
 
   'tertiary.a': turquoise,
   'tertiary.b': morningGlory,
   'tertiary.c': iceberg,
 
-  'grayscale.black': black,
+  'grayscale.b': mineShaft, // previously: mirage #1C2534
+  'grayscale.c': emperor, // previously: shuttleGray #53616E
+  'grayscale.d': boulder, // previously: regentGray #8D9BA7
+  'grayscale.e': dustyGray, // previously: submarine #B4BDC5
+  'grayscale.f': alto, // previously: iron #DBDFE3
+  'grayscale.g': fog,
   'grayscale.white': white,
-  'grayscale.a': black,
-  'grayscale.b': mirage,
-  'grayscale.c': shuttleGray,
-  'grayscale.d': regentGray,
-  'grayscale.e': submarine,
-  'grayscale.f': iron,
-  'grayscale.g': white,
+  'grayscale.black': black,
+
+  'text.dark': mineShaft, // grayscale.b
+  'text.default': emperor, // grayscale.c
+  'text.light': boulder, // grayscale.d
+  'text.off': dustyGray, // grayscale.e
 
   'link.normal': pacificBlue,
   'link.hover': deepCerulean,
@@ -93,9 +163,10 @@ export const colorsMap = {
   'negation.c': yourPink,
   'negation.d': bridesmaid,
 
-  'caution.a': spicyMustard,
-  'caution.b': festival,
-  'caution.c': lemonChiffon,
+  'caution.a': rawUmber,
+  'caution.b': corn,
+  'caution.c': festival,
+  'caution.d': lemonChiffon,
 
   'button.defaultNormal': defaultNormal,
   'button.defaultHover': defaultHover,
@@ -105,14 +176,16 @@ export const colorsMap = {
   'button.primaryNormal': sunsetOrange,
 
   ...avatarColors,
-};
 
-export declare type ColorString = keyof (typeof colorsMap) | 'inherit' | 'initial' | 'transparent';
+  inherit: 'inherit',
+  initial: 'initial',
+  transparent: 'transparent',
+};
 
 /**
  * Get the color value by the color name
- * Example: getColor('grayscale.a') returns #1C2534 ("mirage" color)
- * @param color ColorString (e.g. "grayscale.b")
+ * Example: getColor('primary.a') returns #FF5745
+ * @param color ColorString (e.g. "primary.a")
  */
 export function getColor(color: ColorString) {
   return colorsMap[color];

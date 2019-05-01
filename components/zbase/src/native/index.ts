@@ -8,3 +8,6 @@ export * from './ScrollView';
 export * from './Text';
 export * from './TextInput';
 export * from './TouchableHighlight';
+export * from './icon/Icon';
+export * from './DateTimeText';
+export * from './DateText';

@@ -4,11 +4,11 @@ import { Field as BaseField, WrappedFieldProps } from 'redux-form';
 import { LabelProps } from 'zbase';
 
 import { FieldProps } from './FieldWrapper';
-import CustomTileInput, { CustomTileInputProps } from '../CustomTileInput';
+import { CustomTileInput, CustomTileInputProps } from '../../index';
 
 class Field extends BaseField<CustomTileInputProps> {}
 
-declare type WrappedProps = LabelProps & WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>;
+type WrappedProps = LabelProps & WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>;
 const WrappedCustomTileInput: StatelessComponent<WrappedProps> = ({ input, ...rest }) => (
   <CustomTileInput {...rest} {...input} />
 );

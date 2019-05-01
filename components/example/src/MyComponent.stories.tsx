@@ -1,6 +1,7 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+
+import { storiesOf } from '../.storybook/storyHelpers';
 
 import MyComponent from './MyComponent';
 
-storiesOf('MyComponent', module).add('example story', () => <MyComponent>Hello</MyComponent>);
+storiesOf('component-example|MyComponent', module).add('default', () => <MyComponent>Hello</MyComponent>);

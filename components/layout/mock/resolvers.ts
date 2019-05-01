@@ -1,2 +1,6 @@
+import { addDelayToResolvers } from 'z-frontend-app-bootstrap';
+
 // http://dev.apollodata.com/tools/graphql-tools/mocking.html#Using-MockList-in-resolvers
-export const resolvers = {};
+const resolvers = {};
+
+export default addDelayToResolvers(resolvers);

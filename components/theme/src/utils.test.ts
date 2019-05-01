@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-let originalDevMode;
+let originalDevMode: boolean;
 beforeEach(() => {
   originalDevMode = __DEVELOPMENT__;
 });
@@ -26,11 +26,11 @@ describe('utils#color', () => {
   };
 
   it('supports opacity', () => {
-    expect(color('primary.a', 0.5)(props)).toBe('rgba(255,255,255,0.5)');
+    expect(color('primary.a', 0.5)(props as any)).toBe('rgba(255,255,255,0.5)');
   });
 
   it('supports transparent', () => {
-    expect(color('transparent')(props)).toBe('transparent');
+    expect(color('transparent')(props as any)).toBe('transparent');
   });
 
   describe('for __DEV__ = true', () => {
@@ -80,20 +80,20 @@ describe('utils#zIndex', () => {
   makeFoundTest(props, () => zIndex('dropdown'), 1);
 });
 
-function makeFoundTest(props, getter, expected) {
+function makeFoundTest(props: Object, getter: Function, expected: any) {
   it('should get available from the theme', () => {
     expect(getter()(props)).toBe(expected);
   });
 }
 
-function makeNotFoundTest(props, getter) {
+function makeNotFoundTest(props: Object, getter: Function) {
   it('should gracefully handle not found when __DEV__ is false', () => {
     window.__DEVELOPMENT__ = false;
     expect(getter()(props)).toBe(undefined);
   });
 }
 
-function makeThrowTest(props, getter) {
+function makeThrowTest(props: Object, getter: Function) {
   it('should throw if property is not found when __DEV__ is true', () => {
     window.__DEVELOPMENT__ = true;
     expect(() => getter()(props)).toThrow(/referenced undefined/);

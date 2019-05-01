@@ -17,7 +17,7 @@ export default () => (
       Currency (euros): <NumberText value={2345} style="currency" currency="EUR" />
     </li>
     <li>
-      Percent (0 - 1): <NumberText value={0.5} style="percent" currency="EUR" />
+      Percent (0 - 1): <NumberText value={0.5} style="percent" />
     </li>
   </ul>
 );

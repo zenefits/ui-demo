@@ -1,0 +1,20 @@
+{
+  "rulesDirectory": ["../../../rules"],
+  "rules": {
+    "no-empty-type-args-jsx": [
+      true,
+      {
+        "components": [
+          {
+            "name": "Form",
+            "importPaths": ["z-frontend-forms", "../Form"]
+          },
+          {
+            "name": "My.Select",
+            "importPaths": ["../Form"]
+          }
+        ]
+      }
+    ]
+  }
+}

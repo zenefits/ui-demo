@@ -1,0 +1,14 @@
+{
+  "name": "z-iframe-router",
+  "version": "0.0.1",
+  "zenefits": {
+    "level": "tool"
+  },
+  "main": "index.ts",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "z-frontend-theme": "*"
+  }
+}

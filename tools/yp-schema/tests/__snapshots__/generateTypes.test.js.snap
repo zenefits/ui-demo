@@ -2,714 +2,3927 @@
 
 exports[`generateTypes function should generate all types for given schema and documents 1`] = `
 "/* tslint:disable */
-/* An object with an ID */
-export interface Node {
-  id: string /* The id of the object. */;
+
+/** Dummy DateTime, represented as a string */
+export type DateTime = any;
+
+/** Dummy Date, represented as a string */
+export type Date = any;
+
+/** The \`JSON\` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+export type JSON = any;
+
+export type Decimal = any;
+
+/** Dummy Time, represented as a string */
+export type Time = any;
+
+export interface IQFSession {
+  status?: QFSessionStatus | null;
+  responses: QFQuestionResponse[];
+  completedAt?: DateTime | null;
 }
 
-export interface Root {
-  allFilms?: FilmsConnection | null;
-  film?: Film | null;
-  allPeople?: PeopleConnection | null;
-  person?: Person | null;
-  allPlanets?: PlanetsConnection | null;
-  planet?: Planet | null;
-  allSpecies?: SpeciesConnection | null;
-  species?: Species | null;
-  allStarships?: StarshipsConnection | null;
-  starship?: Starship | null;
-  allVehicles?: VehiclesConnection | null;
-  vehicle?: Vehicle | null;
-  node?: Node | null /* Fetches an object given its ID */;
+export interface IQFQuestionResponse {
+  id: string;
+  questionId: string;
+  contextId?: string | null;
 }
-/* A connection to a list of items. */
-export interface FilmsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: FilmsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  films?:
-    | Film[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
+
+export interface Query {
+  dashboard?: Dashboard | null;
+  currentZenefitsEmployee?: ZenefitsEmployee | null;
+  prerequisiteRedirect?: JSON | null;
+  company?: Company | null /** employeeImpersonations: [EmployeeImpersonation]inboxActionPartials: [InboxActionPartial]zAppInstallSubscriptions: [ZAppInstallSubscription]pageHelpArticles: [PageHelpArticle]zAppActionUrls: [ZAppActionUrl]spoof_machines(machineCategory: SpoofMachineCategory): [SpoofMachine]inbox_action(id: ID): InboxAction */;
+  employeeRenamed?: AllEmployee | null;
+  employee?: all_employee | null;
+  signature?: Signature | null;
+  benefitsEnrollment?: BenefitsEnrollment | null;
+  benefitsEnrollments_bulk?: (BenefitsEnrollment | null)[] | null;
+  benefitsTransaction?: BenefitsTransaction | null;
+  benefitsTransactions?: (BenefitsTransaction | null)[] | null;
+  benefits_transaction_help_flow?: BenefitsTransactionHelpFlow | null;
+  benefits_transaction_help_flows?: (BenefitsTransactionHelpFlow | null)[] | null;
+  searchClients?: (SearchClientsResult | null)[] | null;
+  review?: Review | null;
+  reviewTemplates: ReviewTemplate[];
+  reviews: Review[];
+  goals: Goal[];
+  questionFlows: QuestionFlow[];
+  inboxTask?: InboxTask | null;
+  talentPermission: TalentPermission /** Query for talent permissions */;
+  filteredCompanies?: (Company | null)[] | null /** Query for inbox task items for partner dashboard */;
+  inboxTaskSearch?: InboxTaskSearchResult | null;
+  getPDFInfo?: PdfInfo | null;
+  fulfillmentTaskEmployees: FulfillmentTaskEmployee[] /** employees to be used for filtering partner dashboard fulfillment tasks */;
+  autocompletedCompanies: SuggestedCompany[];
+  currentPartner: Partner;
+  currentPartnerUser: PartnerUser;
+  partner: Partner;
+  partnerUser: PartnerUser;
+  employeeHealthEnrollments?: (EmployeeHealthEnrollment | null)[] | null /** Query for benconnect */;
+  employeeBenefitsEnrollments?: (EmployeeBenefitsEnrollment | null)[] | null;
+  companyBenefitsCost?: (CompanyBenefitsCost | null)[] | null;
+  companyRenewalData?: (CompanyRenewalInfo | null)[] | null;
+  fulfillmentTaskAssignees?: (FilterEmployee | null)[] | null;
+  companyReviews: CompanyReview[] /** Talent Console */;
+  benefitsFulfillmentDetails?: (BenefitsFulfillmentInfo | null)[] | null /** Fulfillment Log */;
 }
-/* Information about pagination in a connection. */
-export interface PageInfo {
-  hasNextPage: boolean /* When paginating forwards, are there more items? */;
-  hasPreviousPage: boolean /* When paginating backwards, are there more items? */;
-  startCursor?: string | null /* When paginating backwards, the cursor to continue. */;
-  endCursor?: string | null /* When paginating forwards, the cursor to continue. */;
-}
-/* An edge in a connection. */
-export interface FilmsEdge {
-  node?: Film | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A single film. */
-export interface Film extends Node {
-  title?: string | null /* The title of this film. */;
-  episodeID?: number | null /* The episode number of this film. */;
-  openingCrawl?: string | null /* The opening paragraphs at the beginning of this film. */;
-  director?: string | null /* The name of the director of this film. */;
-  producers?: string[] | null /* The name(s) of the producer(s) of this film. */;
-  releaseDate?: string | null /* The ISO 8601 date format of film release at original creator country. */;
-  speciesConnection?: FilmSpeciesConnection | null;
-  starshipConnection?: FilmStarshipsConnection | null;
-  vehicleConnection?: FilmVehiclesConnection | null;
-  characterConnection?: FilmCharactersConnection | null;
-  planetConnection?: FilmPlanetsConnection | null;
-  created?: string | null /* The ISO 8601 date format of the time that this resource was created. */;
-  edited?: string | null /* The ISO 8601 date format of the time that this resource was edited. */;
-  id: string /* The ID of an object */;
-}
-/* A connection to a list of items. */
-export interface FilmSpeciesConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: FilmSpeciesEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  species?:
-    | Species[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface FilmSpeciesEdge {
-  node?: Species | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A type of person or character within the Star Wars Universe. */
-export interface Species extends Node {
-  name?: string | null /* The name of this species. */;
-  classification?:
-    | string
-    | null /* The classification of this species, such as &quot;mammal&quot; or &quot;reptile&quot;. */;
-  designation?: string | null /* The designation of this species, such as &quot;sentient&quot;. */;
-  averageHeight?: number | null /* The average height of this species in centimeters. */;
-  averageLifespan?: number | null /* The average lifespan of this species in years, null if unknown. */;
-  eyeColors?:
-    | string[]
-    | null /* Common eye colors for this species, null if this species does not typicallyhave eyes. */;
-  hairColors?:
-    | string[]
-    | null /* Common hair colors for this species, null if this species does not typicallyhave hair. */;
-  skinColors?:
-    | string[]
-    | null /* Common skin colors for this species, null if this species does not typicallyhave skin. */;
-  language?: string | null /* The language commonly spoken by this species. */;
-  homeworld?: Planet | null /* A planet that this species originates from. */;
-  personConnection?: SpeciesPeopleConnection | null;
-  filmConnection?: SpeciesFilmsConnection | null;
-  created?: string | null /* The ISO 8601 date format of the time that this resource was created. */;
-  edited?: string | null /* The ISO 8601 date format of the time that this resource was edited. */;
-  id: string /* The ID of an object */;
-}
-/* A large mass, planet or planetoid in the Star Wars Universe, at the time of0 ABY. */
-export interface Planet extends Node {
-  name?: string | null /* The name of this planet. */;
-  diameter?: number | null /* The diameter of this planet in kilometers. */;
-  rotationPeriod?:
-    | number
-    | null /* The number of standard hours it takes for this planet to complete a singlerotation on its axis. */;
-  orbitalPeriod?:
-    | number
-    | null /* The number of standard days it takes for this planet to complete a single orbitof its local star. */;
-  gravity?:
-    | string
-    | null /* A number denoting the gravity of this planet, where &quot;1&quot; is normal or 1 standardG. &quot;2&quot; is twice or 2 standard Gs. &quot;0.5&quot; is half or 0.5 standard Gs. */;
-  population?: number | null /* The average population of sentient beings inhabiting this planet. */;
-  climates?: string[] | null /* The climates of this planet. */;
-  terrains?: string[] | null /* The terrains of this planet. */;
-  surfaceWater?:
-    | number
-    | null /* The percentage of the planet surface that is naturally occuring water or bodiesof water. */;
-  residentConnection?: PlanetResidentsConnection | null;
-  filmConnection?: PlanetFilmsConnection | null;
-  created?: string | null /* The ISO 8601 date format of the time that this resource was created. */;
-  edited?: string | null /* The ISO 8601 date format of the time that this resource was edited. */;
-  id: string /* The ID of an object */;
-}
-/* A connection to a list of items. */
-export interface PlanetResidentsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: PlanetResidentsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  residents?:
-    | Person[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface PlanetResidentsEdge {
-  node?: Person | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* An individual person or character within the Star Wars universe. */
-export interface Person extends Node {
-  name?: string | null /* The name of this person. */;
-  birthYear?:
-    | string
-    | null /* The birth year of the person, using the in-universe standard of BBY or ABY -Before the Battle of Yavin or After the Battle of Yavin. The Battle of Yavin isa battle that occurs at the end of Star Wars episode IV: A New Hope. */;
-  eyeColor?:
-    | string
-    | null /* The eye color of this person. Will be &quot;unknown&quot; if not known or &quot;n/a&quot; if theperson does not have an eye. */;
-  gender?:
-    | string
-    | null /* The gender of this person. Either &quot;Male&quot;, &quot;Female&quot; or &quot;unknown&quot;,&quot;n/a&quot; if the person does not have a gender. */;
-  hairColor?:
-    | string
-    | null /* The hair color of this person. Will be &quot;unknown&quot; if not known or &quot;n/a&quot; if theperson does not have hair. */;
-  height?: number | null /* The height of the person in centimeters. */;
-  mass?: number | null /* The mass of the person in kilograms. */;
-  skinColor?: string | null /* The skin color of this person. */;
-  homeworld?: Planet | null /* A planet that this person was born on or inhabits. */;
-  filmConnection?: PersonFilmsConnection | null;
-  species?: Species | null /* The species that this person belongs to, or null if unknown. */;
-  starshipConnection?: PersonStarshipsConnection | null;
-  vehicleConnection?: PersonVehiclesConnection | null;
-  created?: string | null /* The ISO 8601 date format of the time that this resource was created. */;
-  edited?: string | null /* The ISO 8601 date format of the time that this resource was edited. */;
-  id: string /* The ID of an object */;
-}
-/* A connection to a list of items. */
-export interface PersonFilmsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: PersonFilmsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  films?:
-    | Film[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface PersonFilmsEdge {
-  node?: Film | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface PersonStarshipsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: PersonStarshipsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  starships?:
-    | Starship[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface PersonStarshipsEdge {
-  node?: Starship | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A single transport craft that has hyperdrive capability. */
-export interface Starship extends Node {
-  name?: string | null /* The name of this starship. The common name, such as &quot;Death Star&quot;. */;
-  model?:
-    | string
-    | null /* The model or official name of this starship. Such as &quot;T-65 X-wing&quot; or &quot;DS-1Orbital Battle Station&quot;. */;
-  starshipClass?:
-    | string
-    | null /* The class of this starship, such as &quot;Starfighter&quot; or &quot;Deep Space MobileBattlestation&quot; */;
-  manufacturers?: string[] | null /* The manufacturers of this starship. */;
-  costInCredits?: number | null /* The cost of this starship new, in galactic credits. */;
-  length?: number | null /* The length of this starship in meters. */;
-  crew?: string | null /* The number of personnel needed to run or pilot this starship. */;
-  passengers?: string | null /* The number of non-essential people this starship can transport. */;
-  maxAtmospheringSpeed?:
-    | number
-    | null /* The maximum speed of this starship in atmosphere. null if this starship isincapable of atmosphering flight. */;
-  hyperdriveRating?: number | null /* The class of this starships hyperdrive. */;
-  MGLT?:
-    | number
-    | null /* The Maximum number of Megalights this starship can travel in a standard hour.A &quot;Megalight&quot; is a standard unit of distance and has never been defined beforewithin the Star Wars universe. This figure is only really useful for measuringthe difference in speed of starships. We can assume it is similar to AU, thedistance between our Sun (Sol) and Earth. */;
-  cargoCapacity?: number | null /* The maximum number of kilograms that this starship can transport. */;
-  consumables?:
-    | string
-    | null /* The maximum length of time that this starship can provide consumables for itsentire crew without having to resupply. */;
-  pilotConnection?: StarshipPilotsConnection | null;
-  filmConnection?: StarshipFilmsConnection | null;
-  created?: string | null /* The ISO 8601 date format of the time that this resource was created. */;
-  edited?: string | null /* The ISO 8601 date format of the time that this resource was edited. */;
-  id: string /* The ID of an object */;
-}
-/* A connection to a list of items. */
-export interface StarshipPilotsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: StarshipPilotsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  pilots?:
-    | Person[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface StarshipPilotsEdge {
-  node?: Person | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface StarshipFilmsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: StarshipFilmsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  films?:
-    | Film[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface StarshipFilmsEdge {
-  node?: Film | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface PersonVehiclesConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: PersonVehiclesEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  vehicles?:
-    | Vehicle[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface PersonVehiclesEdge {
-  node?: Vehicle | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A single transport craft that does not have hyperdrive capability */
-export interface Vehicle extends Node {
-  name?:
-    | string
-    | null /* The name of this vehicle. The common name, such as &quot;Sand Crawler&quot; or &quot;Speederbike&quot;. */;
-  model?:
-    | string
-    | null /* The model or official name of this vehicle. Such as &quot;All-Terrain AttackTransport&quot;. */;
-  vehicleClass?:
-    | string
-    | null /* The class of this vehicle, such as &quot;Wheeled&quot; or &quot;Repulsorcraft&quot;. */;
-  manufacturers?: string[] | null /* The manufacturers of this vehicle. */;
-  costInCredits?: number | null /* The cost of this vehicle new, in Galactic Credits. */;
-  length?: number | null /* The length of this vehicle in meters. */;
-  crew?: string | null /* The number of personnel needed to run or pilot this vehicle. */;
-  passengers?: string | null /* The number of non-essential people this vehicle can transport. */;
-  maxAtmospheringSpeed?: number | null /* The maximum speed of this vehicle in atmosphere. */;
-  cargoCapacity?: number | null /* The maximum number of kilograms that this vehicle can transport. */;
-  consumables?:
-    | string
-    | null /* The maximum length of time that this vehicle can provide consumables for itsentire crew without having to resupply. */;
-  pilotConnection?: VehiclePilotsConnection | null;
-  filmConnection?: VehicleFilmsConnection | null;
-  created?: string | null /* The ISO 8601 date format of the time that this resource was created. */;
-  edited?: string | null /* The ISO 8601 date format of the time that this resource was edited. */;
-  id: string /* The ID of an object */;
-}
-/* A connection to a list of items. */
-export interface VehiclePilotsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: VehiclePilotsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  pilots?:
-    | Person[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface VehiclePilotsEdge {
-  node?: Person | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface VehicleFilmsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: VehicleFilmsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  films?:
-    | Film[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface VehicleFilmsEdge {
-  node?: Film | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface PlanetFilmsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: PlanetFilmsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  films?:
-    | Film[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface PlanetFilmsEdge {
-  node?: Film | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface SpeciesPeopleConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: SpeciesPeopleEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  people?:
-    | Person[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface SpeciesPeopleEdge {
-  node?: Person | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface SpeciesFilmsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: SpeciesFilmsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  films?:
-    | Film[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface SpeciesFilmsEdge {
-  node?: Film | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface FilmStarshipsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: FilmStarshipsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  starships?:
-    | Starship[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface FilmStarshipsEdge {
-  node?: Starship | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface FilmVehiclesConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: FilmVehiclesEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  vehicles?:
-    | Vehicle[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface FilmVehiclesEdge {
-  node?: Vehicle | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface FilmCharactersConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: FilmCharactersEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  characters?:
-    | Person[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface FilmCharactersEdge {
-  node?: Person | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface FilmPlanetsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: FilmPlanetsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  planets?:
-    | Planet[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface FilmPlanetsEdge {
-  node?: Planet | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface PeopleConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: PeopleEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  people?:
-    | Person[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface PeopleEdge {
-  node?: Person | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface PlanetsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: PlanetsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  planets?:
-    | Planet[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface PlanetsEdge {
-  node?: Planet | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface SpeciesConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: SpeciesEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  species?:
-    | Species[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface SpeciesEdge {
-  node?: Species | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface StarshipsConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: StarshipsEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  starships?:
-    | Starship[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface StarshipsEdge {
-  node?: Starship | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-/* A connection to a list of items. */
-export interface VehiclesConnection {
-  pageInfo: PageInfo /* Information to aid in pagination. */;
-  edges?: VehiclesEdge[] | null /* A list of edges. */;
-  totalCount?:
-    | number
-    | null /* A count of the total number of objects in this connection, ignoring pagination.This allows a client to fetch the first five objects by passing &quot;5&quot; as theargument to &quot;first&quot;, then fetch the total count so it could display &quot;5 of 83&quot;,for example. */;
-  vehicles?:
-    | Vehicle[]
-    | null /* A list of all of the objects returned in the connection. This is a conveniencefield provided for quickly exploring the API; rather than querying for&quot;{ edges { node } }&quot; when no edge data is needed, this field can be be usedinstead. Note that when clients like Relay need to fetch the &quot;cursor&quot; field onthe edge to enable efficient pagination, this shortcut cannot be used, and thefull &quot;{ edges { node } }&quot; version should be used instead. */;
-}
-/* An edge in a connection. */
-export interface VehiclesEdge {
-  node?: Vehicle | null /* The item at the end of the edge */;
-  cursor: string /* A cursor for use in pagination */;
-}
-export interface AllFilmsRootArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
-}
-export interface FilmRootArgs {
+
+export interface Dashboard {
   id?: string | null;
-  filmID?: string | null;
+  user_id?: string | null;
+  user?: User | null;
+  company?: Company | null;
+  isSpoofing?: boolean | null;
+  demoSourceType?: string | null;
+  isDemoAccount?: boolean | null;
+  isMTAUser?: boolean | null;
+  isMTAPartnerUser?: boolean | null;
+  partner?: Partner | null;
+  partnerUser?: PartnerUser | null;
+  isConsoleUser?: boolean | null;
+  employeeRenamed?: AllEmployee | null;
+  employee?: all_employee | null;
+  switches?: JSON | null;
+  emailVerified?: boolean | null;
+  features?: JSON | null;
+  permission?: JSON | null;
+  profile?: JSON | null;
+  userIntercomHash?: string | null;
+  employees?: (AllEmployee | null)[] | null;
+  zAppInstallSubscriptions?: (ZAppInstallSubscription | null)[] | null;
 }
-export interface AllPeopleRootArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
-}
-export interface PersonRootArgs {
+
+export interface User {
+  first_name?: string | null;
+  last_name?: string | null;
+  is_active?: boolean | null;
   id?: string | null;
-  personID?: string | null;
+  objId?: number | null;
+  email?: string | null;
 }
-export interface AllPlanetsRootArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
-}
-export interface PlanetRootArgs {
+
+export interface Company {
+  legalAddress2?: string | null;
+  overridePayStartWeekDay?: number | null;
+  phoneExtension?: string | null;
+  stateTaxID?: string | null;
+  nextPayPeriodDate?: DateTime | null;
+  payFrequency?: string | null;
+  payrollPin?: string | null;
+  regEmployeeCount?: number | null;
+  logoUrl?: string | null;
+  payrollHomeDir?: string | null;
+  accountantEmail?: string | null;
+  county?: string | null;
+  payrollProviderUrl?: string | null;
+  stateTaxIDState?: string | null;
+  syncStatus?: string | null;
+  payrollProvider?: string | null;
+  isOwnerOnlyCompany?: boolean | null;
   id?: string | null;
-  planetID?: string | null;
+  city?: string | null;
+  lastGoodSync?: DateTime | null;
+  legalCity?: string | null;
+  _enrollmentStatus?: string | null;
+  stateOfIncorporation?: string | null;
+  zip?: string | null;
+  benefitsOnly?: boolean | null;
+  dayBusinessEstablished?: string | null;
+  obfuscatedId?: string | null;
+  address2?: string | null;
+  overridePayFirstCheckDay?: number | null;
+  overrideAnchorPayCheckDate?: DateTime | null;
+  payrollPhone?: string | null;
+  lastBulkUnRegEmailResend?: DateTime | null;
+  businessDescription?: string | null;
+  shortCircuitEmployeeCount?: number | null;
+  type?: string | null;
+  payrollCredentialAccountType?: string | null;
+  overridePaySecondCheckDay?: number | null;
+  naicsCode?: string | null;
+  fax?: string | null;
+  payrollPassword?: string | null;
+  selectedCarrier?: string | null;
+  salesforceIndustry?: string | null;
+  overridePayArrears?: number | null;
+  legalName?: string | null;
+  payrollEmail?: string | null;
+  version_id?: number | null;
+  deactivationDate?: DateTime | null;
+  payrollUsername?: string | null;
+  selectedStateCarrier?: Carrier | null;
+  state?: string | null;
+  monthBusinessEstablished?: string | null;
+  address?: string | null;
+  employeeCount?: number | null;
+  legalAddress?: string | null;
+  isReal?: boolean | null;
+  syncedPayrollProvider?: string | null;
+  groupId?: string | null;
+  isActive?: boolean | null;
+  payrollSyncType?: string | null;
+  legalZip?: string | null;
+  name?: string | null;
+  phone?: string | null;
+  legalState?: string | null;
+  logoKey?: string | null;
+  syncErrorMessage?: string | null;
+  lastSyncRun?: DateTime | null;
+  browserQueue?: string | null;
+  payrollClientId?: string | null;
+  payrollLoginIsOurs?: boolean | null;
+  isLargeGroup?: boolean | null;
+  sicCode?: string | null;
+  overrideAnchorPayDate?: DateTime | null;
+  yearBusinessEstablished?: string | null;
+  payrollCookies?: string | null;
+  ein?: string | null;
+  hrProxy?: CompanyHrProxy | null;
+  healthProxy?: CompanyHealthProxy | null;
+  employees?:
+    | (AllEmployee | null)[]
+    | null /** auxProxy: CompanyAuxProxyinternationalProxy: CompanyInternationalProxypayrollProxy: CompanyPayrollProxyptoProxy: CompanyPtoProxytaProxy: CompanyTaProxystockoptionProxy: CompanyStockoptionProxy */;
+  currentHealthEnrollments?: (CompanyHealthEnrollment | null)[] | null;
+  upcomingHealthEnrollments?: (CompanyHealthEnrollment | null)[] | null;
 }
-export interface AllSpeciesRootArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
-}
-export interface SpeciesRootArgs {
+
+export interface Carrier {
+  liveQuoteMedical?: boolean | null;
+  agentName?: string | null;
+  liveQuoteVision?: boolean | null;
+  businessInsuranceAgentIdOverride?: string | null;
+  liveQuoteEmbargoDays?: number | null;
+  isMedicalCarrier?: boolean | null;
+  agentId?: string | null;
   id?: string | null;
-  speciesID?: string | null;
+  agencyId?: string | null;
+  appointmentNotes?: string | null;
+  isDentalCarrier?: boolean | null;
+  businessInsuranceAgentId?: number | null;
+  onlineEoiUrl?: string | null;
+  isTrust?: boolean | null;
+  state?: string | null;
+  rxGroup?: string | null;
+  isEDISupported?: boolean | null;
+  businessInsuranceAgencyId?: string | null;
+  supportsAutopay?: boolean | null;
+  logoUrl?: string | null;
+  isDisabilityCarrier?: boolean | null;
+  employerAccessMode?: string | null;
+  liveQuoteDental?: boolean | null;
+  newHireApprovalProcessingDays?: number | null;
+  isVisionCarrier?: boolean | null;
+  isLifeCarrier?: boolean | null;
+  displayName?: string | null;
+  name?: string | null;
+  crawlDriver?: string | null;
+  appointmentStatus?: string | null;
+  rxPCN?: string | null;
+  logoKey?: string | null;
+  agentModelId?: number | null;
+  rxBinNumber?: string | null;
+  isBusinessInsuranceCarrier?: boolean | null;
+  ein?: string | null;
+  autopayInstruction?: string | null;
+  carrierID?: number | null;
+  copy?: CarrierCopy | null;
 }
-export interface AllStarshipsRootArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
-}
-export interface StarshipRootArgs {
+
+export interface CarrierCopy {
+  lgEmployeeDeclineWaiver?: string | null;
+  achAuthorization?: string | null;
+  hmoMedicalDisplayText?: string | null;
   id?: string | null;
-  starshipID?: string | null;
+  hmoDentalDisplayText?: string | null;
+  employeeAgreement?: string | null;
+  dentalClaimsAddress?: string | null;
+  ltdClaimsAddress?: string | null;
+  hmoMedicalUrl?: string | null;
+  hmoDentalUrl?: string | null;
+  onlyPercentPolicy?: boolean | null;
+  stdClaimsAddress?: string | null;
+  employeeDeclineWaiver?: string | null;
+  lgEmployeeAgreement?: string | null;
+  website?: string | null;
+  hmoClaimsPhone?: string | null;
+  ppoClaimsPhone?: string | null;
+  phone?: string | null;
+  visionClaimsAddress?: string | null;
+  employerLoginUrl?: string | null;
+  companyAgreement?: string | null;
+  claimsAddress?: string | null;
+  disclaimerStatement?: string | null;
+  officerStatement?: string | null;
+  medicalClaimsAddress?: string | null;
 }
-export interface AllVehiclesRootArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+
+export interface CompanyHrProxy {
+  hrContact?: EmployeeHrContact | null /** terminationSettings: TerminationSettings */;
+  id?:
+    | string
+    | null /** approverSettings: ApproverCompanySettingsonboardingSettings: OnboardingSettingseeoReport: EeoReport */;
+  departments?: (Department | null)[] | null;
+  locations?: (CompanyLocation | null)[] | null;
+  adminName?: string | null;
+  adminEmail?: string | null;
 }
-export interface VehicleRootArgs {
+
+export interface EmployeeHrContact {
+  hrContactName?: string | null;
+  hrContactPhone?: string | null;
+  company?: Company | null;
+  hrContactEmail?: string | null;
   id?: string | null;
-  vehicleID?: string | null;
+  resource_uri?: string | null;
 }
-export interface NodeRootArgs {
-  id: string /* The ID of an object */;
+
+export interface Department {
+  id?: string | null;
+  resource_uri?: string | null;
+  company?: Company | null;
+  wfCoCode?: string | null;
+  name?: string | null;
 }
-export interface SpeciesConnectionFilmArgs {
-  after?: string | null;
+
+export interface CompanyLocation {
+  wfCoCode?: string | null;
+  officialName?: string | null;
+  id?: string | null;
+  city?: string | null;
+  zip?: string | null;
+  isOfficialComplete?: boolean | null;
+  company?: Company | null;
+  intlAddress?: Address | null;
+  state?: string | null;
+  officialPhone?: string | null;
+  getTimeZone?: string | null;
+  naicsCode?: string | null;
+  isEeoReportComplete?: boolean | null;
+  deleted?: boolean | null;
+  street1?: string | null;
+  street2?: string | null;
+  phone?: string | null;
+  officialEmail?: string | null;
+  officialTitle?: string | null;
+  payrollLocationId?: string | null;
+  intlCompanyTax?: string | null;
+  name?: string | null;
+  country?: string | null;
+  countryHumanReadable?: string | null;
+  eeoId?: string | null;
+  isHeadquarters?: boolean | null;
+  eeoFiledLastYear?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface Address {
+  city?: string | null;
+  fax?: string | null;
+  street1?: string | null;
+  street2?: string | null;
+  phone?: string | null;
+  state?: string | null;
+  country?: string | null;
+  postalCode?: string | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface CompanyHealthProxy {
+  companyInfo?: CompanyInfo | null /** deductionHeuristics: CompanyDeductionHeuristics */;
+  companyCobra?: CompanyCobra | null;
+  id?: string | null /** settings: CompanySettingsbenefitsPreview: BenefitsPreview */;
+}
+
+export interface CompanyInfo {
+  entityTypeForTaxPurposes?: string | null;
+  billingAddressState?: string | null;
+  bankName?: string | null;
+  entityType?: string | null;
+  establishedYear?: number | null;
+  physicalAddressZip?: string | null;
+  entityChangedRecently?: boolean | null;
+  dbaName?: string | null;
+  bankRoutingNumber?: string | null;
+  id?: string | null;
+  industryType?: string | null;
+  numberOfLocations?: number | null;
+  fifteenAllowed?: boolean | null;
+  fullTimeEmployeeCount?: number | null;
+  company?: Company | null;
+  isQuarterlyWageTaxAvailable?: boolean | null;
+  outOfStateEmployeeCount?: number | null;
+  physicalAddressCity?: string | null;
+  entityChangedOnPayrollQWTR?: boolean | null;
+  website?: string | null;
+  checkUrl?: string | null;
+  bankAccountNumber?: string | null;
+  establishedMonth?: number | null;
+  businessDescription?: string | null;
+  medicareEmployeeCount?: number | null;
+  billingAddressStreet2?: string | null;
+  billingAddressStreet1?: string | null;
+  billingAddressCity?: string | null;
+  numUnionMember?: number | null;
+  physicalAddressState?: string | null;
+  partTimeEmployeeCount?: number | null;
+  physicalAddressStreet2?: string | null;
+  numPreviousAverageEmployees?: number | null;
+  physicalAddressStreet1?: string | null;
+  name?: string | null;
+  physicalAddressCounty?: string | null;
+  billingAddressZip?: string | null;
+  isBillingSame?: boolean | null;
+  resource_uri?: string | null;
+  ein?: string | null;
+}
+
+export interface CompanyCobra {
+  cobraBankAccountNumber?: string | null;
+  previousAdminEmail?: string | null;
+  cobraBankAuthDate?: string | null;
+  id?: string | null;
+  cobraPartTimeCountRawData?: string | null;
+  takeoverAdminSignature?: string | null;
+  cobraBankRoutingNumber?: string | null;
+  company?: Company | null;
+  takeoverAdminName?: string | null;
+  cobraBankAccountType?: string | null;
+  status?: string | null;
+  countEmployees?: string | null;
+  previousAdminName?: string | null;
+  previousHaveParticipants?: boolean | null;
+  cobraBankAuthSignature?: string | null;
+  cobraFullTimeCount?: number | null;
+  cobraClassification?: (CompanyCobra | null)[] | null;
+  isBankInfoComplete?: boolean | null;
+  cobraBankName?: string | null;
+  takeoverDate?: string | null;
+  offboardingDate?: string | null;
+  coolingOffDays?: number | null;
+  cobraPartTimeCount?: number | null;
+  cobraBankAuthName?: string | null;
+  takeoverAdminTitle?: string | null;
+  previousAdministratorType?: string | null;
+  takeoverSignDate?: string | null;
+  hasActiveCobraEmployees?: boolean | null;
+  resource_uri?: string | null /** previousAdministrator: CobraThirdPartyAdministrator */;
+}
+
+export interface AllEmployee {
+  status?: EmployeeStatus | null;
+  allStatus?: EmployeeStatus | null /** status value when you don't have access to the employee as admin/manager etc */;
+  preferredName?: string | null;
+  preferredOrFirstName?: string | null;
+  last_name?: string | null;
+  photoUrl?: string | null;
+  creationMethod?: string | null;
+  overridePayStartWeekDay?: number | null;
+  reportToEmployee?: AllEmployee | null;
+  tShirtSize?: string | null;
+  sex?: string | null;
+  obfuscatedId?: string | null;
+  workPhoneExtension?: string | null;
+  deductionsEffectiveStartDate?: DateTime | null /** paySchedule: CompanyPaySchedule */;
+  isHighlyCompensated?: boolean | null;
+  isSFBayArea?: boolean | null;
+  isFicaExempt?: boolean | null;
+  location?: CompanyLocation | null;
+  id?: string | null;
+  city?: string | null;
+  first_name?: string | null;
+  middle_name?: string | null;
+  underMedicare?: boolean | null;
+  zip?: string | null;
+  title?: string | null;
+  isDisabled?: boolean | null;
+  personalPronounsId?: number | null;
+  company?: Company | null;
+  socialSecurityCardUrl?: string | null;
+  isKeyEmployee?: boolean | null;
+  overridePayFirstCheckDay?: number | null;
+  overrideAnchorPayCheckDate?: DateTime | null;
+  socialSecurityProofUrl?: string | null;
+  qeCreated?: boolean | null;
+  type?: EmployeeType | null;
+  address2?: string | null;
+  selectedPlan?: number | null;
+  department?: Department | null;
+  selectedDentalPlan?: number | null;
+  state?: string | null;
+  overridePayArrears?: number | null;
+  visionApprovalStatus?: string | null;
+  version_id?: number | null;
+  genderIdentity?: string | null;
+  phone?: string | null;
+  payrollId?: string | null;
+  address?: string | null;
+  selectedVisionPlan?: number | null;
+  dietaryRestrictions?: string | null;
+  socialSecurityExpectedDate?: DateTime | null;
+  overrideAnchorPayDate?: DateTime | null;
+  medicalApprovalStatus?: string | null;
+  taReportingMethod?: string | null;
+  overridePayFrequency?: string | null;
+  paymentDistributionMethod?: string | null;
+  dentalApprovalStatus?: string | null;
+  dob?: string | null;
+  paymentMethod?: string | null;
+  photoThumbnailUrl?: string | null;
+  marital_status?: string | null;
+  email?: string | null;
+  overridePaySecondCheckDay?: number | null;
+  isWaitingForSSNInfo?: boolean | null;
+  socialSecurity?: string | null;
+  socialSecurityDecrypted?: string | null;
+  ageRange?: string | null;
+  w4Signature?: Signature | null;
+  workPhone?: string | null;
+  homeAddress?: Address | null;
+  inDE9C?: boolean | null;
+  hasCertOfNonResidenceForTaxState?: boolean | null;
+  canAdminister?: boolean | null /** is the current user requesting the API an administrator of this employee */;
+  canManage?: boolean | null /** is the current user requesting the API a manager of this employee */;
+  isManager?: boolean | null;
+  hireDate?: string | null /** hire date as a string in the from MM/DD/YYYY */;
+  isTeamMember?: boolean | null /** Are they your manager, subordinates or siblings */;
+  isRequester?: boolean | null /** the employee object for the user that made this API request */;
+  employmentType?: EmploymentType | null;
+  terminationType?: TerminationType | null;
+  terminationCategory?: string | null;
+  terminationDate?: string | null /** termination date as a string in the from MM/DD/YYYY */;
+  currency?: string | null /** for international employees their pay currency */;
+  compType?: CompType | null /** compensation type */;
+  payRate?: number | null;
+  salaryAnnual?: number | null;
+  benefitsPlanOptions?: (CompanyHealthPlan | null)[] | null /** list of available plans for this employee */;
+  benefitsEnrollments?: (BenefitsEnrollment | null)[] | null;
+  benefitsTransactions?: (BenefitsTransaction | null)[] | null;
+  effectiveBenefitsTransactions?: (BenefitsTransaction | null)[] | null;
+  nextEffectiveBenefitsTransactions?: (BenefitsTransaction | null)[] | null;
+  dependents?: (Dependent | null)[] | null;
+  productEligibilityTag?: EmployeeProductEligibilityTag | null;
+}
+
+export interface Signature {
+  employee?: AllEmployee | null;
+  signatureName?: string | null;
+  signatureBlob_id?: number | null;
+  signatureDataUrl?: string | null;
+  signatureTitle?: string | null;
+  id?: string | null;
+}
+
+export interface CompanyHealthPlan {
+  carrierSpecificData?: string | null;
+  invoiceName?: string | null;
+  companyHealthCarrier?: CompanyHealthCarrier | null;
+  isHraEnabled?: boolean | null;
+  id?: string | null;
+  companySpecificHMOPPO?: string | null;
+  planId?: number | null;
+  dentalPediatricProductCode?: string | null;
+  companySpecificProductCode?: string | null;
+  lineOfCoverage?: string | null;
+  plan?: string | null;
+  isAvailableForNewHires?: boolean | null;
+  summaryPlanDescriptionDocument?: Document | null;
+  visionPediatricProductCode?: string | null;
+  planNumber?: string | null;
+  certificateOfCoverageDocument?: Document | null;
+  isDefault?: boolean | null;
+  resource_uri?: string | null;
+  benefitsPlan?: BenefitsPlan | null;
+}
+
+export interface CompanyHealthCarrier {
+  raf?: string | null;
+  openEnrollmentMonth?: string | null;
+  isPrimaryCarrier?: boolean | null;
+  ptWaitingPeriodChangeEffectiveDate?: string | null;
+  skipPackageSizeValidation?: boolean | null;
+  dependentMaxAge?: number | null;
+  isOpenEnrollmentInProgress?: boolean | null;
+  dentalBasePlan?: DentalPlan | null;
+  carrier?: Carrier | null;
+  openEnrollmentStart?: string | null;
+  isOpenEnrollment?: boolean | null;
+  onlineAccessUsername?: string | null;
+  depCountFixedDeductions?: string | null;
+  waitingPeriod?: string | null;
+  depFixedContributions?: string | null;
+  basePlan?: Plan | null;
+  id?: string | null;
+  basePlanName?: string | null;
+  hasEmployerAccess?: boolean | null;
+  waitingPeriodDisplayText?: string | null;
+  renewalPacketUrl?: string | null;
+  ptWaitingPeriodDisplayText?: string | null;
+  employeeContributionSchemes?: string | null;
+  ediStatus?: string | null;
+  company?: Company | null;
+  openEnrollmentEndDate?: string | null;
+  shortCircuitOEManualOverrideOn?: boolean | null;
+  fixedContributionOverallMax?: string | null;
+  isSelfAdministered?: boolean | null;
+  borStatus?: string | null;
+  companyHealthEnrollment?: CompanyHealthEnrollment | null;
+  rxGroup?: string | null;
+  renewalDate?: string | null;
+  status?: string | null;
+  planContributionSchemes?: string | null;
+  oktaNotes?: string | null;
+  planDepTypeContributionSchemes?: string | null;
+  ptWaitingPeriod?: string | null;
+  onlineAccessPassword?: string | null;
+  terminationPolicy?: string | null;
+  terminationPolicyDisplayText?: string | null;
+  terminationPolicyChangeReason?: string | null;
+  contractLength?: number | null;
+  autoPayAckSignature?: string | null;
+  contributionEmployee?: string | null;
+  waitingPeriodChangeEffectiveDate?: string | null;
+  employeeFixedDeductions?: string | null;
+  waitingPeriodChangeReason?: string | null;
+  ptWaitingPeriodChangeReason?: string | null;
+  contributionType?: string | null;
+  isUnderImplementation?: boolean | null;
+  autoPayAckName?: string | null;
+  contributionTypeChangeReason?: string | null;
+  approvedDate?: string | null;
+  commissionID?: string | null;
+  approvalLetterUrl?: string | null;
+  submittedTimestamp?: DateTime | null;
+  contributionDependents?: string | null;
+  _openEnrollmentStart?: string | null;
+  invoiceUrl?: string | null;
+  oktaLink?: string | null;
+  rxBinNumber?: string | null;
+  rxPCN?: string | null;
+  fixedContributionEmployeeMax?: string | null;
+  disableDependentCoverageChanges?: boolean | null;
+  lineOfCoverage?: string | null;
+  doWeAutoPay?: boolean | null;
+  hasCustomContributions?: boolean | null;
+  eligibleForShortCircuitOpenEnrollment?: string | null;
+  openEnrollmentPeriod?: number | null;
+  depTypeContributionSchemes?: string | null;
+  contributionTypeChangeEffectiveDate?: string | null;
+  switchCancellationPolicy?: string | null;
+  fixedContributionDependentMax?: string | null;
+  groupID?: string | null;
+  planFixedDeductions?: string | null;
+  resource_uri?: string | null;
+  companyHealthPlans?: (CompanyHealthPlan | null)[] | null;
+  effectiveDate?: string | null;
+  effectiveEndDate?: string | null;
+}
+
+export interface DentalPlan {
+  planUrl?: string | null;
+  availableOOS?: boolean | null;
+  coInsuranceOrthoOutOfNetwork?: string | null;
+  deductibleIndividual?: number | null;
+  useSicRaf?: boolean | null;
+  group?: string | null;
+  scalingRootPlaningOutOfNetwork?: string | null;
+  singleTierRate?: boolean | null;
+  lastCommentDate?: string | null;
+  planOrder?: number | null;
+  freePlan?: boolean | null;
+  coInsuranceOrtho?: string | null;
+  liveQuoteForRenewal?: boolean | null;
+  rateStyle?: string | null;
+  needsPCP?: boolean | null;
+  orthoCoverage?: boolean | null;
+  orthoMaxBenefits?: number | null;
+  name?: string | null;
+  coInsuranceEndoOutOfNetwork?: string | null;
+  coInsuranceOrthoOutOfNetworkChild?: string | null;
+  network?: Network | null;
+  filling?: string | null;
+  sourcePlanId?: number | null;
+  genderBandedStyle?: number | null;
+  crown?: string | null;
+  customPlanCompanyId?: number | null;
+  coInsuranceEndo?: string | null;
+  hasWaitingPeriods?: boolean | null;
+  scalingRootPlaning?: string | null;
+  shortCircuitPlanType?: string | null;
+  fillingOutOfNetwork?: string | null;
+  fundingType?: string | null;
+  coInsuranceMajor?: string | null;
+  oralExamOutOfNetwork?: string | null;
+  stateCarrier?: Carrier | null;
+  state?: string | null;
+  isNewStyle?: string | null;
+  isShortCircuitPlan?: boolean | null;
+  orthoMaxAge?: number | null;
+  benefitFeeStructure?: string | null;
+  coInsuranceBasicOutOfNetwork?: string | null;
+  customPlan?: boolean | null;
+  rootCanalOutOfNetwork?: string | null;
+  displayNote?: string | null;
+  deductibleFamily?: number | null;
+  carrier?: string | null;
+  consoleUrl?: string | null;
+  adjustableRates?: boolean | null;
+  overrideCarrierDefaultRegion?: boolean | null;
+  availableOOSStates?: string | null;
+  isVisionBundled?: boolean | null;
+  hasNetworkProviders?: boolean | null;
+  recommendedRenewalPlan?: DentalPlan | null;
+  expiryDate?: string | null;
+  oralExam?: string | null;
+  deductibleFamilyOutOfNetwork?: number | null;
+  coInsurancePerio?: string | null;
+  rootCanal?: string | null;
+  maxBenefits?: number | null;
+  coInsuranceMajorOutOfNetwork?: string | null;
+  largeGroup?: boolean | null;
+  newGroupExpiryDate?: string | null;
+  postACA?: boolean | null;
+  coInsuranceBasic?: string | null;
+  showName?: string | null;
+  coInsurancePeriodOutOfNetwork?: string | null;
+  customPlanReason?: string | null;
+  maxLives?: number | null;
+  isVoluntary?: boolean | null;
+  coInsuranceOrthoChild?: string | null;
+  id?: string | null;
+  productCode?: string | null;
+  planRequestLink?: string | null;
+  minLives?: number | null;
+  liveQuote?: boolean | null;
+  coInsurancePreventativeOutOfNetwork?: string | null;
+  compositeRuleSet?: CompositeRuleSet | null;
+  progressiveBenefitLevels?: boolean | null;
+  benefitPeriod?: string | null;
+  compositeFactorSet?: CompositeFactorSet | null;
+  deductibleIndividualOutOfNetwork?: number | null;
+  displayName?: string | null;
+  orthoDeductible?: number | null;
+  useGenderBandedPrefixForRegionMapping?: boolean | null;
+  crownOutOfNetwork?: string | null;
+  useDependentAge?: boolean | null;
+  HMOPPO?: string | null;
+  inProgress?: boolean | null;
+  coInsurancePreventative?: string | null;
+  resource_uri?: string | null;
+  lineOfCoverage?: string | null;
+}
+
+export interface Network {
+  isNationwide?: boolean | null;
+  lineOfCoverage?: string | null;
+  isNarrowOverride?: boolean | null;
+  name?: string | null;
+  id?: string | null;
+}
+
+export interface CompositeRuleSet {
+  compositeRules?: (CompositeRule | null)[] | null;
+  resource_uri?: string | null;
+  id?: string | null;
+  carrier?: Carrier | null;
+  name?: string | null;
+}
+
+export interface CompositeRule {
+  lowerBound?: number | null;
+  effectiveDate?: string | null;
+  compositeRuleSet?: CompositeRuleSet | null;
+  ratingStyle?: string | null;
+  upperBound?: number | null;
+  censusStyle?: string | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface CompositeFactorSet {
+  name?: string | null;
+  carrier?: Carrier | null;
+  id?: string | null;
+  youAndSpouseFactor?: string | null;
+  youFactor?: string | null;
+  compositeFactors?: (CompositeFactor | null)[] | null;
+  familyFactor?: string | null;
+  youAndChildFactor?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface CompositeFactor {
+  effectiveDate?: string | null;
+  youAndSpouseFactor?: string | null;
+  familyFactor?: string | null;
+  youFactor?: string | null;
+  compositeFactorSet?: CompositeFactorSet | null;
+  id?: string | null;
+  youAndChildFactor?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface Plan {
+  hasNetworkProviders?: boolean | null;
+  rxCoPayBrandRetailCondition?: number | null;
+  availableOOS?: boolean | null;
+  deductibleIndividual?: number | null;
+  urgentCarePreferredNetwork?: string | null;
+  oopMaxFamilyOutOfNetwork?: number | null;
+  rxCoPayBrandRetailSecondary?: string | null;
+  HSA?: boolean | null;
+  group?: string | null;
+  hospitalInpatientSecondaryPreferredNetwork?: string | null;
+  lastCommentDate?: string | null;
+  planOrder?: number | null;
+  hospitalOutpatientSecondaryPreferredNetwork?: string | null;
+  oopMaxIndividualOutOfNetwork?: number | null;
+  carrierRxCode?: string | null;
+  coPayPreferredNetwork?: string | null;
+  dailyLimits?: string | null;
+  coInsurance?: string | null;
+  emergencyServiceCondition?: number | null;
+  specialistCoPay?: string | null;
+  liveQuoteForRenewal?: boolean | null;
+  minHRAContribution?: number | null;
+  rateStyle?: string | null;
+  preventativeCareOutOfNetwork?: string | null;
+  HRA?: boolean | null;
+  estimatedSevereOOPCost?: number | null;
+  urgentCareSecondary?: string | null;
+  name?: string | null;
+  network?: Network | null;
+  notes?: string | null;
+  urgentCareSecondaryPreferredNetwork?: string | null;
+  hospitalInpatient?: string | null;
+  urgentCareCondition?: number | null;
+  emergencyService?: string | null;
+  carrierCode?: string | null;
+  sourcePlanId?: number | null;
+  emergencyServicePrimaryPreferredNetwork?: string | null;
+  genderBandedStyle?: number | null;
+  specialtyPharmacySecondary?: string | null;
+  customPlanCompanyId?: number | null;
+  shortCircuitPlanType?: string | null;
+  minLives?: number | null;
+  isMinimumEffectiveCoverage?: boolean | null;
+  fundingType?: string | null;
+  hospitalOutpatient?: string | null;
+  useGenderBandedPrefixForRegionMapping?: boolean | null;
+  emergencyServiceConditionPreferredNetwork?: number | null;
+  urgentCare?: string | null;
+  state?: string | null;
+  hospitalOutpatientSecondary?: string | null;
+  useEEZipAvailability?: boolean | null;
+  outOfNetworkCoInsurance?: string | null;
+  rxCoPayNonFormularyRetailSecondary?: string | null;
+  rxCoPayGenericRetail?: string | null;
+  isShortCircuitPlan?: boolean | null;
+  oopMaxIndividualPreferredNetwork?: number | null;
+  specialtyPharmacyCondition?: number | null;
+  rxCoPayNonFormularyRetailCondition?: number | null;
+  preventativeCare?: string | null;
+  emergencyServiceSecondaryPreferredNetwork?: string | null;
+  emergencyCoPay?: number | null;
+  displayNote?: string | null;
+  networkSize?: string | null;
+  maxDays?: number | null;
+  dailyLimitsPreferredNetwork?: string | null;
+  deductibleFamily?: number | null;
+  carrier?: string | null;
+  consoleUrl?: string | null;
+  pharmacyCoverage?: boolean | null;
+  hospitalInpatientPreferredNetwork?: string | null;
+  overrideCarrierDefaultRegion?: boolean | null;
+  emergencyServiceSecondary?: string | null;
+  customPlan?: boolean | null;
+  hospitalOutpatientPreferredNetwork?: string | null;
+  availableOOSStates?: string | null;
+  isVisionBundled?: boolean | null;
+  pharmacyDeductibleOutOfNetwork?: number | null;
+  specialistCoPayOutOfNetwork?: string | null;
+  rxCoPayBrandRetail?: string | null;
+  recommendedRenewalPlan?: Plan | null;
+  expiryDate?: string | null;
+  deductibleFamilyOutOfNetwork?: number | null;
+  pharmacyDeductiblePreferredNetwork?: number | null;
+  rxCoPayNonFormularyRetail?: string | null;
+  oopMaxIncludeDeductible?: boolean | null;
+  rxCoPayGenericRetailCondition?: number | null;
+  isMinimumValueCoverage?: boolean | null;
+  isDentalBundled?: boolean | null;
+  deductibleIndividualPreferredNetwork?: number | null;
+  minHSAContribution?: number | null;
+  oopMaxFamilyPreferredNetwork?: number | null;
+  largeGroup?: boolean | null;
+  isVoluntary?: boolean | null;
+  newGroupExpiryDate?: string | null;
+  coPayOutOfNetwork?: string | null;
+  postACA?: boolean | null;
+  preventativeCarePreferredNetwork?: string | null;
+  emergencyCoInsurance?: string | null;
+  showName?: string | null;
+  hospitalInpatientConditionPreferredNetwork?: number | null;
+  customPlanReason?: string | null;
+  hospitalInpatientCondition?: number | null;
+  pharmacyDeductible?: number | null;
+  maxLives?: number | null;
+  hospitalOutpatientConditionPreferredNetwork?: number | null;
+  deductibleFamilyPreferredNetwork?: number | null;
+  id?: string | null;
+  metalTier?: string | null;
+  productCode?: string | null;
+  planUrl?: string | null;
+  bundledOldStyleDentalPlan?: DentalPlan | null;
+  specialtyPharmacy?: string | null;
+  liveQuote?: boolean | null;
+  hospitalInpatientSecondary?: string | null;
+  maxHRAContribution?: number | null;
+  maxDaysPreferredNetwork?: number | null;
+  rxCoPayGenericRetailSecondary?: string | null;
+  isOldStyle?: string | null;
+  preferredNetworkCoInsurance?: string | null;
+  oopMaxIndividual?: number | null;
+  afterDeductibles?: string | null;
+  compositeRuleSet?: CompositeRuleSet | null;
+  coPay?: string | null;
+  applyRaf?: boolean | null;
+  needsPCP?: boolean | null;
+  rxSupplyDaysRetail?: number | null;
+  compositeFactorSet?: CompositeFactorSet | null;
+  deductibleIndividualOutOfNetwork?: number | null;
+  planRequestLink?: string | null;
+  carrierInternalCode?: string | null;
+  maxHSAContribution?: number | null;
+  urgentCareConditionPreferredNetwork?: number | null;
+  displayName?: string | null;
+  hospitalOutpatientCondition?: number | null;
+  oopMaxFamily?: number | null;
+  emergencyServicePrimary?: string | null;
+  stateCarrier?: Carrier | null;
+  useDependentAge?: boolean | null;
+  HMOPPO?: string | null;
+  inProgress?: boolean | null;
+  specialistCoPayPreferredNetwork?: string | null;
+  resource_uri?: string | null;
+  lineOfCoverage?: string | null;
+}
+
+export interface CompanyHealthEnrollment {
+  startDate?: string | null;
+  endDate?: string | null;
+  authDate?: string | null;
+  desiredEffectiveDate?: string | null;
+  confirmedGuardianContract?: boolean | null;
+  escalationTimestamp?: DateTime | null;
+  inStateState?: InStateState | null;
+  authWebsite?: string | null;
+  renewalPackages?: string | null;
+  confirmedPayrollHistory?: boolean | null;
+  enrollmentCompleteEmailTimestamp?: DateTime | null;
+  isCompositeRated?: boolean | null;
+  cobraType?: string | null;
+  company?: Company | null;
+  id?: string | null;
+  authTitle?: string | null;
+  lineOfCoverage?: string | null;
+  enrollmentType?: string | null;
+  progress?: string | null;
+  employeeLifeDisabilityEnrollments?: (EmployeeLifeDisabilityEnrollment | null)[] | null;
+  participationState?: ParticipationState | null;
+  companySicCode?: string | null;
+  authSignature?: string | null;
+  disableEmployeeWQItems?: boolean | null;
+  implementationCompleteDate?: string | null;
+  isEnrollmentComplete?: boolean | null;
+  authPhone?: string | null;
+  enrollmentStatus?: string | null;
+  employeeCount?: number | null;
+  planMapping?: string | null;
+  isActive?: boolean | null;
+  companyZip?: string | null;
+  enrollmentBegunTimestamp?: DateTime | null;
+  confirmedWorkersComp?: boolean | null;
+  confirmedVspContract?: boolean | null;
+  isDocumentRequirementGenerated?: boolean | null;
+  documentsReminderTimestamp?: DateTime | null;
+  confirmedPreviousCoverage?: boolean | null;
+  previousEnrollment?: CompanyHealthEnrollment | null;
+  numOfOpenDocuments?: number | null;
+  enrollmentDocumentsTimestamp?: DateTime | null;
+  isReviewing?: boolean | null;
+  censusUrl?: string | null;
+  addExistingTimestamp?: DateTime | null;
+  authName?: string | null;
+  overrideRateEffectiveDate?: string | null;
+  enrollmentCompleteTimestamp?: DateTime | null;
+  resource_uri?: string | null;
+  companyHealthCarrier?: CompanyHealthCarrier | null;
+}
+
+export interface InStateState {
+  status?: string | null;
+  inStateRuleName?: string | null;
+  percentInState?: string | null;
+  inStateRule?: InStateRule | null;
+  qualifiedInState?: number | null;
+  decliningInState?: number | null;
+  inStateStates?: string | null;
+  enrollingInState?: number | null;
+  enrolling?: number | null;
+  decliningOutOfState?: number | null;
+  isFailing?: boolean | null;
+  qualified?: number | null;
+  enrollingOutOfState?: number | null;
+  resource_uri?: string | null;
+  companyHealthEnrollment?: CompanyHealthEnrollment | null;
+  isByEnrolling?: boolean | null;
+  qualifiedOutOfState?: number | null;
+  id?: string | null;
+  declining?: number | null;
+  inStateRuleV2?: string | null;
+}
+
+export interface InStateRule {
+  softDeleted?: boolean | null;
+  maxGroupSize?: number | null;
+  minStyle?: string | null;
+  lineOfCoverage?: string | null;
+  minEmployees?: number | null;
+  additionalNotes?: string | null;
+  id?: string | null;
+  minGroupSize?: number | null;
+  resource_uri?: string | null;
+}
+
+export interface EmployeeLifeDisabilityEnrollment {
+  startDate?: Date | null;
+  endDate?: Date | null;
+  authDate?: string | null;
+  id?: string | null;
+  authSignature?: string | null;
+  employee?: AllEmployee | null;
+  employeeStdPlans?: (EmployeeStdPlanNew | null)[] | null;
+  effectiveDate?: Date | null;
+  dependentLifeDisabilityEnrollments?: (DependentLifeDisabilityEnrollment | null)[] | null;
+  authTitle?: string | null;
+  enrollmentType?: string | null;
+  companyHealthEnrollment?: CompanyHealthEnrollment | null;
+  progress?: string | null;
+  prevEnrollment?: EmployeeLifeDisabilityEnrollment | null;
+  status?: string | null;
+  isEnrollmentPendingEOI?: boolean | null;
+  employeeLifePlans?: (EmployeeLifePlanNew | null)[] | null;
+  isEnrollmentComplete?: boolean | null;
+  isActive?: boolean | null;
+  employeeAddPlans?: (EmployeeAddPlan | null)[] | null;
+  enrollmentBegunTimestamp?: DateTime | null;
+  employeeLtdPlans?: (EmployeeLtdPlanNew | null)[] | null;
+  lineOfCoverage?: string | null;
+  authName?: string | null;
+  enrollmentCompleteTimestamp?: DateTime | null;
+  resource_uri?: string | null;
+}
+
+export interface EmployeeStdPlanNew {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: EmployeeLifeDisabilityEnrollment | null;
+  selection?: EmployeeLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: StdPlanNew | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface Document {
+  mimetype?: string | null;
+  uploadTime?: DateTime | null;
+  employee?: AllEmployee | null;
+  reviewState?: string | null;
+  embeddableDocId?: string | null;
+  reviewComment?: string | null;
+  resource_uri?: string | null;
+  url?: string | null;
+  description?: string | null;
+  company?: Company | null;
+  reviewTime?: DateTime | null;
+  reviewedBy?: User | null;
+  isAgreement?: boolean | null;
+  date?: string | null;
+  documentStatusNotificationTimestamp?: DateTime | null;
+  uploadedBy?: User | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  name?: string | null;
+}
+
+export interface EmployeeLifeDisabilitySelection {
+  employee?: AllEmployee | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface StdPlanNew {
+  planAuditStage?: string | null;
+  flatPremium?: boolean | null;
+  guaranteeIssueIncrements?: boolean | null;
+  eliminationPeriodAccident?: number | null;
+  parentPlan?: StdPlanNew | null;
+  dependentOnlyPlan?: boolean | null;
+  customPlanCompanyId?: number | null;
+  migrationStatus?: string | null;
+  basicPlanIncrements?: boolean | null;
+  stateDisabilityInsurance?: boolean | null;
+  shortCircuitPlanType?: string | null;
+  id?: string | null;
+  productCode?: string | null;
+  totalCompensationBasedEarnings?: boolean | null;
+  benefitsDuration?: string | null;
+  stateCarrier?: Carrier | null;
+  ageRedetermination?: string | null;
+  ownOccPeriod?: string | null;
+  planUrl?: string | null;
+  eliminationPeriodIllness?: number | null;
+  comments?: string | null;
+  zipCodeBasedRates?: boolean | null;
+  benefitsAugmentation?: boolean | null;
+  preExistingCondition?: string | null;
+  isShortCircuitPlan?: boolean | null;
+  eliminationPeriod?: string | null;
+  rateUrl?: string | null;
+  applicableEnrollees?: string | null;
+  secondaryGuaranteeIssue?: boolean | null;
+  salaryRedetermination?: string | null;
+  customPlan?: boolean | null;
+  benefitsDurationStructured?: number | null;
+  familyTieredRates?: boolean | null;
+  newGroupExpiryDate?: string | null;
+  salaryBasedIncrements?: boolean | null;
+  name?: string | null;
+  planType?: string | null;
+  contributionScheme?: boolean | null;
+  dependentsOnBasicPlan?: boolean | null;
+  multipleSamePlanTypedPlans?: boolean | null;
+  renewalExpiryDate?: string | null;
+  tobaccoRates?: boolean | null;
+  previousStatusBasedMax?: boolean | null;
+  resource_uri?: string | null;
+  participationRequirement?: number | null;
+  ageBasedOnRenewalDate?: boolean | null;
+  evidenceOfInsurabilityForm?: string | null;
+  lineOfCoverage?: string | null;
+}
+
+export interface DependentLifeDisabilityEnrollment {
+  status?: string | null;
+  authSignature?: string | null;
+  type?: string | null;
+  enrollmentBegunTimestamp?: DateTime | null;
+  authDate?: string | null;
+  lineOfCoverage?: string | null;
+  dependentStdPlans?: (DependentStdPlan | null)[] | null;
+  authName?: string | null;
+  effectiveDate?: Date | null;
+  authTitle?: string | null;
+  dependentAddPlans?: (DependentAddPlan | null)[] | null;
+  isEnrollmentComplete?: boolean | null;
+  resource_uri?: string | null;
+  employeeLifeDisabilityEnrollment?: EmployeeLifeDisabilityEnrollment | null;
+  dependentLtdPlans?: (DependentLtdPlan | null)[] | null;
+  dependent?: Dependent | null;
+  enrollmentCompleteTimestamp?: DateTime | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  dependentLifePlans?: (DependentLifePlan | null)[] | null;
+}
+
+export interface DependentStdPlan {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: DependentLifeDisabilityEnrollment | null;
+  selection?: DependentLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: StdPlanNew | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface DependentLifeDisabilitySelection {
+  resource_uri?: string | null;
+  id?: string | null;
+  dependent?: Dependent | null;
+}
+
+export interface Dependent {
+  medicalCoverageEndDate?: string | null;
+  dentalCoverageStartDate?: string | null;
+  weight?: string | null;
+  dentalEnrollment?: EmployeeHealthEnrollment | null;
+  hmoDentalName?: string | null;
+  isFullTimeStudent?: boolean | null;
+  visionCoverageStartDate?: string | null;
+  height?: string | null;
+  visionCancelledDate?: string | null;
+  proofDate?: string | null;
+  dentalCoverageEndDate?: string | null;
+  courtOrder?: CourtOrder | null;
+  id?: string | null;
+  cancelledDate?: string | null;
+  city?: string | null;
+  hmoDentalProviderNumber?: string | null;
+  zip?: string | null;
+  hasMedicalCoverage?: boolean | null;
+  marriageDate?: string | null;
+  enrolledInDental?: boolean | null;
+  visionCoverageEndDate?: string | null;
+  proofUrl?: string | null;
+  dateOfBirth?: string | null;
+  state?: string | null;
+  medicalEnrollment?: EmployeeHealthEnrollment | null;
+  medicalCoverageStartDate?: string | null;
+  reason?: string | null;
+  dentalCancelledDate?: string | null;
+  type?: string | null;
+  autoSelectDentalPCP?: boolean | null;
+  enrolledInMedical?: boolean | null;
+  hasVisionCoverage?: boolean | null;
+  status?: string | null;
+  enrollInDental?: boolean | null;
+  sameEmail?: boolean | null;
+  sameAddress?: boolean | null;
+  address2?: string | null;
+  courtOrderEndDate?: string | null;
+  samePCP?: boolean | null;
+  sameDentalPCP?: boolean | null;
+  autoSelectPCP?: boolean | null;
+  hmoDentalExistingPatient?: boolean | null;
+  isCourtOrderedDependent?: boolean | null;
+  employee?: AllEmployee | null;
+  hmoPhysicianProviderPPGNumber?: string | null;
+  objId?: number | null;
+  address?: string | null;
+  enrollInMedical?: boolean | null;
+  isDependentDisabled?: boolean | null;
+  age?: number | null;
+  medicalApprovalStatus?: string | null;
+  gender?: string | null;
+  enrollInVision?: boolean | null;
+  isCourtOrderActive?: boolean | null;
+  effectiveDate?: string | null;
+  firstName?: string | null;
+  dentalApprovalStatus?: string | null;
+  dob?: string | null;
+  dentalEffectiveDate?: string | null;
+  hmoPhysicianName?: string | null;
+  hasDentalCoverage?: boolean | null;
+  isMarried?: boolean | null;
+  visionApprovalStatus?: string | null;
+  email?: string | null;
+  visionEffectiveDate?: string | null;
+  isSmoker?: boolean | null;
+  socialSecurity?: string | null;
+  socialSecurityDecrypted?: string | null;
+  hmoPhysicianProviderPAOrMGNumber?: string | null;
+  visionEnrollment?: EmployeeHealthEnrollment | null;
+  lastName?: string | null;
+  hmoPhysicianExistingPatient?: boolean | null;
+  hasStateException?: boolean | null;
+  enrolledInVision?: boolean | null;
+  hmoPhysicianProviderNumber?: string | null;
+  hasMedicalCoverage_is_set?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface EmployeeHealthEnrollment {
+  startDate?: string | null;
+  isSwitchCarrierEnrollment?: boolean | null;
+  endDate?: string | null;
+  companyVisionEnrollmentCompleteDate?: string | null;
+  isInitialEnrollment?: boolean | null;
+  medicalCarrierStatus?: string | null;
+  coverage_type?: string | null;
+  isOpenEnrollment?: boolean | null;
+  applicationStatus?: string | null;
+  companyEnrollment?: CompanyHealthEnrollment | null;
+  isSubmitted?: boolean | null;
+  medicalPlan?: Plan | null;
+  hasSignedWaiver?: boolean | null;
+  companyEffectiveDate?: string | null;
+  dentalPlan?: DentalPlan | null;
+  isApplicationSubmitted?: boolean | null;
+  id?: string | null;
+  createdAt?: DateTime | null;
+  employee?: AllEmployee | null;
+  effectiveDate?: string | null;
+  isOffCycleEnrollment?: boolean | null;
+  isPastEnrollmentDeadline?: boolean | null;
+  applicationStatusDate?: string | null;
+  addedDependents?: string | null;
+  daysUntilDeadline?: string | null;
+  companyMedicalEnrollmentCompleteDate?: string | null;
+  isCardBlocked?: boolean | null;
+  qualifyingEvent?: QualifyingEvent | null;
+  isNewHireOEOrSW?: boolean | null;
+  enrollmentCompleteDate?: string | null;
+  progress?: string | null;
+  type?: string | null;
+  status?: string | null;
+  enrollmentType?: string | null;
+  authSignatureId?: number | null;
+  version_id?: number | null;
+  dependentCoverageChanged?: boolean | null;
+  premiumsMap?: string | null;
+  submittedDate?: string | null;
+  resource_uri?: string | null;
+  date?: string | null;
+  visionCarrierStatus?: string | null;
+  dentalCarrierStatus?: string | null;
+  authSignature_id?: number | null;
+  removedDependents?: string | null;
+  isActive?: boolean | null;
+  isEnrolledPlanHraCompatible?: boolean | null;
+  oldPlan?: number | null;
+  name?: string | null;
+  visionPlan?: VisionPlan | null;
+  companyDentalEnrollmentCompleteDate?: string | null;
+  isEnrollmentOngoing?: boolean | null;
+  isRealizationSuccessful?: boolean | null;
+  employeeException?: EmployeeException | null;
+  title?: string | null;
+  previousCoverageExpirationDate?: string | null;
+  includedInGroupApp?: boolean | null;
+  oldCost?: string | null;
+  stateCarrier?: Carrier | null;
+  isEnrollmentException?: boolean | null;
+  signature?: string | null;
+  oldCompanyHealthPlan?: CompanyHealthPlan | null;
+  needDocument?: boolean | null;
+  disableDependentCoverageChanges?: string | null;
+  companyHealthPlan?: CompanyHealthPlan | null;
+  defaultPlan?: number | null;
+}
+
+export interface QualifyingEvent {
+  proofUpdateTimestamp?: DateTime | null;
+  qualifyingEventWaivers?: (QualifyingEventWaiver | null)[] | null;
+  resource_uri?: string | null;
+  proofURL?: string | null;
+  proofDocumentTypes?: JSON | null;
+  eventDate?: string | null;
+  subtype?: string | null;
+  reason?: string | null;
+  proofType?: string | null;
+  knowledgeTime?: DateTime | null;
+  employee?: AllEmployee | null;
+  type?: string | null;
+  id?: string | null;
+  dependent?: Dependent | null;
+}
+
+export interface QualifyingEventWaiver {
+  migratedFrom?: string | null;
+  otherReason?: string | null;
+  otherIDNumber?: string | null;
+  idCardUrl?: string | null;
+  datetime?: DateTime | null;
+  lineOfCoverage?: string | null;
+  reason?: string | null;
+  waiveReason?: WaiverMetadata | null;
+  signature?: string | null;
+  qualifyingEvent?: QualifyingEvent | null;
+  otherCarrier?: string | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface WaiverMetadata {
+  category?: string | null;
+  applicableDependentTypes?: string | null;
+  description?: string | null;
+  resource_uri?: string | null;
+  softDeleted?: boolean | null;
+  name?: string | null;
+  requiresCarrierInfo?: boolean | null;
+  id?: string | null;
+  isDefaultValid?: boolean | null;
+}
+
+export interface VisionPlan {
+  genderBandedStyle?: number | null;
+  hasNetworkProviders?: boolean | null;
+  frameAllowable?: string | null;
+  showName?: string | null;
+  availableOOS?: boolean | null;
+  customPlanReason?: string | null;
+  isVoluntary?: boolean | null;
+  customPlanCompanyId?: number | null;
+  availableOOSStates?: string | null;
+  lensFrequency?: number | null;
+  maxLives?: number | null;
+  id?: string | null;
+  shortCircuitPlanType?: string | null;
+  expiryDate?: string | null;
+  minLives?: number | null;
+  retailDiscountAvailable?: boolean | null;
+  fundingType?: string | null;
+  productCode?: string | null;
+  contactsFrequency?: number | null;
+  group?: string | null;
+  resource_uri?: string | null;
+  stateCarrier?: Carrier | null;
+  recommendedRenewalPlan?: VisionPlan | null;
+  planUrl?: string | null;
+  lastCommentDate?: string | null;
+  planOrder?: number | null;
+  lasikCoverage?: boolean | null;
+  state?: string | null;
+  liveQuote?: boolean | null;
+  examFrequency?: number | null;
+  frameAllowableSecondary?: string | null;
+  consoleUrl?: string | null;
+  freePlan?: boolean | null;
+  lensAllowable?: string | null;
+  isNewStyle?: string | null;
+  isShortCircuitPlan?: boolean | null;
+  planRequestLink?: string | null;
+  compositeRuleSet?: CompositeRuleSet | null;
+  coPay?: string | null;
+  singleTierRate?: boolean | null;
+  liveQuoteForRenewal?: boolean | null;
+  rateStyle?: string | null;
+  customPlan?: boolean | null;
+  HMOPPO?: string | null;
+  largeGroup?: boolean | null;
+  compositeFactorSet?: CompositeFactorSet | null;
+  contactsAllowableSecondary?: string | null;
+  frameFrequency?: number | null;
+  displayNote?: string | null;
+  newGroupExpiryDate?: string | null;
+  displayName?: string | null;
+  name?: string | null;
+  network?: Network | null;
+  useSicRaf?: boolean | null;
+  postACA?: boolean | null;
+  useGenderBandedPrefixForRegionMapping?: boolean | null;
+  contactsAllowableCondition?: number | null;
+  lensAllowableCondition?: number | null;
+  lensAllowableSecondary?: string | null;
+  carrier?: string | null;
+  useDependentAge?: boolean | null;
+  sourcePlanId?: number | null;
+  inProgress?: boolean | null;
+  contactsAllowable?: string | null;
+  adjustableRates?: boolean | null;
+  frameAllowableCondition?: number | null;
+  overrideCarrierDefaultRegion?: boolean | null;
+  lineOfCoverage?: string | null;
+}
+
+export interface EmployeeException {
+  employee?: AllEmployee | null;
+  endDate?: string | null;
+  effectiveDate?: string | null;
+  lineOfCoverage?: string | null;
+  type?: string | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface CourtOrder {
+  employee?: AllEmployee | null;
+  visionPlan?: VisionPlan | null;
+  id?: string | null;
+  proofUrl?: string | null;
+  isProcessed?: boolean | null;
+  visionEffectiveDate?: string | null;
+  noticeDate?: string | null;
+  processingDate?: string | null;
+  employeeMaxWithholdPercentage?: number | null;
+  medicalPlan?: Plan | null;
+  medicalEffectiveDate?: string | null;
+  signature?: Signature | null;
+  dentalEffectiveDate?: string | null;
+  orderDate?: string | null;
+  dentalPlan?: DentalPlan | null;
+  resource_uri?: string | null;
+}
+
+export interface DependentAddPlan {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: DependentLifeDisabilityEnrollment | null;
+  selection?: DependentLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: AddPlan | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+/** schema generated using server commit fa837e0f3fe3ed76ce5018319d249c995ecc0fd1 */
+export interface AddPlan {
+  planAuditStage?: string | null;
+  flatPremium?: boolean | null;
+  guaranteeIssueIncrements?: boolean | null;
+  parentPlan?: AddPlan | null;
+  dependentOnlyPlan?: boolean | null;
+  customPlanCompanyId?: number | null;
+  hasGuaranteeIssue?: boolean | null;
+  migrationStatus?: string | null;
+  basicPlanIncrements?: boolean | null;
+  shortCircuitPlanType?: string | null;
+  id?: string | null;
+  productCode?: string | null;
+  totalCompensationBasedEarnings?: boolean | null;
+  stateCarrier?: Carrier | null;
+  ageRedetermination?: string | null;
+  planUrl?: string | null;
+  comments?: string | null;
+  zipCodeBasedRates?: boolean | null;
+  benefitsAugmentation?: boolean | null;
+  isShortCircuitPlan?: boolean | null;
+  rateUrl?: string | null;
+  applicableEnrollees?: string | null;
+  secondaryGuaranteeIssue?: boolean | null;
+  salaryRedetermination?: string | null;
+  oldRateType?: string | null;
+  customPlan?: boolean | null;
+  familyTieredRates?: boolean | null;
+  newGroupExpiryDate?: string | null;
+  salaryBasedIncrements?: boolean | null;
+  name?: string | null;
+  planType?: string | null;
+  contributionScheme?: boolean | null;
+  dependentsOnBasicPlan?: boolean | null;
+  multipleSamePlanTypedPlans?: boolean | null;
+  renewalExpiryDate?: string | null;
+  tobaccoRates?: boolean | null;
+  previousStatusBasedMax?: boolean | null;
+  resource_uri?: string | null;
+  participationRequirement?: number | null;
+  ageBasedOnRenewalDate?: boolean | null;
+  evidenceOfInsurabilityForm?: string | null;
+  lineOfCoverage?: string | null;
+}
+
+export interface DependentLtdPlan {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: DependentLifeDisabilityEnrollment | null;
+  selection?: DependentLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: LtdPlanNew | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface LtdPlanNew {
+  planAuditStage?: string | null;
+  flatPremium?: boolean | null;
+  guaranteeIssueIncrements?: boolean | null;
+  parentPlan?: LtdPlanNew | null;
+  dependentOnlyPlan?: boolean | null;
+  customPlanCompanyId?: number | null;
+  migrationStatus?: string | null;
+  basicPlanIncrements?: boolean | null;
+  shortCircuitPlanType?: string | null;
+  id?: string | null;
+  productCode?: string | null;
+  totalCompensationBasedEarnings?: boolean | null;
+  benefitsDuration?: string | null;
+  stateCarrier?: Carrier | null;
+  ageRedetermination?: string | null;
+  ownOccPeriod?: string | null;
+  planUrl?: string | null;
+  comments?: string | null;
+  zipCodeBasedRates?: boolean | null;
+  ownOccPeriodStructured?: string | null;
+  benefitsAugmentation?: boolean | null;
+  preExistingCondition?: string | null;
+  isShortCircuitPlan?: boolean | null;
+  eliminationPeriod?: string | null;
+  rateUrl?: string | null;
+  applicableEnrollees?: string | null;
+  secondaryGuaranteeIssue?: boolean | null;
+  salaryRedetermination?: string | null;
+  customPlan?: boolean | null;
+  benefitsDurationStructured?: number | null;
+  benefitsDurationChar?: string | null;
+  familyTieredRates?: boolean | null;
+  newGroupExpiryDate?: string | null;
+  salaryBasedIncrements?: boolean | null;
+  name?: string | null;
+  planType?: string | null;
+  contributionScheme?: boolean | null;
+  dependentsOnBasicPlan?: boolean | null;
+  multipleSamePlanTypedPlans?: boolean | null;
+  renewalExpiryDate?: string | null;
+  tobaccoRates?: boolean | null;
+  eliminationPeriodAccidentIllness?: number | null;
+  previousStatusBasedMax?: boolean | null;
+  resource_uri?: string | null;
+  participationRequirement?: number | null;
+  ageBasedOnRenewalDate?: boolean | null;
+  evidenceOfInsurabilityForm?: string | null;
+  lineOfCoverage?: string | null;
+}
+
+export interface DependentLifePlan {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: DependentLifeDisabilityEnrollment | null;
+  selection?: DependentLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: LifePlanNew | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface LifePlanNew {
+  planAuditStage?: string | null;
+  flatPremium?: boolean | null;
+  guaranteeIssueIncrements?: boolean | null;
+  parentPlan?: LifePlanNew | null;
+  dependentOnlyPlan?: boolean | null;
+  customPlanCompanyId?: number | null;
+  migrationStatus?: string | null;
+  basicPlanIncrements?: boolean | null;
+  shortCircuitPlanType?: string | null;
+  id?: string | null;
+  productCode?: string | null;
+  totalCompensationBasedEarnings?: boolean | null;
+  stateCarrier?: Carrier | null;
+  ageRedetermination?: string | null;
+  planUrl?: string | null;
+  comments?: string | null;
+  zipCodeBasedRates?: boolean | null;
+  benefitsAugmentation?: boolean | null;
+  isShortCircuitPlan?: boolean | null;
+  rateUrl?: string | null;
+  applicableEnrollees?: string | null;
+  secondaryGuaranteeIssue?: boolean | null;
+  salaryRedetermination?: string | null;
+  customPlan?: boolean | null;
+  familyTieredRates?: boolean | null;
+  newGroupExpiryDate?: string | null;
+  salaryBasedIncrements?: boolean | null;
+  name?: string | null;
+  planType?: string | null;
+  contributionScheme?: boolean | null;
+  dependentsOnBasicPlan?: boolean | null;
+  multipleSamePlanTypedPlans?: boolean | null;
+  renewalExpiryDate?: string | null;
+  tobaccoRates?: boolean | null;
+  previousStatusBasedMax?: boolean | null;
+  resource_uri?: string | null;
+  participationRequirement?: number | null;
+  ageBasedOnRenewalDate?: boolean | null;
+  evidenceOfInsurabilityForm?: string | null;
+  lineOfCoverage?: string | null;
+}
+
+export interface EmployeeLifePlanNew {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: EmployeeLifeDisabilityEnrollment | null;
+  selection?: EmployeeLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: LifePlanNew | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface EmployeeAddPlan {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: EmployeeLifeDisabilityEnrollment | null;
+  selection?: EmployeeLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: AddPlan | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface EmployeeLtdPlanNew {
+  evidenceOfInsurabilityFormDocument?: Document | null;
+  premium?: string | null;
+  guaranteeIssue?: string | null;
+  amount?: string | null;
+  enrollment?: EmployeeLifeDisabilityEnrollment | null;
+  selection?: EmployeeLifeDisabilitySelection | null;
+  electedAmount?: string | null;
+  plan?: LtdPlanNew | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface ParticipationState {
+  isFailing?: boolean | null;
+  qualifiedNonNewHires?: number | null;
+  qualifiedNewHires?: number | null;
+  invalidDeclinedNonNewHires?: number | null;
+  participationRuleV2?: string | null;
+  id?: string | null;
+  invalidDeclinedNewHires?: number | null;
+  participationRule?: ParticipationRule | null;
+  invalidDeclined?: number | null;
+  participationRuleOverride?: ParticipationRuleOverride | null;
+  companyHealthEnrollment?: CompanyHealthEnrollment | null;
+  remaining?: number | null;
+  validDeclinedNonNewHires?: number | null;
+  percentEnrolled?: string | null;
+  status?: string | null;
+  participationRuleName?: string | null;
+  remainingNewHires?: number | null;
+  enrolledNonNewHires?: number | null;
+  isUnsure?: boolean | null;
+  qualified?: number | null;
+  enrolledNewHires?: number | null;
+  remainingNonNewHires?: number | null;
+  validDeclined?: number | null;
+  validDeclinedNewHires?: number | null;
+  enrolled?: number | null;
+  resource_uri?: string | null;
+}
+
+export interface ParticipationRule {
+  isStrict?: boolean | null;
+  contributoryType?: string | null;
+  softDeleted?: boolean | null;
+  lineOfCoverage?: string | null;
+  minEmployees?: number | null;
+  minEmployeesCount?: number | null;
+  planGroup?: string | null;
+  andOrOr?: string | null;
+  additionalNotes?: string | null;
+  percentage?: string | null;
+  resource_uri?: string | null;
+  id?: string | null;
+  maxEmployees?: number | null;
+}
+
+export interface ParticipationRuleOverride {
+  isStrict?: boolean | null;
+  minPercentage?: string | null;
+  softDeleted?: boolean | null;
+  reason?: string | null;
+  minEmployees?: number | null;
+  companyHealthEnrollment?: CompanyHealthEnrollment | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface BenefitsEnrollment {
+  id?: string | null;
+  employee_id?: string | null;
+  benefitsType?: string | null;
+  enrollmentType?: string | null;
+  effectiveDate?: DateTime | null;
+  status?: string | null;
+  benefitsEvent?: string | null;
+  startDate?: DateTime | null;
+  endDate?: DateTime | null;
+  validity?: string | null;
+  benefitsContext?: BenefitsContext | null;
+  companyHealthEnrollment_id?: string | null;
+  qualifyingEvent_id?: string | null;
+}
+
+export interface BenefitsContext {
+  employee?: EmployeeContext | null;
+  dependentsRenamed?: (DependentContext | null)[] | null;
+  dependents?: (dependent_context | null)[] | null;
+}
+
+export interface EmployeeContext {
+  personalInfoRenamed?: PersonalInfoContext | null;
+  personalInfo?: personal_info_context | null;
+  employmentRenamed?: EmploymentContext | null;
+  employment?: employment_context | null;
+  coverage?: CoverageContext | null;
+}
+
+export interface PersonalInfoContext {
+  id?: string | null;
+  email?: string | null;
+  type?: string | null;
+  status?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  midName?: string | null;
+  dateOfBirth?: string | null;
+  height?: string | null;
+  weight?: string | null;
+  gender?: string | null;
+  ssn?: string | null;
+  maritalStatus?: string | null;
+  phoneNumber?: string | null;
+  address1?: string | null;
+  address2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  zip?: string | null;
+  isDisabled?: boolean | null;
+  isSmoker?: boolean | null;
+}
+
+export interface personal_info_context {
+  id?: string | null;
+  email?: string | null;
+  type?: string | null;
+  status?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  midName?: string | null;
+  dateOfBirth?: string | null;
+  height?: string | null;
+  weight?: string | null;
+  gender?: string | null;
+  ssn?: string | null;
+  maritalStatus?: string | null;
+  phoneNumber?: string | null;
+  address1?: string | null;
+  address2?: string | null;
+  city?: string | null;
+  state?: string | null;
+  zip?: string | null;
+  isDisabled?: boolean | null;
+  isSmoker?: boolean | null;
+}
+
+export interface EmploymentContext {
+  employmentStatus?: string | null;
+  jobTitle?: string | null;
+  compensationType?: string | null;
+  hourlyPay?: string | null;
+  hoursWorked?: string | null;
+  annualSalary?: string | null;
+  employmentType?: string | null;
+  hireDate?: string | null;
+  fullTimeStartDate?: string | null;
+  fullTimeEndDate?: string | null;
+  terminationDate?: string | null;
+}
+
+export interface employment_context {
+  employmentStatus?: string | null;
+  jobTitle?: string | null;
+  compensationType?: string | null;
+  hourlyPay?: string | null;
+  hoursWorked?: string | null;
+  annualSalary?: string | null;
+  employmentType?: string | null;
+  hireDate?: string | null;
+  fullTimeStartDate?: string | null;
+  fullTimeEndDate?: string | null;
+  terminationDate?: string | null;
+}
+
+export interface CoverageContext {
+  lineOfCoverage?: string | null;
+  effectiveDate?: string | null;
+  enrollmentTier?: string | null;
+  contributionTier?: string | null;
+  enrollmentCompleteDate?: string | null;
+  status?: string | null;
+  rawEnrollmentStatus?: string | null;
+  enrollmentType?: string | null;
+  isInGroupApp?: boolean | null;
+  signatureId?: string | null;
+  signatureDate?: string | null;
+  carrierMemberId?: string | null;
+  applicationStatus?: string | null;
+  isNewHire?: boolean | null;
+  divisionCode?: string | null;
+  isEligibleForBenefits?: boolean | null;
+  eligibilityStartDate?: string | null;
+  isEligibleForCobra?: boolean | null;
+  isCobraEnrollee?: boolean | null;
+  isCarrierMapped?: boolean | null;
+  cobra?: EmployeeCobraContext | null;
+  carrierId?: string | null;
+  carrierName?: string | null;
+  carrier?: Carrier | null;
+  brokerSignatureId?: string | null;
+  primaryBenefitsPlan?: PrimaryBenefitsPlanContext | null;
+  lndBasicPlanRenamed?: DisabilityBenefitsPlanContext | null;
+  lndBasicPlan?: disability_benefits_plan_context | null;
+  lndVoluntaryPlanRenamed?: DisabilityBenefitsPlanContext | null;
+  lndVoluntaryPlan?: disability_benefits_plan_context | null;
+  primaryHealthCarePhysician?: HmoPhysicianContext | null;
+  oldPlans?: (PlanContext | null)[] | null;
+  defaultPlan?: PlanContext | null;
+  waiver?: WaiverContext | null;
+  riders?: (RiderContext | null)[] | null;
+  qualifyingEvent?: QualifyingEventContext | null;
+  cancellationReason?: string | null;
+}
+
+export interface EmployeeCobraContext {
+  reason?: string | null;
+  type?: string | null;
+  coverageStartDate?: string | null;
+  coverageEndDate?: string | null;
+}
+
+export interface PrimaryBenefitsPlanContext {
+  id?: string | null;
+  name?: string | null;
+  companyHealthPlanId?: string | null;
+  policyNumber?: string | null;
+  productCode?: string | null;
+  effectiveDate?: string | null;
+}
+
+export interface DisabilityBenefitsPlanContext {
+  id?: string | null;
+  planId?: string | null;
+  name?: string | null;
+  planType?: string | null;
+  companyHealthPlanId?: string | null;
+  policyNumber?: string | null;
+  productCode?: string | null;
+  effectiveDate?: string | null;
+  amount?: string | null;
+  electedAmount?: string | null;
+  evidenceOfInsurabilityForm?: string | null;
+  isOverGI?: boolean | null;
+  isSalaryBased?: boolean | null;
+  beneficiaries?: (BeneficiaryContext | null)[] | null;
+}
+
+export interface BeneficiaryContext {
+  firstName?: string | null;
+  lastName?: string | null;
+  percentage?: string | null;
+  relationship?: string | null;
+}
+
+export interface disability_benefits_plan_context {
+  id?: string | null;
+  planId?: string | null;
+  name?: string | null;
+  planType?: string | null;
+  companyHealthPlanId?: string | null;
+  policyNumber?: string | null;
+  productCode?: string | null;
+  effectiveDate?: string | null;
+  amount?: string | null;
+  electedAmount?: string | null;
+  evidenceOfInsurabilityForm?: string | null;
+  isOverGI?: boolean | null;
+  isSalaryBased?: boolean | null;
+  beneficiaries?: (BeneficiaryContext | null)[] | null;
+}
+
+export interface HmoPhysicianContext {
+  hmoPhysicianExistingPatient?: boolean | null;
+  hmoPhysicianProviderNumber?: string | null;
+  hmoPhysicianName?: string | null;
+}
+
+export interface PlanContext {
+  id?: string | null;
+  name?: string | null;
+  companyHealthPlanId?: string | null;
+}
+
+export interface WaiverContext {
+  hasSignedWaiver?: boolean | null;
+  otherCarrier?: string | null;
+  reasonForDecliningCoverage?: string | null;
+  waiveReasonName?: string | null;
+  otherIdNumber?: string | null;
+  signatureId?: string | null;
+}
+
+export interface RiderContext {
+  id?: string | null;
+  planId?: string | null;
+  riderType?: string | null;
+}
+
+export interface QualifyingEventContext {
+  type?: string | null;
+  subtype?: string | null;
+  eventDate?: DateTime | null;
+  proofURL?: string | null;
+  proofType?: string | null;
+}
+
+export interface DependentContext {
+  personalInfo?: PersonalInfoContext | null;
+  coverage?: DependentCoverageContext | null;
+}
+
+export interface DependentCoverageContext {
+  lineOfCoverage?: string | null;
+  effectiveDate?: string | null;
+  enrollmentCompleteDate?: string | null;
+  status?: string | null;
+  type?: string | null;
+  declineReason?: string | null;
+  primaryHealthCarePhysician?: HmoPhysicianContext | null;
+  isEnrolled?: boolean | null;
+  lndBasicPlanRenamed?: DisabilityBenefitsPlanContext | null;
+  lndBasicPlan?: disability_benefits_plan_context | null;
+  lndVoluntaryPlanRenamed?: DisabilityBenefitsPlanContext | null;
+  lndVoluntaryPlan?: disability_benefits_plan_context | null;
+}
+
+export interface dependent_context {
+  personalInfo?: PersonalInfoContext | null;
+  coverage?: DependentCoverageContext | null;
+}
+
+export interface BenefitsTransaction {
+  event?: string | null;
+  eventCycle?: string | null;
+  maxAnnualContribution?: string | null;
+  employeeContribution?: number | null;
+  proratingStrategy?: string | null;
+  id?: string | null;
+  employeePlanCost?: string | null;
+  employee?: AllEmployee | null;
+  effectiveDate?: string | null;
+  dependentsPlanCost?: string | null;
+  benefitsCost?: BenefitsCost | null;
+  employeeRiderCost?: string | null;
+  employeeDeduction?: number | null;
+  benefitsContext?: BenefitsContext | null;
+  payloadContext_id?: string | null;
+  deactivationDate?: DateTime | null;
+  dependentsContribution?: number | null;
+  reason?: string | null;
+  creationDate?: DateTime | null;
+  dependentsRiderCost?: string | null;
+  dependentsDeduction?: number | null;
+  benefitsType?: string | null;
+  maxAnnualDeduction?: string | null;
+  contributionBreakdown?: ContributionBreakdown | null;
+  isContributionAsPercentage?: boolean | null;
+  isDeductionAsPercentage?: boolean | null;
+  logs?: (BenefitsTransactionLog | null)[] | null;
+  initiativeRelationships?: (BenefitsTransactionRelationship | null)[] | null;
+  passiveRelationships?: (BenefitsTransactionRelationship | null)[] | null;
+  fulfillmentInfo?: BenefitsFulfillmentInfo | null;
+}
+
+export interface BenefitsCost {
+  employeePlanCost?: number | null;
+  employeeRidersCost?: number | null;
+  employeeVoluntaryPlanCost?: number | null;
+  dependentsPlanCost?: number | null;
+  dependentsRidersCost?: number | null;
+  dependentsVoluntaryPlanCost?: number | null;
+  spousePlanCost?: number | null;
+  spouseRidersCost?: number | null;
+  spouseVoluntaryPlanCost?: number | null;
+  childrenPlanCost?: number | null;
+  childrenRidersCost?: number | null;
+  childrenVoluntaryPlanCost?: number | null;
+}
+
+export interface ContributionBreakdown {
+  employeeDeduction?: number | null;
+  employeeContribution?: number | null;
+  dependentsDeduction?: number | null;
+  dependentsContribution?: number | null;
+  maxAnnualDeduction?: number | null;
+  maxAnnualContribution?: number | null;
+  isDeductionAsPercentage?: boolean | null;
+  isContributionAsPercentage?: boolean | null;
+}
+
+export interface BenefitsTransactionLog {
+  creationDate?: DateTime | null;
+  employee_id?: number | null;
+  requestEmployee?: AllEmployee | null;
+  requesterCategory?: string | null;
+  user_id?: number | null;
+  success?: boolean | null;
+  benefitsType?: string | null;
+  errorMessage?: string | null;
+  funcName?: string | null;
+  requestData?: string | null;
+  time?: DateTime | null;
+  commitHash?: string | null;
+  fileName?: string | null;
+  id?: string | null;
+}
+
+export interface BenefitsTransactionRelationship {
+  id?: string | null;
+  name?: string | null;
+  initiativeTransaction?: BenefitsTransaction | null;
+  passiveTransaction?: BenefitsTransaction | null;
+  contextChange?: string | null;
+  contextChangeError?: boolean | null;
+  costChange?: string | null;
+  costChangeError?: boolean | null;
+  contributionChange?: string | null;
+  contributionChangeError?: boolean | null;
+  effectiveDateChange?: string | null;
+}
+
+export interface BenefitsFulfillmentInfo {
+  currentStatus: BenefitsFulfillmentCurrentStatus;
+  details?: BenefitsFulfillmentInfoDetails | null;
+  benConnectInfo?: BenefitsFulfillmentInfo | null;
+  benefitsTransactionId: string;
+}
+
+export interface BenefitsFulfillmentCurrentStatus {
+  statusSummary: string;
+  settlementStatus: BenefitsSettlementStatus;
+}
+
+export interface BenefitsFulfillmentInfoDetails {
+  changeLogTransactions?: BenefitsFulfillmentChangelogTransaction[] | null;
+}
+
+export interface BenefitsFulfillmentChangelogTransaction {
+  timestamp: DateTime;
+  message: string;
+  sendChannelName?: string | null;
+  status: BenefitsSettlementStatus;
+  links?: BenefitsFulfillmentHelpLink[] | null;
+}
+
+export interface BenefitsFulfillmentHelpLink {
+  identifier: string;
+  name: string;
+  href: string;
+}
+
+export interface EmployeeProductEligibilityTag {
+  addEligibilityStartDate?: string | null;
+  isEligibleForCommuterBenefits?: boolean | null;
+  stdEligibilityStartDate?: string | null;
+  lifeEligibilityStartDateOverridden?: boolean | null;
+  isEligibleForHSA?: boolean | null;
+  isEligibleForPTO?: boolean | null;
+  isEligibleForLife?: boolean | null;
+  visionEligibilityStartDateOverridden?: boolean | null;
+  id?: string | null;
+  isEligibleForDental?: boolean | null;
+  employee?: AllEmployee | null;
+  isEligibleForLTD?: boolean | null;
+  isEligibleForVision?: boolean | null;
+  dentalEligibilityStartDateOverridden?: boolean | null;
+  isEligibleForHRA?: boolean | null;
+  isEligibleForSTD?: boolean | null;
+  medicalEligibilityStartDateOverridden?: boolean | null;
+  isEligibleForMedical?: boolean | null;
+  isACAFullTimeEligible?: boolean | null;
+  addEligibilityStartDateOverridden?: boolean | null;
+  isEligibleForHealth?: boolean | null;
+  visionEligibilityStartDate?: string | null;
+  isEligibleForTA?: boolean | null;
+  lifeEligibilityStartDate?: string | null;
+  isEligibleForAdd?: boolean | null;
+  ltdEligibilityStartDateOverridden?: boolean | null;
+  dentalEligibilityStartDate?: string | null;
+  ltdEligibilityStartDate?: string | null;
+  isEligibleForFSA?: boolean | null;
+  stdEligibilityStartDateOverridden?: boolean | null;
+  medicalEligibilityStartDate?: string | null;
+  isEligibleForLifeOrAdd?: boolean | null;
+  isEligibleForLifeOrDisability?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface Partner {
+  id: string;
+  companyId: string;
+  config: PartnerConfiguration;
+  name: string;
+  partnerUsers: PartnerUser[];
+}
+
+export interface PartnerConfiguration {
+  allowedEmailDomains: string[] /** example: ['onedigital.com', 'foo.com'] */;
+}
+
+export interface PartnerUser {
+  id: string /** Id of employee in partner's company */;
+  userId: string;
+  partnerId: string;
+  companyId: string /** partner's companyId */;
+  roles: string[] /** Permission.BENEFITS_BROKER_PARTNER_ADMINPermission.BENEFITS_FULFILLMENT_MANAGERPermission.BENEFITS_RENEWALS_MANAGERPermission.BENEFITS_ANALYST */;
+  permissions: string[] /** Permission.EDIT_EMPLOYEE_BENEFITS_DATA */;
+  status: string /** 'Act': active'Sus': suspended */;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string | null;
+  phoneExtension?: string | null;
+}
+
+export interface all_employee {
+  status?: EmployeeStatus | null;
+  allStatus?: EmployeeStatus | null /** status value when you don't have access to the employee as admin/manager etc */;
+  preferredName?: string | null;
+  preferredOrFirstName?: string | null;
+  last_name?: string | null;
+  photoUrl?: string | null;
+  creationMethod?: string | null;
+  overridePayStartWeekDay?: number | null;
+  reportToEmployee?: AllEmployee | null;
+  tShirtSize?: string | null;
+  sex?: string | null;
+  obfuscatedId?: string | null;
+  workPhoneExtension?: string | null;
+  deductionsEffectiveStartDate?: DateTime | null /** paySchedule: CompanyPaySchedule */;
+  isHighlyCompensated?: boolean | null;
+  isSFBayArea?: boolean | null;
+  isFicaExempt?: boolean | null;
+  location?: CompanyLocation | null;
+  id?: string | null;
+  city?: string | null;
+  first_name?: string | null;
+  middle_name?: string | null;
+  underMedicare?: boolean | null;
+  zip?: string | null;
+  title?: string | null;
+  isDisabled?: boolean | null;
+  personalPronounsId?: number | null;
+  company?: Company | null;
+  socialSecurityCardUrl?: string | null;
+  isKeyEmployee?: boolean | null;
+  overridePayFirstCheckDay?: number | null;
+  overrideAnchorPayCheckDate?: DateTime | null;
+  socialSecurityProofUrl?: string | null;
+  qeCreated?: boolean | null;
+  type?: EmployeeType | null;
+  address2?: string | null;
+  selectedPlan?: number | null;
+  department?: Department | null;
+  selectedDentalPlan?: number | null;
+  state?: string | null;
+  overridePayArrears?: number | null;
+  visionApprovalStatus?: string | null;
+  version_id?: number | null;
+  genderIdentity?: string | null;
+  phone?: string | null;
+  payrollId?: string | null;
+  address?: string | null;
+  selectedVisionPlan?: number | null;
+  dietaryRestrictions?: string | null;
+  socialSecurityExpectedDate?: DateTime | null;
+  overrideAnchorPayDate?: DateTime | null;
+  medicalApprovalStatus?: string | null;
+  taReportingMethod?: string | null;
+  overridePayFrequency?: string | null;
+  paymentDistributionMethod?: string | null;
+  dentalApprovalStatus?: string | null;
+  dob?: string | null;
+  paymentMethod?: string | null;
+  photoThumbnailUrl?: string | null;
+  marital_status?: string | null;
+  email?: string | null;
+  overridePaySecondCheckDay?: number | null;
+  isWaitingForSSNInfo?: boolean | null;
+  socialSecurity?: string | null;
+  socialSecurityDecrypted?: string | null;
+  ageRange?: string | null;
+  w4Signature?: Signature | null;
+  workPhone?: string | null;
+  homeAddress?: Address | null;
+  inDE9C?: boolean | null;
+  hasCertOfNonResidenceForTaxState?: boolean | null;
+  canAdminister?: boolean | null /** is the current user requesting the API an administrator of this employee */;
+  canManage?: boolean | null /** is the current user requesting the API a manager of this employee */;
+  isManager?: boolean | null;
+  hireDate?: string | null /** hire date as a string in the from MM/DD/YYYY */;
+  isTeamMember?: boolean | null /** Are they your manager, subordinates or siblings */;
+  isRequester?: boolean | null /** the employee object for the user that made this API request */;
+  employmentType?: EmploymentType | null;
+  terminationType?: TerminationType | null;
+  terminationCategory?: string | null;
+  terminationDate?: string | null /** termination date as a string in the from MM/DD/YYYY */;
+  currency?: string | null /** for international employees their pay currency */;
+  compType?: CompType | null /** compensation type */;
+  payRate?: number | null;
+  salaryAnnual?: number | null;
+  benefitsPlanOptions?: (CompanyHealthPlan | null)[] | null /** list of available plans for this employee */;
+  benefitsEnrollments?: (BenefitsEnrollment | null)[] | null;
+  benefitsTransactions?: (BenefitsTransaction | null)[] | null;
+  effectiveBenefitsTransactions?: (BenefitsTransaction | null)[] | null;
+  nextEffectiveBenefitsTransactions?: (BenefitsTransaction | null)[] | null;
+  dependents?: (Dependent | null)[] | null;
+  productEligibilityTag?: EmployeeProductEligibilityTag | null;
+}
+
+export interface ZAppInstallSubscription {
+  id?: string | null;
+  appInstall?: ZAppInstall | null;
+  company?: Company | null;
+  employee?: AllEmployee | null;
+  preferences?: JSON | null;
+  status?: number | null;
+  inheritedStatus?: number | null;
+  subscribedAt?: DateTime | null;
+  createdAt?: DateTime | null;
+  updatedAt?: DateTime | null;
+}
+
+export interface ZAppInstall {
+  id?: string | null;
+  app?: ZApp | null;
+  company?: Company | null;
+  preferences?: JSON | null;
+  status?: number | null;
+  autoSubMode?: string | null;
+  installedAt?: DateTime | null;
+  createdAt?: DateTime | null;
+  updatedAt?: DateTime | null;
+}
+
+export interface ZApp {
+  id?: string | null;
+  uniqueId?: string | null;
+  packageId?: string | null;
+  developerId?: number | null;
+  title?: string | null;
+  shortTitle?: string | null;
+  delegate?: string | null;
+  preferences?: JSON | null;
+  appUrl?: string | null;
+  appIconSqUrl?: string | null;
+  role?: string | null;
+  primaryCategory?: string | null;
+  secondaryCategory?: string | null;
+  status?: number | null;
+  autoSubMode?: string | null;
+  createdAt?: DateTime | null;
+  updatedAt?: DateTime | null;
+  isPublishedRollout?: boolean | null;
+  scopes?: JSON | null;
+}
+
+export interface ZenefitsEmployee {
+  employee?: AllEmployee | null /** contractor: Contractor */;
+  user?: User | null;
+  id?: string | null /** roles: [Role]permissions: [Permission] */;
+  isActive?: boolean | null;
+}
+
+export interface BenefitsTransactionHelpFlow {
+  id?: string | null;
+  company?: Company | null;
+  employee?: AllEmployee | null;
+  benefitsType?: string | null;
+  originalContext?: BenefitsContext | null;
+  originalCost?: BenefitsCost | null;
+  originalContribution?: ContributionBreakdown | null;
+  newCost?: BenefitsCost | null;
+  newContribution?: ContributionBreakdown | null;
+  triageData?: string | null;
+  contextChange?: BenefitsContext | null;
+  costChange?: BenefitsCost | null;
+  contributionChange?: ContributionBreakdown | null;
+  flow?: Flow | null;
+  jiraTicket?: string | null;
+  isApproved?: boolean | null;
+  isCompleted?: boolean | null;
+  createdAt?: DateTime | null;
+  createdBy?: User | null;
+  approvedBy?: User | null;
+  completedAt?: DateTime | null;
+}
+
+export interface Flow {
+  name?: string | null;
+  dispatcherArgs?: string | null;
+  version_id?: number | null;
+  isComplete?: boolean | null;
+  sections?: (FlowSection | null)[] | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface FlowSection {
+  index?: number | null;
+  isReady?: boolean | null;
+  errors?: (FlowError | null)[] | null;
+  name?: string | null;
+  dispatcherArgs?: string | null;
+  isEntered?: boolean | null;
+  isComplete?: boolean | null;
+  flow?: Flow | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface FlowError {
+  code?: string | null;
+  section?: FlowSection | null;
+  field?: string | null;
+  mustChangeValue?: string | null;
+  reasonCode?: string | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface SearchClientsResult {
+  _type?: string | null;
+  _score?: number | null;
+  _id?: string | null;
+  _source?: SearchClientsSource | null;
+  _index?: string | null;
+}
+
+export interface SearchClientsSource {
+  isReal?: boolean | null;
+  id?: number | null;
+  enrollmentStatus?: string | null;
+  name?: string | null;
+}
+
+export interface Review {
+  id: string;
+  questionFlow: QuestionFlow;
+  schedules: TalentFlowSchedule[];
+  runs: ReviewRun[];
+  runsCount: number;
+  status: ReviewStatus;
+  startDate?: Date | null;
+  targetedEmployees?: (AllEmployee | null)[] | null;
+  newTargetedEmployees?: (all_employee | null)[] | null;
+  newTargetedEmployeesRenamed?: (AllEmployee | null)[] | null;
+  targetableEmployees: AllEmployee[];
+  applicableGoals: Goal[];
+  permission: ReviewPermission;
+  action: ReviewAction;
+}
+
+export interface QuestionFlow {
+  id: string;
+  title: string;
+  description?: string | null;
+  isTemplate: boolean;
+  targetRule: QFTargetRule;
+  sections: QFSection[];
+  createdBy: AllEmployee;
+  createdAt: DateTime;
+  clonedFrom?: QuestionFlow | null;
+}
+
+export interface QFTargetRule {
+  scope?: QFTargetRuleScope | null;
+  reviewer?: TargetRuleReviewer[] | null;
+  reviewers?: QFTargetRuleReviewers | null;
+}
+
+export interface QFTargetRuleScope {
+  type?: TargetRuleScopeType | null;
+  departments?: string[] | null;
+  locations?: string[] | null;
+  specificEmployees?: string[] | null;
+  additionalEmployees?: string[] | null;
+  titles?: string[] | null;
+  compTypes?: CompType[] | null;
+  employmentTypes?: EmploymentType[] | null;
+  workerTypes?: WorkerType[] | null;
+}
+
+export interface QFTargetRuleReviewers {
+  predefinedRules?: TargetRuleReviewer[] | null;
+  reviewersForAll?: string[] | null;
+  specificReviewers?: JSON | null;
+}
+
+export interface QFSection {
+  id: string;
+  title: string;
+  order: number;
+  questions: QFQuestion[];
+}
+
+export interface QFQuestion {
+  id: string;
+  title: string;
+  description?: string | null;
+  order: number;
+  questionType: QFQuestionType;
+  config: JSON;
+}
+
+export interface TalentFlowSchedule {
+  id: string;
+  event: TalentFlowScheduleEvent;
+  timeAfterEvent: number;
+  timeUnit: TalentTimeUnit;
+  duration: number;
+}
+
+export interface ReviewRun {
+  id: string;
+  createdBy: AllEmployee;
+  createdAt: DateTime;
+  reviewSessions: ReviewSession[];
+  summarySessions: ReviewSession[];
+  reviewee: AllEmployee;
+  permission: RunPermission;
+  action: RunAction;
+  startDate?: Date | null;
+  endDate?: Date | null;
+  goals: Goal[];
+  status: ReviewRunStatus;
+  maxPossibleEndDate?: Date | null;
+}
+
+export interface ReviewSession extends IQFSession {
+  id: string;
+  status: QFSessionStatus;
+  completedAt?: DateTime | null;
+  responses: QFQuestionResponse[];
+  comments: QFComment[];
+  reviewer: AllEmployee;
+  reviewee: AllEmployee;
+  type: ReviewSessionType;
+  permission: SessionPermission;
+}
+
+export interface QFRatingResponse extends IQFQuestionResponse {
+  id: string;
+  questionId: string;
+  rating: number;
+  comment?: string | null;
+  contextId?: string | null;
+}
+
+export interface QFTextResponse extends IQFQuestionResponse {
+  id: string;
+  questionId: string;
+  text: string;
+  contextId?: string | null;
+}
+
+export interface QFComment {
+  id?: string | null;
+  questionId?: string | null;
+  sectionId?: string | null;
+  text?: string | null;
+}
+
+export interface SessionPermission {
+  qfSessionId: string;
+  canViewResponses: boolean;
+}
+
+export interface RunPermission {
+  runId: string;
+  canEditReviewers: boolean;
+  canViewResults: boolean;
+  canScheduleReview: boolean;
+  canUpdateRunSettings: boolean;
+}
+
+export interface RunAction {
+  runId: string;
+  editReviewers: boolean;
+  scheduleReview: boolean;
+  updateRunSettings: boolean;
+}
+
+export interface Goal {
+  id: string;
+  questionFlow: QuestionFlow;
+  startDate: Date;
+  dueDate: Date;
+  owner: AllEmployee;
+  createdBy: AllEmployee;
+  status: GoalStatus;
+  progress: number;
+  progressUpdatedAt?: DateTime | null;
+}
+
+export interface ReviewPermission {
+  reviewId: string;
+  canEndReview: boolean;
+  canSaveReviewAsTemplate: boolean;
+  canExtendDueDates: boolean;
+}
+
+export interface ReviewAction {
+  reviewId: string;
+  extendDueDates: boolean;
+}
+
+export interface ReviewTemplate {
+  id: string;
+  companyId?: string | null;
+  createdBy: AllEmployee;
+  status: ReviewTemplateStatus;
+  questionFlow: QuestionFlow;
+  permission: ReviewTemplatePermission;
+}
+
+export interface ReviewTemplatePermission {
+  templateId: string;
+  canEditReviewTemplate: boolean;
+}
+
+export interface InboxTask {
+  id: string;
+  ownerIds?: (string | null)[] | null;
+  status?: string | null;
+  creationDate?: string | null;
+  completionDate?: string | null;
+  completedById?: string | null;
+  completedByName?: string | null;
+  benefitsData?: InboxTaskBenefitsData | null;
+  coreData?: InboxTaskCoreData | null;
+  template?: InboxTaskTemplate | null;
+  inboxAction?: FulfillmentInboxAction | null;
+}
+
+export interface InboxTaskBenefitsData {
+  effectiveDate?: string | null;
+  carrierId?: string | null;
+  linesOfCoverage?: string[] | null;
+  carrierName?: string | null;
+  taskType?: string | null;
+  bundleId?: string | null;
+  benefitsTransactionId?: string | null;
+  fulfillmentForms?: FulfillmentFormData[] | null;
+}
+
+export interface FulfillmentFormData {
+  id: string;
+  pdfUrl?: string | null;
+  validationErrorCount?: number | null;
+  templateName?: string | null;
+}
+
+export interface InboxTaskCoreData {
+  employeeId?: string | null;
+  companyName?: string | null;
+  employeeName?: string | null;
+  companyId?: string | null;
+}
+
+export interface InboxTaskTemplate {
+  id: string;
+  name?: string | null;
+  isBlocking?: boolean | null;
+  isForDashboard?: boolean | null;
+}
+
+export interface FulfillmentInboxAction {
+  id: string;
+  templateName: string;
+  variables?: InboxTaskVariables | null;
+  titleWithNamesAndVariables?: string | null;
+  descriptionWithNamesAndVariables?: string | null;
+}
+
+export interface InboxTaskVariables {
+  benefitsTransactionRenamed?: BenefitsTransaction | null;
+  benefitsTransaction?: benefits_transaction | null;
+  benefitsSettlementBundle?: BenefitsSettlementBundle | null;
+  benefitsSettlementBundles?: (BenefitsSettlementBundle | null)[] | null;
+  renewalGroupLines?: string | null;
+  newGroupLines?: string | null;
+}
+
+export interface benefits_transaction {
+  event?: string | null;
+  eventCycle?: string | null;
+  maxAnnualContribution?: string | null;
+  employeeContribution?: number | null;
+  proratingStrategy?: string | null;
+  id?: string | null;
+  employeePlanCost?: string | null;
+  employee?: AllEmployee | null;
+  effectiveDate?: string | null;
+  dependentsPlanCost?: string | null;
+  benefitsCost?: BenefitsCost | null;
+  employeeRiderCost?: string | null;
+  employeeDeduction?: number | null;
+  benefitsContext?: BenefitsContext | null;
+  payloadContext_id?: string | null;
+  deactivationDate?: DateTime | null;
+  dependentsContribution?: number | null;
+  reason?: string | null;
+  creationDate?: DateTime | null;
+  dependentsRiderCost?: string | null;
+  dependentsDeduction?: number | null;
+  benefitsType?: string | null;
+  maxAnnualDeduction?: string | null;
+  contributionBreakdown?: ContributionBreakdown | null;
+  isContributionAsPercentage?: boolean | null;
+  isDeductionAsPercentage?: boolean | null;
+  logs?: (BenefitsTransactionLog | null)[] | null;
+  initiativeRelationships?: (BenefitsTransactionRelationship | null)[] | null;
+  passiveRelationships?: (BenefitsTransactionRelationship | null)[] | null;
+  fulfillmentInfo?: BenefitsFulfillmentInfo | null;
+}
+
+export interface BenefitsSettlementBundle {
+  id?: string | null;
+  carrier?: Carrier | null;
+  employee?: AllEmployee | null;
+  company?: Company | null;
+  effectiveDate?: Date | null;
+  sendChannelName?: string | null;
+  action_id?: string | null;
+  event?: string | null;
+  dependsOnBundleIds?: string | null;
+  status?: string | null;
+  current_context?: BundleCurrentContext | null;
+}
+
+export interface BundleCurrentContext {
+  personalInfoRenamed?: BenefitsTransaction | null;
+  personalInfo?: benefits_transaction | null;
+  medicalRenamed?: BenefitsTransaction | null;
+  medical?: benefits_transaction | null;
+  dentalRenamed?: BenefitsTransaction | null;
+  dental?: benefits_transaction | null;
+  visionRenamed?: BenefitsTransaction | null;
+  vision?: benefits_transaction | null;
+  group_term_life_insuranceRenamed?: BenefitsTransaction | null;
+  group_term_life_insurance?: benefits_transaction | null;
+  adndRenamed?: BenefitsTransaction | null;
+  adnd?: benefits_transaction | null;
+  vol_ltd_insuranceRenamed?: BenefitsTransaction | null;
+  vol_ltd_insurance?: benefits_transaction | null;
+  vol_std_insuranceRenamed?: BenefitsTransaction | null;
+  vol_std_insurance?: benefits_transaction | null;
+}
+
+export interface TalentPermission {
+  canCreateReview: boolean;
+  canLaunchAllEmployeesReview: boolean;
+}
+
+export interface InboxTaskSearchResult {
+  hits?: number | null;
+  offset?: number | null;
+  size?: number | null;
+  data?: InboxTask[] | null;
+}
+
+export interface PdfInfo {
+  id?: string | null;
+  fields?: (PdfElement | null)[] | null;
+  error?: string | null;
+  success?: boolean | null;
+  images?: (string | null)[] | null;
+}
+
+export interface PdfElement {
+  id?: number | null;
+  name?: string | null;
+  type?: string | null;
+  value?: string | null;
+  error?: string | null;
+  top?: number | null;
+  left?: number | null;
+  height?: number | null;
+  width?: number | null;
+  page_num?: number | null;
+  font_size?: number | null;
+}
+
+export interface FulfillmentTaskEmployee {
+  employeeId: string;
+  fullName: string;
+  firstName?: string | null;
+  lastName?: string | null;
+  companyId: string;
+  companyName: string;
+  email?: string | null /** Employee's email */;
+  status?: string | null /** Employee's status -- Act, Ter, Set, Del */;
+  score?: number | null;
+}
+
+export interface SuggestedCompany {
+  companyId: string;
+  companyName: string;
+  score?: number | null;
+}
+
+export interface EmployeeBenefitsEnrollment {
+  id: string /** Identifier which uniquely represents an enrollment object. */;
+  employeeId: string /** Employee id */;
+  employee: AllEmployee;
+  lineOfCoverage: string /** Line of coverage. */;
+  effectiveDate: Date /** Effective date of the enrollment. */;
+  enrollmentType?: string | null /** Type of the enrollment, one of the granulat EmployeeEnrollmentTypes. */;
+  status?: string | null /** raw enrollment status -- complete, selected, decline, cancelled */;
+  isCardBlocked?: boolean | null /** Is the enrollment currently blocked? */;
+  startDate?: Date | null /** Start date of the enrollment */;
+  endDate?: Date | null /** Enrollment end date */;
+}
+
+export interface CompanyBenefitsCost {
+  lineOfCoverage?: string | null;
+  numberOfEnrollments?: number | null;
+  totalCost?: string | null;
+  totalDeduction?: string | null;
+  totalContribution?: string | null;
+}
+
+export interface CompanyRenewalInfo {
+  lineOfCoverage?: string | null;
+  status?: BenAdminCompanyState | null;
+}
+
+export interface FilterEmployee {
+  id?: string | null;
+  user_id?: string | null;
+  first_name?: string | null;
+  last_name?: string | null;
+}
+
+export interface CompanyReview {
+  id: string;
+  status: ReviewStatus;
+  title: string;
+  schedules?: (TalentFlowSchedule | null)[] | null;
+  startDate?: Date | null;
+  createdAt: DateTime;
+  createdBy: all_employee /** the actual value is a subset of all_employees, refer to the api */;
+  subjects?: (all_employee | null)[] | null /** the actual value is a subset of all_employees, refer to the api */;
+}
+
+export interface Mutation {
+  recalculateContribution?: BenefitsTransaction | null /** BenConnect mutations */;
+  recalculateCost?: BenefitsTransaction | null;
+  enrollEmployee?: BenefitsTransaction | null;
+  createDependentRecord?: Dependent | null;
+  editDependentPersonalInfo?: Dependent | null;
+  addDependentsToCoverage?: BenefitsTransaction | null;
+  removeDependentsFromCoverage?: BenefitsTransaction | null;
+  cancelCoverage?: BenefitsTransaction | null;
+  terminateBenefit?: BenefitsTransaction | null;
+  planCorrection?: BenefitsTransaction | null;
+  changeTransactionEffectiveDate?: BenefitsTransaction | null;
+  setCompanyContext?: boolean | null;
+  createOrUpdateReview?: Review | null;
+  createReview?: Review | null;
+  launchReview?: Review | null;
+  endReview?: Review | null;
+  updateReviewers?: ReviewRun | null;
+  createReviewFromTemplate?: Review | null;
+  scheduleReviewRun?: ReviewRun | null;
+  updateReviewRunSettings?: ReviewRun | null;
+  createOrUpdateReviewTemplate?: ReviewTemplate | null;
+  deleteReviewTemplate?: boolean | null;
+  extendReviewDueDates?: Review | null;
+  updateQuestionFlow?: QuestionFlow | null /** question flow mutations */;
+  createOrUpdateQFQuestion?: QFSection | null;
+  deleteQFQuestion?: QFSection | null;
+  submitSessionResponses?: boolean | null;
+  submitSessionComments?: boolean | null;
+  generateReviewRunResponsesPdf?: string | null;
+  createOrUpdateGoal?: Goal | null;
+  updateGoalProgress?: Goal | null;
+  deleteGoal?: boolean | null;
+  updatePDFInfo?: PdfInfo | null;
+  closeInboxTask?: InboxTask | null /** partner dashboard mutations */;
+  closeInboxTasks?: InboxTasksCloseResult | null;
+  updateEnrollmentDates?: boolean | null /** start enrollment mutations */;
+  deleteEnrollment?: boolean | null;
+  declineEnrollment?: boolean | null;
+  submitEnrollmentSelection?: boolean | null;
+  createEmployeeBenefitsEnrollments: EmployeeBenefitsEnrollmentEditResult[];
+  changeEmployeeBenefitsEnrollments: EmployeeBenefitsEnrollmentEditResult[];
+  cancelEmployeeBenefitsEnrollments: EmployeeBenefitsEnrollmentEditResult[];
+  addPartnerUser: PartnerUser;
+  editPartnerUser: PartnerUser;
+  changePartnerUserStatus: PartnerUser;
+}
+
+export interface InboxTasksCloseResult {
+  success: boolean;
+  error?: string | null;
+  data?: InboxTaskCloseResult[] | null;
+}
+
+export interface InboxTaskCloseResult {
+  success: boolean;
+  taskId: string;
+  error?: string | null;
+  task?: InboxTask | null;
+}
+
+export interface EmployeeBenefitsEnrollmentEditResult {
+  success: boolean;
+  error?: string | null;
+  enrollment?: EmployeeBenefitsEnrollment | null;
+}
+
+export interface AddressSubAction {
+  isCompleted?: boolean | null;
+  completionDate?: string | null;
+  description?: string | null;
+  city?: string | null;
+  street1?: string | null;
+  street2?: string | null;
+  completedBy_id?: number | null;
+  state?: string | null;
+  ctaText?: string | null;
+  uniqueId?: string | null;
+  country?: string | null;
+  postalCode?: string | null;
+  inboxSubAction?: InboxSubAction | null;
+  descriptionWithNamesAndVariables?: string | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface InboxSubAction {
+  signatureSubActions?: (SignatureSubAction | null)[] | null;
+  bankSubActions?: (BankSubAction | null)[] | null;
+  description?: string | null;
+  inboxAction?: InboxAction | null;
+  singleValueSubActions?: (SingleValueSubAction | null)[] | null;
+  addressSubActions?: (AddressSubAction | null)[] | null;
+  confirmationSubActions?: (ConfirmationSubAction | null)[] | null;
+  employee_id?: number | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface SignatureSubAction {
+  isCompleted?: boolean | null;
+  completionDate?: string | null;
+  description?: string | null;
+  completedBy_id?: number | null;
+  ctaText?: string | null;
+  uniqueId?: string | null;
+  signature?: string | null;
+  inboxSubAction?: InboxSubAction | null;
+  resource_uri?: string | null;
+  descriptionWithNamesAndVariables?: string | null;
+  id?: string | null;
+  name?: string | null;
+}
+
+export interface BankSubAction {
+  isCompleted?: boolean | null;
+  completionDate?: string | null;
+  description?: string | null;
+  bankName?: string | null;
+  country?: string | null;
+  bankAccountType?: string | null;
+  bankSwiftCode?: string | null;
+  completedBy_id?: number | null;
+  bankBranchName?: string | null;
+  additionalRoutingNumber?: string | null;
+  ctaText?: string | null;
+  uniqueId?: string | null;
+  inboxSubAction?: InboxSubAction | null;
+  bankRoutingNumber?: string | null;
+  resource_uri?: string | null;
+  descriptionWithNamesAndVariables?: string | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  bankAccountNumber?: string | null;
+}
+
+export interface InboxAction {
+  attachments?: (InboxAttachment | null)[] | null;
+  hideCannotComplete?: boolean | null;
+  variables?: string | null;
+  requestCompletionDate?: string | null;
+  tag?: string | null;
+  id?: string | null;
+  descriptionWithNamesAndVariables?: string | null;
+  dueDate?: string | null;
+  completionDate?: string | null;
+  completionNotificationList?: string | null;
+  title?: string | null;
+  internalNote?: string | null;
+  priority?: string | null;
+  isForDashboard?: boolean | null;
+  zAppId?: string | null;
+  type?: string | null;
+  isAutomated?: boolean | null;
+  status?: string | null;
+  description?: string | null;
+  deletedReason?: string | null;
+  isBlocking?: boolean | null;
+  errorMsg?: string | null;
+  inboxSubActions?: (InboxSubAction | null)[] | null;
+  version_id?: number | null;
+  requestDate?: string | null;
+  contextObjectId?: string | null;
+  disableClientEmails?: boolean | null;
+  requester?: User | null;
+  viewCount?: number | null;
+  cannotCompleteReason?: string | null;
+  isUserInputCompleted?: boolean | null;
+  forceUnique?: number | null;
+  completedBy_id?: number | null;
+  titleWithNamesAndVariables?: string | null;
+  inboxOwners?: (InboxOwner | null)[] | null;
+  template?: InboxActionTemplate | null;
+  resource_uri?: string | null;
+}
+
+export interface InboxAttachment {
+  url?: string | null;
+  inboxAction?: InboxAction | null;
+  resource_uri?: string | null;
+  id?: string | null;
+  filename?: string | null;
+}
+
+export interface InboxOwner {
+  inboxAction?: InboxAction | null;
+  resource_uri?: string | null;
+  id?: string | null;
+  owner_id?: number | null;
+}
+
+export interface InboxActionTemplate {
+  templateDir?: string | null;
+  zAppId?: string | null;
+  description?: string | null;
+  tags?: (InboxActionTag | null)[] | null;
+  title?: string | null;
+  variables?: string | null;
+  templateDescription?: string | null;
+  inboxSubActionTemplates?: (InboxSubActionTemplate | null)[] | null;
+  isAutomated?: boolean | null;
+  priority?: string | null;
+  multiActionType?: string | null;
+  isForDashboard?: boolean | null;
+  isBlocking?: boolean | null;
+  disableClientEmails?: boolean | null;
+  subActions?: string | null;
+  resource_uri?: string | null;
+  type?: string | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  name?: string | null;
+}
+
+export interface InboxActionTag {
+  resource_uri?: string | null;
+  template?: InboxActionTemplate | null;
+  name?: string | null;
+  id?: string | null;
+}
+
+export interface InboxSubActionTemplate {
+  addressSubActionTemplates?: (AddressSubActionTemplate | null)[] | null;
+  bankSubActionTemplates?: (BankSubActionTemplate | null)[] | null;
+  confirmationSubActionTemplates?: (ConfirmationSubActionTemplate | null)[] | null;
+  inboxActionTemplate?: InboxActionTemplate | null;
+  singleValueSubActionTemplates?: (SingleValueSubActionTemplate | null)[] | null;
+  resource_uri?: string | null;
+  signatureSubActionTemplates?: (SignatureSubActionTemplate | null)[] | null;
+  id?: string | null;
+  description?: string | null;
+}
+
+export interface AddressSubActionTemplate {
+  id?: string | null;
+  resource_uri?: string | null;
+  description?: string | null;
+  inboxSubActionTemplate?: InboxSubActionTemplate | null;
+}
+
+export interface BankSubActionTemplate {
+  id?: string | null;
+  resource_uri?: string | null;
+  description?: string | null;
+  inboxSubActionTemplate?: InboxSubActionTemplate | null;
+}
+
+export interface ConfirmationSubActionTemplate {
+  id?: string | null;
+  resource_uri?: string | null;
+  description?: string | null;
+  inboxSubActionTemplate?: InboxSubActionTemplate | null;
+}
+
+export interface SingleValueSubActionTemplate {
+  description?: string | null;
+  value?: string | null;
+  name?: string | null;
+  choices?: (InboxSubActionChoiceTemplate | null)[] | null;
+  inboxSubActionTemplate?: InboxSubActionTemplate | null;
+  type?: string | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface InboxSubActionChoiceTemplate {
+  value?: string | null;
+  id?: string | null;
+  singleValueSubActionTemplate?: SingleValueSubActionTemplate | null;
+  resource_uri?: string | null;
+}
+
+export interface SignatureSubActionTemplate {
+  id?: string | null;
+  resource_uri?: string | null;
+  description?: string | null;
+  inboxSubActionTemplate?: InboxSubActionTemplate | null;
+}
+
+export interface SingleValueSubAction {
+  isCompleted?: boolean | null;
+  completionDate?: string | null;
+  description?: string | null;
+  descriptionWithNamesAndVariables?: string | null;
+  completedBy_id?: number | null;
+  choices?: (InboxSubActionChoice | null)[] | null;
+  ctaText?: string | null;
+  value?: string | null;
+  uniqueId?: string | null;
+  inboxSubAction?: InboxSubAction | null;
+  resource_uri?: string | null;
+  type?: string | null;
+  id?: string | null;
+  null?: (InboxSubActionChoice | null)[] | null;
+  name?: string | null;
+}
+
+export interface InboxSubActionChoice {
+  singleValueSubAction?: SingleValueSubAction | null;
+  id?: string | null;
+  value?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface ConfirmationSubAction {
+  isCompleted?: boolean | null;
+  completionDate?: string | null;
+  description?: string | null;
+  ctaInfo?: string | null;
+  completedBy_id?: number | null;
+  ctaText?: string | null;
+  value?: boolean | null;
+  uniqueId?: string | null;
+  secondaryCtaText?: string | null;
+  redirectUrl?: string | null;
+  inboxSubAction?: InboxSubAction | null;
+  descriptionWithNamesAndVariables?: string | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface CompanyProductTag {
+  subcategory?: string | null;
+  tags?: (CompanyTag | null)[] | null;
+  company?: Company | null;
+  mutuallyExclusiveAllowed?: boolean | null;
+  productName?: string | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface CompanyTag {
+  description?: string | null;
+  resource_uri?: string | null;
+  ruleExpressionStr?: string | null;
+  isNonDeterministicTag?: boolean | null;
+  isOverwritableByAdmin?: boolean | null;
+  isDisplayableToAdmin?: boolean | null;
+  isEligible?: boolean | null;
+  eligibilityStartDate?: string | null;
+  companyProductTag?: CompanyProductTag | null;
+  eligibilityNegatedTag?: CompanyTag | null;
+  displayableEmployeeGroups?: JSON | null;
+  isEligibilityNegatedTag?: boolean | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  name?: string | null;
+}
+
+export interface CustomZenefitsEmployee {
+  status?: string | null;
+  firstName?: string | null;
+  title?: string | null;
+  lastName?: string | null;
+  id?: string | null;
+  isContractor?: boolean | null;
+  department?: string | null;
+  email?: string | null;
+  zenefitsEmployees?: JSON | null;
+}
+
+export interface EmployeeTag {
+  employee?: AllEmployee | null;
+  companyTag?: CompanyTag | null;
+  companyProductTag?: CompanyProductTag | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface EmployeeTestContext {
+  personalInfo?: PersonalInfoContext | null;
+}
+
+export interface InboxActionPartial {
+  id?: string | null;
+  isForDashboard?: boolean | null;
+  requestDate?: string | null;
+  status?: string | null;
+  titleWithNamesAndVariables?: string | null;
+  type?: string | null;
+  viewCount?: number | null;
+  zAppId?: string | null;
+}
+
+export interface InboxProductIntro {
+  seenDate?: string | null;
+  resource_uri?: string | null;
+  employeeId?: number | null;
+  id?: string | null;
+}
+
+export interface InboxSnoozeLog {
+  snoozeDate?: string | null;
+  inboxAction?: InboxAction | null;
+  snoozedFor?: number | null;
+  reason?: string | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface MobileInboxSubAction {
+  null?: (ConfirmationSubAction | null)[] | null;
+  description?: string | null;
+  inboxAction?: InboxAction | null;
+  employee_id?: number | null;
+  id?: string | null;
+  resource_uri?: string | null;
+}
+
+export interface Permission {
+  codename?: string | null;
+  productName?: string | null;
+  description?: string | null;
+  id?: string | null;
+}
+
+export interface Role {
+  rght?: number | null;
+  name?: string | null;
+  parent?: Role | null;
+  level?: number | null;
+  lft?: number | null;
+  tree_id?: number | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  permissions?: (Permission | null)[] | null;
+}
+
+export interface TagsProductMeta {
+  isProductName?: boolean | null;
+  subcategories?: (TagsProductMeta | null)[] | null;
+  adminDisplayName?: string | null;
+  name?: string | null;
+  adminDisplayContext?: string | null;
+  contentObjectDetails?: string | null;
+  permission?: Permission | null;
+  isDisplayableToAdmin?: boolean | null;
+  lineOfCoverage?: string | null;
+  consoleDisplayName?: string | null;
+  id?: string | null;
+  isActive?: boolean | null;
+  resource_uri?: string | null;
+}
+
+export interface ZAppActionUrl {
+  id?: string | null;
+  title?: JSON | null;
+  actionUrl?: JSON | null;
+  role?: JSON | null;
+}
+
+export interface TalentFlowScheduleInput {
+  event: TalentFlowScheduleEvent;
+  timeAfterEvent: number;
+  timeUnit: TalentTimeUnit;
+}
+
+export interface QFCommentInput {
+  questionId?: string | null;
+  sectionId?: string | null;
+  text: string;
+}
+/** Message structure used to represent the creation of an enrollment for a specific line. */
+export interface CreateEmployeeBenefitsEnrollment {
+  lineOfCoverage: string;
+  effectiveDate: Date;
+  enrollmentType: string;
+  endDate: Date;
+}
+/** Message structure used to represent the enrollment date change for a single line. */
+export interface ChangeEmployeeBenefitsEnrollment {
+  lineOfCoverage: string;
+  effectiveDate: Date;
+  newEffectiveDate?: Date | null;
+  newEndDate?: Date | null;
+}
+/** Message structure used to represent the enrollment cancellation for a specific line. */
+export interface CancelEmployeeBenefitsEnrollment {
+  lineOfCoverage: string;
+  effectiveDate: Date;
+}
+export interface DashboardQueryArgs {
+  id?: string | null;
+}
+export interface CompanyQueryArgs {
+  id?: string | null;
+}
+export interface EmployeeRenamedQueryArgs {
+  id?: string | null;
+}
+export interface EmployeeQueryArgs {
+  id?: string | null;
+}
+export interface SignatureQueryArgs {
+  id?: string | null;
+}
+export interface BenefitsEnrollmentQueryArgs {
+  id?: string | null;
+}
+export interface BenefitsEnrollmentsBulkQueryArgs {
+  employee_id?: string | null;
+  effectiveDate?: Date | null;
+  benefitsType?: string | null;
+}
+export interface BenefitsTransactionQueryArgs {
+  id?: string | null;
+}
+export interface BenefitsTransactionsQueryArgs {
+  companyId: string;
+  employeeId: string;
+  benefitsTypes?: string[] | null;
+  sort?: string | null;
+}
+export interface BenefitsTransactionHelpFlowQueryArgs {
+  id?: string | null;
+}
+export interface BenefitsTransactionHelpFlowsQueryArgs {
+  employeeId: string;
+  benefitsType?: string | null;
+  jiraTicket?: string | null;
+}
+export interface SearchClientsQueryArgs {
+  text?: string | null;
+}
+export interface ReviewQueryArgs {
+  reviewId: string;
+  companyId?: string | null;
+}
+export interface ReviewTemplatesQueryArgs {
+  id?: string | null;
+  status?: ReviewTemplateStatus | null;
+}
+export interface ReviewsQueryArgs {
+  limit?: number | null;
+  companyId?: string | null;
+}
+export interface GoalsQueryArgs {
+  status?: GoalStatus | null;
+  id?: string | null;
+}
+export interface QuestionFlowsQueryArgs {
+  limit?: number | null;
+  questionFlowId?: string | null;
+  isTemplate?: boolean | null;
+}
+export interface InboxTaskQueryArgs {
+  id: string;
+}
+export interface FilteredCompaniesQueryArgs {
+  ids?: string[] | null;
+}
+export interface InboxTaskSearchQueryArgs {
+  status?: string[] | null /** Open/Closed task status */;
+  carriers?: string[] | null;
+  groups?: string[] | null;
+  employees?: string[] | null;
+  events?: string[] | null;
+  sort?:
+    | string
+    | null /** Column header sort, ascending: [Carrier, employee, effectiveDate, company]descending: [-carrier, -employee, -effectiveDate, -company] */;
+  effectiveDateMax?: string | null;
+  effectiveDateMin?: string | null;
+  creationDateMax?: string | null;
+  creationDateMin?: string | null;
+  assigneeUserIds?: string[] | null;
+  offset?: number | null /** Pagination page value */;
+  size?: number | null /** Number of tasks per pagination */;
+}
+export interface GetPdfInfoQueryArgs {
+  id: string;
+}
+export interface FulfillmentTaskEmployeesQueryArgs {
+  name?: string | null /** Search keyword for employee names, return no employee if name is null */;
+  company?: string[] | null /** IDs of companies where the search is restricted to */;
+  size?: number | null /** The max number of results returned, for default search for SIZE_EMPLOYEE_SEARCH */;
+}
+export interface AutocompletedCompaniesQueryArgs {
+  name?: string | null;
+  size?: number | null;
+}
+export interface PartnerQueryArgs {
+  id: string;
+}
+export interface PartnerUserQueryArgs {
+  id: string;
+}
+export interface EmployeeHealthEnrollmentsQueryArgs {
+  companyId?: string | null;
+  employeeId?: string | null;
+  isActive?: boolean | null;
+  includedInGroupApp?: boolean | null;
+}
+export interface EmployeeBenefitsEnrollmentsQueryArgs {
+  employeeId: string;
+  linesOfCoverage?: string[] | null;
+  activeOnly: boolean;
+}
+export interface CompanyBenefitsCostQueryArgs {
+  companyId?: string | null;
+}
+export interface CompanyRenewalDataQueryArgs {
+  companyId?: string | null;
+}
+export interface CompanyReviewsQueryArgs {
+  companyId: string;
+}
+export interface BenefitsFulfillmentDetailsQueryArgs {
+  btIds: (string | null)[];
+}
+export interface SwitchesDashboardArgs {
+  switches?: string[] | null;
+}
+export interface EmployeesDashboardArgs {
   first?: number | null;
-  before?: string | null;
-  last?: number | null;
+  offset?: number | null;
+  allStatus?: EmployeeStatus | null;
+  status?: EmployeeStatus | null;
+  status__in?: (EmployeeStatus | null)[] | null;
+  status__not?: (EmployeeStatus | null)[] | null;
+  status__not_in?: (EmployeeStatus | null)[] | null;
+  type?: EmployeeType | null;
+  type__in?: (EmployeeType | null)[] | null;
+  type__not?: (EmployeeType | null)[] | null;
+  type__not_in?: (EmployeeType | null)[] | null;
+  canManage?: boolean | null;
+  canAdminister?: boolean | null;
+  isPastHireDate?: boolean | null;
+  isTeamMember?: boolean | null;
+  isManager?: boolean | null;
+  hireDate__gte?: string | null;
+  hireDate__lte?: string | null;
+  hireDate__range?: string | null;
+  canManageOrAdminister?: boolean | null;
+  isPendingOrRecentHire?: boolean | null;
 }
-export interface StarshipConnectionFilmArgs {
-  after?: string | null;
+export interface ZAppInstallSubscriptionsDashboardArgs {
+  appUniqueIds?: string[] | null;
+}
+export interface BenefitsPlanOptionsAllEmployeeArgs {
+  lineOfCoverage: string;
+  effectiveDate: string;
+}
+export interface BenefitsEnrollmentsAllEmployeeArgs {
+  benefitsType?: string | null;
+}
+export interface BenefitsTransactionsAllEmployeeArgs {
+  benefitsType?: string | null;
+}
+export interface EffectiveBenefitsTransactionsAllEmployeeArgs {
+  benefitsTypes: string[];
+  effectiveDate?: string | null;
+}
+export interface NextEffectiveBenefitsTransactionsAllEmployeeArgs {
+  benefitsType: string[];
+  effectiveDate?: string | null;
+}
+export interface BenefitsPlanOptionsAllEmployeeArgs {
+  lineOfCoverage: string;
+  effectiveDate: string;
+}
+export interface BenefitsEnrollmentsAllEmployeeArgs {
+  benefitsType?: string | null;
+}
+export interface BenefitsTransactionsAllEmployeeArgs {
+  benefitsType?: string | null;
+}
+export interface EffectiveBenefitsTransactionsAllEmployeeArgs {
+  benefitsTypes: string[];
+  effectiveDate?: string | null;
+}
+export interface NextEffectiveBenefitsTransactionsAllEmployeeArgs {
+  benefitsType: string[];
+  effectiveDate?: string | null;
+}
+export interface SchedulesReviewArgs {
+  event?: TalentFlowScheduleEvent | null;
+}
+export interface RunsReviewArgs {
+  runId?: string | null;
+  revieweeId?: string | null;
+  offset?: number | null;
   first?: number | null;
-  before?: string | null;
-  last?: number | null;
 }
-export interface VehicleConnectionFilmArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface RunsCountReviewArgs {
+  revieweeId?: string | null;
 }
-export interface CharacterConnectionFilmArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface TargetedEmployeesReviewArgs {
+  targetScope?: JSON | null;
 }
-export interface PlanetConnectionFilmArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface NewTargetedEmployeesReviewArgs {
+  targetScope?: JSON | null;
 }
-export interface PersonConnectionSpeciesArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface NewTargetedEmployeesRenamedReviewArgs {
+  targetScope?: JSON | null;
 }
-export interface FilmConnectionSpeciesArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface ApplicableGoalsReviewArgs {
+  employeeId: string;
 }
-export interface ResidentConnectionPlanetArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface ReviewSessionsReviewRunArgs {
+  sessionId?: string | null;
 }
-export interface FilmConnectionPlanetArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface SummarySessionsReviewRunArgs {
+  sessionId?: string | null;
 }
-export interface FilmConnectionPersonArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface RecalculateContributionMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  effectiveDate: string;
 }
-export interface StarshipConnectionPersonArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface RecalculateCostMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  effectiveDate: string;
 }
-export interface VehicleConnectionPersonArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface EnrollEmployeeMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  enrollmentType: string;
+  companyHealthPlanId: string;
+  volCompanyHealthPlanId?: string | null;
+  enrollingDependentIds?: string[] | null;
+  effectiveDate: string;
+  employeeApprovedBasicAmount?: string | null;
+  spouseApprovedBasicAmount?: string | null;
+  childrenApprovedBasicAmount?: string | null;
+  employeeApprovedVoluntaryAmount?: string | null;
+  spouseApprovedVoluntaryAmount?: string | null;
+  childrenApprovedVoluntaryAmount?: string | null;
 }
-export interface PilotConnectionStarshipArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface CreateDependentRecordMutationArgs {
+  employeeId: string;
+  type: string;
+  firstName: string;
+  lastName: string;
+  dob: string;
+  gender: string;
+  zip: string;
 }
-export interface FilmConnectionStarshipArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface EditDependentPersonalInfoMutationArgs {
+  dependentId: string;
+  type: string;
+  firstName: string;
+  lastName: string;
+  dob: string;
+  gender: string;
+  ssn?: string | null;
+  zip?: string | null;
 }
-export interface PilotConnectionVehicleArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface AddDependentsToCoverageMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  dependentIds: (string | null)[];
+  effectiveDate: string;
 }
-export interface FilmConnectionVehicleArgs {
-  after?: string | null;
-  first?: number | null;
-  before?: string | null;
-  last?: number | null;
+export interface RemoveDependentsFromCoverageMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  dependentIds: (string | null)[];
+  effectiveDate: string;
 }
-export namespace GenTestQuery {
+export interface CancelCoverageMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  effectiveDate: string;
+}
+export interface TerminateBenefitMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  effectiveDate: string;
+}
+export interface PlanCorrectionMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  effectiveDate: string;
+  planId: string;
+  companyHealthPlanId: string;
+  planName: string;
+  carrierId: string;
+  carrierName: string;
+}
+export interface ChangeTransactionEffectiveDateMutationArgs {
+  employeeId: string;
+  benefitsType: string;
+  effectiveDate: string;
+  newEffectiveDate: string;
+}
+export interface SetCompanyContextMutationArgs {
+  employeeId: string;
+}
+export interface CreateOrUpdateReviewMutationArgs {
+  id?: string | null;
+  title: string;
+  description?: string | null;
+  targetRule: JSON;
+}
+export interface CreateReviewMutationArgs {
+  title: string;
+  description?: string | null;
+  targetRule: JSON;
+}
+export interface LaunchReviewMutationArgs {
+  reviewId: string;
+  startDate?: Date | null;
+  schedules: TalentFlowScheduleInput[];
+  duration: number;
+}
+export interface EndReviewMutationArgs {
+  reviewId: string;
+}
+export interface UpdateReviewersMutationArgs {
+  runId: string;
+  reviewerIds: string[];
+}
+export interface CreateReviewFromTemplateMutationArgs {
+  reviewTemplateId?: string | null;
+  questionFlowId?: string | null;
+}
+export interface ScheduleReviewRunMutationArgs {
+  runId: string;
+  startDate: Date;
+}
+export interface UpdateReviewRunSettingsMutationArgs {
+  id: string;
+  startDate: Date;
+  endDate: Date;
+  reviewerIds: string[];
+}
+export interface CreateOrUpdateReviewTemplateMutationArgs {
+  title: string;
+  status: ReviewTemplateStatus;
+  description?: string | null;
+  id?: string | null;
+  sourceQuestionFlowId?: string | null;
+}
+export interface DeleteReviewTemplateMutationArgs {
+  id: string;
+}
+export interface ExtendReviewDueDatesMutationArgs {
+  id: string;
+  duration: number;
+}
+export interface UpdateQuestionFlowMutationArgs {
+  questionFlowId: string;
+  title?: string | null;
+  description?: string | null;
+  targetRule?: JSON | null;
+}
+export interface CreateOrUpdateQfQuestionMutationArgs {
+  questionId?: string | null;
+  sectionId: string;
+  order: number;
+  title: string;
+  description?: string | null;
+  questionType: QFQuestionType;
+  config: JSON;
+}
+export interface DeleteQfQuestionMutationArgs {
+  questionId: string;
+  sectionId: string;
+}
+export interface SubmitSessionResponsesMutationArgs {
+  sessionId: string;
+  responses: JSON[] /** A JSON in the format [questionId, response] */;
+  status: QFSessionStatus;
+}
+export interface SubmitSessionCommentsMutationArgs {
+  sessionId: string;
+  comments: QFCommentInput[];
+  status: QFSessionStatus;
+}
+export interface GenerateReviewRunResponsesPdfMutationArgs {
+  runId: string;
+  includeDraftRemarks: boolean;
+  isManagerVersion: boolean;
+}
+export interface CreateOrUpdateGoalMutationArgs {
+  id?: string | null;
+  title: string;
+  description?: string | null;
+  startDate: Date;
+  dueDate: Date;
+}
+export interface UpdateGoalProgressMutationArgs {
+  id: string;
+  progress: number;
+  status: GoalStatus;
+}
+export interface DeleteGoalMutationArgs {
+  id: string;
+}
+export interface UpdatePdfInfoMutationArgs {
+  id: string;
+  updatedValues?: JSON | null;
+}
+export interface CloseInboxTaskMutationArgs {
+  id: string;
+}
+export interface CloseInboxTasksMutationArgs {
+  taskIds: string[];
+}
+export interface UpdateEnrollmentDatesMutationArgs {
+  employeeId: string;
+  effectiveDate: Date;
+  benefitsType: string;
+  newEffectiveDate?: Date | null;
+  startDate?: Date | null;
+  endDate?: Date | null;
+}
+export interface DeleteEnrollmentMutationArgs {
+  employeeId: string;
+  effectiveDate: Date;
+  benefitsType: string;
+}
+export interface DeclineEnrollmentMutationArgs {
+  employeeId: string;
+  effectiveDate: Date;
+  benefitsType: string;
+}
+export interface SubmitEnrollmentSelectionMutationArgs {
+  employeeId: string;
+  effectiveDate: Date;
+  benefitsType: string;
+  chpId: string;
+  dependentIds: (string | null)[];
+  electedAmount?: number | null;
+  dependentElectedAmounts?: (number | null)[] | null;
+}
+export interface CreateEmployeeBenefitsEnrollmentsMutationArgs {
+  employeeId: string;
+  data: CreateEmployeeBenefitsEnrollment[];
+}
+export interface ChangeEmployeeBenefitsEnrollmentsMutationArgs {
+  employeeId: string;
+  data: ChangeEmployeeBenefitsEnrollment[];
+}
+export interface CancelEmployeeBenefitsEnrollmentsMutationArgs {
+  employeeId: string;
+  data: CancelEmployeeBenefitsEnrollment[];
+}
+export interface AddPartnerUserMutationArgs {
+  firstName: string;
+  lastName: string;
+  email: string;
+  roles: string[];
+  permissions: string[];
+}
+export interface EditPartnerUserMutationArgs {
+  id: string;
+  firstName: string;
+  lastName: string;
+  roles: string[];
+  permissions: string[];
+}
+export interface ChangePartnerUserStatusMutationArgs {
+  id: string;
+  status: string;
+}
+/** Different statuses of employees */
+export enum EmployeeStatus {
+  Act = 'Act',
+  Req = 'Req',
+  Set = 'Set',
+  Ter = 'Ter',
+  Del = 'Del',
+  LOA = 'LOA',
+}
+/** Different types of employees */
+export enum EmployeeType {
+  AD = 'AD',
+  RE = 'RE',
+  HC = 'HC',
+  IN = 'IN',
+  SH = 'SH',
+  TE = 'TE',
+}
+/** The employee's employment status/type */
+export enum EmploymentType {
+  FT = 'FT',
+  PT = 'PT',
+  TP = 'TP',
+  CO = 'CO',
+}
+
+export enum TerminationType {
+  IN = 'IN',
+  VR = 'VR',
+  VN = 'VN',
+  UN = 'UN',
+  NS = 'NS',
+}
+
+export enum CompType {
+  S = 'S',
+  H = 'H',
+  A = 'A',
+  N = 'N',
+}
+
+export enum BenefitsSettlementStatus {
+  created = 'created',
+  send_fail = 'send_fail',
+  send_channel_processing = 'send_channel_processing',
+  aborted = 'aborted',
+  sent = 'sent',
+  completed = 'completed',
+}
+
+export enum TargetRuleScopeType {
+  ALL = 'ALL',
+  CREATOR_TEAM = 'CREATOR_TEAM',
+  CUSTOM = 'CUSTOM',
+  SPECIFIC_EMPLOYEES = 'SPECIFIC_EMPLOYEES',
+}
+
+export enum WorkerType {
+  AW = 'AW',
+  CW = 'CW',
+  VE = 'VE',
+  IC = 'IC',
+  IN = 'IN',
+}
+
+export enum TargetRuleReviewer {
+  MANAGER = 'MANAGER',
+  PEERS = 'PEERS',
+  DIRECT_REPORTS = 'DIRECT_REPORTS',
+  SELF = 'SELF',
+}
+
+export enum QFQuestionType {
+  RATING = 'RATING',
+  TEXT = 'TEXT',
+}
+
+export enum TalentFlowScheduleEvent {
+  HIRE_DATE = 'HIRE_DATE',
+  PREV_RUN = 'PREV_RUN',
+  ONE_TIME_RUN = 'ONE_TIME_RUN',
+}
+
+export enum TalentTimeUnit {
+  DAY = 'DAY',
+  MONTH = 'MONTH',
+}
+
+export enum QFSessionStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETE = 'COMPLETE',
+  EXPIRED = 'EXPIRED',
+  PENDING = 'PENDING',
+}
+
+export enum ReviewSessionType {
+  REVIEW = 'REVIEW',
+  SUMMARY = 'SUMMARY',
+}
+
+export enum GoalStatus {
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETE = 'COMPLETE',
+}
+
+export enum ReviewRunStatus {
+  PENDING = 'PENDING',
+  RUNNING = 'RUNNING',
+  ENDED = 'ENDED',
+  INACTIVE = 'INACTIVE',
+}
+
+export enum ReviewStatus {
+  DRAFT = 'DRAFT',
+  STARTING = 'STARTING',
+  RUNNING = 'RUNNING',
+  ENDED = 'ENDED',
+}
+
+export enum ReviewTemplateStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
+
+export enum BenAdminCompanyState {
+  STEADY = 'STEADY',
+  ENROLLMENT = 'ENROLLMENT',
+  ALL = 'ALL',
+  RENEWAL_SETUP = 'RENEWAL_SETUP',
+  RENEWAL_INVITE = 'RENEWAL_INVITE',
+  RENEWAL_SUBMIT = 'RENEWAL_SUBMIT',
+}
+
+export type BenefitsPlan = Plan | DentalPlan | VisionPlan | LifePlanNew | AddPlan | StdPlanNew | LtdPlanNew;
+
+export type QFQuestionResponse = QFRatingResponse | QFTextResponse;
+
+export namespace GqlGenTestQuery {
   export type Variables = {};
 
   export type Query = {
-    allFilms?: AllFilms | null;
+    __typename?: 'Query';
+    dashboard?: Dashboard | null;
   };
 
-  export type AllFilms = {
-    edges?: Edges[] | null;
+  export type Dashboard = {
+    __typename?: 'Dashboard';
+    company?: Company | null;
   };
 
-  export type Edges = {
-    node?: Node | null;
-  };
-
-  export type Node = {
-    title?: string | null;
+  export type Company = {
+    __typename?: 'Company';
+    id?: string | null;
   };
 }
 "

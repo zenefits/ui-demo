@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 
 import { Box, BoxProps } from 'zbase';
 import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { EmptyState } from 'z-frontend-elements';
 
 import Table from './Table';
 
@@ -32,10 +33,15 @@ describe('Table', () => {
     const tableCells = ['H1', 'H2', 'R11', 'R12', '', 'R22', 'F1', 'F2'];
 
     const wrapper = mountWithTheme(tableJsx);
-    const cellWrappers = wrapper.findWhere(
-      nestedWrapper => nestedWrapper.find(Box).length === 1 && nestedWrapper.instance() instanceof Box,
+    const tableText = wrapper.text();
+    tableCells.forEach(cell => expect(tableText).toContain(cell));
+  });
+
+  it('supports empty message', () => {
+    const wrapper = mountWithTheme(
+      <Table columnWidths={[]} isEmpty emptyRender={() => <EmptyState message="No employees available." />} />,
     );
-    cellWrappers.forEach((wrapper, i) => expect(wrapper.text()).toEqual(tableCells[i]));
+    expect(wrapper.text()).toContain('No employees available');
   });
 
   it('body elements should correctly assign columnWidths', () => {

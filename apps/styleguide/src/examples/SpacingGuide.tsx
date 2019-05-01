@@ -17,10 +17,18 @@ class SpacingGuide extends React.Component {
     return (
       <TableWithBorders cellSpacing="0" cellPadding="10">
         <thead>
-          <tr>{Object.keys(theme.space).map(key => <th key={key}>{key}</th>)}</tr>
+          <tr>
+            {Object.keys(theme.space).map(key => (
+              <th key={key}>{key}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
-          <tr>{Object.keys(theme.space).map(key => <td key={key}>{theme.space[key]}px</td>)}</tr>
+          <tr>
+            {Object.keys(theme.space).map(key => (
+              <td key={key}>{theme.space[key]}px</td>
+            ))}
+          </tr>
         </tbody>
       </TableWithBorders>
     );

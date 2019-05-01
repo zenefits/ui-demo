@@ -1,7 +1,17 @@
 {
-  "lerna": "2.0.0",
+  "lerna": "3",
   "version": "0.1.0",
-  "packages": ["apps/*", "apps-native/*", "components/*", "components/types/*", "tools/*"],
+  "packages": [
+    "apps/*",
+    "apps/hr/*",
+    "apps/time/*",
+    "native-apps/*",
+    "components/*",
+    "components/types/*",
+    "services/*",
+    "tools/*",
+    "ci"
+  ],
   "npmClient": "yarn",
   "useWorkspaces": true,
   "parallel": true

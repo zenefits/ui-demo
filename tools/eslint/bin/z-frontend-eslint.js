@@ -1,5 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-# this is really a shell script, but yarn or lerna won't create the binary correctly unless this has a .js extension
+const path = require('path');
+const findUp = require('find-up').sync;
+const eslintFriendlyFormatterPath = path.dirname(require.resolve("eslint-friendly-formatter/package.json"));
+const eslintIgnorePath = findUp('.eslintignore');
 
-../../node_modules/eslint-config-z-frontend/node_modules/.bin/eslint --ignore-path ../../.eslintignore --format '../../node_modules/eslint-friendly-formatter' **/*.js **/*.jsx
+const params = ['ignored-by-eslint', 'ignored-by-eslint',
+  '--ignore-path',
+  eslintIgnorePath,
+  '--format',
+  eslintFriendlyFormatterPath,
+  '**/*.js',
+  '**/*.jsx',
+];
+
+require("eslint/lib/cli").execute(params);

@@ -1,14 +1,15 @@
 function unsupportedCheck() {
-  if (window.location.href.includes('unsupported.html')) {
+  if (window.location.href.indexOf('unsupported.html') > -1) {
     // prevent a endless redirect loop
     return;
   }
 
   if (typeof window.Intl === 'undefined') {
     // window.Intl is undefined checks for IE10 or below
-    return window.location.replace('./unsupported.html');
+    window.location.replace('./unsupported.html');
   }
 }
-module.exports = unsupportedCheck();
+
+unsupportedCheck();
 
 // note: global.fetch is undefined in ie 11

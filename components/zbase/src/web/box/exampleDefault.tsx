@@ -1,5 +1,9 @@
 import React from 'react';
 
-import { Badge } from '../index';
+import { Box } from '../index';
 
-export default () => <Badge>Currently running</Badge>;
+export default () => (
+  <Box p={3} bg="grayscale.e" color="grayscale.white">
+    Any kind of content.
+  </Box>
+);

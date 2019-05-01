@@ -129,8 +129,7 @@ function parseOptions(ruleArguments) {
     'import-sources-order': sources = 'case-insensitive',
     'named-imports-order': named = 'case-insensitive',
     'module-source-path': path = 'full',
-  } =
-    optionSet === undefined ? {} : optionSet;
+  } = optionSet === undefined ? {} : optionSet;
   if (!isGrouped) {
     throw new Error('grouped-imports-regex param for rule grouped-imports must be defined');
   }

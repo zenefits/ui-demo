@@ -1,4 +1,4 @@
-const createProxyServer = require('http-proxy').createProxyServer;
+const { createProxyServer } = require('http-proxy');
 
 module.exports = function graphqlProxy(app) {
   // You can call yarn start with `GRAPHQL_BASEURL=http://localhost:3000` to proxy

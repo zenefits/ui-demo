@@ -1,39 +1,58 @@
 const path = require('path');
-const fs = require('fs');
 const prettier = require('prettier');
 const prettierConfig = require('../../prettier.config');
 const _ = require('lodash');
+const graphql = require('graphql');
+const fs = require('fs-extra');
 
-// using a fork with a dirty fix for "Kind" import, a breaking change
-// in the graphql package https://github.com/graphql/graphql-js/releases/tag/v0.13.0
-// that we have in our locked graphql version (git://github.com/graphql/graphql-js.git#ed289645372f9bca17b5c8582c94ce4421445424)
-const gqlGenTool = require('graphql-code-generator/packages/graphql-codegen-cli/dist/cli').executeWithOptions;
+const { generate } = require('graphql-code-generator');
+
+const graphqlSchemaFileName = 'schema.generated.graphql';
 
 function getSchemaPaths(appRoot) {
   if (!appRoot) {
-    throw new Error('appRoot is not defined for getSchemaPath util');
+    throw new Error('appRoot is not defined for getSchemaPaths util');
   }
   return {
     jsonPath: path.join(appRoot, 'schema/schema.json'),
-    schemaTypesPath: path.join(appRoot, 'schema/schemaTypes.d.ts'),
+    graphqlPath: path.join(appRoot, 'schema/', graphqlSchemaFileName),
+    schemaTypesPath: path.join(appRoot, 'schema/schemaTypes.ts'),
     appTypesPath: path.join(appRoot, 'src/gqlTypes.d.ts'),
     fragmentTypesPath: path.join(appRoot, 'schema/fragmentTypes.json'),
   };
 }
 
-// e.g. cli command: gql-gen --file ../schema.json --template typescript --out ./typings/ "./src/**/*.tsx"
+// e.g. cli command: gql-gen --file ../../../yourPeople3/graphql/schema.json --template typescript --out ./typings/ "./src/**/*.tsx"
 
-function generateTypes(options = {}) {
+async function generateTypes(options = {}) {
   const { files, generateDocuments, generateSchemaTypes, schemaPath } = options;
+  let schemaPathForGenTool = schemaPath;
+  const usingGraphqlSource = schemaPath.endsWith('.graphql');
+  if (usingGraphqlSource) {
+    // build JSON schema from .graphql schema
+    const gqlSchema = fs.readFileSync(schemaPath).toString();
+    const schema = graphql.buildSchema(gqlSchema);
+    const jsonSchema = await graphql.graphql(schema, graphql.introspectionQuery);
+    const randomInt = parseInt(Math.random() * 10 ** 10, 10);
+    schemaPathForGenTool = path.join(__dirname, `/.tmp/jsonSchema.${randomInt}.json`);
+    fs.outputFileSync(schemaPathForGenTool, JSON.stringify(jsonSchema, null, '  '));
+  }
+
+  // Workaround until we upgrade to >= 0.13.0 https://github.com/dotansimha/graphql-code-generator/issues/656
+  process.env.CODEGEN_RESOLVERS = false;
+
   return new Promise((resolve, reject) => {
-    gqlGenTool({
-      file: schemaPath,
-      template: 'typescript',
-      // out: outPath,
-      args: files,
-      documents: generateDocuments,
-      schema: generateSchemaTypes,
-    }).then(
+    generate(
+      {
+        schema: schemaPathForGenTool,
+        template: 'graphql-codegen-typescript-template',
+        // out: outPath,
+        args: files,
+        skipDocuments: !generateDocuments,
+        skipSchema: !generateSchemaTypes,
+      },
+      false,
+    ).then(
       value => {
         // console.log('end gen', value);
         const resultStr = value[0].content;
@@ -63,7 +82,11 @@ function generateTypes(options = {}) {
           ),
         );
 
-        resolve(prettifiedResultStr);
+        if (usingGraphqlSource) {
+          fs.unlinkSync(schemaPathForGenTool);
+        }
+
+        return resolve(prettifiedResultStr);
       },
       error => {
         console.log('yp-schema: types generation error', error);
@@ -76,4 +99,5 @@ function generateTypes(options = {}) {
 module.exports = {
   generateTypes,
   getSchemaPaths,
+  graphqlSchemaFileName,
 };

@@ -2,10 +2,13 @@
   "name": "eslint-config-z-frontend",
   "description": "Custom ESLint rules for Zenefits apps",
   "version": "0.1.0",
+  "zenefits": {
+    "level": "tool"
+  },
   "private": true,
   "engines": {
     "yarn": "^1.3.2",
-    "node": "^9.3.0"
+    "node": "^10.14.1"
   },
   "main": "index.js",
   "bin": {
@@ -27,7 +30,7 @@
     "eslint-plugin-react": "^7.5.1"
   },
   "devDependencies": {
-    "babel-jest": "^21.2.0",
-    "jest": "^21.2.1"
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0"
   }
 }

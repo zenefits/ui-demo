@@ -1,0 +1,51 @@
+const wrongStyledTag = styled(MyComponent)`
+                       ~~~~~~~~~~~~~~~~~~~~
+  & + & {
+~~~~~~~~~
+    color: red;
+~~~~~~~~~~~~~~~
+  }
+~~~
+`;
+~ [& may not be used in the latter part of a css selector]
+
+const wrongCssTag = css`
+                    ~~~~
+  .my-class & {
+~~~~~~~~~~~~~~~
+    color: red;
+~~~~~~~~~~~~~~~
+  }
+~~~
+`
+~ [& may not be used in the latter part of a css selector]
+
+const correctCssTag = css`
+  & {
+    color: red;
+  }
+
+  &:hover {
+    color: blue;
+  }
+
+  &.subclass {
+    color: green;
+  }
+`
+
+const correctStyledTag = styled(MyComponent)`
+  & {
+    color: red;
+  }
+
+  &:hover {
+    color: blue;
+  }
+
+  &.subclass {
+    color: green;
+  }
+`
+
+

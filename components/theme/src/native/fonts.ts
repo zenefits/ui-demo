@@ -1,123 +1,43 @@
 import { convertToNestedMap } from '../utils';
 
-export const fontSizes = [12, 14, 16, 19, 24, 32, 45];
-export const fonts = ['Circular, serif'];
-export const weights = [300, 400, 600];
+export const fontSizes = [11, 12, 14, 16, 18, 24, 32];
 
-// TODO: this is just copied from the web descriptions, need to set proper values for native
-const fontDescriptionsMap = {
-  'headings.xxl': {
-    fontFamily: 0,
-    fontSize: 7,
-    lineHeight: '1',
-    fontWeight: 1,
-  },
-  'headings.xl': {
-    fontFamily: 0,
-    fontSize: 5,
-    lineHeight: '1.25',
-    fontWeight: 2,
-  },
-  'headings.l': {
-    fontFamily: 0,
-    fontSize: 4,
-    lineHeight: '1.33',
-    fontWeight: 2,
-  },
-  'headings.m': {
-    fontFamily: 0,
-    fontSize: 3,
-    lineHeight: '1.26',
-    fontWeight: 2,
-  },
-  'headings.s': {
-    fontFamily: 0,
-    fontSize: 2,
-    lineHeight: '1.5',
-    fontWeight: 0,
-  },
-  'headings.xs': {
-    fontFamily: 0,
-    fontSize: 0,
-    lineHeight: '1.33',
-    fontWeight: 2,
-    uppercase: true,
-  },
-  'controls.xxl': {
-    fontFamily: 0,
-    fontSize: 4,
-    lineHeight: '1.17',
-    fontWeight: 1,
-  },
-  'controls.xl': {
-    fontFamily: 0,
-    fontSize: 3,
-    lineHeight: '1.26',
-    fontWeight: 1,
-  },
-  'controls.l': {
-    fontFamily: 0,
-    fontSize: 2,
-    lineHeight: '1.25',
-    fontWeight: 1,
-  },
-  'controls.m': {
-    fontFamily: 0,
-    fontSize: 1,
-    lineHeight: '1.14',
-    fontWeight: 1,
-  },
-  'controls.s': {
-    fontFamily: 0,
-    fontSize: 0,
-    lineHeight: '1',
-    fontWeight: 1,
-  },
-  'paragraphs.xxl': {
-    fontFamily: 0,
-    fontSize: 4,
-    lineHeight: '1.33',
-    fontWeight: 0,
-  },
-  'paragraphs.xl': {
-    fontFamily: 0,
-    fontSize: 3,
-    lineHeight: '1.47',
-    fontWeight: 0,
-  },
-  'paragraphs.l': {
-    fontFamily: 0,
-    fontSize: 2,
-    lineHeight: '1.5',
-    fontWeight: 0,
-  },
-  'paragraphs.m': {
-    fontFamily: 0,
-    fontSize: 1,
-    lineHeight: '1.43',
-    fontWeight: 0,
-  },
-  'paragraphs.s': {
-    fontFamily: 0,
-    fontSize: 0,
-    lineHeight: '1.33',
-    fontWeight: 0,
-  },
+export const weights = [400, 700]; // normal, bold
+
+type FontRule = {
+  fontSize: number;
+  lineHeight?: string;
+  fontWeight?: number;
+  uppercase?: boolean;
+};
+
+type FontStyleNative = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge' | 'xxxlarge';
+
+const fontDescriptionsMap: { [key in FontStyleNative]: FontRule } = {
+  xsmall: { fontSize: 0 },
+  small: { fontSize: 1 },
+  medium: { fontSize: 2 },
+  large: { fontSize: 3 },
+  xlarge: { fontSize: 4 },
+  xxlarge: { fontSize: 5 },
+  xxxlarge: { fontSize: 6 },
 };
 
 export type FontStyleString = keyof (typeof fontDescriptionsMap);
 
 // TODO: fix this for RN. this is just a copy paste from the web version
-export const fontStyles: { [key: string]: string } = Object.keys(fontDescriptionsMap).reduce((rules, fontStyleName) => {
-  const fontData = fontDescriptionsMap[fontStyleName];
-  rules[fontStyleName] = `
-  /* font-family: ${fonts[fontData.fontFamily]}; */
-  font-size: ${fontSizes[fontData.fontSize]}px;
-  line-height: ${fontData.lineHeight};
-  font-weight: ${weights[fontData.fontWeight]};
-  ${fontData.uppercase ? 'text-transform: uppercase;' : ''}
+export const fontStyles: { [key: string]: string } = Object.keys(fontDescriptionsMap).reduce(
+  (rules: { [key: string]: string }, fontStyleName: FontStyleNative) => {
+    const fontData = fontDescriptionsMap[fontStyleName];
+    rules[fontStyleName] = `
+    font-size: ${fontSizes[fontData.fontSize]}px;
+    ${fontData.lineHeight ? `line-height: ${fontData.lineHeight};` : ''}
+    ${fontData.fontWeight ? `font-weight: ${weights[fontData.fontWeight]};` : ''}
+    ${fontData.uppercase ? 'text-transform: uppercase;' : ''}
   `;
-  return rules;
-}, {});
+    return rules;
+  },
+  {},
+);
 
 export const fontDescriptions = convertToNestedMap(fontDescriptionsMap);

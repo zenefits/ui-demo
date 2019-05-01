@@ -2,9 +2,9 @@ Use tables to display tabular data in a two-dimensional grid consisting of rows 
 
 A `Table` consists of:
 
-* A `Table.Header` providing labels for each column
-* One or more (often dynamic) `Table.Row`s with the data to present for each column
-* (Optional) One or more `Table.Footer`s which summarize the data in each column
+- A `Table.Header` providing labels for each column
+- One or more (often dynamic) `Table.Row`s with the data to present for each column
+- (Optional) One or more `Table.Footer`s which summarize the data in each column
 
 ```jsx
 <Table columnWidths={[1 / 4, 1 / 4, 1 / 4, 1 / 4]}>
@@ -92,4 +92,15 @@ Buttons should also be right aligned and do not require a column label.
 </Table>
 ```
 
-TODO: empty table message example
+#### Sortable tables
+
+Use the `Table.SortableHeaderCell` component to build sortable tables. The current convention is for sort params to be stored in url's query and for the consumer to implement the filtering and sorting but this should be improved upon.
+
+See [example](http://ui.zenefits.com/app/stories/?selectedKind=tables|Table&selectedStory=sorted).
+
+#### Related
+
+- [Table.AvatarCell](#!/Table.AvatarCell) Renders a cell containing an avatar and name.
+- [Table.CheckboxCell](#!/Table.CheckboxCell) Renders a cell containing a single checkbox.
+- [Table.HeaderCell](#!/Table.HeaderCell) Base styling for a header cell along with options to show a tooltip or icon.
+- [Table.SortableHeaderCell](#!/Table.SortableHeaderCell) Header cell used for building sortable tables.

@@ -192,21 +192,84 @@ test('spaceValueHelper', () => {
 });
 
 describe('getCssFromProps', () => {
-  expect(getCssFromProps({})({})).toBe('');
-
-  const propsMap: PropsMap = {};
-  const props = {
-    theme,
-    prefix: 'prefix',
-    postfix: 'postfix',
-  };
-  const results = [];
-
-  propsMapValuesWithResults.forEach((d, i) => {
-    propsMap[d.propName + i] = d.propsMapValue;
-    props[d.propName + i] = d.propValue;
-    results.push(d.result);
+  it('should handle no input', () => {
+    expect(getCssFromProps({})({})).toBe('');
   });
+  it('should handle propsMap', () => {
+    const propsMap: PropsMap = {};
+    const props: any = {
+      theme,
+      prefix: 'prefix',
+      postfix: 'postfix',
+    };
+    const results: any[] = [];
 
-  expect(getCssFromProps(propsMap)(props)).toBe(results.join('\n'));
+    propsMapValuesWithResults.forEach((d, i) => {
+      propsMap[d.propName + i] = d.propsMapValue;
+      props[d.propName + i] = d.propValue;
+      results.push(d.result);
+    });
+
+    expect(getCssFromProps(propsMap)(props)).toBe(results.join('\n'));
+  });
+  it('should handle propsMap that includes order', () => {
+    const orderedPropsMapValuesWithResults = [
+      {
+        testName: 'minimal params',
+        propName: 'cs',
+        propValue: 'first',
+        propsMapValue: { cssName: 'css-rule' } as PropsMapValue,
+        result: 'css-rule: first;',
+      },
+      {
+        testName: 'value as const',
+        propName: 'cs',
+        propValue: 'second',
+        propsMapValue: { cssName: 'css-rule', valueHelper: 'const-second', order: 1 },
+        result: 'css-rule: const-second;',
+      },
+      {
+        testName: 'value helper fn',
+        propName: 'cs',
+        propValue: 'third',
+        propsMapValue: {
+          cssName: 'css-rule',
+          valueHelper: (propVal: string, props: any) => `${props.prefix}-${propVal}-${props.postfix}`,
+        },
+        result: 'css-rule: prefix-third-postfix;',
+      },
+      {
+        testName: 'minimal params (responsive)',
+        propName: 'cs',
+        propValue: ['val1', 'val2', 'val3', 'val4', 'val5'],
+        propsMapValue: { cssName: 'css-rule', order: -1 },
+        result: [
+          'css-rule: val1;',
+          `@media screen and (min-width: ${bp[0]}em) { css-rule: val2; }`,
+          `@media screen and (min-width: ${bp[1]}em) { css-rule: val3; }`,
+          `@media screen and (min-width: ${bp[2]}em) { css-rule: val4; }`,
+          `@media screen and (min-width: ${bp[2]}em) { css-rule: val5; }`,
+        ].join('\n'),
+      },
+    ];
+
+    const propsMap: PropsMap = {};
+    const props: any = {
+      theme,
+      prefix: 'prefix',
+      postfix: 'postfix',
+    };
+    orderedPropsMapValuesWithResults.forEach((d, i) => {
+      propsMap[d.propName + i] = d.propsMapValue;
+      props[d.propName + i] = d.propValue;
+    });
+
+    const resultsAccountingForOrder = [
+      orderedPropsMapValuesWithResults[3].result,
+      orderedPropsMapValuesWithResults[0].result,
+      orderedPropsMapValuesWithResults[2].result,
+      orderedPropsMapValuesWithResults[1].result,
+    ];
+    expect(getCssFromProps(propsMap)(props)).toBe(resultsAccountingForOrder.join('\n'));
+  });
 });

@@ -10,7 +10,7 @@ import { fonts, fontSizes, fontStyles, weights } from './fonts';
 import { themeCommon, ThemeInterfaceCommon } from '../themeCommon';
 import zIndex from '../zIndex';
 
-const opacities = [0.65];
+export const opacities = [0.65];
 
 const themeObject = {
   ...themeCommon,
@@ -25,7 +25,7 @@ const themeObject = {
   breakpoints: [32, 48, 64, 80],
 };
 
-interface ThemeInterface extends ThemeInterfaceCommon {
+export interface ThemeInterface extends ThemeInterfaceCommon {
   fontSizes: typeof themeObject.fontSizes;
   fontStyles: typeof themeObject.fontStyles;
   fonts: typeof themeObject.fonts;
@@ -33,13 +33,12 @@ interface ThemeInterface extends ThemeInterfaceCommon {
   weights: typeof themeObject.weights;
   breakpoints: typeof themeObject.breakpoints;
   zIndex: typeof themeObject.zIndex;
+  iconFont: string;
 }
 
-const theme: ThemeInterface = themeObject;
+export const theme: ThemeInterface = themeObject;
 
-const { keyframes, injectGlobal } = {
+export const { keyframes, injectGlobal } = {
   keyframes: baseKeyframes,
   injectGlobal: baseInjectGlobal,
 } as ThemedStyledComponentsModule<ThemeInterface>;
-
-export { opacities, injectGlobal, ThemeInterface, theme, keyframes };

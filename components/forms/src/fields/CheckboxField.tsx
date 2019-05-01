@@ -4,11 +4,11 @@ import { Field as BaseField, WrappedFieldProps } from 'redux-form';
 import { LabelProps } from 'zbase';
 
 import { FieldFormatWrapper, FieldProps } from './FieldWrapper';
-import Checkbox, { CheckboxProps } from '../Checkbox';
+import { Checkbox, CheckboxProps } from '../../index';
 
 class Field extends BaseField<CheckboxProps> {}
 
-declare type WrappedProps = LabelProps & WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>;
+type WrappedProps = LabelProps & WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>;
 const WrappedCheckbox: StatelessComponent<WrappedProps> = ({ input, ...rest }) => (
   <Checkbox {...rest} {...input} checked={input.value} />
 );

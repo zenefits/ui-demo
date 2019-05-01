@@ -1,7 +1,7 @@
 import path from 'path';
 import { generateTypes /* , getSchemaPaths */ } from '../index';
 
-const testSchemaPath = path.resolve(__dirname, 'testSchema.json');
+const testSchemaPath = path.resolve(__dirname, 'testSchema.graphql');
 const testFilePath = path.resolve(__dirname, 'testFile.ts');
 
 describe('generateTypes function', () => {

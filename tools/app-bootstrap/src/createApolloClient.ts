@@ -1,66 +1,69 @@
-import fetch from 'unfetch';
 import { ApolloClient } from 'apollo-client';
-import { createHttpLink } from 'apollo-link-http';
+import { BatchHttpLink } from 'apollo-link-batch-http';
 import { SchemaLink } from 'apollo-link-schema';
 import { onError, ErrorResponse } from 'apollo-link-error';
 import { ApolloReducerConfig, IntrospectionFragmentMatcher, InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+import { ApolloLink } from 'apollo-link';
 
 import 'z-frontend-global-types';
 import getMockSchema from 'z-frontend-yp-schema/getMockSchema';
 
-import getCookie from './utils/get-cookie';
+import getDefaultHeaders from './utils/get-default-headers';
+import { setApolloClient } from './getApollo';
 
-type GetAdditonalHeaders = () => { [key: string]: string };
+type GetAdditionalHeaders = () => Promise<{ [key: string]: string }>;
 type OnGraphqlError = (error: ErrorResponse) => void;
 export { ErrorResponse };
 
-function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders, onGraphqlError?: OnGraphqlError) {
+export interface NetworkInterfaceInitParamsFetch {
+  fetch: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+}
+
+interface NetworkInterfaceInitParams {
+  url?: string;
+  getAdditionalHeaders?: GetAdditionalHeaders;
+  onGraphqlError?: OnGraphqlError;
+}
+
+function initializeNetworkInterface(params: NetworkInterfaceInitParams & NetworkInterfaceInitParamsFetch) {
   let graphqlUrl = '/graphql/';
-  if (__NATIVE__) {
-    if (__DEVELOPMENT__) {
-      if (__ANDROID__) {
-        // this is default IP address for localhost in genymotion emulator
-        graphqlUrl = 'http://10.0.3.2:3000/graphql';
-      } else if (__IOS__) {
-        graphqlUrl = 'http://localhost:3000/graphql';
-      }
-    } else {
-      graphqlUrl = 'https://example.com/graphql/';
+  if (params.url) {
+    graphqlUrl = params.url;
+  } else if (__NATIVE__) {
+    if (__ANDROID__) {
+      // this is default IP address for localhost in genymotion emulator
+      graphqlUrl = 'http://10.0.3.2:3000/graphql';
+    } else if (__IOS__) {
+      graphqlUrl = 'http://localhost:3000/graphql';
     }
   }
 
-  const link = createHttpLink({
+  const link = new BatchHttpLink({
     uri: graphqlUrl,
     credentials: 'include',
 
-    fetch: (uri, options) => {
-      options.headers['accept'] = 'application/json';
-      const defaultHeaders = setDefaultHeaders();
+    fetch: async (uri: string, options: RequestInit) => {
+      (options.headers as any).accept = 'application/json';
+
+      // add current origin value as 'x-origin' header so graphql server can use it as base url
+      // if browser doesn't add 'origin' header (e.g IE11 in some cases)
+      if (window && window.location) {
+        (options.headers as any)['x-origin'] = window.location.origin;
+      }
+
+      const defaultHeaders = getDefaultHeaders();
       Object.assign(options.headers, defaultHeaders);
 
-      if (typeof getAdditionalHeaders === 'function') {
-        const additonalHeaders = getAdditionalHeaders();
+      if (typeof params.getAdditionalHeaders === 'function') {
+        const additonalHeaders = await params.getAdditionalHeaders();
         Object.assign(options.headers, additonalHeaders);
       }
-      return (window.fetch || fetch)(uri, options);
+
+      return params.fetch(uri, options);
     },
   });
-
-  function setDefaultHeaders() {
-    const headers = {};
-    if (window && window.document) {
-      const ajaxToken = (new RegExp(`(?:^|; )${encodeURIComponent('ajaxtoken')}=([^;]*)`).exec(
-        window.document.cookie,
-      ) || [null, null])[1];
-
-      headers['X-CSRFToken'] = getCookie('csrftoken');
-      headers['X-PAGEUrl'] = window.location.href;
-      headers['X-AJAXToken'] = ajaxToken;
-    }
-    return headers;
-  }
 
   const errorLink = onError(errorResponse => {
     const { networkError, graphQLErrors } = errorResponse;
@@ -70,11 +73,11 @@ function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders, o
         console.error('Got a network error from GraphQL server', networkError);
       }
     } else if (graphQLErrors && graphQLErrors.length) {
+      if (__DEVELOPMENT__) {
+        console.error('Got a graphql error(s) from the server', graphQLErrors);
+      }
       graphQLErrors.forEach(gqlError => {
         // maybe log these errors?
-        if (__DEVELOPMENT__) {
-          console.error('Got a graphql error from the server', gqlError);
-        }
         if ((gqlError as any).isNetworkError && (gqlError as any).status === 401) {
           // TODO: check if hash part is not being dropped after going back to the app
           if (!__NATIVE__) {
@@ -86,8 +89,8 @@ function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders, o
       });
     }
 
-    if (typeof onGraphqlError === 'function') {
-      onGraphqlError(errorResponse);
+    if (typeof params.onGraphqlError === 'function') {
+      params.onGraphqlError(errorResponse);
     }
   });
 
@@ -96,9 +99,9 @@ function initializeNetworkInterface(getAdditionalHeaders: GetAdditonalHeaders, o
 
 export function initializeMockedNetworkInterface(mockConfig: MockConfig) {
   let schema;
-  if ((mockConfig as JsonMockConfig).jsonSchema) {
-    const { jsonSchema, resolvers, mocks } = mockConfig as JsonMockConfig;
-    schema = getMockSchema(jsonSchema, resolvers, mocks);
+  if ((mockConfig as JsonMockConfig).jsonSchema || (mockConfig as JsonMockConfig).gqlSchema) {
+    const { jsonSchema, gqlSchema, resolvers, mocks } = mockConfig as JsonMockConfig;
+    schema = getMockSchema(jsonSchema || gqlSchema, resolvers, mocks);
   } else {
     const { mocks, typeDefs, resolvers } = mockConfig as TypeDefsMockConfig;
     schema = makeExecutableSchema({
@@ -129,27 +132,26 @@ interface TypeDefsMockConfig {
 interface JsonMockConfig {
   resolvers: any;
   mocks?: any;
-  jsonSchema: any;
+  jsonSchema?: any;
+  gqlSchema?: any;
 }
 
 type MockConfig = TypeDefsMockConfig | JsonMockConfig;
 
-export interface ApolloClientOptions {
+export interface ApolloClientOptions extends NetworkInterfaceInitParams {
   mockConfig?: MockConfig;
   fragmentTypes?: any;
-  getAdditionalHeaders?: GetAdditonalHeaders;
-  onGraphqlError?: OnGraphqlError;
 }
 
 export default function createApolloClient(
-  apolloClientOptions: ApolloClientOptions = {},
+  apolloClientOptions: ApolloClientOptions & NetworkInterfaceInitParamsFetch,
 ): [typeof ApolloProvider, ApolloClientCreatorProps] {
-  const { mockConfig, getAdditionalHeaders, onGraphqlError, fragmentTypes } = apolloClientOptions;
-  let link = null;
-  if (__MOCK_MODE__ && mockConfig) {
+  const { mockConfig, getAdditionalHeaders, onGraphqlError, fragmentTypes, fetch, ...rest } = apolloClientOptions;
+  let link: ApolloLink | null = null;
+  if ((__MOCK_MODE__ || __IS_STORYBOOK__) && mockConfig) {
     link = initializeMockedNetworkInterface(mockConfig);
   } else {
-    link = initializeNetworkInterface(getAdditionalHeaders, onGraphqlError);
+    link = initializeNetworkInterface({ getAdditionalHeaders, onGraphqlError, fetch, ...rest });
   }
 
   const cacheConfig: ApolloReducerConfig = {
@@ -165,9 +167,11 @@ export default function createApolloClient(
   const client = new ApolloClient({
     link,
     cache: new InMemoryCache(cacheConfig),
-  });
+  } as any);
 
-  const apollorProviderProps: ApolloClientCreatorProps = { client };
+  setApolloClient(client);
 
-  return [ApolloProvider, apollorProviderProps];
+  const apolloProviderProps: ApolloClientCreatorProps = { client };
+
+  return [ApolloProvider, apolloProviderProps];
 }

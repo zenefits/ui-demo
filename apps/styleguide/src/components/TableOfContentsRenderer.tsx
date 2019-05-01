@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { styled } from 'z-frontend-theme';
 import { Input } from 'z-frontend-forms';
-import { Box, P } from 'zbase';
+import { Box, TextBlock } from 'zbase';
 
 const StyledList = styled.ul`
   list-style-type: none;
@@ -17,7 +17,8 @@ interface TocProps {
 }
 
 // override default to use our Input and style headings
-class TableOfContentsRenderer extends React.Component<TocProps> {
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/TableOfContents/TableOfContentsRenderer.js
+class TableOfContentsRenderer extends Component<TocProps> {
   render() {
     const { children, searchTerm, onSearchTermChange } = this.props;
     return (
@@ -28,7 +29,7 @@ class TableOfContentsRenderer extends React.Component<TocProps> {
         <StyledList>
           {children.props.items.map(item => (
             <li key={item.name}>
-              <P fontStyle="headings.s">{item.name}</P>
+              <TextBlock fontStyle="headings.s">{item.name}</TextBlock>
               {item.content}
             </li>
           ))}

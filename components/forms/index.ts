@@ -1,21 +1,33 @@
-export { default as Button, ButtonBasicProps } from './src/Button';
-export { default as ButtonGroup } from './src/ButtonGroup';
-export { default as ButtonDropdown, ButtonDropdownItemLink } from './src/ButtonDropdown';
-export { default as Checkbox } from './src/Checkbox';
-export { default as CustomTileInput } from './src/CustomTileInput';
-export { default as IconButton } from './src/IconButton';
-export { default as Input } from './src/Input';
-export { default as InputWithIcon } from './src/InputWithIcon';
-export { default as Avatar } from './src/Avatar';
-export { default as Link, LinkProps } from './src/Link';
-export { default as NavBar } from './src/NavBar';
-export { default as Popover } from './src/Popover';
-export { default as ReadMore } from './src/ReadMore';
-export { default as Select } from './src/Select';
-export { default as Search, Option } from './src/Search';
-export { default as Timeline } from './src/Timeline';
-export { default as Truncate, TruncateProps } from './src/Truncate';
-export { default as Drawer } from './src/drawer/Drawer';
-export { default as TopNavBar } from './src/TopNavBar';
+export { default as Input, InputProps } from './src/input/Input';
+export { default as InputWithIcon, InputWithIconProps } from './src/input-with-icon/InputWithIcon';
+export {
+  default as SearchSelectDeprecated,
+  SearchSelectOption as SearchSelectOptionDeprecated,
+  SearchOption as SearchOptionDeprecated,
+  SearchOptions as SearchOptionsDeprecated,
+} from './src/search/SearchSelectDeprecated';
+export { default as SearchInputDeprecated } from './src/search/SearchInputDeprecated';
+export { default as Mention } from './src/mention/Mention';
+export { default as MentionText } from './src/mention/MentionText';
 
+// need to be exposed for the styleguide
+export * from './src/formik';
+export * from './src/formik/Form';
+export { default as RichEditor } from './src/rich-editor/RichEditor';
+
+/** @styleguide-autodiscovery-ignore-start */
+export { default as GroupSelect } from './src/select/GroupSelect';
+export { default as DateInput } from './src/date-picker/DateInput';
+export { FormikActions, FormikProps, Field, FieldProps } from 'formik';
 export * from './src/fields';
+
+export { default as FileUploader, FileUploaderProps } from './src/file-uploader/FileUploader';
+export { default as Checkbox, CheckboxProps } from './src/checkbox/Checkbox';
+export { default as CustomTileInput, CustomTileInputProps } from './src/custom-tile-input/CustomTileInput';
+export { default as RadioToggle } from './src/radio-toggle/RadioToggle';
+export { SelectFieldProps } from './src/fields/SelectField';
+export { default as SelectDeprecated, SelectProps as SelectDeprecatedProps } from './src/select/SelectDeprecated';
+export { default as WeekPickerDropdown, WeekSelectHandler } from './src/week-picker/WeekPickerDropdown';
+export { fakeFetch, fakeFetchThatErrors } from './src/file-uploader/fakeFetchUtil';
+export { labelWidths, inputWidths } from './src/formik/FormLabel';
+/** @styleguide-autodiscovery-ignore-end */

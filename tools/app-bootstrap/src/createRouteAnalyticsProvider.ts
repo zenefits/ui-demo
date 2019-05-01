@@ -1,13 +1,15 @@
 import { Component } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-import eventLogger from './event-logger';
+import { getEventLogger } from './event-logger';
 
 declare global {
   interface Window {
     Intercom: any;
   }
 }
+
+type Props = RouteComponentProps<{}>;
 
 /**
  * NOTE: there are multiple blogposts suggesting to use createBrowserHistory directly from
@@ -17,21 +19,21 @@ declare global {
  * with our react-router regardless of what happens with the URL.
  */
 @withRouter
-export class AnalyticsProvider extends Component<RouteComponentProps<{}>> {
-  componentWillReceiveProps(nextProps) {
+export class AnalyticsProvider extends Component<Props> {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.location !== this.props.location) {
       // TODO: Later we may need the equivalnet timings
       // in React's case it makes more sense to do it somewhere else (apollo or React)
       // since this is not a routing concern
-      // eventLogger.setTransitionInfo(nextProps.location.pathname);
-      // eventLogger.timints.routeTransitionStart = new Date().getTime();
+      // getEventLogger().setTransitionInfo(nextProps.location.pathname);
+      // getEventLogger().timints.routeTransitionStart = new Date().getTime();
       const currentRoute = nextProps.location.pathname;
-      eventLogger.setTransitionInfo(currentRoute);
-      eventLogger.log('pageview', {
+      getEventLogger().setTransitionInfo(currentRoute);
+      getEventLogger().log('pageview', {
         // It's silly to set it on the previous line, just to use it here
         // let's make it the default
         currentRoute,
-        transitionId: eventLogger.transitionId,
+        transitionId: getEventLogger().transitionId,
       });
       if (window.Intercom) {
         // TODO: create an intercom provider and move it there.

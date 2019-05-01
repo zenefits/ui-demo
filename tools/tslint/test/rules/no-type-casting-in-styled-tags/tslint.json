@@ -1,0 +1,6 @@
+{
+  "rulesDirectory": ["../../../rules"],
+  "rules": {
+    "no-type-casting-in-styled-tags": true
+  }
+}

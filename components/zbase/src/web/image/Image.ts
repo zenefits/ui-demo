@@ -10,9 +10,11 @@ export type ImageProps = ResultWebComponentProps<ImgProps>;
 
 export default withWebUtilProps<ImgProps>({
   displayName: 'Image',
+  defaultUtilProps: {
+    height: 'auto',
+  },
   additionalCss: css`
     display: block;
     max-width: 100%;
-    height: auto;
   `,
 })('img');

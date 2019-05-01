@@ -3,7 +3,7 @@ import { DateSource, FormattedRelative } from 'react-intl';
 
 import withWebUtilProps, { ResultWebComponentProps, TimeElProps } from '../withUtilPropsWeb';
 import { removeUtilProps } from '../../commonTypes';
-import TimeTag from '../TimeTag';
+import TimeTag from '../time-tag/TimeTag';
 
 // TODO: document other props
 // https://github.com/yahoo/react-intl/wiki/Components#formattedrelative
@@ -41,7 +41,7 @@ const TextContainer: StatelessComponent<RelativeTextProps> = ({
       initialNow={initialNow}
       format={format}
     >
-      {str => (
+      {(str: string) => (
         <TimeTag {...propsWithNoUtils} value={value}>
           {str}
         </TimeTag>

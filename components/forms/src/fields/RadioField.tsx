@@ -4,11 +4,11 @@ import { Field as BaseField, WrappedFieldProps } from 'redux-form';
 import { LabelProps } from 'zbase';
 
 import { FieldProps } from './FieldWrapper';
-import Radio, { RadioProps } from '../Radio';
+import Radio, { RadioProps } from '../radio/Radio';
 
 class Field extends BaseField<RadioProps> {}
 
-declare type WrappedProps = LabelProps & WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>;
+type WrappedProps = LabelProps & WrappedFieldProps & InputHTMLAttributes<HTMLInputElement>;
 const WrappedRadio: StatelessComponent<WrappedProps> = ({ input, ...rest }) => <Radio {...rest} {...input} />;
 
 const RadioField: StatelessComponent<FieldProps & RadioProps> = props => (

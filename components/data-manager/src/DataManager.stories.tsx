@@ -1,15 +1,18 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import faker from 'faker';
 import { includes, range, uniqBy } from 'lodash';
 
-import { Button, Checkbox, InputWithIcon } from 'z-frontend-forms';
+import { Button } from 'z-frontend-elements';
+import { Checkbox, InputWithIcon } from 'z-frontend-forms';
 import { Box, Flex } from 'zbase';
 
+import { storiesOf } from '../.storybook/storyHelpers';
 import DataManager, { DataManagerRenderProps } from './DataManager';
 import { updateFilters } from './filterUtils';
 import { updateSorter } from './sortUtils';
 import Pager from './Pager';
+
+const pageSize = 20;
 
 interface EmployeeType {
   id: number;
@@ -18,7 +21,7 @@ interface EmployeeType {
   department: string;
 }
 
-const getEmployees: (number) => EmployeeType[] = num => {
+const getEmployees: (number: number) => EmployeeType[] = num => {
   faker.seed(123);
   return range(num).map(id => ({
     id,
@@ -32,9 +35,9 @@ const allDepartments = uniqBy(employees, 'department').map(e => e.department);
 const initialNameFilter = { name: { stringContains: 'er' } };
 const initialDeptFilter = updateFilters({}, 'matchAny', 'department', 'Automotive', true);
 
-const ListOfEmployees = ({ arr }) => (
+const ListOfEmployees = ({ arr }: any) => (
   <ul>
-    {arr.map(a => (
+    {arr.map((a: any) => (
       <li key={a.id}>
         {a.name} (Dept: <i>{a.department}</i>)
       </li>
@@ -42,29 +45,31 @@ const ListOfEmployees = ({ arr }) => (
   </ul>
 );
 
-const DepartmentCheckboxesFilter = ({ allDepts, filterConfig, onFilterChange }) => {
+const DepartmentCheckboxesFilter = ({ allDepts, filterConfig, onFilterChange }: any) => {
   const selectedDepartments = (filterConfig.department || {}).matchAny;
 
   return (
     <Box>
       Filter departments:{' '}
-      {allDepts.map(dept => (
+      {allDepts.map((dept: any) => (
         <Checkbox
           key={dept}
           label={dept}
           checked={includes(selectedDepartments, dept)}
-          onChange={e => onFilterChange(updateFilters(filterConfig, 'matchAny', 'department', dept, e.target.checked))}
+          onChange={(e: any) =>
+            onFilterChange(updateFilters(filterConfig, 'matchAny', 'department', dept, e.target.checked))
+          }
         />
       ))}
     </Box>
   );
 };
 
-const NameSearchFilter = ({ filterConfig, onFilterChange }) => (
+const NameSearchFilter = ({ filterConfig, onFilterChange }: any) => (
   <Box w={1 / 3}>
     Search names:{' '}
     <InputWithIcon
-      iconName="search"
+      rightIconName="search"
       s="small"
       value={(filterConfig.name || {}).stringContains || ''}
       onChange={e => onFilterChange(updateFilters(filterConfig, 'stringContains', 'name', e.target.value, true))}
@@ -72,7 +77,7 @@ const NameSearchFilter = ({ filterConfig, onFilterChange }) => (
   </Box>
 );
 
-const SortButton = ({ field, sortConfig, onSortChange }) => (
+const SortButton = ({ field, sortConfig, onSortChange }: any) => (
   <Button
     m={2}
     mode="primary"
@@ -83,7 +88,7 @@ const SortButton = ({ field, sortConfig, onSortChange }) => (
   </Button>
 );
 
-storiesOf('FilterManager', module)
+storiesOf('data-manager|DataManager', module)
   .add('no filter', () => (
     <DataManager
       sourceData={employees}
@@ -97,7 +102,7 @@ storiesOf('FilterManager', module)
       )}
     />
   ))
-  .add('with stringContains filter', () => (
+  .add('filtering (stringContains)', () => (
     <DataManager
       sourceData={employees}
       initialFilter={initialNameFilter}
@@ -116,7 +121,7 @@ storiesOf('FilterManager', module)
       )}
     />
   ))
-  .add('with matchAny filter', () => (
+  .add('filtering (matchAny)', () => (
     <DataManager
       sourceData={employees}
       initialFilter={initialDeptFilter}
@@ -135,99 +140,94 @@ storiesOf('FilterManager', module)
         </Box>
       )}
     />
+  ))
+  .add('sorting', () => (
+    <DataManager
+      sourceData={employees}
+      render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
+        <Box p={3}>
+          <h3>Sorting a List by specific keys</h3>
+          <SortButton
+            field={'name'}
+            sortConfig={managerProps.sorting.config}
+            onSortChange={managerProps.sorting.onChange}
+          />
+          <SortButton
+            field={'department'}
+            sortConfig={managerProps.sorting.config}
+            onSortChange={managerProps.sorting.onChange}
+          />
+
+          {/* This component actually renders the final data */}
+          <ListOfEmployees arr={managerProps.displayData} />
+        </Box>
+      )}
+    />
+  ))
+  .add('paging', () => (
+    <DataManager
+      sourceData={employees}
+      initialPageSize={pageSize}
+      render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
+        <Box p={3}>
+          <h3>Paged List (page size: {pageSize})</h3>
+
+          {/* This component actually renders the final data */}
+          <ListOfEmployees arr={managerProps.displayData} />
+
+          <Pager
+            pageSize={managerProps.paging.pageSize}
+            currentPage={managerProps.paging.currentPage}
+            totalItemsCount={managerProps.paging.inputData.length}
+            onPageChange={managerProps.paging.onPageChange}
+          />
+        </Box>
+      )}
+    />
+  ))
+  .add('filtering, sorting and paging', () => (
+    <DataManager
+      sourceData={employees}
+      initialPageSize={pageSize}
+      render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
+        <Box p={3}>
+          <h3>Filtering, Sorting, and Pagination</h3>
+          <Flex>
+            <Box w={1 / 6}>
+              <NameSearchFilter
+                filterConfig={managerProps.filtering.config}
+                onFilterChange={managerProps.filtering.onChange}
+              />
+              <DepartmentCheckboxesFilter
+                allDepts={allDepartments}
+                filterConfig={managerProps.filtering.config}
+                onFilterChange={managerProps.filtering.onChange}
+              />
+            </Box>
+            <Box w={2 / 3} p={3}>
+              <SortButton
+                field={'name'}
+                sortConfig={managerProps.sorting.config}
+                onSortChange={managerProps.sorting.onChange}
+              />
+              <SortButton
+                field={'department'}
+                sortConfig={managerProps.sorting.config}
+                onSortChange={managerProps.sorting.onChange}
+              />
+
+              {/* This component actually renders the final data */}
+              <ListOfEmployees arr={managerProps.displayData} />
+
+              <Pager
+                pageSize={managerProps.paging.pageSize}
+                currentPage={managerProps.paging.currentPage}
+                totalItemsCount={managerProps.paging.inputData.length}
+                onPageChange={managerProps.paging.onPageChange}
+              />
+            </Box>
+          </Flex>
+        </Box>
+      )}
+    />
   ));
-
-storiesOf('SortManager', module).add('basic', () => (
-  <DataManager
-    sourceData={employees}
-    render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
-      <Box p={3}>
-        <h3>Sorting a List by specific keys</h3>
-        <SortButton
-          field={'name'}
-          sortConfig={managerProps.sorting.config}
-          onSortChange={managerProps.sorting.onChange}
-        />
-        <SortButton
-          field={'department'}
-          sortConfig={managerProps.sorting.config}
-          onSortChange={managerProps.sorting.onChange}
-        />
-
-        {/* This component actually renders the final data */}
-        <ListOfEmployees arr={managerProps.displayData} />
-      </Box>
-    )}
-  />
-));
-
-const pageSize = 20;
-storiesOf('PageManager', module).add('basic', () => (
-  <DataManager
-    sourceData={employees}
-    initialPageSize={pageSize}
-    render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
-      <Box p={3}>
-        <h3>Paged List (page size: {pageSize})</h3>
-
-        {/* This component actually renders the final data */}
-        <ListOfEmployees arr={managerProps.displayData} />
-
-        <Pager
-          pageSize={managerProps.paging.pageSize}
-          currentPage={managerProps.paging.currentPage}
-          totalItemsCount={managerProps.paging.inputData.length}
-          onPageChange={managerProps.paging.onPageChange}
-        />
-      </Box>
-    )}
-  />
-));
-
-// kitchen sink example - filtering, sorting, and pagination together
-storiesOf('Kitchen Sink', module).add('all', () => (
-  <DataManager
-    sourceData={employees}
-    initialPageSize={pageSize}
-    render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
-      <Box p={3}>
-        <h3>Filtering, Sorting, and Pagination</h3>
-        <Flex>
-          <Box w={1 / 6}>
-            <NameSearchFilter
-              filterConfig={managerProps.filtering.config}
-              onFilterChange={managerProps.filtering.onChange}
-            />
-            <DepartmentCheckboxesFilter
-              allDepts={allDepartments}
-              filterConfig={managerProps.filtering.config}
-              onFilterChange={managerProps.filtering.onChange}
-            />
-          </Box>
-          <Box w={2 / 3} p={3}>
-            <SortButton
-              field={'name'}
-              sortConfig={managerProps.sorting.config}
-              onSortChange={managerProps.sorting.onChange}
-            />
-            <SortButton
-              field={'department'}
-              sortConfig={managerProps.sorting.config}
-              onSortChange={managerProps.sorting.onChange}
-            />
-
-            {/* This component actually renders the final data */}
-            <ListOfEmployees arr={managerProps.displayData} />
-
-            <Pager
-              pageSize={managerProps.paging.pageSize}
-              currentPage={managerProps.paging.currentPage}
-              totalItemsCount={managerProps.paging.inputData.length}
-              onPageChange={managerProps.paging.onPageChange}
-            />
-          </Box>
-        </Flex>
-      </Box>
-    )}
-  />
-));

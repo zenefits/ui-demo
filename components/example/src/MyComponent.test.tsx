@@ -1,6 +1,7 @@
 import React from 'react';
+import { shallow } from 'enzyme';
 
-import { mountWithTheme, renderWithTheme, shallowWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import MyComponent from './MyComponent';
 
@@ -10,7 +11,7 @@ describe('MyComponent', () => {
     // it also avoids some of the component lifecycle by default.
     // more: https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md
     expect(
-      shallowWithTheme(<MyComponent>Hi</MyComponent>)
+      shallow(<MyComponent>Hi</MyComponent>)
         .children()
         .text(),
     ).toBe('Hi');

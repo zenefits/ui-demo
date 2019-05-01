@@ -1,6 +1,7 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+
+import { storiesOf } from '../../.storybook/storyHelpers';
 
 import LoadingScreen from './LoadingScreen';
 
-storiesOf('LoadingScreen', module).add('default', () => <LoadingScreen />);
+storiesOf('layout|LoadingScreen', module).add('default', () => <LoadingScreen />);

@@ -1,0 +1,6 @@
+{
+  "rulesDirectory": ["../../../rules"],
+  "rules": {
+    "no-nested-styled-components-ampersand": true
+  }
+}

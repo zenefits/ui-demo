@@ -1,0 +1,17 @@
+export default [
+  { id: '8', name: 'BB-8' },
+  { id: '9', name: 'R2-D2' },
+  { id: '12', name: 'Ironman' },
+  { id: '14', name: 'Caprica Six' },
+  { id: '21', name: 'Voltron' },
+  { id: '23', name: 'Mega Man' },
+  { id: '25', name: 'Maria' },
+  { id: '33', name: 'Astro Boy' },
+  { id: '88', name: 'T-800' },
+  { id: '42', name: 'Data' },
+  { id: '43', name: 'Lore' },
+  { id: '51', name: 'WALL-E' },
+  { id: '52', name: 'Megatron' },
+  { id: '53', name: 'Optimus Prime' },
+  { id: '55', name: 'Roy Batty' },
+];

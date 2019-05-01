@@ -4,8 +4,8 @@ import { ThemeInterface } from 'z-frontend-theme';
 import { color, fontStyles } from 'z-frontend-theme/utils';
 
 import withUtilProps, { ResultComponentProps, WithUtilPropsOptions } from '../withUtilProps';
-import { PropsMap } from '../commonTypes';
-import { UtilProps as AllUtilProps } from './types';
+import { PropsMap, ValueHelperFn } from '../commonTypes';
+import { ResponsiveUtilProp, UtilProps as AllUtilProps } from './types';
 
 export type DivProps = HTMLAttributes<HTMLDivElement>;
 export type SpanProps = HTMLAttributes<HTMLSpanElement>;
@@ -23,15 +23,18 @@ export default function withWebUtilProps<ComponentProps, AdditionalProps = {}, U
   return withUtilProps<ComponentProps, AdditionalProps, UtilProps, ThemeInterface>({
     ...options,
     additionalUtilsPropsMap: {
-      fontStyle: (propValue, props) => fontStyles(propValue)(props),
+      fontStyle: {
+        valueHelper: (propValue, props) => fontStyles(propValue)(props),
+        order: -1,
+      },
     },
   });
 }
 
 function getBorderHelper(side?: string) {
-  return (propValue: boolean, props) => {
+  const getBorderHelperValueFn: ValueHelperFn = (propValue: boolean, props: any) => {
     if (!propValue) {
-      return;
+      return '';
     }
     const borderSelectorStart = side ? `border-${side}` : 'border';
     const selectors = [
@@ -41,6 +44,8 @@ function getBorderHelper(side?: string) {
     ];
     return selectors.join('\n');
   };
+
+  return getBorderHelperValueFn;
 }
 
 export const borderPropsMap: PropsMap = {
@@ -52,3 +57,24 @@ export const borderPropsMap: PropsMap = {
   // borderColor: supported via getBorderHelper()
   // when needed: borderWidth, borderRadius, borderStyle
 };
+
+export type FlexItemProps = {
+  /**
+   * Specify how a flex item will grow or shrink so as to fit the space available in its flex container.
+   * This is a shorthand property that sets `flex-grow`, `flex-shrink`, and `flex-basis`.
+   */
+  flex?: string | string[];
+  /**
+   * The order used to lay out a flex item in its flex container.
+   */
+  order?: ResponsiveUtilProp;
+};
+
+export const flexItemPropsMap: PropsMap = {
+  flex: { cssName: 'flex' },
+  order: { cssName: 'order' },
+};
+
+export function isFlexItemProp(key: string): boolean {
+  return flexItemPropsMap.hasOwnProperty(key);
+}

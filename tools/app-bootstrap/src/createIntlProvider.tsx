@@ -1,4 +1,4 @@
-import React, { StatelessComponent } from 'react';
+import React, { ReactElement, StatelessComponent } from 'react';
 import { IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
 
@@ -7,14 +7,17 @@ import { connect } from 'react-redux';
 
 const localeChangeAction = 'LOCALE_CHANGE';
 
-export const localeChangeActionCreator = newLocale => ({ type: localeChangeAction, payload: newLocale });
+export const localeChangeActionCreator = (newLocale: string) => ({ type: localeChangeAction, payload: newLocale });
 
-const LocaleRefreshererCore = ({ children, ...rest }) => React.cloneElement(children, rest);
+const LocaleRefreshererCore = ({ children, ...rest }: any) => React.cloneElement(children, rest);
 export const LocaleRefresherComponent = connect((state: any) => ({
   currentLocale: state.locale.current,
 }))(LocaleRefreshererCore as StatelessComponent<{}>);
 
-export const createLocaleReducer = defaultLocale => (state = { current: defaultLocale }, action) => {
+export const createLocaleReducer = (defaultLocale: string) => (
+  state = { current: defaultLocale },
+  action: { type: string; payload: any },
+) => {
   if (action.type === localeChangeAction) {
     return {
       ...state,
@@ -25,8 +28,13 @@ export const createLocaleReducer = defaultLocale => (state = { current: defaultL
   }
 };
 
+type IntlProviderWrapperParams = {
+  children: ReactElement<any>;
+  currentLocale: string;
+};
+
 export default function createIntlProvider(localeData?: any, additionalProps?: any) {
-  const IntlProviderWrapper = ({ children, currentLocale, ...rest }) => {
+  const IntlProviderWrapper = ({ children, currentLocale, ...rest }: IntlProviderWrapperParams) => {
     const languageWithoutRegionCode = currentLocale.toLowerCase().split(/[_-]+/)[0];
     const messages = localeData
       ? localeData[languageWithoutRegionCode] || localeData[currentLocale] || localeData.en

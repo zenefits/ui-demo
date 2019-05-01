@@ -1,7 +1,12 @@
 Use `TimeText` to format a time of day.
 
+#### Examples
+
 ```jsx
 // loadExample('./example')
 ```
 
-To format both date and time, or for more fine-grained control, see [DateTimeText](#datetimetext).
+#### Related
+
+- [DateTimeText](#!/DateTimeText) to format both date and time, or for more fine-grained control
+- [RelativeText](#!/RelativeText) to format time relative to the current time

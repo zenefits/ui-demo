@@ -1,21 +1,22 @@
----
 language: node_js
 node_js:
-  - "9"
+  - '10'
 
 sudo: false
 
 cache:
   directories:
-  - node_modules
-  - $HOME/.cache/yarn
+    - $HOME/.cache
+    - /home/travis/.cache/Cypress
+    - node_modules
 
 env:
   # we recommend testing LTS's and latest stable release (bonus points to beta/canary)
-  - BUILD_STEP=build_and_deploy
+  - BUILD_STEP=build_and_deploy_1
+  - BUILD_STEP=build_and_deploy_2
+  - BUILD_STEP=build_and_deploy_3
   - BUILD_STEP=test
   - BUILD_STEP=lint
-  - BUILD_STEP=nsp_check
 
 matrix:
   fast_finish: true
@@ -23,12 +24,16 @@ matrix:
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.3.2
   - export PATH=$HOME/.yarn/bin:$PATH
-  - yarn global add lerna@~2.7.0
+  - yarn global add lerna@~3.5.1
 
 install:
   - lerna exec echo "quickly checking for cyclic dependencies" --reject-cycles
   - lerna link
-  - yarn install --frozen-lockfile
+  # There is an issue with --frozen-lockfile (https://github.com/yarnpkg/yarn/issues/5383 )
+  - yarn install
+  - git status
+  - git diff -- yarn.lock
+  - git diff-index --quiet HEAD
 
 script:
   - ./ci/$BUILD_STEP.sh
@@ -38,3 +43,11 @@ branches:
     # git-flow branches
     - master
     - production # this is the branch we activate
+    - /^production-.*$/
+    - /^release\/.*$/
+    - /^hotfix\/.*$/
+    - scheduling-ui/test
+
+notifications:
+  slack:
+    secure: ec71SorrlwQoPO9+hxXyRgBjvNIuukcjykHu3vyhiRuMVtEC5IJIPVzcPNnmq8SBgZuhGN4DpCgCAXlTpBMR6VHlifon5w++iegWxUkLt66rUAjC61Fh8yqQchCUtIn4BxMeELn/ueTkMcMd8P6sHPep/x1KZ1iyBEfNTVg229jgMHe3NotMF5nAjT/G1TYzJ8cXj6g2GS1MM18KzhBn9uu9n0k4Wku2Iu8CvjZ0knk2g0zs9n9451xXdzp74CZfbRFbptDllBRitStaoXjzbrFCr9Ur75FyMB5bp41LhsLQeJGLODfCPbUlVOnZi8McrajlMvjbVG8pTwow9bZ1qsr55nSSRFux24YUyIEUqbJn7dl9WOUxBGjcTRFphSkm/h3qjVNcurP9zJHFaPT5uC0OH4xYpy9s8be6fofMEL3rDQCfEMjU/JiAapEYtVsme/CzbzWnsMrSAs4FaRtgR6HwtbWx3EDzt2nhyrJSd8vu/yj2nDlB1QgB1/9AHoQG5jGGR7Cp7sT/VxHtLEzmocuzsy7Mn1pDb06dv3tRlGTl5p1u90P/WfFMsNcfFx1xdJBVv4oqip4RacnaodRPvijZ6D/PTisjDfJvtHOIBmyIs5QgFIzaxx9+8ZPPUtHZhCc0nMqJjkYROdSOuUq6Lfca64snTCh5mb7X4fdIeLo=

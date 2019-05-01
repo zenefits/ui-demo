@@ -1,21 +1,6 @@
 import React from 'react';
 
 import { Box, Heading } from 'zbase';
-import { styled } from 'z-frontend-theme';
-
-const topNavOffset = `${64 + 16 + 16}px`;
-
-const StyledHeading = styled(Heading)`
-  &:target {
-    padding-top: ${topNavOffset};
-    margin-top: -${topNavOffset};
-  }
-`;
-
-const InconspicuousLink = styled.a`
-  text-decoration: none;
-  color: inherit;
-`;
 
 interface SectionHeadingProps {
   children?: React.ReactChildren;
@@ -30,7 +15,7 @@ interface SectionHeadingProps {
 class SectionHeadingRenderer extends React.Component<SectionHeadingProps> {
   render() {
     // TODO: handle deprecated
-    const { children, id, href, depth } = this.props;
+    const { children, id, depth } = this.props;
 
     const headingLevel = Math.min(6, depth + 1);
     // do not render section categories
@@ -40,9 +25,9 @@ class SectionHeadingRenderer extends React.Component<SectionHeadingProps> {
 
     return (
       <Box>
-        <StyledHeading level={headingLevel} id={id}>
-          <InconspicuousLink href={href}>{children}</InconspicuousLink>
-        </StyledHeading>
+        <Heading level={headingLevel} id={id}>
+          {children}
+        </Heading>
         {/*
         TODO: custom ToolbarButtonRenderer?
         <Box className="toolbar">{toolbar}</Box>
