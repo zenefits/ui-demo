@@ -1,0 +1,24 @@
+.CoveoOmnibox {
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+.CoveoOmnibox:hover {
+  border: 1px solid #999;
+  transition: 0.3s;
+}
+
+.CoveoOmnibox:focus-within {
+  border: 1px solid #2fcdd0;
+  transition: 0.3s;
+}
+
+/* Display icon in Searchbox */
+.magic-box .magic-box-input input {
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGlkPSJzZWFyY2giIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjx0aXRsZT48L3RpdGxlPjxwYXRoIHN0eWxlPSJmaWxsOiNiMGFkYWI7IiBkPSJNMjIuOSAyMC45bC02LjItNi4xYzEuMy0xLjggMS45LTQgMS42LTYuNC0uNi0zLjktMy44LTcuMS03LjgtNy40QzUgLjQuNCA1IDEgMTAuNWMuMyA0IDMuNSA3LjMgNy40IDcuOCAyLjQuMyA0LjYtLjMgNi40LTEuNWw2LjEgNi4xYy4zLjMuNy4zIDEgMGwuOS0xYy4zLS4zLjMtLjcuMS0xek0zLjcgOS42YzAtMy4yIDIuNy01LjkgNS45LTUuOSAzLjMgMCA2IDIuNyA2IDUuOSAwIDMuMy0yLjcgNi02IDYtMy4yIDAtNS45LTIuNi01LjktNnoiPjwvcGF0aD48L3N2Zz4=');
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  background-position-x: 12px;
+  background-position-y: 16px;
+  text-indent: 38px;
+}

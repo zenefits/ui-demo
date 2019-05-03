@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as Coveo from 'coveo-search-ui';
 import 'coveo-search-ui/bin/css/CoveoFullSearch.css';
+import './CoveoSearchbox.css';
 
 type CoveoSearchboxProps = {
   organizationId: string;
@@ -33,7 +34,7 @@ class CoveoSearchbox extends Component<CoveoSearchboxProps> {
       <div>
         <div id="searchbox" ref={this.searchInterface}>
           <div className="coveo-search-section">
-            <div className="CoveoSearchbox" data-enable-omnibox="true" />
+            <div className="CoveoOmnibox" data-placeholder="How can we help?" />
           </div>
         </div>
       </div>
