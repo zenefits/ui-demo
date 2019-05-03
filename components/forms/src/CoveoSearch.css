@@ -1,0 +1,54 @@
+.CustomCoveoResultTitle {
+  font-family: Circular, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #333333;
+  margin: 0 15px !important;
+}
+
+.coveo-list-layout.CoveoResult {
+  border-bottom: none;
+}
+
+.CoveoResultLink,
+a.CoveoResultLink,
+.CoveoResult a.CoveoResultLink {
+  font-family: Circular, sans-serif;
+  font-size: 19px;
+  line-height: 24px;
+  color: #009bc0;
+}
+
+.CoveoExcerpt {
+  font-family: Circular, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: #555555;
+}
+
+.CoveoQuerySummary {
+  font-family: Circular, sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  color: #333333;
+  margin: 0 15px !important;
+}
+
+.coveo-pager-list-item {
+  display: none;
+}
+
+.coveo-pager-anchor {
+  display: inline-block;
+  background: #d6dee9;
+  padding: 5px 12px;
+}
+
+.coveo-pager-anchor:hover {
+  background: #d6dee9;
+}
+
+.coveo-pager-next-icon-svg,
+.coveo-pager-previous-icon-svg {
+  width: 5px;
+}

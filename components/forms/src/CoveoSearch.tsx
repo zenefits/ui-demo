@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as Coveo from 'coveo-search-ui';
 import 'coveo-search-ui/bin/css/CoveoFullSearch.css';
 import CoveoSearchbox from './CoveoSearchbox';
+import './CoveoSearch.css';
 
 type CoveoSearchProps = {
   organizationId: string;
@@ -17,6 +18,27 @@ class SearchUI extends Component<CoveoSearchProps> {
     this.searchInterface = React.createRef();
   }
 
+  registerEventHandlers() {
+    const searchInterface = Coveo.$$(this.searchInterface.current);
+    const resultTitle = Coveo.$$(document.querySelector('.CustomCoveoResultTitle') as HTMLElement);
+
+    searchInterface.on('newQuery', (e, args) => {
+      resultTitle.el.style.display = 'none';
+    });
+
+    searchInterface.on('querySuccess', (e, args) => {
+      if (args.results.totalCount > 0) {
+        resultTitle.el.innerHTML = 'Showing Help Center Results';
+      } else {
+        resultTitle.el.innerHTML = 'No Results';
+      }
+      if (args.query.q !== undefined) {
+        resultTitle.el.innerHTML += ' for ' + args.query.q;
+      }
+      resultTitle.el.style.display = 'block';
+    });
+  }
+
   componentDidMount() {
     Coveo.SearchEndpoint.configureCloudV2Endpoint(this.props.organizationId, this.props.accessToken);
 
@@ -26,6 +48,9 @@ class SearchUI extends Component<CoveoSearchProps> {
           externalComponents: [this.props.searchbox.current.getSearchInterface()],
         }
       : {};
+    
+    this.registerEventHandlers();
+    
     Coveo.init(this.searchInterface.current, options);
   }
 
@@ -42,7 +67,7 @@ class CoveoSearch extends Component<CoveoSearchProps> {
   componentDidMount() {
     Coveo.TemplateCache.registerTemplate("default", Coveo.HtmlTemplate.fromString(`
       <div class='coveo-result-frame'>
-        <div class='coveo-result-row'>
+        <div class='coveo-result-row' style='padding-bottom: 10px;'>
           <a class='CoveoResultLink'></a>
         </div>
         <div class='coveo-result-row'>
@@ -63,16 +88,7 @@ class CoveoSearch extends Component<CoveoSearchProps> {
       <div>
         <SearchUI {...this.props}>
           <div className="CoveoAnalytics" />
-          <div className="coveo-tab-section">
-            <a className="CoveoTab" data-id="All" data-caption="All Content" />
-          </div>
-          <div className="coveo-search-section" />
           <div className="coveo-main-section">
-            <div className="coveo-facet-column">
-              <div className="CoveoFacet" data-title="Type" data-field="@objecttype" data-tab="All" />
-              <div className="CoveoFacet" data-title="FileType" data-field="@filetype" data-tab="All" />
-              <div className="CoveoFacet" data-title="Author" data-field="@author" data-tab="All" />
-            </div>
             <div className="coveo-results-column">
               <div className="CoveoShareQuery" />
               <div className="CoveoPreferencesPanel">
@@ -84,15 +100,10 @@ class CoveoSearch extends Component<CoveoSearchProps> {
               <div className="CoveoDidYouMean" />
               <div className="coveo-results-header">
                 <div className="coveo-summary-section">
-                  <span className="CoveoQuerySummary" />
-                  <span className="CoveoQueryDuration" />
+                  <span className="CustomCoveoResultTitle" />
                 </div>
                 <div className="coveo-result-layout-section">
                   <span className="CoveoResultLayout" />
-                </div>
-                <div className="coveo-sort-section">
-                  <span className="CoveoSort" data-sort-criteria="relevancy" data-caption="Relevance" />
-                  <span className="CoveoSort" data-sort-criteria="date descending,date ascending" data-caption="Date" />
                 </div>
               </div>
               <div className="CoveoHiddenQuery" />
@@ -103,9 +114,13 @@ class CoveoSearch extends Component<CoveoSearchProps> {
                 data-wait-animation="fade"
                 data-auto-select-fields-to-include="false"
               />
+              <div className="coveo-results-header" />
+              <span
+                className="CoveoQuerySummary"
+                data-enable-cancel-last-action="false"
+                data-enable-no-results-found-message="false"
+                data-enable-search-tips="false" />
               <div className="CoveoPager" />
-              <div className="CoveoLogo" />
-              <div className="CoveoResultsPerPage" />
             </div>
           </div>
         </SearchUI>
