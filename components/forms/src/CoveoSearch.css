@@ -1,7 +1,7 @@
 .coveo-summary-section {
   margin: 0 15px !important;
 }
-  
+
 .CustomCoveoResultTitle {
   font-family: Circular, sans-serif;
   font-size: 16px;
@@ -10,7 +10,7 @@
 }
 
 .CoveoDidYouMean {
-  margin: 10px 0 !important;
+  margin-top: 10px !important;
 }
 
 .coveo-list-layout.CoveoResult {
@@ -62,21 +62,21 @@ a.CoveoResultLink,
 }
 
 .CoveoResultList {
-  border: 1px solid #D6DEE9;
+  border: 1px solid #d6dee9;
   border-radius: 0px 0px 1px 1px;
   padding: 15px 0 !important;
 }
 
 .coveo-result-header {
-  border: 1px solid #D6DEE9;
-  border-radius: 0px 0px 1px 1px;  
+  border: 1px solid #d6dee9;
+  border-radius: 0px 0px 1px 1px;
   border-bottom: none;
   padding: 15px 0 !important;
 }
 
 .coveo-result-footer {
-  border: 1px solid #D6DEE9;
-  border-radius: 0px 0px 1px 1px;  
+  border: 1px solid #d6dee9;
+  border-radius: 0px 0px 1px 1px;
   border-top: none;
   padding: 5px 0 !important;
 }
