@@ -22,10 +22,6 @@ class SearchUI extends Component<CoveoSearchProps> {
     const searchInterface = Coveo.$$(this.searchInterface.current);
     const resultTitle = Coveo.$$(document.querySelector('.CustomCoveoResultTitle') as HTMLElement);
 
-    searchInterface.on('newQuery', (e, args) => {
-      resultTitle.el.style.display = 'none';
-    });
-
     searchInterface.on('querySuccess', (e, args) => {
       if (args.results.totalCount > 0) {
         resultTitle.el.innerHTML = 'Showing Help Center Results';
