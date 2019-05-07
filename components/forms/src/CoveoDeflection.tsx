@@ -2,13 +2,6 @@ import React, { Component } from 'react';
 import CoveoDeflectionSearch from './CoveoDeflectionSearch';
 import CoveoDummyDeflectionForm from './CoveoDummyDeflectionForm';
 
-const rowStyle = {
-  display: 'flex',
-};
-const columnStyle = {
-  flex: '50%',
-};
-
 class CoveoDeflection extends Component<{}, { subject: string }> {
   coveoDeflectionSearch: React.RefObject<CoveoDeflectionSearch>;
 
@@ -30,18 +23,12 @@ class CoveoDeflection extends Component<{}, { subject: string }> {
   render() {
     return(
       <div>
-        <div style={rowStyle}>
-          <div style={columnStyle}>
-            <CoveoDummyDeflectionForm handleChange={this.formChange} />
-          </div>
-          <div style={columnStyle}>
-            <CoveoDeflectionSearch
-              subject={this.state.subject}
-              organizationId="searchuisamples"
-              accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
-              ref={this.coveoDeflectionSearch} />
-          </div>
-        </div>
+        <CoveoDeflectionSearch
+          subject={this.state.subject}
+          organizationId="searchuisamples"
+          accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
+          ref={this.coveoDeflectionSearch} />
+        <CoveoDummyDeflectionForm handleChange={this.formChange} />
       </div>
     );
   }

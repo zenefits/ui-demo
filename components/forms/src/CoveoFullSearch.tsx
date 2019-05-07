@@ -9,15 +9,22 @@ class CoveoFullSearch extends Component {
     super(props);
     this.coveoDeflectionSearch = React.createRef();
   }
-    
+  
   render() {
+    const SearchboxStyle = {
+      margin: "auto",
+      width: "50%"
+    };
+    
     return(
       <div>
-        <CoveoSearchbox
-          organizationId="searchuisamples"
-          accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
-          ref={this.coveoDeflectionSearch}
-        />
+        <div style={SearchboxStyle}>
+          <CoveoSearchbox
+            organizationId="searchuisamples"
+            accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
+            ref={this.coveoDeflectionSearch}
+          />
+        </div>
         <br />
         <CoveoSearch
           organizationId="searchuisamples"

@@ -89,7 +89,7 @@ class SearchUI extends Component<CoveoDeflectionSearchProps> {
 
   render() {
     return (
-      <div id="search" className="CoveoSearchInterface" data-enable-history="false" ref={this.searchInterface}>
+      <div id="search" className="CoveoSearchInterface" data-enable-history="false" data-results-per-page="4" ref={this.searchInterface}>
         {this.props.children}
       </div>
     );
@@ -109,7 +109,7 @@ class CoveoDeflection extends Component<CoveoDeflectionSearchProps> {
   componentDidMount() {
     Coveo.TemplateCache.registerTemplate("default", Coveo.HtmlTemplate.fromString(`
       <div class='coveo-result-frame'>
-        <div class='coveo-result-row'>
+        <div class='coveo-result-row' style='padding-bottom: 10px;'>
           <a class='CoveoResultLink'></a>
         </div>
         <div class='coveo-result-row'>
@@ -149,18 +149,8 @@ class CoveoDeflection extends Component<CoveoDeflectionSearchProps> {
               <div className="CoveoTriggers" />
               <div className="CoveoBreadcrumb" />
               <div className="CoveoDidYouMean" />
-              <div className="coveo-results-header">
-                <div className="coveo-summary-section">
-                  <span className="CoveoQuerySummary" />
-                  <span className="CoveoQueryDuration" />
-                </div>
-                <div className="coveo-result-layout-section">
-                  <span className="CoveoResultLayout" />
-                </div>
-                <div className="coveo-sort-section">
-                  <span className="CoveoSort" data-sort-criteria="relevancy" data-caption="Relevance" />
-                  <span className="CoveoSort" data-sort-criteria="date descending,date ascending" data-caption="Date" />
-                </div>
+              <div className="coveo-result-layout-section">
+                <span className="CoveoResultLayout" />
               </div>
               <div className="CoveoHiddenQuery" />
               <div className="CoveoErrorReport" data-pop-up="false" />
@@ -170,9 +160,6 @@ class CoveoDeflection extends Component<CoveoDeflectionSearchProps> {
                 data-wait-animation="fade"
                 data-auto-select-fields-to-include="false"
               />
-              <div className="CoveoPager" />
-              <div className="CoveoLogo" />
-              <div className="CoveoResultsPerPage" />
             </div>
           </div>
         </SearchUI>

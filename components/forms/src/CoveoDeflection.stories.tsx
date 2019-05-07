@@ -7,7 +7,7 @@ import CoveoDeflection from './CoveoDeflection';
 
 storiesOf('forms|CoveoDeflection', module)
   .addDecorator((getStory: Function) => (
-    <Box p={20} w={[1, 1]} bg="grayscale.white">
+    <Box p={20} w={[1, 1/2]} bg="grayscale.white">
       {getStory()}
     </Box>
   ))

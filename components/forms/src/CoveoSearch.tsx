@@ -97,10 +97,10 @@ class CoveoSearch extends Component<CoveoSearchProps> {
               </div>
               <div className="CoveoTriggers" />
               <div className="CoveoBreadcrumb" />
-              <div className="CoveoDidYouMean" />
-              <div className="coveo-results-header">
+              <div className="coveo-result-header">
                 <div className="coveo-summary-section">
                   <span className="CustomCoveoResultTitle" />
+                  <div className="CoveoDidYouMean" />
                 </div>
                 <div className="coveo-result-layout-section">
                   <span className="CoveoResultLayout" />
@@ -114,13 +114,14 @@ class CoveoSearch extends Component<CoveoSearchProps> {
                 data-wait-animation="fade"
                 data-auto-select-fields-to-include="false"
               />
-              <div className="coveo-results-header" />
-              <span
-                className="CoveoQuerySummary"
-                data-enable-cancel-last-action="false"
-                data-enable-no-results-found-message="false"
-                data-enable-search-tips="false" />
-              <div className="CoveoPager" />
+              <div className="coveo-result-footer">
+                <span
+                  className="CoveoQuerySummary"
+                  data-enable-cancel-last-action="false"
+                  data-enable-no-results-found-message="false"
+                  data-enable-search-tips="false" />
+                <div className="CoveoPager" />
+              </div>
             </div>
           </div>
         </SearchUI>
