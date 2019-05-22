@@ -7,6 +7,7 @@ import './CoveoSearch.css';
 type CoveoSearchProps = {
   organizationId: string;
   accessToken: string;
+  query?: string;
   searchbox?: React.RefObject<CoveoSearchbox>;
 };
 
@@ -21,6 +22,18 @@ class SearchUI extends Component<CoveoSearchProps> {
   registerEventHandlers() {
     const searchInterface = Coveo.$$(this.searchInterface.current);
     const resultTitle = Coveo.$$(document.querySelector('.CustomCoveoResultTitle') as HTMLElement);
+
+    // Add a queryBuilder expression if a query is passed as a props or comes from the state
+    searchInterface.on('buildingQuery', (e, args) => {
+      if (this.props.query) {
+        args.queryBuilder.expression.add(this.props.query);
+      } else if (!this.props.searchbox) {
+        const q = Coveo.state(this.searchInterface.current, 'q');
+        if (q) {
+          args.queryBuilder.expression.add(q);
+        }
+      }
+    });
 
     searchInterface.on('querySuccess', (e, args) => {
       if (args.results.totalCount > 0) {
@@ -52,7 +65,7 @@ class SearchUI extends Component<CoveoSearchProps> {
 
   render() {
     return (
-      <div id="search" className="CoveoSearchInterface" data-enable-history="false" ref={this.searchInterface}>
+      <div id="search" className="CoveoSearchInterface" data-enable-history="true" data-use-local-storage-for-history="true" ref={this.searchInterface}>
         {this.props.children}
       </div>
     );

@@ -6,7 +6,7 @@ import './CoveoSearchbox.css';
 type CoveoSearchboxProps = {
   organizationId: string;
   accessToken: string;
-  url?: string;
+  redirectUrl?: string;
   initSearchbox?: boolean;
 };
 
@@ -18,10 +18,23 @@ class CoveoSearchbox extends Component<CoveoSearchboxProps> {
     this.searchInterface = React.createRef();
   }
 
+  registerEventHandlers() {
+    const searchInterface = Coveo.$$(this.searchInterface.current);
+
+    // Prevent the search box from restoring its state with last saved query
+    searchInterface.on('beforeInitialization', (e, args) => {
+      const localStorage = new Coveo.LocalStorageUtils('LocalStorageHistoryController');
+      localStorage.remove();
+    });
+  }
+
   componentDidMount() {
     if (this.props.initSearchbox) {
       Coveo.SearchEndpoint.configureCloudV2Endpoint(this.props.organizationId, this.props.accessToken);
-      Coveo.initSearchbox(this.searchInterface.current, this.props.url || '');
+
+      this.registerEventHandlers();
+
+      Coveo.initSearchbox(this.searchInterface.current, this.props.redirectUrl || '');
     }
   }
 
@@ -32,7 +45,7 @@ class CoveoSearchbox extends Component<CoveoSearchboxProps> {
   render() {
     return (
       <div>
-        <div id="searchbox" ref={this.searchInterface}>
+        <div id="searchbox" data-enable-history="true" data-use-local-storage-for-history="true" ref={this.searchInterface}>
           <div className="coveo-search-section">
             <div className="CoveoOmnibox" data-placeholder="How can we help?" />
           </div>

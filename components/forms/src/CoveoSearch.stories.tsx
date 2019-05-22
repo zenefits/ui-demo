@@ -11,4 +11,5 @@ storiesOf('forms|CoveoSearch', module)
       {getStory()}
     </Box>
   ))
-  .add('default', () => <CoveoSearch organizationId="searchuisamples" accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457" />);
+  .add('default', () => <CoveoSearch organizationId="searchuisamples" accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457" />)
+  .add('custom query', () => <CoveoSearch organizationId="searchuisamples" accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457" query="search term" />);

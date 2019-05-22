@@ -15,7 +15,7 @@ storiesOf('forms|CoveoSearchbox', module)
     <CoveoSearchbox
       organizationId="searchuisamples"
       accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
-      url="search"
+      redirectUrl="/search"
       initSearchbox
     />
   ));
