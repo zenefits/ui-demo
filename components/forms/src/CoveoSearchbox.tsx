@@ -7,6 +7,7 @@ type CoveoSearchboxProps = {
   organizationId: string;
   accessToken: string;
   redirectUrl?: string;
+  newTab?: boolean;
   initSearchbox?: boolean;
 };
 
@@ -26,6 +27,14 @@ class CoveoSearchbox extends Component<CoveoSearchboxProps> {
       const localStorage = new Coveo.LocalStorageUtils('LocalStorageHistoryController');
       localStorage.remove();
     });
+
+    // Open up search results in a new tab when newTab prop is set
+    if (this.props.newTab) {
+      searchInterface.on('beforeRedirect', (e, args) => {
+        args.cancel = true;
+        window.open(args.searchPageUri, '_blank');
+      });
+    }
   }
 
   componentDidMount() {

@@ -18,4 +18,13 @@ storiesOf('forms|CoveoSearchbox', module)
       redirectUrl="/search"
       initSearchbox
     />
+  ))
+  .add('open in new tab', () => (
+    <CoveoSearchbox
+      organizationId="searchuisamples"
+      accessToken="xx564559b1-0045-48e1-953c-3addd1ee4457"
+      redirectUrl="/search"
+      initSearchbox
+      newTab
+    />
   ));
