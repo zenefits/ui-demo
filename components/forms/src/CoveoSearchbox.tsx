@@ -32,7 +32,18 @@ class CoveoSearchbox extends Component<CoveoSearchboxProps> {
     if (this.props.newTab) {
       searchInterface.on('beforeRedirect', (e, args) => {
         args.cancel = true;
-        window.open(args.searchPageUri, '_blank');
+
+        const stateValues = Coveo.state(this.searchInterface.current).getAttributes();
+        stateValues['firstQueryCause'] = 'searchFromLink';
+
+        const link = document.createElement('a');
+        link.href = args.searchPageUri;
+        link.href = link.href; // IE11 needs this to correctly fill the properties that are used below.
+
+        const pathname = link.pathname.indexOf('/') == 0 ? link.pathname : '/' + link.pathname; // IE11 does not add a leading slash to this property.
+        const hash = link.hash ? link.hash + '&' : '#';
+        
+        window.open(link.protocol + '//' + link.host + pathname + link.search + hash + Coveo.HashUtils.encodeValues(stateValues), '_blank');
       });
     }
   }
