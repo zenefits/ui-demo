@@ -23,11 +23,16 @@ class SearchUI extends Component<CoveoSearchProps> {
     const searchInterface = Coveo.$$(this.searchInterface.current);
     const resultTitle = Coveo.$$(document.querySelector('.CustomCoveoResultTitle') as HTMLElement);
 
-    // Add a queryBuilder expression if a query is passed as a props or comes from the state
-    searchInterface.on('buildingQuery', (e, args) => {
+    // Populate state if a query is passed as props
+    searchInterface.on('afterComponentsInitialization', (e, args) => {
       if (this.props.query) {
-        args.queryBuilder.expression.add(this.props.query);
-      } else if (!this.props.searchbox) {
+        Coveo.state(this.searchInterface.current, 'q', this.props.query);
+      }
+    });
+
+    // Add a queryBuilder expression if it has not been added already
+    searchInterface.on('doneBuildingQuery', (e, args) => {
+      if (args.queryBuilder.expression.isEmpty()) {
         const q = Coveo.state(this.searchInterface.current, 'q');
         if (q) {
           args.queryBuilder.expression.add(q);
