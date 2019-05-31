@@ -53,6 +53,12 @@ class SearchUI extends Component<CoveoSearchProps> {
     });
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.query !== prevProps.query) {
+      Coveo.state(this.searchInterface.current, 'q', this.props.query);
+    }
+  }
+
   componentDidMount() {
     Coveo.SearchEndpoint.configureCloudV2Endpoint(this.props.organizationId, this.props.accessToken);
 
