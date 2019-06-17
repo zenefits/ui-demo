@@ -12,8 +12,8 @@ class CoveoFullSearch extends Component {
   
   render() {
     const SearchboxStyle = {
-      margin: "auto",
-      width: "50%"
+      "margin-left": "15px",
+      "margin-right": "10px"
     };
     
     return(
