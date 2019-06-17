@@ -110,7 +110,7 @@ class CoveoDeflection extends Component<CoveoDeflectionSearchProps> {
     Coveo.TemplateCache.registerTemplate("default", Coveo.HtmlTemplate.fromString(`
       <div class='coveo-result-frame'>
         <div class='coveo-result-row' style='padding-bottom: 10px;'>
-          <a class='CoveoResultLink'></a>
+          <a class='CoveoResultLink' data-always-open-in-new-window='true'></a>
         </div>
         <div class='coveo-result-row'>
           <div class='CoveoExcerpt'></div>
