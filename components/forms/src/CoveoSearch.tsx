@@ -109,6 +109,9 @@ class CoveoSearch extends Component<CoveoSearchProps> {
         <SearchUI {...this.props}>
           <div className="CoveoAnalytics" />
           <div className="coveo-main-section">
+            <div className="coveo-facet-column">
+              <div className="CoveoFacet" data-title="Source" data-field="@commonsource"></div>
+            </div>
             <div className="coveo-results-column">
               <div className="CoveoShareQuery" />
               <div className="CoveoPreferencesPanel">
