@@ -110,7 +110,7 @@ class CoveoSearch extends Component<CoveoSearchProps> {
           <div className="CoveoAnalytics" />
           <div className="coveo-main-section">
             <div className="coveo-facet-column">
-              <div className="CoveoFacet" data-title="Source" data-field="@commonsource"></div>
+              <div className="CoveoFacet" data-title="Source" data-field="@commonsource" />
             </div>
             <div className="coveo-results-column">
               <div className="CoveoShareQuery" />
