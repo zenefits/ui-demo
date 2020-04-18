@@ -4,7 +4,7 @@ import { Textarea as ZbaseTextarea, TextareaProps as ZbaseTextareaProps } from '
 import { css, styled } from 'z-frontend-theme';
 import { space } from 'z-frontend-theme/utils';
 
-import { commonTextInputStyles } from '../input/Input';
+import { commonTextInputStyles, InputProps } from '../input/Input';
 
 export type TextareaProps = ZbaseTextareaProps & {
   /**
@@ -63,7 +63,7 @@ export type TextareaProps = ZbaseTextareaProps & {
   autoGrowMaxHeight?: string;
 };
 
-export const commonTextareaStyles = css<TextareaProps>`
+export const commonTextareaStyles = css<TextareaProps & InputProps>`
   ${commonTextInputStyles};
   width: 100%; /* NOTE: cols attribute ignored */
   /* NOTE: resize is not universally supported: https://caniuse.com/#feat=css-resize */
@@ -73,7 +73,7 @@ export const commonTextareaStyles = css<TextareaProps>`
   padding-bottom: ${space(2)};
 `;
 
-const StyledTextarea = styled<TextareaProps & { autoGrowHeight?: number }>(ZbaseTextarea)`
+const StyledTextarea = styled(ZbaseTextarea)<TextareaProps & { autoGrowHeight?: number }>`
   ${commonTextareaStyles};
   ${props => (props.autoGrowHeight ? `height: ${props.autoGrowHeight}px` : '')};
   ${props => `max-height: ${props.autoGrowMaxHeight}`};
@@ -92,6 +92,7 @@ class Textarea extends Component<TextareaProps, State> {
     autoGrow: false,
     autoGrowMaxHeight: '30vh',
   };
+
   constructor(props: TextareaProps) {
     super(props);
     this.state = {

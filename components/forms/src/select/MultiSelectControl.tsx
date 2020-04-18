@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled, IconNameString } from 'z-frontend-theme';
 import { radius, space } from 'z-frontend-theme/utils';
-import { IconButton } from 'z-frontend-elements';
+import { IconButton, ScreenReaderOnly } from 'z-frontend-elements';
 import { Box, Flex, Icon } from 'zbase';
 
 import { SelectOptionSize } from './SelectOptions';
@@ -35,9 +35,14 @@ type MultiSelectControlProps = {
   innerRef?: React.RefObject<any>;
   autoFocus?: boolean;
   disabled?: boolean;
+  fieldName?: string;
+  fieldLabel?: string;
+  ariaDescribedBy?: string;
 };
 
-const SelectionPill = styled(Flex.extendProps<{ disabled: boolean }>())`
+const SelectionPill = styled(Flex)<{ disabled: boolean }>`
+  hyphens: auto;
+  word-break: break-word;
   margin: 2px;
   border-radius: ${radius()};
   padding-right: ${props => props.disabled && space(2)};
@@ -89,8 +94,16 @@ export default class MultiSelectControl extends React.Component<MultiSelectContr
       placeholder,
       innerRef,
       disabled,
+      fieldName,
+      fieldLabel,
+      ariaDescribedBy,
     } = this.props;
+
     const hasSelections = selections.length > 0;
+    const stateDescription = hasSelections
+      ? `The following values are currently selected: ${hasSelections}`
+      : 'No values are currently selected';
+    const descriptionId = `${fieldName}-description-id`;
 
     return (
       <SelectControlContainer
@@ -99,15 +112,18 @@ export default class MultiSelectControl extends React.Component<MultiSelectContr
         role="button"
         onClick={disabled ? () => {} : onClick}
         onFocus={disabled ? () => {} : onFocus}
-        tabIndex={!disabled && 0}
+        tabIndex={disabled ? null : 0}
         onKeyDown={disabled ? () => {} : onKeyDown}
         elementRef={innerRef}
         disabled={disabled}
+        aria-label={`Click or press enter to edit ${fieldLabel}`}
+        aria-describedby={`${descriptionId} ${ariaDescribedBy}`}
       >
+        <ScreenReaderOnly id={descriptionId}>{stateDescription}</ScreenReaderOnly>
         <SelectionsContainer pl={hasSelections ? 2 : 3}>
           {hasSelections ? (
             selections.map((selection, i) => (
-              <SelectionPill key={i} disabled={disabled}>
+              <SelectionPill key={selection} disabled={disabled} data-testid="MultiSelectControl-Pill">
                 {selection}
                 {!disabled && (
                   <IconButton
@@ -123,6 +139,7 @@ export default class MultiSelectControl extends React.Component<MultiSelectContr
                         onClearItem(i);
                       }
                     }}
+                    aria-label={`Remove ${selection} from field: ${fieldLabel}`}
                   />
                 )}
               </SelectionPill>
@@ -152,7 +169,7 @@ export default class MultiSelectControl extends React.Component<MultiSelectContr
         )}
 
         <Box py={2} pl={0} pr={3}>
-          <Icon iconName={SELECT_ICON_NAME} s={size} />
+          <Icon iconName={SELECT_ICON_NAME} s={size} aria-label="Expand options" />
         </Box>
       </SelectControlContainer>
     );

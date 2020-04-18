@@ -6,6 +6,10 @@ We have three types of Modals:
 2.  Action
 3.  Custom
 
+```jsx noeditor
+<FigmaFile height={1020} url="https://www.figma.com/file/OKdw775cxzrwQhGNm1SYM8ZD/Figma-Embed?node-id=149%3A1" />
+```
+
 #### Confirmation Modals
 
 Confirmation modals require users to confirm a choice before the dialog is dismissed. Usually the actions are "Confirm"
@@ -18,7 +22,11 @@ Use the [ActionModal](/#!/ActionModal) component.
 
 #### Custom Modals
 
-Normally you won't need to use this directly. This is required only when you need a [custom footer](/app/stories/?selectedKind=overlays|Modal&selectedStory=custom%20footer).
+Normally you won't need to use this directly. This is required only when you need a [custom footer](/app/stories/?selectedKind=overlays|Modal&selectedStory=custom%20footer) or a body with sections:
+
+```jsx noeditor
+<StorybookExample selectedKind="overlays|Modal" selectedStory="body with sections" />
+```
 
 #### Examples
 
@@ -35,15 +43,13 @@ See [more examples](/app/stories/?selectedKind=overlays|Modal).
 
 #### Usage
 
-- Use this for short user interactions, where it's important to focus on a single interaction and maintaining context is important.
-- For forms use a maximum of 5 fields
-- Use a maximum of two buttons in the footer. One must be dismissive and one must be confirming. The dismissive one is always placed to the left of the confirming action. They use secondary and primary buttons respectively.
-- Avoid flows
-- Avoid tables
+- Use Modal for short user interactions, where it's important to focus on a single interaction and maintaining context is important. Avoid flows and tables.
 - Avoid anything that relies on popovers, including help text, datepickers and selects.
-- When focus isn't as important, but the interaction is small use a popover or tooltip
-- Use a detail panel for complex interactions, where maintaining context is still important.
-- Use a full page transition for complex interactions
+- When focus isn't as important, but the interaction is small, use a Popover or Tooltip.
+
+```jsx noeditor
+<FigmaFile height={1650} url="https://www.figma.com/file/OKdw775cxzrwQhGNm1SYM8ZD/Figma-Embed?node-id=1176%3A4908" />
+```
 
 #### Content Guidelines
 

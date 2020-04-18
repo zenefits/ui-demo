@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
+import Field from '../Field';
 import SelectDeprecated, { SelectProps as SelectDeprecatedProps } from '../../select/SelectDeprecated';
 import FormFieldWrapper, { getErrorId, getLabelId, FormFieldProps } from '../FormFieldWrapper';
 
 type FormSelectProps = SelectDeprecatedProps & FormFieldProps;
 
+/**
+ * @deprecated Please use Form.Select instead
+ */
 class FormSelectDeprecated extends Component<FormSelectProps> {
   render() {
-    const { name, label, containerProps, optional, ...rest } = this.props;
+    const { name, label, containerProps, optional, limitRerender, dependencies, ...rest } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form }: FieldProps) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper
@@ -35,7 +38,7 @@ class FormSelectDeprecated extends Component<FormSelectProps> {
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

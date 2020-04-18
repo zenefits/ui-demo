@@ -2,7 +2,7 @@ import React from 'react';
 import 'jest-styled-components';
 
 import 'z-frontend-jest/modified-jest-styled-components';
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme, renderEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import { getColor } from 'z-frontend-theme';
 
@@ -11,12 +11,12 @@ import CircularBadge from './CircularBadge';
 
 describe('Avatar', () => {
   it('should mount without throwing an error', () => {
-    const wrapper = mountWithTheme(<Avatar firstName="Ronald" lastName="McDonald" />);
+    const wrapper = mountEnzymeWithTheme(<Avatar firstName="Ronald" lastName="McDonald" />);
     expect(wrapper).toHaveLength(1);
   });
 
   it('should respect util props', () => {
-    const mounted = mountWithTheme(
+    const mounted = mountEnzymeWithTheme(
       <Avatar mt={123} bg="primary.a" color="text.light" w={50} height={50} fontStyle="headings.xxl" />,
     );
 
@@ -29,8 +29,13 @@ describe('Avatar', () => {
   });
 
   it('should default to size medium', () => {
-    const mounted = mountWithTheme(<Avatar />);
+    const mounted = mountEnzymeWithTheme(<Avatar />);
     expect(mounted.props()).toHaveProperty('s', 'medium');
+  });
+
+  it('should include aria-label if provided', () => {
+    const rendered = renderEnzymeWithTheme(<Avatar firstName="Papa" lastName="John" aria-label="My account" />);
+    expect(rendered.attr('aria-label')).toBe('My account');
   });
 
   describe('when `photoUrl` is provided', () => {
@@ -38,7 +43,7 @@ describe('Avatar', () => {
       'https://i.pinimg.com/736x/95/2a/04/952a04ea85a8d1b0134516c52198745e--rottweilers-labradors.jpg';
 
     it('renders an <img>', () => {
-      const rendered = renderWithTheme(
+      const rendered = renderEnzymeWithTheme(
         <Avatar firstName="Papa" lastName="John" photoUrl={photoSource} tooltipBody="" />,
       );
       expect(rendered.is('img')).toBe(true);
@@ -46,7 +51,7 @@ describe('Avatar', () => {
     });
 
     it('rendered <img> includes alt text', () => {
-      const rendered = renderWithTheme(
+      const rendered = renderEnzymeWithTheme(
         <Avatar firstName="Papa" lastName="John" photoUrl={photoSource} tooltipBody="" />,
       );
       expect(rendered.attr('alt')).toBe("Papa John's picture");
@@ -55,19 +60,19 @@ describe('Avatar', () => {
 
   describe('when `photoUrl` is not provided', () => {
     it('renders initials', () => {
-      const rendered = renderWithTheme(<Avatar firstName="Papa" lastName="John" tooltipBody="" />);
+      const rendered = renderEnzymeWithTheme(<Avatar firstName="Papa" lastName="John" tooltipBody="" />);
       expect(rendered.text()).toBe('PJ');
     });
   });
 
   describe('when `badge` is provided', () => {
     it('renders badge', () => {
-      const mounted = mountWithTheme(<Avatar firstName="Papa" lastName="John" badge="contingent" />);
+      const mounted = mountEnzymeWithTheme(<Avatar firstName="Papa" lastName="John" badge="contingent" />);
       const badge = mounted.find(CircularBadge);
       expect(badge.text().trim()).toBe('C');
     });
     it('have the right style ', () => {
-      const mounted = mountWithTheme(<Avatar firstName="Papa" lastName="John" badge="contingent" />);
+      const mounted = mountEnzymeWithTheme(<Avatar firstName="Papa" lastName="John" badge="contingent" />);
       const badge = mounted.find(CircularBadge);
       expect(badge).toHaveStyleRule('background-color', getColor('tertiary.a'));
       expect(badge).toHaveStyleRule('color', getColor('grayscale.white'));

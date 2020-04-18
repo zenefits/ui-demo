@@ -4,6 +4,7 @@ import { DateSource, FormattedRelative } from 'react-intl';
 import withWebUtilProps, { ResultWebComponentProps, TimeElProps } from '../withUtilPropsWeb';
 import { removeUtilProps } from '../../commonTypes';
 import TimeTag from '../time-tag/TimeTag';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 // TODO: document other props
 // https://github.com/yahoo/react-intl/wiki/Components#formattedrelative
@@ -49,6 +50,9 @@ const TextContainer: StatelessComponent<RelativeTextProps> = ({
     </FormattedRelative>
   );
 };
+
+export const RelativeTextForDocs = makeDummyComponentForDocs<RelativeTextProps>();
+RelativeTextForDocs.displayName = 'RelativeText';
 
 export default withWebUtilProps<TimeElProps, AdditionalProps>({
   displayName: 'RelativeText',

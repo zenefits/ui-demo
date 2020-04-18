@@ -3,9 +3,10 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { Box } from 'zbase';
+import { Button } from 'z-frontend-elements';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormSimpleSelect } from '../../..';
 
 storiesOf('forms|Form.SimpleSelect', module)
   .addDecorator((getStory: Function) => (
@@ -14,34 +15,41 @@ storiesOf('forms|Form.SimpleSelect', module)
     </Box>
   ))
   .add('default', () => <DefaultExample />)
-  .add('not clearable', () => <UnclearableExample />)
+  .add('placeholder', () => <PlaceholderExample />)
+  .add('with help text', () => <DefaultExample helpText="Choose your main meal." />)
+  .add('not clearable', () => <DefaultExample clearable={false} />)
   .add('option values as objects', () => <ObjectOptionsExample />)
   .add('grouped options', () => <GroupsExample />)
-  .add('disabled options', () => <DisabledOptionExample />);
+  .add('disabled options', () => <DisabledOptionExample />)
+  .add('displayOnly', () => <DisplayOnlyExample />);
 
 const optionList = ['Chicken', 'Beef', 'Fish', 'Tofu'];
 
-const DefaultExample = () => (
-  <Form
-    onSubmit={() => {}}
-    initialValues={{ entree: 'Tofu' }}
-    validationSchema={{ entree: Form.Yup.string().required('Entree is a required field') }}
-  >
-    <Form.SimpleSelect<string> name="entree" label="Entree" onChange={action('Select updated')} getOptionText={o => o}>
+const commonFormProps = {
+  onSubmit: () => {},
+  initialValues: { entree: 'Tofu' },
+  validationSchema: { entree: Form.Yup.string().required('Entree is a required field') },
+};
+
+const DefaultExample = (fieldProps: any) => (
+  <Form {...commonFormProps}>
+    <FormSimpleSelect<string>
+      name="entree"
+      label="Entree"
+      onChange={action('Select updated')}
+      getOptionText={o => o}
+      {...fieldProps}
+    >
       {({ SelectOption }) => optionList.map(option => <SelectOption key={option} option={option} />)}
-    </Form.SimpleSelect>
+    </FormSimpleSelect>
   </Form>
 );
 
-const UnclearableExample = () => (
-  <Form
-    onSubmit={() => {}}
-    initialValues={{ entree: 'Tofu' }}
-    validationSchema={{ entree: Form.Yup.string().required('Entree is a required field') }}
-  >
-    <Form.SimpleSelect<string> name="entree" label="Entree" clearable={false} getOptionText={o => o}>
+const PlaceholderExample = () => (
+  <Form onSubmit={() => {}} initialValues={{}}>
+    <FormSimpleSelect<string> name="entree" label="Entree" getOptionText={o => o}>
       {({ SelectOption }) => optionList.map(option => <SelectOption key={option} option={option} />)}
-    </Form.SimpleSelect>
+    </FormSimpleSelect>
   </Form>
 );
 
@@ -62,14 +70,14 @@ const ObjectOptionsExample = () => (
         .required('Entree is a required field'),
     }}
   >
-    <Form.SimpleSelect<{ id: number; label: string }>
+    <FormSimpleSelect<{ id: number; label: string }>
       name="entree"
       label="Entree"
       onChange={action('Select updated')}
       getOptionText={o => o.label}
     >
       {({ SelectOption }) => objectsList.map(option => <SelectOption key={option.id} option={option} />)}
-    </Form.SimpleSelect>
+    </FormSimpleSelect>
   </Form>
 );
 
@@ -85,12 +93,8 @@ const groupedOptionList = [
 ];
 
 const GroupsExample = () => (
-  <Form
-    onSubmit={() => {}}
-    initialValues={{ entree: 'Tofu' }}
-    validationSchema={{ entree: Form.Yup.string().required('Entree is a required field') }}
-  >
-    <Form.SimpleSelect<string> name="entree" label="Entree" onChange={action('Select updated')} getOptionText={o => o}>
+  <Form {...commonFormProps}>
+    <FormSimpleSelect<string> name="entree" label="Entree" onChange={action('Select updated')} getOptionText={o => o}>
       {({ SelectOption, SelectGroup }) =>
         groupedOptionList.map(group => (
           <SelectGroup key={group.groupName} label={group.groupName}>
@@ -100,20 +104,52 @@ const GroupsExample = () => (
           </SelectGroup>
         ))
       }
-    </Form.SimpleSelect>
+    </FormSimpleSelect>
   </Form>
 );
 
 const DisabledOptionExample = () => (
-  <Form
-    onSubmit={() => {}}
-    initialValues={{ entree: 'Tofu' }}
-    validationSchema={{ entree: Form.Yup.string().required('Entree is a required field') }}
-  >
-    <Form.SimpleSelect<string> name="entree" label="Entree" onChange={action('Select updated')} getOptionText={o => o}>
+  <Form {...commonFormProps}>
+    <FormSimpleSelect<string> name="entree" label="Entree" onChange={action('Select updated')} getOptionText={o => o}>
       {({ SelectOption }) =>
         optionList.map((option, i) => <SelectOption key={option} option={option} disabled={i === 0} />)
       }
-    </Form.SimpleSelect>
+    </FormSimpleSelect>
   </Form>
 );
+
+const commonDisplayProps = {
+  name: 'entree',
+  label: 'Entree',
+  getOptionText: (o: string) => o,
+  containerProps: { mb: 3 },
+};
+
+const optionsRenderProp = ({ SelectOption }: any) =>
+  optionList.map(option => <SelectOption key={option} option={option} />);
+
+class DisplayOnlyExample extends React.Component {
+  state = {
+    displayOnly: true,
+  };
+
+  render() {
+    const { displayOnly } = this.state;
+    return (
+      <Box>
+        <Form onSubmit={() => {}} initialValues={{ entree: 'Tofu' }}>
+          <FormSimpleSelect<string> {...commonDisplayProps} s="small" displayOnly={displayOnly}>
+            {optionsRenderProp}
+          </FormSimpleSelect>
+          <FormSimpleSelect<string> {...commonDisplayProps} s="medium" displayOnly={displayOnly}>
+            {optionsRenderProp}
+          </FormSimpleSelect>
+          <FormSimpleSelect<string> {...commonDisplayProps} s="large" displayOnly={displayOnly}>
+            {optionsRenderProp}
+          </FormSimpleSelect>
+        </Form>
+        <Button onClick={() => this.setState({ displayOnly: !displayOnly })}>Toggle mode</Button>
+      </Box>
+    );
+  }
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Card } from 'z-frontend-composites';
-import { inputWidths, labelWidths, Form } from 'z-frontend-forms';
+import { inputWidths, labelWidths, Form, FormSelect, FormSimpleSelect } from 'z-frontend-forms';
 import { DragDropList, OnDragEndResult } from 'z-frontend-drag-and-drop';
 import { Box, Flex, Icon, TextBlock, TextInline } from 'zbase';
 import { IconButton } from 'z-frontend-elements';
@@ -23,6 +23,11 @@ type ColumnEditorProps = {
    * Callback function
    */
   onChange?: (columns: string[]) => void;
+  /**
+   * By default ColumnEditor use FormSimpleSelect as the select input to choose column. Setting this prop to true will
+   * change the component to use FormSelect with search ability for options.
+   */
+  enableSearch?: boolean;
 };
 
 type ColumnEditorState = {
@@ -94,31 +99,36 @@ class ColumnEditor extends Component<ColumnEditorProps, ColumnEditorState> {
   };
 
   render() {
-    const { columns } = this.props;
+    const { columns, enableSearch } = this.props;
     const { selectedColumns } = this.state;
 
     const allColumns = columns.map(c => c.name);
     const requiredColumns = columns.filter(c => c.required).map(c => c.name);
     const columnOptions = allColumns.filter(column => !selectedColumns.includes(column));
+    const sharedProps = {
+      name: 'column',
+      label: 'Columns to Include',
+      placeholder: columnOptions.length ? 'Select Columns to Add' : 'No more options to add',
+      onChange: (value: string) => this.addToSelected(value),
+      value: '',
+      containerProps: { mb: 0 },
+    };
 
     return (
       <>
         <Card.Row>
           <Form<FormValues> onSubmit={() => {}} initialValues={{ column: '' }}>
             {() => {
-              return (
-                <Form.SimpleSelect<string>
-                  name="column"
-                  label="Columns to Include"
-                  placeholder={columnOptions.length ? 'Select Columns to Add' : 'No more options to add'}
-                  onChange={value => {
-                    this.addToSelected(value);
-                  }}
-                  value=""
-                  containerProps={{ mb: 0 }}
-                >
+              return enableSearch ? (
+                <FormSelect<string> getOptionText={o => o} {...sharedProps}>
+                  {({ SelectOption, basicOptionFilter }) =>
+                    basicOptionFilter(columnOptions).map(option => <SelectOption key={option} option={option} />)
+                  }
+                </FormSelect>
+              ) : (
+                <FormSimpleSelect<string> {...sharedProps}>
                   {({ SelectOption }) => columnOptions.map(option => <SelectOption key={option} option={option} />)}
-                </Form.SimpleSelect>
+                </FormSimpleSelect>
               );
             }}
           </Form>
@@ -136,7 +146,7 @@ class ColumnEditor extends Component<ColumnEditorProps, ColumnEditorState> {
                       <DragDropList.DraggableFlex
                         mb={2}
                         itemId={item}
-                        key={index}
+                        key={item}
                         border
                         borderColor="secondary.b"
                         justify="space-between"

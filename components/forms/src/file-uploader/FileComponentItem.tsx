@@ -1,7 +1,7 @@
 import React, { StatelessComponent } from 'react';
 
 import { ProgressBar } from 'z-frontend-elements';
-import { Box, Flex, TextBlock } from 'zbase';
+import { Box, Flex, NumberText, TextBlock } from 'zbase';
 
 interface FileComponentItemProps {
   file: any;
@@ -43,31 +43,38 @@ const FileComponentItem: StatelessComponent<FileComponentItemProps> = props => {
 
   let progressPercent;
   if (fileUrl) {
-    // upload is complete;
+    // upload is complete
     progressPercent = 100;
+  } else if (file.progressPercent >= 100) {
+    progressPercent = 99;
   } else {
-    if (file.progressPercent >= 100) {
-      progressPercent = 99;
-    } else {
-      progressPercent = file.progressPercent;
-    }
+    // eslint-disable-next-line prefer-destructuring
+    progressPercent = file.progressPercent;
   }
   return (
     <Box w={1}>
       <Flex justify="space-between">
         <TextBlock my={1}>{fileName}</TextBlock>
-        <TextBlock my={1}>{fileSize}</TextBlock>
+        <TextBlock my={1} color="text.light">
+          {fileSize}
+        </TextBlock>
       </Flex>
       <Flex align="center">
         <ProgressBar value={progressPercent} max="100" color={progressBarColor} />
       </Flex>
       <Flex justify="flex-end">
         {file.hasError ? (
-          <TextBlock my={1} color="negation.b">
+          <TextBlock my={2} color="negation.a">
             {file.hasError}
           </TextBlock>
         ) : (
-          <TextBlock my={1}>{progressPercent}%</TextBlock>
+          <NumberText
+            fontStyle="paragraphs.m"
+            color="affirmation.a"
+            style="percent"
+            value={progressPercent / 100}
+            my={2}
+          />
         )}
       </Flex>
     </Box>

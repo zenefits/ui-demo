@@ -13,7 +13,7 @@ const StyledTableHeader = styled.thead`
 
 // NOTE: avoiding zbase dependency
 const untypedFsUtil = fsUtil as any;
-const TypographySample = styled<{ fontStyle?: FontStyleString }>((props: any) => <div {...props} />)`
+const TypographySample = styled.div<{ fontStyle?: FontStyleString }>`
   ${props => untypedFsUtil(props.fontStyle)};
 `;
 

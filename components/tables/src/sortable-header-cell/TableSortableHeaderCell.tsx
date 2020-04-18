@@ -67,8 +67,11 @@ class SortableHeaderCell extends Component<Props> {
             </TargetContainer>
           }
         >
-          {this.props.header.sortOptions.map((sortOption, index) => (
-            <ButtonDropdown.ItemButton key={index} onClick={() => this.props.onHeaderSortClicked(sortOption)}>
+          {this.props.header.sortOptions.map(sortOption => (
+            <ButtonDropdown.ItemButton
+              key={sortOption.title}
+              onClick={() => this.props.onHeaderSortClicked(sortOption)}
+            >
               <TextBlock color="text.light" fontStyle="controls.m">
                 {sortOption.title}
               </TextBlock>

@@ -1,4 +1,5 @@
 interface SubscriptionAppInstall {
+  id: string;
   status: number;
   app: SubscriptionAppInstallApp;
   preferences: any;

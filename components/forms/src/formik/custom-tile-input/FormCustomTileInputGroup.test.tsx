@@ -1,15 +1,13 @@
 import React from 'react';
-import { cleanup, fireEvent, wait } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+import { cleanup, fireEvent, wait } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
-import { Form } from '../Form';
+import { Form, FormCustomTileInputGroup } from '../../..';
 
 interface FormValues {
-  chicken: boolean;
-  beef: boolean;
-  tofu: boolean;
+  proteins: string[];
   radio: string;
 }
 
@@ -22,29 +20,28 @@ const checkboxOptions = [
 const radioOptions = ['1', '2', '3', '4'];
 
 const initialValues: FormValues = {
-  chicken: false,
-  beef: false,
-  tofu: false,
+  proteins: [],
   radio: '1',
 };
 
-describe('Form.CustomTileInputGroup', () => {
+describe('FormCustomTileInputGroup', () => {
   function createForm(props: any = {}) {
     return (
       <Form<FormValues> onSubmit={props.onSubmit} initialValues={initialValues}>
         {formikProps => (
           <>
+            {/* TODO: use formikTestUtils.renderForm instead to get values */}
             <pre data-testid="form-values">{JSON.stringify(formikProps.values)}</pre>
-            <Form.CustomTileInputGroup isCheckbox>
+            <FormCustomTileInputGroup isCheckbox name="proteins">
               {TileInput =>
                 checkboxOptions.map(option => <TileInput key={option.value} name={option.value} label={option.label} />)
               }
-            </Form.CustomTileInputGroup>
-            <Form.CustomTileInputGroup>
+            </FormCustomTileInputGroup>
+            <FormCustomTileInputGroup name="radio">
               {TileInput =>
                 radioOptions.map(option => <TileInput key={option} label={option} value={option} name="radio" />)
               }
-            </Form.CustomTileInputGroup>
+            </FormCustomTileInputGroup>
             <Form.Footer primaryText="Save" />
           </>
         )}
@@ -85,13 +82,32 @@ describe('Form.CustomTileInputGroup', () => {
     await wait(() => {
       expect(handleSubmit).toHaveBeenCalledWith(
         {
-          chicken: true,
-          tofu: false,
-          beef: false,
+          proteins: ['chicken'],
           radio: '2',
         },
         expect.anything(),
       );
     });
+  });
+
+  interface FormNestedValues {
+    nested: {
+      radio: string;
+    };
+  }
+
+  it('handles nested object values', () => {
+    const wrapper = renderWithContext(
+      <Form<FormNestedValues> onSubmit={() => {}} initialValues={{ nested: { radio: '2' } }}>
+        <FormCustomTileInputGroup name="nested.radio">
+          {TileInput =>
+            radioOptions.map(option => <TileInput key={option} label={option} value={option} name="nested.radio" />)
+          }
+        </FormCustomTileInputGroup>
+      </Form>,
+    );
+    const checkedInput = wrapper.container.querySelector(':checked');
+    expect(checkedInput).toHaveAttribute('value', '2');
+    expect(checkedInput).toHaveAttribute('checked');
   });
 });

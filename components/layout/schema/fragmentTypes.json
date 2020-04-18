@@ -2,6 +2,18 @@
   "__schema": {
     "types": [
       {
+        "kind": "UNION",
+        "name": "ChangeDetail",
+        "possibleTypes": [
+          {
+            "name": "GroupMembershipChange"
+          },
+          {
+            "name": "CompensationChange"
+          }
+        ]
+      },
+      {
         "kind": "INTERFACE",
         "name": "Plan_Rate",
         "possibleTypes": [
@@ -115,6 +127,21 @@
           },
           {
             "name": "WellbeingAssessmentSession"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "MarketplacePlan",
+        "possibleTypes": [
+          {
+            "name": "MarketplaceMedicalPlan"
+          },
+          {
+            "name": "MarketplaceDentalPlan"
+          },
+          {
+            "name": "MarketplaceVisionPlan"
           }
         ]
       }

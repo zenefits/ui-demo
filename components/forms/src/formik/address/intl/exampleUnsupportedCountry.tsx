@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../../Form';
+import { Form, FormAddressIntl } from '../../../..';
 
 export default () => (
   <Form
@@ -19,7 +19,7 @@ export default () => (
       },
     }}
   >
-    <Form.AddressIntl name="address" />
+    <FormAddressIntl name="address" />
     <Form.Footer primaryText="Save" />
   </Form>
 );

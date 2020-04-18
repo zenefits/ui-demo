@@ -18,4 +18,6 @@ storiesOf('forms|TimeInput', module)
   .add('with error', () => <TimeInput name="time" error="invalid time entered" />)
   .add('custom interval', () => <TimeInput name="time" interval={15} />)
   .add('fires events', () => <TimeInput name="time" onChange={action('time changed')} />, skipVisualTest)
-  .add('disabled', () => <TimeInput name="time" disabled />);
+  .add('util props', () => <TimeInput name="time" my={50} width={200} />)
+  .add('disabled', () => <TimeInput name="time" disabled />)
+  .add('disable dropdown', () => <TimeInput name="time" defaultIsOpen disableDropdown />);

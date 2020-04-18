@@ -10,7 +10,7 @@ type TaskStatusIconProps = {
   state: TaskState;
 };
 
-const CircleWithBorder = styled(Flex.extendProps<TaskStatusIconProps>())`
+const CircleWithBorder = styled(Flex)<TaskStatusIconProps>`
   width: 32px;
   height: 32px;
   border-radius: 50%;

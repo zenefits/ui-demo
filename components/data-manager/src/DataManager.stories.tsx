@@ -12,16 +12,14 @@ import { updateFilters } from './filterUtils';
 import { updateSorter } from './sortUtils';
 import Pager from './Pager';
 
-const pageSize = 20;
-
-interface EmployeeType {
+export interface EmployeeType {
   id: number;
   name: string;
   company: string;
   department: string;
 }
 
-const getEmployees: (number: number) => EmployeeType[] = num => {
+export const getEmployees: (number: number) => EmployeeType[] = num => {
   faker.seed(123);
   return range(num).map(id => ({
     id,
@@ -31,6 +29,7 @@ const getEmployees: (number: number) => EmployeeType[] = num => {
   }));
 };
 const employees = getEmployees(50);
+const employeesForCaseInsensitiveSorting = getEmployeesForCaseInsensitiveSorting(50);
 const allDepartments = uniqBy(employees, 'department').map(e => e.department);
 const initialNameFilter = { name: { stringContains: 'er' } };
 const initialDeptFilter = updateFilters({}, 'matchAny', 'department', 'Automotive', true);
@@ -92,6 +91,7 @@ storiesOf('data-manager|DataManager', module)
   .add('no filter', () => (
     <DataManager
       sourceData={employees}
+      initialPageSize="xl"
       render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
         <Box p={3}>
           <h3>Full List ({employees.length} employees)</h3>
@@ -148,12 +148,35 @@ storiesOf('data-manager|DataManager', module)
         <Box p={3}>
           <h3>Sorting a List by specific keys</h3>
           <SortButton
-            field={'name'}
+            field="name"
             sortConfig={managerProps.sorting.config}
             onSortChange={managerProps.sorting.onChange}
           />
           <SortButton
-            field={'department'}
+            field="department"
+            sortConfig={managerProps.sorting.config}
+            onSortChange={managerProps.sorting.onChange}
+          />
+
+          {/* This component actually renders the final data */}
+          <ListOfEmployees arr={managerProps.displayData} />
+        </Box>
+      )}
+    />
+  ))
+  .add('sorting (case insensitive)', () => (
+    <DataManager
+      sourceData={employeesForCaseInsensitiveSorting}
+      render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
+        <Box p={3}>
+          <h3>Sorting a List by specific keys (case insensitive)</h3>
+          <SortButton
+            field="name"
+            sortConfig={managerProps.sorting.config}
+            onSortChange={managerProps.sorting.onChange}
+          />
+          <SortButton
+            field="department"
             sortConfig={managerProps.sorting.config}
             onSortChange={managerProps.sorting.onChange}
           />
@@ -167,17 +190,17 @@ storiesOf('data-manager|DataManager', module)
   .add('paging', () => (
     <DataManager
       sourceData={employees}
-      initialPageSize={pageSize}
+      initialPageSize="m"
       render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
         <Box p={3}>
-          <h3>Paged List (page size: {pageSize})</h3>
+          <h3>Paged List</h3>
 
           {/* This component actually renders the final data */}
           <ListOfEmployees arr={managerProps.displayData} />
 
           <Pager
-            pageSize={managerProps.paging.pageSize}
-            currentPage={managerProps.paging.currentPage}
+            pageSize={managerProps.paging.config.pageSize}
+            currentPage={managerProps.paging.config.currentPage}
             totalItemsCount={managerProps.paging.inputData.length}
             onPageChange={managerProps.paging.onPageChange}
           />
@@ -188,7 +211,7 @@ storiesOf('data-manager|DataManager', module)
   .add('filtering, sorting and paging', () => (
     <DataManager
       sourceData={employees}
-      initialPageSize={pageSize}
+      initialPageSize="m"
       render={(managerProps: DataManagerRenderProps<EmployeeType>) => (
         <Box p={3}>
           <h3>Filtering, Sorting, and Pagination</h3>
@@ -206,12 +229,12 @@ storiesOf('data-manager|DataManager', module)
             </Box>
             <Box w={2 / 3} p={3}>
               <SortButton
-                field={'name'}
+                field="name"
                 sortConfig={managerProps.sorting.config}
                 onSortChange={managerProps.sorting.onChange}
               />
               <SortButton
-                field={'department'}
+                field="department"
                 sortConfig={managerProps.sorting.config}
                 onSortChange={managerProps.sorting.onChange}
               />
@@ -220,8 +243,8 @@ storiesOf('data-manager|DataManager', module)
               <ListOfEmployees arr={managerProps.displayData} />
 
               <Pager
-                pageSize={managerProps.paging.pageSize}
-                currentPage={managerProps.paging.currentPage}
+                pageSize={managerProps.paging.config.pageSize}
+                currentPage={managerProps.paging.config.currentPage}
                 totalItemsCount={managerProps.paging.inputData.length}
                 onPageChange={managerProps.paging.onPageChange}
               />
@@ -231,3 +254,14 @@ storiesOf('data-manager|DataManager', module)
       )}
     />
   ));
+
+function getEmployeesForCaseInsensitiveSorting(number: number) {
+  const employees = getEmployees(number);
+  employees.forEach((employee, index) => {
+    if (index % 2 === 0) {
+      employee.name = employee.name.toLowerCase();
+      employee.department = employee.department.toLowerCase();
+    }
+  });
+  return employees;
+}

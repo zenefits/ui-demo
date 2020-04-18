@@ -66,7 +66,7 @@ class WeekPickerDropdown extends Component<WeekPickerDropdownProps, WeekPickerDr
     // Close the dropdown
     this.setState({ dropdownOpen: false });
 
-    const selectedWeek = this.props.selectedWeek;
+    const { selectedWeek } = this.props;
     if (selectedWeek >= week.from && selectedWeek <= week.to) {
       return;
     }

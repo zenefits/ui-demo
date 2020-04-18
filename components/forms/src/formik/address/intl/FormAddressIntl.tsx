@@ -38,10 +38,17 @@ export type FormAddressIntlProps = {
    * @default false
    */
   autocomplete?: boolean;
+
+  /**
+   * Should all inputs be disabled?
+   * @default false
+   */
+  disabled?: boolean;
 };
 
 class FormAddressIntl extends Component<FormAddressIntlProps> {
   static getEmptyValue = getEmptyValue;
+
   static getValidationSchema = getValidationSchema;
 
   static defaultProps = {
@@ -51,31 +58,33 @@ class FormAddressIntl extends Component<FormAddressIntlProps> {
   };
 
   render() {
-    const { autocomplete, name, includeCountry, includeLine2, includeName } = this.props;
+    const { autocomplete, name, includeCountry, includeLine2, includeName, disabled } = this.props;
     const addressPath = `${name}.line1`;
     const line1Props = {
       name: addressPath,
       label: 'Address Line 1',
       placeholder: '123 Main Street',
     };
+    const commonProps = { disabled };
     return (
       <FormikConsumer>
         {formikProps => {
           const country = getIn(formikProps.values, `${name}.country`);
           return (
             <>
-              {includeCountry && <FormAddressCountry name={`${name}.country`} />}
-              {includeName && <FormTextInput name={`${name}.name`} label="Name" />}
+              {includeCountry && <FormAddressCountry name={`${name}.country`} {...commonProps} />}
+              {includeName && <FormTextInput name={`${name}.name`} label="Name" {...commonProps} />}
               {autocomplete ? (
                 <AddressAutocompleteInput
                   addressName={name}
                   includeLine2={includeLine2}
                   includeName={includeName}
                   country={country}
+                  {...commonProps}
                   {...line1Props}
                 />
               ) : (
-                <FormTextInput {...line1Props} />
+                <FormTextInput {...commonProps} {...line1Props} />
               )}
               {includeLine2 && (
                 <FormTextInput
@@ -83,11 +92,12 @@ class FormAddressIntl extends Component<FormAddressIntlProps> {
                   label="Address Line 2"
                   placeholder="Apt or Suite Number"
                   optional
+                  {...commonProps}
                 />
               )}
-              <FormTextInput name={`${name}.city`} label="City" />
-              <FormAddressState name={`${name}.state`} country={country} />
-              <FormAddressPostalCode name={`${name}.zip`} country={country} />
+              <FormTextInput name={`${name}.city`} label="City" {...commonProps} />
+              <FormAddressState name={`${name}.state`} country={country} {...commonProps} />
+              <FormAddressPostalCode name={`${name}.zip`} country={country} {...commonProps} />
             </>
           );
         }}

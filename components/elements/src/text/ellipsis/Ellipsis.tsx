@@ -1,8 +1,9 @@
+/* eslint-disable zenefits-custom-rules/no-nested-styled-components-ampersand */
 import React, { Component, RefObject } from 'react';
 
 import { styled } from 'z-frontend-theme';
 import { color, depth, space, zIndex } from 'z-frontend-theme/utils';
-import { Box, BoxProps, TextBlock, TextBlockProps } from 'zbase';
+import { Box, TextBlock, TextBlockProps } from 'zbase';
 
 export type EllipsisProps = TextBlockProps & {
   children?: string | string[];
@@ -28,11 +29,7 @@ const EllipsisContainer = styled(Box)`
   min-width: 0; /* required for truncate https://css-tricks.com/flexbox-truncated-text/#article-header-id-3 */
 `;
 
-type OverlaidTooltipProps = BoxProps & { placement: any };
-
-const OverlaidTooltip = styled<OverlaidTooltipProps>(({ placement, ...rest }: OverlaidTooltipProps) => (
-  <Box {...rest} />
-))`
+const OverlaidTooltip = styled<{ placement: any }>(Box)`
   display: none;
   ${depth(2)};
   background-color: ${color('grayscale.white')};
@@ -48,7 +45,7 @@ const OverlaidTooltip = styled<OverlaidTooltipProps>(({ placement, ...rest }: Ov
   white-space: pre-line; /* show line breaks between paragraphs */
   ${props => (props.placement === 'right' ? 'left: 100%; top: -50%;' : '')};
 
-  ${/* sc-selector */ EllipsisContainer}:active &,
+  ${EllipsisContainer}:active &,
   ${EllipsisContainer}:focus &,
   ${EllipsisContainer}:hover & {
     display: block;

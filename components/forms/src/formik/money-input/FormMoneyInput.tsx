@@ -1,40 +1,67 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
-import FormFieldWrapper, { getErrorId, getLabelId, FormFieldProps } from '../FormFieldWrapper';
+import Field from '../Field';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
 import MoneyInput, { MoneyInputProps } from '../../money-input/MoneyInput';
+import MoneyInputDisplay from '../../money-input/MoneyInputDisplay';
+import { getAriaInputProps } from '../formAccessibility';
 
-type FormMoneyInputProps = MoneyInputProps & FormFieldProps;
+type FormMoneyInputProps = MoneyInputProps &
+  FormFieldProps & {
+    /**
+     * Use to toggle the component from edit to display but keep exact spacing, eg in an EditableTable.
+     * @default false
+     */
+    displayOnly?: boolean;
+  };
 
 class FormMoneyInput extends Component<FormMoneyInputProps> {
   render() {
-    const { name, label, containerProps, optional, ...rest } = this.props;
+    const {
+      name,
+      format,
+      label,
+      containerProps,
+      optional,
+      displayOnly,
+      limitRerender,
+      dependencies,
+      'aria-label': ariaLabel,
+      ...rest
+    } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form }: FieldProps) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper
               name={name}
+              format={format}
               label={label}
               error={error}
               containerProps={containerProps}
               optional={optional}
             >
-              <MoneyInput
-                id={name}
-                {...field}
-                {...rest}
-                hasError={Boolean(error)}
-                aria-labelledby={getLabelId(name)}
-                aria-describedby={error ? getErrorId(name) : null}
-                mb={0}
-              />
+              {displayOnly ? (
+                <MoneyInputDisplay value={field.value} {...rest} />
+              ) : (
+                <MoneyInput
+                  id={name}
+                  {...field}
+                  onChange={(value: number | string) => {
+                    form.setFieldValue(name, value);
+                  }}
+                  {...rest}
+                  hasError={Boolean(error)}
+                  {...getAriaInputProps(name, error, ariaLabel)}
+                  mb={0}
+                />
+              )}
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 // @ts-ignore
 import Downshift, { DownshiftState, StateChangeOptions } from 'downshift';
-import { padEnd } from 'lodash';
+import { padEnd, pickBy } from 'lodash';
 import moment from 'moment';
 
 import { theme } from 'z-frontend-theme';
+import { Tethered, TetherComponentProps } from 'z-frontend-overlays';
+import { isUtilProp, InputProps, UtilProps } from 'zbase';
 
-import { FixedHeightSearchOption, SearchContainer, SearchOptions } from '../search/SearchSelectDeprecated';
+import { FixedHeightSearchOption, SearchOptions } from '../search/SearchSelectDeprecated';
 import InputWithIcon from '../input-with-icon/InputWithIcon';
 import { getErrorId, getLabelId } from '../formik/FormFieldWrapper';
-import Tethered from '../tethered/Tethered';
 
 const DAILY_MINUTES = 60 * 24;
 const NUM_TIME_OPTIONS = 7;
@@ -53,6 +54,7 @@ export const parseTimeString = (rawTimeString: string): Time | null => {
   if (
     rawTimeString.indexOf(':') !== -1 &&
     rawTimeString.split(':')[1].length < 2 &&
+    // eslint-disable-next-line use-isnan
     Number(rawTimeString.split(':')[1]) !== NaN
   ) {
     const [hours, minutes] = rawTimeString.split(':');
@@ -108,11 +110,18 @@ export type PublicTimeInputProps = {
    * Should this field be disabled?
    *  */
   disabled?: boolean;
+  /**
+   * Options to customize how dropdown is tethered to input
+   */
+  tetherProps?: Partial<TetherComponentProps>;
+
+  /** For visual regression testing. */
+  defaultIsOpen?: boolean;
 
   /**
-   * Should dynamic positioning be disabled (useful for tests)
-   *  */
-  disableTethering?: boolean;
+   * Should the dropdown of suggestions appear on focus? This overwrites defaultIsOpen.
+   */
+  disableDropdown?: boolean;
 };
 
 // These field are used internally and not part of public FormTimeInput API
@@ -120,10 +129,16 @@ type ComponentTimeInputProps = {
   initialInputValue?: string;
   defaultHighlightTime?: Time;
   error?: string;
+  /**
+   * Use this prop when there is an error for the input but error message is unknown.
+   * When error message is known, we don't need to use this prop, just use `error` prop.
+   * Example usage is in EditableTable, when the error message is handled by a wrapping popper.
+   */
+  hasError?: boolean;
   onChange?: (timeString: string, parsedTime?: Time | null) => void;
 };
 
-type TimeInputProps = PublicTimeInputProps & ComponentTimeInputProps;
+type TimeInputProps = PublicTimeInputProps & ComponentTimeInputProps & Omit<InputProps, 'onChange'>;
 
 type TimeInputState = {
   scrollIndex: number;
@@ -137,11 +152,14 @@ const OPTION_SIZE = theme.heights['small'];
 class TimeInput extends Component<TimeInputProps, TimeInputState> {
   static defaultProps = {
     interval: 30,
+    tetherProps: {},
   };
+
   private times: Time[];
+
   private scrollContainer: React.RefObject<HTMLDivElement>;
+
   private inputElement: React.RefObject<HTMLInputElement>;
-  private tetherTarget: React.RefObject<HTMLDivElement>;
 
   static scrollContainerStyles: React.CSSProperties = {
     height: OPTION_SIZE * NUM_TIME_OPTIONS,
@@ -153,17 +171,17 @@ class TimeInput extends Component<TimeInputProps, TimeInputState> {
     this.times = getTimes(props.interval);
     this.state = {
       scrollIndex: -1,
+      // eslint-disable-next-line react/no-unused-state
       isTimeValid: true,
     };
     this.scrollContainer = React.createRef<HTMLDivElement>();
     this.inputElement = React.createRef<HTMLInputElement>();
-    this.tetherTarget = React.createRef<HTMLDivElement>();
   }
 
   processInputValue = (changes: PartialStateChangeOptions): PartialStateChangeOptions => {
     const inputTime = parseTimeString(changes.inputValue);
-    const timeToHightlight = inputTime || this.props.defaultHighlightTime;
-    const closestTime = getClosestTimeIndex(timeToHightlight, this.props.interval);
+    const timeToHighlight = inputTime || this.props.defaultHighlightTime;
+    const closestTime = getClosestTimeIndex(timeToHighlight, this.props.interval);
     if (closestTime.valid) {
       this.setState({
         scrollIndex: closestTime.closestTimeIndex,
@@ -199,6 +217,8 @@ class TimeInput extends Component<TimeInputProps, TimeInputState> {
   ): PartialStateChangeOptions => {
     if (changes.selectedItem) {
       const parsedTime = parseTimeString(changes.selectedItem);
+      // This onChange is called when user makes a selection in dropdown
+      // While onChange in submitCustom is called for other cases, e.g. blur
       this.props.onChange && this.props.onChange(changes.selectedItem, parsedTime);
     }
 
@@ -211,12 +231,42 @@ class TimeInput extends Component<TimeInputProps, TimeInputState> {
 
   formatTime = (time: Time) => moment(time).format('LT');
 
+  getOnRightIconMouseDown = (isOpen: boolean, openMenu: any) => (e: React.MouseEvent) => {
+    if (this.props.disableDropdown) {
+      e.preventDefault();
+      if (this.inputElement.current !== document.activeElement) {
+        this.inputElement.current.focus();
+      }
+    } else if (!isOpen) {
+      e.preventDefault();
+      if (this.inputElement.current === document.activeElement) {
+        openMenu();
+      } else {
+        this.inputElement.current.focus();
+      }
+    }
+  };
+
   render() {
-    const { name, error, disabled, initialInputValue, disableTethering } = this.props;
+    const {
+      name,
+      error,
+      hasError,
+      disabled,
+      initialInputValue,
+      defaultIsOpen,
+      tetherProps,
+      disableDropdown,
+      onChange,
+      interval, // omit from inputProps
+      ...inputProps
+    } = this.props;
+    const utilProps: UtilProps = pickBy(this.props, (value, key) => isUtilProp(key));
     return (
-      <SearchContainer>
+      <div>
         <DownshiftComponent
           stateReducer={this.timeStateReducer}
+          initialIsOpen={!disableDropdown && defaultIsOpen}
           initialInputValue={initialInputValue}
           initialSelectedItem={initialInputValue}
           inputId={name}
@@ -232,12 +282,16 @@ class TimeInput extends Component<TimeInputProps, TimeInputState> {
             highlightedIndex,
             inputValue,
           }: any) => {
+            // This is called on blur, or when Enter is pressed without a highlight in dropdown
             const submitCustom = () => {
               const parsedTime = parseTimeString(inputValue);
               if (parsedTime) {
+                onChange && onChange(this.formatTime(parsedTime), parsedTime);
+
+                // Here we don't set selectedItem in new state. In stateReducer when we see no change for
+                // selectedItem, we know onChange has been called in submitCustom.
                 setDownshiftState({
                   inputValue: this.formatTime(parsedTime),
-                  selectedItem: this.formatTime(parsedTime),
                   isOpen: false,
                 });
               } else {
@@ -257,26 +311,17 @@ class TimeInput extends Component<TimeInputProps, TimeInputState> {
                   elementRef={this.inputElement}
                   name={name}
                   disabled={disabled}
-                  leftIconName="time"
-                  rightIconName={isOpen ? 'chevron-up' : 'chevron-down'}
-                  onRightIconMouseDown={
-                    isOpen
-                      ? () => {}
-                      : e => {
-                          e.preventDefault();
-                          if (this.inputElement.current === document.activeElement) {
-                            openMenu();
-                          } else {
-                            this.inputElement.current.focus();
-                          }
-                        }
-                  }
-                  hasError={error}
+                  rightIconName="time"
+                  // This needs to use mousedown event instead of click so it fires before blur event
+                  // Otherwise clicking the icon when the menu is open will cause the menu to
+                  // close (because of blur handler) then immediately reopen (because of this function)
+                  onRightIconMouseDown={this.getOnRightIconMouseDown(isOpen, openMenu)}
+                  hasError={hasError || error}
                   onFocus={e => {
                     e.target.select();
                     setDownshiftState({
                       ...this.processInputValue({ inputValue: e.target.value }),
-                      isOpen: true,
+                      isOpen: !disableDropdown,
                     });
                   }}
                   onKeyDown={e => {
@@ -294,19 +339,22 @@ class TimeInput extends Component<TimeInputProps, TimeInputState> {
                     }
                   }}
                   aria-describedby={error ? getErrorId(name) : undefined}
+                  {...utilProps}
+                  {...inputProps}
                 />
-                <div ref={this.tetherTarget} style={{ width: '100%' }} />
-                {isOpen && (
+                {/* Could not simply use isOpen to decide whether to show dropdown because isOpen changes to true on key down */}
+                {isOpen && !disableDropdown && (
                   <Tethered
                     containerProps={{ zIndex: theme.zIndex.dropdown }}
-                    target={this.tetherTarget}
+                    target={this.inputElement}
                     matchWidth
-                    disabled={disableTethering}
+                    {...tetherProps}
                   >
-                    <SearchOptions {...getMenuProps()} s="small" isTethered={!disableTethering}>
+                    <SearchOptions {...getMenuProps()} s="small" isTethered={!tetherProps.disabled}>
                       <div style={TimeInput.scrollContainerStyles} ref={this.scrollContainer}>
                         {this.times.map((time: Time, index) => (
                           <FixedHeightSearchOption
+                            key={`${time.hours.toString()}-${time.minutes.toString()}`}
                             selected={index === highlightedIndex}
                             {...getItemProps({
                               index,
@@ -325,7 +373,7 @@ class TimeInput extends Component<TimeInputProps, TimeInputState> {
             );
           }}
         </DownshiftComponent>
-      </SearchContainer>
+      </div>
     );
   }
 }

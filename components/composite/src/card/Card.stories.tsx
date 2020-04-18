@@ -3,13 +3,18 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { ButtonDropdown, IconButton } from 'z-frontend-elements';
+import { paddedBox } from 'z-frontend-storybook-config';
+import { Box } from 'zbase';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
 import Card from './Card';
 
 const canEdit = false;
 
+const PaddingRevealer = (props: any) => <Box bg="primary.a" color="grayscale.white" {...props} />;
+
 storiesOf('composites|Card', module)
+  .addDecorator(paddedBox)
   .add('header, rows, footer', () => (
     <Card>
       <Card.Header>Header</Card.Header>
@@ -66,10 +71,34 @@ storiesOf('composites|Card', module)
     </Card>
   ))
   .add('unpadded row', () => (
-    <Card>
-      <Card.Row padded={false}>No padding</Card.Row>
-      <Card.Row>Normal row</Card.Row>
-      <Card.Row>Normal row</Card.Row>
+    <Card width={500}>
+      <Card.Row>
+        <PaddingRevealer>Normal row</PaddingRevealer>
+      </Card.Row>
+      <Card.Row padded={false}>
+        <PaddingRevealer>{`padded={false}`}</PaddingRevealer>
+      </Card.Row>
+      <Card.Row p={0}>
+        <PaddingRevealer>p=0</PaddingRevealer>
+      </Card.Row>
+      <Card.Row py={0}>
+        <PaddingRevealer>py=0</PaddingRevealer>
+      </Card.Row>
+      <Card.Row pt={0}>
+        <PaddingRevealer>pt=0</PaddingRevealer>
+      </Card.Row>
+      <Card.Row pb={0}>
+        <PaddingRevealer>pb=0</PaddingRevealer>
+      </Card.Row>
+      <Card.Row px={0}>
+        <PaddingRevealer>px=0</PaddingRevealer>
+      </Card.Row>
+      <Card.Row pl={0}>
+        <PaddingRevealer>pl=0</PaddingRevealer>
+      </Card.Row>
+      <Card.Row pr={0}>
+        <PaddingRevealer>pr=0</PaddingRevealer>
+      </Card.Row>
     </Card>
   ))
   .add('no rows', () => (

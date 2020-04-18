@@ -1,4 +1,6 @@
-A component for displaying small counts and labels.
+A component for displaying small counts.
+
+For text, use [StatusTag](#!/StatusTag) instead.
 
 #### Examples
 
@@ -6,8 +8,7 @@ A component for displaying small counts and labels.
 // loadExample('./exampleDefault')
 ```
 
-`Badge` supports standard utility props as well as i18n props (see [Text](#!/Text) for more info).
+#### Related
 
-```jsx
-// loadExample('./exampleTextKey')
-```
+- [NumberText](#!/NumberText)
+- [StatusTag](#!/StatusTag)

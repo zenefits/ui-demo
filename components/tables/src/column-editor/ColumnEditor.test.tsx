@@ -1,7 +1,7 @@
 import React from 'react';
-import { cleanup } from 'react-testing-library';
+import { cleanup } from '@testing-library/react';
 // this adds custom jest matchers from jest-dom
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 import { Card } from 'z-frontend-composites';

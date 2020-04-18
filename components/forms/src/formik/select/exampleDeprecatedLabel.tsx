@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormSelectDeprecated } from '../../..';
 
 const options = [
   { value: 1, label: 'Bo' },
@@ -14,7 +14,7 @@ const options = [
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ assignee: '', additional: '' }}>
-    <Form.SelectDeprecated name="assignee" label="Assignee" options={options} />
-    <Form.SelectDeprecated name="additional" label="Additional Assignee" options={options} optional />
+    <FormSelectDeprecated name="assignee" label="Assignee" options={options} />
+    <FormSelectDeprecated name="additional" label="Additional Assignee" options={options} optional />
   </Form>
 );

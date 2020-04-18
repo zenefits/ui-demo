@@ -1,10 +1,40 @@
 import React from 'react';
 import { range } from 'lodash';
-import { cleanup } from 'react-testing-library';
+import { cleanup } from '@testing-library/react';
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
-import { CheckboxExample, DisabledExample, RadioExample } from './FormCircleButtonSelect.stories';
+import { Form, FormCircleButton, FormCircleButtonSelect } from '../../..';
+import { CircleButtonSelectProps } from './FormCircleButtonSelect';
+
+type ExampleProps = Partial<CircleButtonSelectProps>;
+
+const buttonCount = 5;
+const formValues = {
+  checkbox: { numbers: [false, false, true, false, false] },
+  radio: { numbers: 3 },
+};
+
+const CircleButtonSelectExample = (props: ExampleProps) => {
+  const { behavior, disabled } = props;
+  return (
+    <Form onSubmit={() => {}} initialValues={formValues[behavior]}>
+      <FormCircleButtonSelect
+        name="numbers"
+        label="Numbers"
+        behavior={behavior}
+        numOptions={buttonCount}
+        disabled={disabled}
+      >
+        {range(buttonCount).map(integer => (
+          <FormCircleButton key={integer.toString()} aria-label={integer.toString()}>
+            {integer}
+          </FormCircleButton>
+        ))}
+      </FormCircleButtonSelect>
+    </Form>
+  );
+};
 
 describe('Form.CircleButtonSelect', () => {
   afterEach(cleanup);
@@ -16,38 +46,46 @@ describe('Form.CircleButtonSelect', () => {
   }
 
   it('renders all subcomponents correctly', () => {
-    const wrapper = renderWithContext(<CheckboxExample />);
-    wrapper.getByText('Numbers');
-    range(5).forEach(i => {
-      wrapper.getByText(i.toString());
+    const { getByLabelText, getAllByRole } = renderWithContext(<CircleButtonSelectExample behavior="checkbox" />);
+    getByLabelText('Numbers');
+    range(buttonCount).forEach(i => {
+      getByLabelText(i.toString());
     });
+    expect(getAllByRole('checkbox')).toHaveLength(buttonCount);
   });
 
   it('works as checkbox', () => {
-    const wrapper = renderWithContext(<CheckboxExample />);
-    const buttons = range(5).map(index => wrapper.getByText(index.toString()));
-    assertCorrectIndicesSelected([2], buttons);
-    wrapper.getByText('3').click();
+    const { getByLabelText, getAllByRole } = renderWithContext(<CircleButtonSelectExample behavior="checkbox" />);
+    const buttons = getAllByRole('checkbox');
+    assertCorrectIndicesSelected([2], buttons); // initial value
+
+    getByLabelText('3').click();
     assertCorrectIndicesSelected([2, 3], buttons);
-    wrapper.getByText('2').click();
+
+    getByLabelText('2').click();
     assertCorrectIndicesSelected([3], buttons);
   });
 
   it('works as radio', () => {
-    const wrapper = renderWithContext(<RadioExample />);
-    const buttons = range(5).map(index => wrapper.getByText(index.toString()));
-    assertCorrectIndicesSelected([3], buttons);
-    wrapper.getByText('2').click();
+    const { getByLabelText, getAllByRole } = renderWithContext(<CircleButtonSelectExample behavior="radio" />);
+    const buttons = getAllByRole('radio');
+    assertCorrectIndicesSelected([3], buttons); // initial value
+
+    getByLabelText('2').click();
     assertCorrectIndicesSelected([2], buttons);
-    wrapper.getByText('2').click();
+
+    getByLabelText('2').click();
     assertCorrectIndicesSelected([2], buttons);
   });
 
   it('can be disabled', () => {
-    const wrapper = renderWithContext(<DisabledExample />);
-    const buttons = range(5).map(index => wrapper.getByText(index.toString()));
+    const { getByLabelText, getAllByRole } = renderWithContext(
+      <CircleButtonSelectExample behavior="checkbox" disabled />,
+    );
+    const buttons = getAllByRole('checkbox');
     assertCorrectIndicesSelected([2], buttons);
-    wrapper.getByText('3').click();
+
+    getByLabelText('3').click();
     assertCorrectIndicesSelected([2], buttons);
   });
 });

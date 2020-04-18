@@ -1,12 +1,14 @@
 declare const __APP_NAME__: string;
 declare const __APP_VERSION__: string;
+declare const __PUBLIC_PATH__: string;
 declare const __CLIENT__: boolean;
 declare const __DEVELOPMENT__: boolean;
+declare const __USE_UILOGGER__: boolean;
 declare const __MOCK_MODE__: boolean;
 declare const __NATIVE__: boolean;
 declare const __ANDROID__: boolean;
 declare const __IOS__: boolean;
 declare const __EXPO__: boolean;
-declare const __ROUTES_SET__: 'A' | 'B';
 declare const __IS_STORYBOOK__: boolean;
 declare const __TEST__: boolean;
+declare const __AFFECTED_PACKAGES__: string;

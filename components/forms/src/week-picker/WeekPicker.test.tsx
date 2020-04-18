@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import WeekPicker from './WeekPicker';
 import { getWeekRange } from './utils';
@@ -11,18 +11,18 @@ jest.mock('react-day-picker/lib/style.css', () => jest.fn());
 
 describe('WeekPicker', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<WeekPicker />)).toHaveLength(1);
+    expect(mountEnzymeWithTheme(<WeekPicker />)).toHaveLength(1);
   });
 
   it('should show caption', () => {
-    const wrapper = mountWithTheme(<WeekPicker />);
+    const wrapper = mountEnzymeWithTheme(<WeekPicker />);
     expect(wrapper.find('.DayPicker-Caption')).toHaveLength(1);
   });
 
   it('should invoke callback on change', () => {
     const onDayClick = jest.fn();
 
-    const wrapper = mountWithTheme(<WeekPicker onDayClick={onDayClick} />);
+    const wrapper = mountEnzymeWithTheme(<WeekPicker onDayClick={onDayClick} />);
 
     clickADay(wrapper);
 

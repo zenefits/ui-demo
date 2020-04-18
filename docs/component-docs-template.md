@@ -8,10 +8,8 @@ are available in a table above.
 Loaded externally like so:
 
 ```jsx noeditor
-<StorybookExample selectedKind="package|ComponentName" selectedStory="story name" />
+<StorybookExample selectedKind="MyPackage|MyComponent" selectedStory="story name" />
 ```
-
-See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=package|ComponentName).
 
 #### Usage
 
@@ -23,27 +21,11 @@ See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=package|Com
 
 <!-- optional -->
 
-Description
-
-##### Format
-
-Title Case, Sentence case., or UPPER CASE
-
-##### Form
-
-Header, Paragraph, or CTA
-
-##### Examples
-
-- Good
-- Best
-- Don't
-
 #### Implementation Notes
 
 <!-- optional -->
 
-_(Add extra details or context if the props and examples are not enough. Provide Sketch Cloud links if available.)_
+_(Add extra details or context if the props and examples are not enough. Provide Figma links if available.)_
 
 #### Related
 

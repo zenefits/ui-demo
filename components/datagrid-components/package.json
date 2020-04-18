@@ -1,0 +1,68 @@
+{
+  "name": "z-frontend-datagrid-components",
+  "version": "0.1.0",
+  "zenefits": {
+    "level": "layouts"
+  },
+  "main": "index.ts",
+  "scripts": {
+    "prestart": "cd ../../ && yarn checkIntegrity",
+    "eslint": "zrun z-frontend-eslint",
+    "lint": "zrun 'yarn tslint && yarn eslint && yarn stylelint && yarn tsCheck'",
+    "stylelint": "zrun z-frontend-stylelint",
+    "test": "zrun jest",
+    "tsCheck": "zrun tsc --noEmit",
+    "tslint": "zrun zcli tslintPackage",
+    "generateAppTypes": "zrun zcli generateAppTypes",
+    "syncSchema": "zcli syncSchema"
+  },
+  "config": {
+    "port": "6020"
+  },
+  "private": true,
+  "engines": {
+    "yarn": "^1.17.3",
+    "node": "^10.14.1"
+  },
+  "dependencies": {
+    "graphql-tag": "^2.10.1",
+    "lodash": "^4.17.15",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "styled-components": "^4.4.1",
+    "z-frontend-app-bootstrap": "*",
+    "z-frontend-data-manager": "*",
+    "z-frontend-elements": "*",
+    "z-frontend-forms": "*",
+    "z-frontend-layout": "*",
+    "z-frontend-network": "*",
+    "z-frontend-overlays": "*",
+    "z-frontend-tables": "*",
+    "z-frontend-theme": "*",
+    "zbase": "*"
+  },
+  "devDependencies": {
+    "@storybook/react": "4.0.11",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^10.12.12",
+    "@types/react": "16.8.12",
+    "@types/react-dom": "^16.9.2",
+    "@types/styled-components": "^4.4.2",
+    "babel-jest": "^25.2.4",
+    "babel-preset-z-frontend": "*",
+    "enzyme": "^3.6.0",
+    "eslint-config-z-frontend": "*",
+    "jest": "^25.2.4",
+    "jest-enzyme": "^4.0.1",
+    "jest-styled-components": "^6.3.4",
+    "react-test-renderer": "^16.10.2",
+    "stylelint-config-z-frontend": "*",
+    "tslint": "^5.8.0",
+    "typescript": "3.8.3",
+    "z-frontend-jest": "*",
+    "z-frontend-scripts": "*",
+    "z-frontend-storybook-config": "*",
+    "z-frontend-webpack": "*"
+  },
+  "sideEffects": "**/!(*.js|*.ts|*.tsx|*.jsx)"
+}

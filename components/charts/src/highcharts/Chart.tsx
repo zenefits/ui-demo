@@ -1,6 +1,5 @@
 import React, { Component, ReactElement } from 'react';
 import { set } from 'lodash';
-// @ts-ignore
 import HighchartsReact from 'highcharts-react-official';
 
 import { Box } from 'zbase';
@@ -11,7 +10,7 @@ import { color, depth, radius, space } from 'z-frontend-theme/utils';
 import Highcharts from './Highcharts';
 import ChartSeries, { ChartSeriesProps } from './ChartSeries';
 
-export type ChartTypes = 'bar' | 'column' | 'line' | 'pie' | 'donut';
+export type ChartTypes = 'bar' | 'column' | 'line' | 'pie' | 'donut' | 'heatmap' | 'scatter';
 
 interface ChartProps {
   /**
@@ -31,7 +30,7 @@ interface ChartProps {
    * Undocumented backdoor into options (to be used only when absolutely necessary)
    * @ignore
    */
-  customOptions?: Object;
+  customOptions?: Highcharts.Options;
   /**
    * Does the chart have a tooltip?
    * @default true
@@ -49,7 +48,7 @@ interface ChartProps {
   description?: string;
   /**
    * What type is the chart? This Property can be overridden also in the Series component
-   * <br>The options are 'bar' | 'column' | 'line' | 'pie' | 'donut'
+   * <br>The options are 'bar' | 'column' | 'line' | 'pie' | 'donut' | 'heatmap' | 'scatter'
    */
   type?: ChartTypes;
   /**
@@ -119,7 +118,7 @@ chartOptionOverrides.donut = Highcharts.merge(chartOptionOverrides.pie, {
 const millisPerDay = 60 * 60 * 24 * 1000;
 const NO_DATA_STRING = 'No data to show right now';
 
-export const getConfigOptions = (props: any) => {
+export function getConfigOptions(props: any): Highcharts.Options {
   const {
     children,
     description,
@@ -203,7 +202,7 @@ export const getConfigOptions = (props: any) => {
 
   const typeOverrides = (chartOptionOverrides as any)[type] || {};
   return Highcharts.merge(options, typeOverrides, customOptions);
-};
+}
 
 class Chart extends Component<ChartProps> {
   static defaultProps = {
@@ -221,7 +220,15 @@ class Chart extends Component<ChartProps> {
     const chartKey = JSON.stringify(options);
     return (
       <StyledContainer width={this.props.width} height={this.props.height}>
-        <HighchartsReact key={chartKey} highcharts={Highcharts} options={options} />
+        <HighchartsReact
+          key={chartKey}
+          highcharts={Highcharts}
+          options={options}
+          // debug options:
+          // callback={chart => {
+          //   console.log(chart.options);
+          // }}
+        />
         {this.props.isLoading && (
           <StyledLoadingContainer>
             <LoadingSpinner s="xlarge" />

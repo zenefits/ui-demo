@@ -17,7 +17,7 @@ Run the <TODO app-name> Admin/Console view using given URL's: 1. Admin View :
 
 #### Seeder
 
-In order to populate your database with the demo data for <TODO> using seeders, do the following steps:
+In order to populate your database with the demo data for <TODO app-name> using seeders, do the following steps:
 
 1.  Go to the django shell
 2.  Run the following commands in that shell

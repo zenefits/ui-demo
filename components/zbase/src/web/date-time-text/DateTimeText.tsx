@@ -4,6 +4,7 @@ import { DateSource, FormattedDate } from 'react-intl';
 import withWebUtilProps, { ResultWebComponentProps, TimeElProps } from '../withUtilPropsWeb';
 import { removeUtilProps } from '../../commonTypes';
 import TimeTag from '../time-tag/TimeTag';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 // from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DateTimeFormat
 // TODO: document these
@@ -79,6 +80,9 @@ const TextContainer: StatelessComponent<DateTimeTextProps> = ({
     </FormattedDate>
   );
 };
+
+export const DateTimeTextForDocs = makeDummyComponentForDocs<DateTimeTextProps>();
+DateTimeTextForDocs.displayName = 'DateTimeText';
 
 export default withWebUtilProps<TimeElProps, AdditionalProps>({
   displayName: 'DateTimeText',

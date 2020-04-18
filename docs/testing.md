@@ -26,21 +26,19 @@ A quick "smoke test" that mounts your component provides enormous value for a sm
 least, this tests that nothing throws during rendering.
 
 ```js static
-it('should mount without throwing an error', () => {
-  const wrapper = mount(<Avatar firstName="Ronald" lastName="McDonald" />);
-  expect(wrapper).toHaveLength(1);
+it('should render without throwing an error', () => {
+  const { getByText } = renderWithContext(<MyComponent>hi</MyComponent>);
+  getByText('hi');
 });
 ```
 
-The above example was extracted from [Avatar.test.tsx](https://github.com/zenefits/z-frontend/blob/master/components/elements/src/image/avatar/Avatar.test.tsx#L9).
-
 #### Component Tests
 
-We use [react-testing-library](https://github.com/kentcdodds/react-testing-library) for rendering React components during tests. [Introducing React Testing Library](https://blog.kentcdodds.com/introducing-the-react-testing-library-e3a274307e65) is a good starting point. Here's an example from [their docs](https://github.com/kentcdodds/react-testing-library#usage):
+We use [@testing-library/react](https://github.com/testing-library/react-testing-library) for rendering React components during tests. [Introducing React Testing Library](https://blog.kentcdodds.com/introducing-the-react-testing-library-e3a274307e65) is a good starting point. Here's an example from [their docs](https://github.com/testing-library/react-testing-library#example):
 
 ```js static
 import React from 'react';
-import { render, Simulate, wait } from 'react-testing-library';
+import { render, Simulate, wait } from '@testing-library/react';
 
 test('Displays the greeting when load-greeting is clicked', async () => {
   // Arrange
@@ -62,11 +60,17 @@ test('Displays the greeting when load-greeting is clicked', async () => {
 1.  We import the necessary dependencies
 1.  Call `render` and extract getByText and getByTestId
 1.  Simulates a click and waits for some "async" behavior
-1.  Verify the updated text. Calling `getByText` fails if we can't find the text. getByTestId finds a button with a `data-test` attribute of `ok-button`, then we check that it's disabled.
+1.  Verify the updated text. Calling `getByText` fails if we can't find the text. `getByTestId` finds a button with a `data-testid` attribute of `ok-button`, then we check that it's disabled.
+
+We have some helpers to make writing tests with `@testing-library/react` even easier:
+
+- `renderWithContext` to include our theme and intl contexts (required by many or our components)
+- [user-event](https://github.com/testing-library/user-event) for more convenient and realistic user interactions (eg typing)
+- [jest-dom](https://github.com/testing-library/jest-dom) for easier DOM assertions like `toBeDisabled`
 
 #### Acceptance Tests
 
-We use Cypress to write and run our Acceptance Tests. See our [Cypress guide](#!/Cypress) for more details.
+We use Cypress to write and run our Acceptance Tests. See our [Cypress guide](#!/Cypress) for more information.
 
 #### What to test?
 
@@ -127,14 +131,12 @@ Linting also helps by preventing common typos etc. We use a variety of linters:
 If you have a storybook per component, and a story for each state, you can quickly scan through all the various states.
 It's also helpful to include some stories that cover multiple states, eg various sizes or colors together.
 
+Our complete storybook is hosted at [http://ui.zenefits.com/app/stories]. Whenever a PR affects a package, the relevant stories are run through visual regression testing using a tool called [Chromatic](https://www.chromaticqa.com).
+
 #### Snapshots
 
 Snapshots provide a serialized, diffable dump of your component ([example](https://github.com/zenefits/z-frontend/pull/389/files#diff-4f3bf4b73fe3b5251fa343024b939b49)).
-They're useful to make sure unexpected changes don't happen. Unfortunately, they render everything, even sub-components,
-so they tend to change frequently and be relatively brittle.
-
-Snapshots tell you something changed, not whether something actually broke. To decide if something broke,
-you usually need to actually understand the component. This is where unit tests help.
+They're useful to make sure unexpected changes don't happen. Unfortunately, they render everything, even sub-components, tend to change frequently and be relatively brittle, so we **mostly don't use snapshots**.
 
 #### Reading
 

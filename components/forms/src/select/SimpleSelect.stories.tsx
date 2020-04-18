@@ -16,26 +16,36 @@ storiesOf('forms|SimpleSelect', module)
       {({ SelectOption }) => <SelectOption option="Apple" />}
     </SimpleSelect>
   ))
+  .add('with value', () => (
+    <SimpleSelect<string> name="Fruit" getOptionText={o => o} value="Apple">
+      {({ SelectOption }) => <SelectOption option="Apple" />}
+    </SimpleSelect>
+  ))
+  .add('with long value', () => (
+    <SimpleSelect<string> name="Fruit" getOptionText={o => o} value="very very long value" w={150}>
+      {({ SelectOption }) => <SelectOption option="very very long value" />}
+    </SimpleSelect>
+  ))
   .add('disabled', () => (
-    <SimpleSelect<string> name="Fruit" disabled getOptionText={o => o}>
-      {({ SelectOption }) => <SelectOption option="Option 1" />}
+    <SimpleSelect<string> name="Fruit" disabled getOptionText={o => o} value="Apple">
+      {({ SelectOption }) => <SelectOption option="Apple" />}
     </SimpleSelect>
   ))
   .add('error', () => (
     <SimpleSelect<string> name="Fruit" error="This is an error" getOptionText={o => o}>
-      {({ SelectOption }) => <SelectOption option="Option 1" />}
+      {({ SelectOption }) => <SelectOption option="Apple" />}
     </SimpleSelect>
   ))
   .add('focused', () => (
     <SimpleSelect<string> name="Fruit" autoFocus getOptionText={o => o}>
-      {({ SelectOption }) => <SelectOption option="Option 1" />}
+      {({ SelectOption }) => <SelectOption option="Apple" />}
     </SimpleSelect>
   ))
   .add('sizes', () => (
     <>
       <Box mb={2}>
         <SimpleSelect<string> name="Fruit" s="large" getOptionText={o => o}>
-          {({ SelectOption }) => <SelectOption option="Option 1" />}
+          {({ SelectOption }) => <SelectOption option="Apple" />}
         </SimpleSelect>
       </Box>
       <Box mb={2}>

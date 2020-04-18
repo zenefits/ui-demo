@@ -1,14 +1,14 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
+import NavBar from './NavBar';
+
 const links = [
   { url: '1url.com', text: 'link1', active: false },
   { url: '2url.com', text: 'link2', active: false },
   { url: '3url.com', text: 'link3', active: true },
   { url: '4url.com', text: 'link4', active: false },
 ];
-
-import NavBar from './NavBar';
 
 export default () => (
   <MemoryRouter>

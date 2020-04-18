@@ -1,7 +1,7 @@
 import React from 'react';
 import 'jest-styled-components';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 import { Box, TextBlock } from 'zbase';
 import { Tooltip } from 'z-frontend-overlays';
 
@@ -9,7 +9,7 @@ import AvatarTooltip from './AvatarTooltip';
 
 describe('AvatarTooltip', () => {
   it('Defaults a tooltip with first/last name', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <AvatarTooltip firstName="Papa" lastName="John" tooltipProps={{ showPopover: true }}>
         <Box />
       </AvatarTooltip>,
@@ -21,7 +21,7 @@ describe('AvatarTooltip', () => {
   });
 
   it('No tooltip added to avatar if falsy value provided', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <AvatarTooltip
         firstName="Papa"
         lastName="John"
@@ -36,7 +36,7 @@ describe('AvatarTooltip', () => {
   });
 
   it('Adds email is applicable', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <AvatarTooltip firstName="Papa" lastName="John" email="pjohn@zenefits.com" tooltipProps={{ showPopover: true }}>
         <Box />
       </AvatarTooltip>,
@@ -48,7 +48,7 @@ describe('AvatarTooltip', () => {
   });
 
   it('Adds Contingent worker label', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <AvatarTooltip
         tooltipProps={{ showPopover: true }}
         firstName="Papa"

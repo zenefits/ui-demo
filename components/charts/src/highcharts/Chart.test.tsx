@@ -1,6 +1,5 @@
 import React from 'react';
-// @ts-ignore
-import { render, within } from 'react-testing-library';
+import { cleanup, render, within } from '@testing-library/react';
 
 import { ThemeProvider } from 'z-frontend-theme';
 
@@ -37,6 +36,8 @@ const commonData = [
 ];
 
 describe('Chart', () => {
+  afterEach(cleanup);
+
   describe('getConfigOptions', () => {
     it('should set config options for type=pie', () => {
       const configOptions = getConfigOptions({ type: 'pie' });
@@ -152,8 +153,8 @@ describe('Chart', () => {
           </Chart>
         </ThemeProvider>,
       );
-      const xAxis = container.querySelector('.highcharts-axis-labels.highcharts-xaxis-labels');
-      const yAxis = container.querySelector('.highcharts-axis-labels.highcharts-yaxis-labels ');
+      const xAxis = container.querySelector('.highcharts-axis-labels.highcharts-xaxis-labels') as HTMLElement;
+      const yAxis = container.querySelector('.highcharts-axis-labels.highcharts-yaxis-labels ') as HTMLElement;
 
       within(xAxis).getByText(`Aug '18`);
       within(xAxis).getByText(`Sep '18`);
@@ -231,8 +232,8 @@ describe('Chart', () => {
           </Chart>
         </ThemeProvider>,
       );
-      const xAxis = container.querySelector('.highcharts-axis-labels.highcharts-xaxis-labels');
-      const yAxis = container.querySelector('.highcharts-axis-labels.highcharts-yaxis-labels ');
+      const xAxis = container.querySelector('.highcharts-axis-labels.highcharts-xaxis-labels') as HTMLElement;
+      const yAxis = container.querySelector('.highcharts-axis-labels.highcharts-yaxis-labels ') as HTMLElement;
 
       within(xAxis).getByText('Entry/Junior');
       within(xAxis).getByText('Intermediate');

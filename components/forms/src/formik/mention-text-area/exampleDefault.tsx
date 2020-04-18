@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormMentionTextarea } from '../../..';
 
 const options = [
   {
-    id: '234',
+    id: 'a_234',
     menuLabel: `Meghan Markle — marklesparkle@zenefits.com`,
     tagLabel: 'Meghan',
   },
@@ -17,6 +17,6 @@ const options = [
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ comment: '' }}>
-    <Form.MentionTextarea name="comment" options={options} mt={0} />
+    <FormMentionTextarea name="comment" options={options} mt={0} />
   </Form>
 );

@@ -1,1 +1,1 @@
-This is the underlying component for form inputs. Please use [Form.TextInput](#!/Form.TextInput) instead.
+This is the underlying component for form inputs. Please use [FormTextInput](#!/FormTextInput) instead.

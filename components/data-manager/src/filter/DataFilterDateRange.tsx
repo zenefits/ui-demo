@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
 
-import { Form } from 'z-frontend-forms';
+import { FormDateInput } from 'z-frontend-forms';
 
 import { commonFilterStyleProps, DataFilterCommonProps } from './dataFilterUtils';
 import { updateRangeFilters } from '../filterUtils';
+import { DataManagerContext, DataManagerRenderProps } from '../DataManager';
 
 export default class DataFilterDateRange<T> extends Component<DataFilterCommonProps<T>> {
   render() {
-    const { label, dataKey, dataManagerProps } = this.props;
-    const { config, onChange } = dataManagerProps.filtering;
-    // TODO: do we need form validation here?
-    const beforeDate = (config[dataKey] || {}).lessThan;
-    const afterDate = (config[dataKey] || {}).greaterThan;
+    const { label, dataKey } = this.props;
     return (
-      <>
-        <Form.DateInput
-          label={`${label} After`}
-          name={dataKey + '-after'}
-          onChange={newDate => onChange(updateRangeFilters(config, dataKey, beforeDate, newDate))}
-          {...commonFilterStyleProps}
-        />
-        <Form.DateInput
-          label={`${label} Before`}
-          name={dataKey + '-before'}
-          onChange={newDate => onChange(updateRangeFilters(config, dataKey, newDate, afterDate))}
-          {...commonFilterStyleProps}
-        />
-      </>
+      <DataManagerContext.Consumer>
+        {(dataManagerProps: DataManagerRenderProps<T>) => {
+          const { config, onChange } = dataManagerProps.filtering;
+          // TODO: do we need form validation here?
+          const beforeDate = (config[dataKey] || {}).lessThan;
+          const afterDate = (config[dataKey] || {}).greaterThan;
+          return (
+            <>
+              <FormDateInput
+                label={`${label} After`}
+                value={afterDate}
+                name={`${dataKey}-after`}
+                onChange={newDate => onChange(updateRangeFilters(config, dataKey, beforeDate, newDate))}
+                {...commonFilterStyleProps}
+              />
+              <FormDateInput
+                label={`${label} Before`}
+                value={beforeDate}
+                name={`${dataKey}-before`}
+                onChange={newDate => onChange(updateRangeFilters(config, dataKey, newDate, afterDate))}
+                {...commonFilterStyleProps}
+              />
+            </>
+          );
+        }}
+      </DataManagerContext.Consumer>
     );
   }
 }

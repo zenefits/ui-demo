@@ -4,7 +4,7 @@ import { Box, Flex, Heading, TextBlock } from 'zbase';
 import { styled } from 'z-frontend-theme';
 import { space } from 'z-frontend-theme/utils';
 
-import { LoadingScreen } from '../../index';
+import { LoadingScreen } from 'z-frontend-elements';
 
 interface ProfileLayoutProps {
   /**
@@ -68,13 +68,19 @@ class ProfileLayout extends Component<ProfileLayoutProps> {
           {navRender && <Box pt={5}>{navRender()}</Box>}
         </Flex>
         <Box px={columnSpacing} w={[1, null, 8 / 12]}>
-          <StyledHeader pb={rowSpacing} align="center">
-            <Box>
-              {name && <Heading level={2}>{name}</Heading>}
-              {detailsRender && <TextBlock pt={1}>{detailsRender()}</TextBlock>}
+          {(name || detailsRender) && (
+            <StyledHeader pb={rowSpacing} align="center">
+              <Box data-testid="ProfileHeader">
+                {name && <Heading level={2}>{name}</Heading>}
+                {detailsRender && <TextBlock pt={1}>{detailsRender()}</TextBlock>}
+              </Box>
+            </StyledHeader>
+          )}
+          {mainRender && (
+            <Box pb={rowSpacing} data-testid="Profile">
+              {mainRender()}
             </Box>
-          </StyledHeader>
-          {mainRender && <Box pb={rowSpacing}>{mainRender()}</Box>}
+          )}
         </Box>
       </Flex>
     );

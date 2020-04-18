@@ -7,7 +7,7 @@ import { Button } from 'z-frontend-elements';
 import { skipVisualTest } from 'z-frontend-app-bootstrap';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormSelect, FormTextInput } from '../../..';
 import { simulateNetworkDelay } from '../Form.stories';
 
 storiesOf('forms|Form.Select', module)
@@ -17,6 +17,7 @@ storiesOf('forms|Form.Select', module)
     </Box>
   ))
   .add('default', () => <DefaultExample />)
+  .add('help text', () => <DefaultExample helpText="The main course of your meal." />)
   .add('optional', () => <OptionalExample />)
   .add('custom rendering', () => <CustomRenderingExample />)
   .add('groups', () => <GroupsExample />)
@@ -27,7 +28,11 @@ storiesOf('forms|Form.Select', module)
   .add('with external reset', () => <ExternalResetExample />, skipVisualTest);
 
 // Default example
-const optionList = [{ id: 1, label: 'Chicken' }, { id: 2, label: 'Beef' }, { id: 3, label: 'Tofu' }];
+const optionList = [
+  { id: 1, label: 'Chicken' },
+  { id: 2, label: 'Beef' },
+  { id: 3, label: 'Tofu' },
+];
 
 const defaultValidationSchema = {
   entree: Form.Yup.object()
@@ -35,17 +40,22 @@ const defaultValidationSchema = {
     .required('Entree is a required field.'),
 };
 
-const DefaultExample = () => (
+const DefaultExample = (fieldProps: any) => (
   <Form
     onSubmit={values => simulateNetworkDelay(() => action('select-default-submit')(values))}
     initialValues={{ entree: null }}
     validationSchema={defaultValidationSchema}
   >
-    <Form.Select<{ id: number; label: string }> name="entree" label="Entree" getOptionText={o => o.label}>
+    <FormSelect<{ id: number; label: string }>
+      name="entree"
+      label="Entree"
+      getOptionText={o => o.label}
+      {...fieldProps}
+    >
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(optionList).map(option => <SelectOption key={option.id} option={option} />)
       }
-    </Form.Select>
+    </FormSelect>
     <Form.Footer primaryText="Submit" />
   </Form>
 );
@@ -61,12 +71,12 @@ const OptionalExample = () => (
     initialValues={{ name: '', entree: null }}
     validationSchema={optionalExampleValidationSchema}
   >
-    <Form.TextInput name="name" label="Name" />
-    <Form.Select<{ id: number; label: string }> name="entree" label="Entree" getOptionText={o => o.label} optional>
+    <FormTextInput name="name" label="Name" />
+    <FormSelect<{ id: number; label: string }> name="entree" label="Entree" getOptionText={o => o.label} optional>
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(optionList).map(option => <SelectOption key={option.id} option={option} />)
       }
-    </Form.Select>
+    </FormSelect>
     <Form.Footer primaryText="Submit" />
   </Form>
 );
@@ -79,11 +89,7 @@ const entreesWithPrices = [
 ];
 const CustomRenderingExample = () => (
   <Form onSubmit={() => {}} initialValues={{ entree: entreesWithPrices[0] }}>
-    <Form.Select<{ id: number; label: string; price: string }>
-      name="entree"
-      label="Entree"
-      getOptionText={o => o.label}
-    >
+    <FormSelect<{ id: number; label: string; price: string }> name="entree" label="Entree" getOptionText={o => o.label}>
       {({ SelectOption, basicOptionFilter, withMatchEmphasis }) =>
         basicOptionFilter(entreesWithPrices).map(option => (
           <SelectOption key={option.id} option={option}>
@@ -94,7 +100,7 @@ const CustomRenderingExample = () => (
           </SelectOption>
         ))
       }
-    </Form.Select>
+    </FormSelect>
   </Form>
 );
 
@@ -116,7 +122,7 @@ const fruitGroups = [
 
 const GroupsExample = () => (
   <Form onSubmit={() => {}} initialValues={{ fruit: 'Orange' }}>
-    <Form.Select<string> name="fruit" label="Fruit" placeholder="Select a Fruit..." getOptionText={o => o}>
+    <FormSelect<string> name="fruit" label="Fruit" placeholder="Select a Fruit..." getOptionText={o => o}>
       {({ SelectOption, SelectGroup, basicOptionFilter }) =>
         fruitGroups.map(group => {
           const filteredFruits = basicOptionFilter(group.fruits);
@@ -133,14 +139,14 @@ const GroupsExample = () => (
           }
         })
       }
-    </Form.Select>
+    </FormSelect>
   </Form>
 );
 
 // Add new example
 const AddNewExample = () => (
   <Form onSubmit={() => {}} initialValues={{ entree: null }}>
-    <Form.Select<{ id: number; label: string }>
+    <FormSelect<{ id: number; label: string }>
       name="entree"
       label="Entree"
       onCreateNewOption={() => alert('Create new entree callback fired')}
@@ -154,7 +160,7 @@ const AddNewExample = () => (
           ))}
         </>
       )}
-    </Form.Select>
+    </FormSelect>
   </Form>
 );
 
@@ -188,7 +194,7 @@ class AsyncExample extends React.Component<{}, FormState> {
     const { isLoadingFruit, options } = this.state;
     return (
       <Form onSubmit={() => {}} initialValues={{}}>
-        <Form.Select<string>
+        <FormSelect<string>
           name="fruit"
           label="Fruit"
           onInputValueChange={this.updateOptions}
@@ -196,7 +202,7 @@ class AsyncExample extends React.Component<{}, FormState> {
           getOptionText={o => o}
         >
           {({ SelectOption }) => options.map(fruit => <SelectOption option={fruit} key={fruit} />)}
-        </Form.Select>
+        </FormSelect>
       </Form>
     );
   }
@@ -207,33 +213,33 @@ class AsyncExample extends React.Component<{}, FormState> {
 const stringOptionList = ['Chicken', 'Beef', 'Fish', 'Tofu', 'Dirt and Rocks'];
 const SizesExample = () => (
   <Form onSubmit={() => {}} initialValues={{}}>
-    <Form.Select<string> name="large" label="Large" s="large" getOptionText={o => o}>
+    <FormSelect<string> name="large" label="Large" s="large" getOptionText={o => o}>
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(stringOptionList).map(option => <SelectOption key={option} option={option} />)
       }
-    </Form.Select>
-    <Form.Select<string> name="medium" label="Medium" s="medium" getOptionText={o => o}>
+    </FormSelect>
+    <FormSelect<string> name="medium" label="Medium" s="medium" getOptionText={o => o}>
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(stringOptionList).map(option => <SelectOption key={option} option={option} />)
       }
-    </Form.Select>
-    <Form.Select<string> name="small" label="Small" s="small" getOptionText={o => o}>
+    </FormSelect>
+    <FormSelect<string> name="small" label="Small" s="small" getOptionText={o => o}>
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(stringOptionList).map(option => <SelectOption key={option} option={option} />)
       }
-    </Form.Select>
+    </FormSelect>
   </Form>
 );
 
 const DisabledOptionExample = () => (
   <Form onSubmit={() => {}} initialValues={{}}>
-    <Form.Select<string> name="fruit" label="Fruit" getOptionText={o => o}>
+    <FormSelect<string> name="fruit" label="Fruit" getOptionText={o => o}>
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(stringOptionList).map((option, i) => (
           <SelectOption key={option} option={option} disabled={i === 0} />
         ))
       }
-    </Form.Select>
+    </FormSelect>
   </Form>
 );
 
@@ -241,11 +247,11 @@ const ExternalResetExample = () => (
   <Form onSubmit={() => {}} initialValues={{}}>
     {({ setFieldValue }) => (
       <>
-        <Form.Select<string> name="fruit" label="Fruit" getOptionText={o => o}>
+        <FormSelect<string> name="fruit" label="Fruit" getOptionText={o => o}>
           {({ SelectOption, basicOptionFilter }) =>
             basicOptionFilter(stringOptionList).map((option, i) => <SelectOption key={option} option={option} />)
           }
-        </Form.Select>
+        </FormSelect>
         <Button
           s="small"
           onClick={() => {

@@ -1,7 +1,10 @@
-#### Help us!
+An internal component that provides an [Input](#!/Input) with an [Icon](#!/Icon).
 
-😱 It looks like there is no documentation for this component!
+Apps should typically use one of these instead:
 
-You can help by adding documentation. Click the edit button at the top right to edit this page.
+- [FormDateInput](#!/FormDateInput)
+- [FormPhoneInput](#!/FormPhoneInput)
+- [SearchInput](#!/SearchInput)
+- [FormTimeInput](#!/FormTimeInput)
 
-See component documentation guidelines [here](http://ui.zenefits.com/#!/Component%20Best%20Practices).
+See also [FormTextInput](#!/FormTextInput), which supports a `prefix` and `suffix`.

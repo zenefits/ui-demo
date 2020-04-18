@@ -2,37 +2,29 @@ A component that renders an avatar using either a photo (if provided) or name in
 
 #### Examples
 
-Using only `firstName` and `lastName` props (no photo available):
+Different sizes:
 
-```jsx
-// loadExample('./exampleDefault')
-```
-
-With `photoUrl`:
-
-```jsx
-// loadExample('./examplePhoto')
+```jsx noeditor
+<StorybookExample selectedKind="composites|Avatar" selectedStory="sizes" />
 ```
 
 When representing companies, you should use `isSquare` and `imageFit="contain"`:
 
-```jsx
-// loadExample('./exampleCompany')
+```jsx noeditor
+<StorybookExample selectedKind="composites|Avatar" selectedStory="square corners, contain (company)" />
 ```
 
 When representing contractors, you should use `badge` to turn on the badge:
 
-```jsx
-// loadExample('./exampleBadge')
+```jsx noeditor
+<StorybookExample selectedKind="composites|Avatar" selectedStory="Avatar with Badge" />
 ```
 
 With tooltips:
 
-```jsx
-// loadExample('./exampleTooltips')
+```jsx noeditor
+<StorybookExample selectedKind="composites|Avatar" selectedStory="Avatar tooltips" />
 ```
-
-See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=composites|Avatar&selectedStory=sizes&full=0&addons=1&stories=1&panelRight=0).
 
 #### Usage
 

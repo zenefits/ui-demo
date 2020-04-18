@@ -1,20 +1,43 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
+import Field from '../Field';
 import DateInput, { DateInputProps } from '../../date-picker/DateInput';
-import FormFieldWrapper, { getErrorId, getLabelId, FormFieldProps } from '../FormFieldWrapper';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
+import { formatIsoString } from '../../fields';
+import { getAriaInputProps } from '../formAccessibility';
 
-type FormDateInputProps = DateInputProps & FormFieldProps;
+export type FormDateInputProps = DateInputProps &
+  FormFieldProps & {
+    /**
+     * Keep the time part of the date. By default, the value is just YYYY-MM-DD.
+     * This is mostly for backwards-compatibility.
+     * @default false
+     */
+    preserveTime?: boolean;
+  };
 
 class FormDateInput extends Component<FormDateInputProps> {
   render() {
-    const { name, label, containerProps, optional, format, pickerOptions, ...rest } = this.props;
-    let setTouchedOnInputBlurTimeout: NodeJS.Timeout;
+    const {
+      name,
+      label,
+      containerProps,
+      optional,
+      format,
+      pickerOptions,
+      limitRerender,
+      dependencies,
+      preserveTime,
+      helpText,
+      'aria-label': ariaLabel,
+      ...rest
+    } = this.props;
+    let setTouchedOnInputBlurTimeout: number;
 
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form }: FieldProps) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper
@@ -24,13 +47,15 @@ class FormDateInput extends Component<FormDateInputProps> {
               format={format}
               containerProps={containerProps}
               optional={optional}
+              helpText={helpText}
             >
               <DateInput
                 id={name}
                 value={field.value}
                 onChange={value => {
                   clearTimeout(setTouchedOnInputBlurTimeout);
-                  form.setFieldValue(name, value);
+                  const formatted = preserveTime ? value : formatIsoString(value); // remove time portion
+                  form.setFieldValue(name, formatted || '');
                 }}
                 onBlur={() => {
                   // The blur handler is firing whenever a day is a selected or month changed
@@ -41,8 +66,6 @@ class FormDateInput extends Component<FormDateInputProps> {
                   }, 250);
                 }}
                 hasError={Boolean(error)}
-                aria-labelledby={getLabelId(name)}
-                aria-describedby={error ? getErrorId(name) : null}
                 mb={0}
                 pickerOptions={{
                   onMonthChange: () => {
@@ -51,11 +74,12 @@ class FormDateInput extends Component<FormDateInputProps> {
                   ...pickerOptions,
                 }}
                 {...rest}
+                {...getAriaInputProps(name, error, ariaLabel)}
               />
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

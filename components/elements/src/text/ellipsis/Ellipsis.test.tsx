@@ -2,8 +2,8 @@ import React from 'react';
 import 'jest-styled-components';
 
 import 'z-frontend-jest/modified-jest-styled-components';
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
-import { mountWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
+import { mountEnzymeWithTheme, renderEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
 import { getColor } from 'z-frontend-theme';
 import { TextBlock } from 'zbase';
 
@@ -15,12 +15,12 @@ const messages = {
 
 describe('Ellipsis', () => {
   it('should render a `<div>` by default', () => {
-    const rendered = renderWithTheme(<Ellipsis>foo</Ellipsis>);
+    const rendered = renderEnzymeWithTheme(<Ellipsis>foo</Ellipsis>);
     expect(rendered.is('div')).toBe(true);
   });
 
   it('should be keyboard focusable', () => {
-    const rendered = renderWithTheme(<Ellipsis fontStyle="headings.m">foo</Ellipsis>);
+    const rendered = renderEnzymeWithTheme(<Ellipsis fontStyle="headings.m">foo</Ellipsis>);
     expect(rendered.attr('tabindex')).toBe('0');
   });
 
@@ -29,29 +29,29 @@ describe('Ellipsis', () => {
   // it('should not have tooltip if wide enough for content');
 
   it('tooltip will show based on state', () => {
-    const mounted = mountWithTheme(<Ellipsis>something really long</Ellipsis>);
+    const mounted = mountEnzymeWithTheme(<Ellipsis>something really long</Ellipsis>);
     mounted.setState({ showTooltip: true });
     const tooltip = mounted.find(OverlaidTooltip);
     expect(tooltip.exists()).toBe(true);
   });
 
   it('should respect util props', () => {
-    const mounted = mountWithThemeIntl(<Ellipsis p={123}>foo</Ellipsis>);
+    const mounted = mountEnzymeWithThemeIntl(<Ellipsis p={123}>foo</Ellipsis>);
     expect(mounted.find(TextBlock)).toHaveStyleRule('padding', '123px');
   });
 
   it('should respect text props', () => {
-    const mounted = mountWithThemeIntl(<Ellipsis textTransform="uppercase">foo</Ellipsis>);
+    const mounted = mountEnzymeWithThemeIntl(<Ellipsis textTransform="uppercase">foo</Ellipsis>);
     expect(mounted.find(TextBlock)).toHaveStyleRule('text-transform', 'uppercase');
   });
 
   it('should respect i18n props', () => {
-    const mounted = mountWithThemeIntl(<Ellipsis textKey="foo" />, { messages });
+    const mounted = mountEnzymeWithThemeIntl(<Ellipsis textKey="foo" />, { messages });
     expect(mounted.text()).toBe(messages.foo);
   });
 
   it('should respect fontStyle prop', () => {
-    const mounted = mountWithThemeIntl(<Ellipsis fontStyle="paragraphs.l">foo</Ellipsis>);
+    const mounted = mountEnzymeWithThemeIntl(<Ellipsis fontStyle="paragraphs.l">foo</Ellipsis>);
     /*
       'paragraphs.l': {
         fontSize: 2,
@@ -66,7 +66,7 @@ describe('Ellipsis', () => {
   });
 
   it('color prop should override fontStyle', () => {
-    const mounted = mountWithThemeIntl(
+    const mounted = mountEnzymeWithThemeIntl(
       <Ellipsis fontStyle="paragraphs.l" color="primary.a">
         foo
       </Ellipsis>,

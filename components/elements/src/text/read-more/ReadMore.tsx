@@ -1,39 +1,44 @@
 import React, { Component } from 'react';
 
 import { TextBlock, TextBlockProps } from 'zbase';
-import { styled } from 'z-frontend-theme';
+import { styled, ColorString } from 'z-frontend-theme';
 
 import Truncate from '../truncate/Truncate';
 import Link from '../../action/link/Link';
 
 type ReadMoreProps = TextBlockProps & {
-  /** Include a custom expand control. This control will be beside the collapsed text. Defaults to expanding the text. */
-  expandControl?: React.ReactNode;
-  /** Include a custom collapse control. This control will be beside the expanded text. Defaults to collapsing the text. */
-  collapseControl?: React.ReactNode;
-  /** The number of lines that will appear before the collapsed text is clipped. */
+  /**
+   * The number of lines that will appear before the collapsed text is clipped.
+   * @default 1
+   */
   lines?: number;
+  /**
+   * Set to true if you would like your expand control to hide if your collapsed text fits its surrounding and is no longer truncated.
+   * @default false
+   */
+  isExpandControlHiddenOnResize?: boolean;
   /** Include different expanded text/formatted text/ different fontStyle or color from the collapsed text. Defaults to using the collapsed text. */
   expandedText?: React.ReactNode;
-  /** allows you to expand the text as a consumer. */
+  /** Allows you to expand the text as a consumer. */
   isExpanded?: boolean;
-  /** Set to true if you would like your expand control to hide if your collapsed text fits its surrounding and is no longer truncated. */
-  isExpandControlHiddenOnResize?: boolean;
+  /**
+   * Match container background (only needed if non-white).
+   */
+  bg?: ColorString;
 };
 
 interface ReadMoreState {
   isExpanded: boolean;
 }
 
-const StyledSpan = styled.span`
-  float: right;
+const CollapseControl = styled.div`
+  text-align: right;
 `;
 
 class ReadMore extends Component<ReadMoreProps, ReadMoreState> {
   static defaultProps = {
     lines: 1,
     fontStyle: 'paragraphs.m',
-    color: 'grayscale.d',
     isExpandControlHiddenOnResize: false,
   };
 
@@ -42,74 +47,65 @@ class ReadMore extends Component<ReadMoreProps, ReadMoreState> {
     this.state = { isExpanded: props.isExpanded || false };
   }
 
-  componentWillReceiveProps(nextProps: ReadMoreProps) {
-    if (this.state.isExpanded !== !!nextProps.isExpanded) {
+  // tslint:disable-next-line:function-name
+  UNSAFE_componentWillReceiveProps(nextProps: ReadMoreProps) {
+    if (typeof nextProps.isExpanded !== 'undefined' && this.state.isExpanded !== !!nextProps.isExpanded) {
       this.setState({ isExpanded: !!nextProps.isExpanded });
     }
   }
 
-  expand = () => {
+  expand = (e: React.MouseEvent) => {
     this.setState({ isExpanded: true });
+    e.preventDefault();
   };
 
-  collapse = () => {
+  collapse = (e: React.MouseEvent) => {
     this.setState({ isExpanded: false });
+    e.preventDefault();
   };
 
   getExpandControl = () => {
-    if (this.props.expandControl) {
-      return this.props.expandControl;
-    }
     return (
-      <Link onClick={this.expand} fontSize__deprecated__doNotUse={0}>
+      <Link
+        href="#" // focus with keyboard
+        onClick={this.expand}
+        fontStyle="paragraphs.s"
+      >
         Show More
       </Link>
     );
   };
 
   getCollapseControl = () => {
-    if (this.props.collapseControl) {
-      return this.props.collapseControl;
-    }
     return (
-      <Link onClick={this.collapse} fontSize__deprecated__doNotUse={0}>
+      <Link
+        href="#" // focus with keyboard
+        onClick={this.collapse}
+        fontStyle="paragraphs.s"
+      >
         Show Less
       </Link>
     );
   };
 
   getExpandedText = () => {
-    if (this.props.expandedText) {
-      return this.props.expandedText;
-    }
     return (
-      <TextBlock tag="p" fontStyle={this.props.fontStyle} color={this.props.color}>
-        {this.props.children}
-      </TextBlock>
+      this.props.expandedText || (
+        <TextBlock tag="p" m={0} fontStyle={this.props.fontStyle} color={this.props.color}>
+          {this.props.children}
+        </TextBlock>
+      )
     );
   };
 
   render() {
-    const {
-      expandControl,
-      collapseControl,
-      expandedText,
-      children,
-      lines,
-      isExpanded,
-      isExpandControlHiddenOnResize,
-      ...rest
-    } = this.props;
-
-    const rmExpandControl = this.getExpandControl();
-    const rmCollapseControl = this.getCollapseControl();
-    const expandedTextToRender = this.getExpandedText();
+    const { expandedText, children, lines, isExpanded, isExpandControlHiddenOnResize, ...rest } = this.props;
     return (
       <div>
         {!this.state.isExpanded && (
           <Truncate
             lines={lines}
-            ellipsisText={<span>{rmExpandControl}</span>}
+            ellipsisText={<span>{this.getExpandControl()}</span>}
             isEllipsisHidden={this.state.isExpanded ? this.state.isExpanded : undefined}
             isCustomEllipsisHiddenOnResize={isExpandControlHiddenOnResize}
             {...rest}
@@ -119,8 +115,8 @@ class ReadMore extends Component<ReadMoreProps, ReadMoreState> {
         )}
         {this.state.isExpanded && (
           <>
-            <span>{expandedTextToRender}</span>
-            <StyledSpan>{rmCollapseControl}</StyledSpan>
+            {this.getExpandedText()}
+            <CollapseControl>{this.getCollapseControl()}</CollapseControl>
           </>
         )}
       </div>

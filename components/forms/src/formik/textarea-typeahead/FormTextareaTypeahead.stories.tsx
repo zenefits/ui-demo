@@ -7,7 +7,7 @@ import { Button } from 'z-frontend-elements';
 import { skipVisualTest } from 'z-frontend-app-bootstrap';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormTextareaTypeahead } from '../../..';
 
 const lotrSuggestions = [
   'Frodo',
@@ -36,7 +36,7 @@ storiesOf('forms|Form.TextareaTypeahead', module)
   ))
   .add('default', () => (
     <Form onSubmit={() => {}} initialValues={{}}>
-      <Form.TextareaTypeahead
+      <FormTextareaTypeahead
         name="story"
         label="Lord of the Rings story"
         onChange={action('input value changed')}
@@ -45,7 +45,7 @@ storiesOf('forms|Form.TextareaTypeahead', module)
         {({ SelectOption, currentWordFilter }) =>
           currentWordFilter(lotrSuggestions, 1).map(option => <SelectOption key={option} option={option} />)
         }
-      </Form.TextareaTypeahead>
+      </FormTextareaTypeahead>
     </Form>
   ))
   .add(
@@ -54,7 +54,7 @@ storiesOf('forms|Form.TextareaTypeahead', module)
       <Form onSubmit={() => {}} initialValues={{ story: 'Once upon a time...' }}>
         {({ setFieldValue }) => (
           <>
-            <Form.TextareaTypeahead
+            <FormTextareaTypeahead
               name="story"
               label="Lord of the Rings story"
               onChange={action('input value changed')}
@@ -63,7 +63,7 @@ storiesOf('forms|Form.TextareaTypeahead', module)
               {({ SelectOption, currentWordFilter }) =>
                 currentWordFilter(lotrSuggestions, 1).map(option => <SelectOption key={option} option={option} />)
               }
-            </Form.TextareaTypeahead>
+            </FormTextareaTypeahead>
             <Button
               onClick={() => {
                 setFieldValue('story', 'Once upon a time...');

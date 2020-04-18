@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { WrappedFieldProps } from 'redux-form';
 
 import FieldWrapper, { FieldProps } from './FieldWrapper';
@@ -8,6 +9,7 @@ class SearchField extends Component<WrappedFieldProps & SelectDeprecatedProps> {
   static defaultProps = {
     simpleValue: true,
   };
+
   render() {
     const {
       input: { value, onChange },

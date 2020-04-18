@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormMentionTextarea } from '../../..';
 
 const initialValues = { comment: 'Hey [@234], can you take a look at this?' };
 
@@ -19,6 +19,6 @@ const options = [
 
 export default () => (
   <Form initialValues={initialValues} onSubmit={() => {}}>
-    <Form.MentionTextarea name="comment" label="Comment" options={options} />
+    <FormMentionTextarea name="comment" label="Comment" options={options} />
   </Form>
 );

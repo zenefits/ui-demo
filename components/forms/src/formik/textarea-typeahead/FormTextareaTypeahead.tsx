@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn } from 'formik';
 
 import { FlexProps } from 'zbase';
 
+import Field from '../Field';
 import TextareaTypeahead, { SharedTextareaTypeaheadProps } from '../../textarea-typeahead/TextareaTypeahead';
-import FormFieldWrapper from '../FormFieldWrapper';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
 
 type FormTextareaTypeaheadProps = {
   /**
@@ -17,13 +18,14 @@ type FormTextareaTypeaheadProps = {
   containerProps?: FlexProps;
 };
 
-class FormTextareaTypeahead extends Component<FormTextareaTypeaheadProps & SharedTextareaTypeaheadProps> {
+class FormTextareaTypeahead extends Component<
+  FormTextareaTypeaheadProps & SharedTextareaTypeaheadProps & FormFieldProps
+> {
   render() {
-    const { name, label, containerProps, onChange, ...rest } = this.props;
+    const { name, label, containerProps, onChange, limitRerender, dependencies, ...rest } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form, setFieldValueAndTouched }) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper name={name} error={error} label={label} containerProps={containerProps}>
@@ -31,8 +33,7 @@ class FormTextareaTypeahead extends Component<FormTextareaTypeaheadProps & Share
                 name={name}
                 error={error}
                 onChange={value => {
-                  form.setFieldValue(field.name, value);
-                  form.setFieldTouched(field.name);
+                  setFieldValueAndTouched(field.name, value);
                   onChange && onChange(value);
                 }}
                 value={field.value}
@@ -41,7 +42,7 @@ class FormTextareaTypeahead extends Component<FormTextareaTypeaheadProps & Share
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

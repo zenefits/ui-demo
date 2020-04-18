@@ -3,7 +3,7 @@ import React from 'react';
 import { Flex } from 'zbase';
 import { Button } from 'z-frontend-elements';
 
-import { Form } from '../Form';
+import { Form, FormMentionTextarea } from '../../..';
 
 const options = [
   {
@@ -34,7 +34,7 @@ export default () => (
     {props => {
       return (
         <>
-          <Form.MentionTextarea
+          <FormMentionTextarea
             name="comment"
             label="Comment"
             options={options}

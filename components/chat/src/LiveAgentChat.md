@@ -13,11 +13,11 @@ Note: If you need to create a new queue, you need to coordinate with the Salesfo
 **More Examples - Screenshots/Gifs**
 
 LiveAgent example:
-<br /><img src="./images/Live-agent-chat-example-not-online.gif"  width="600"> <br />
+<br /><img src="./assets/images/Live-agent-chat-example-not-online.gif"  width="600"> <br />
 No agents are online :
-<br /> <img src="./images/Live-agent-chat-example.gif"  width="600" ><br />
+<br /> <img src="./assets/images/Live-agent-chat-example.gif"  width="600" ><br />
 Timeout warning banner :
-<br /><img src="./images/Live-agent-timeout-warning-banner.png"  width="200"><br />
+<br /><img src="./assets/images/Live-agent-timeout-warning-banner.png"  width="200"><br />
 
 #### Usage
 

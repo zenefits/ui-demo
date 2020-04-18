@@ -2,8 +2,8 @@ Component to group form fields together into a section.
 
 #### Examples
 
-```jsx
-// loadExample('./exampleDefault')
+```jsx noeditor
+<StorybookExample selectedKind="forms|Form.Section" selectedStory="basic" />
 ```
 
 See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=forms|Form.Section).

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { Box } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import DefaultExample from './exampleDefault';
+import { Form, FormPercentageInput } from '../../..';
 
 storiesOf('forms|Form.PercentageInput', module)
   .addDecorator((getStory: Function) => (
@@ -11,4 +11,14 @@ storiesOf('forms|Form.PercentageInput', module)
       {getStory()}
     </Box>
   ))
-  .add('basic percentage input', DefaultExample);
+  .add('default', () => <DefaultExample />);
+
+class DefaultExample extends Component {
+  render() {
+    return (
+      <Form debug onSubmit={() => {}} initialValues={{ ownershipPercentage: 33.33 }}>
+        <FormPercentageInput name="ownershipPercentage" label="Percentage owned" />
+      </Form>
+    );
+  }
+}

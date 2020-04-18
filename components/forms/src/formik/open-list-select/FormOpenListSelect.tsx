@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn } from 'formik';
 
 import { FlexProps } from 'zbase';
 
+import Field from '../Field';
 import OpenListSelect, { SharedOpenListSelectProps } from '../../select/OpenListSelect';
-import FormFieldWrapper from '../FormFieldWrapper';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
 
 type FormOpenListSelectProps = {
   /**
@@ -14,14 +15,13 @@ type FormOpenListSelectProps = {
 };
 
 class FormOpenListSelect<OptionValue> extends Component<
-  FormOpenListSelectProps & SharedOpenListSelectProps<OptionValue>
+  FormOpenListSelectProps & SharedOpenListSelectProps<OptionValue> & FormFieldProps
 > {
   render() {
-    const { name, label, containerProps, ...rest } = this.props;
+    const { name, label, containerProps, limitRerender, dependencies, ...rest } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form, setFieldValueAndTouched }) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper name={name} error={error} containerProps={containerProps}>
@@ -30,8 +30,7 @@ class FormOpenListSelect<OptionValue> extends Component<
                 error={error}
                 label={label}
                 onChange={option => {
-                  form.setFieldValue(field.name, option);
-                  form.setFieldTouched(field.name);
+                  setFieldValueAndTouched(field.name, option);
                 }}
                 value={field.value}
                 {...rest}
@@ -39,7 +38,7 @@ class FormOpenListSelect<OptionValue> extends Component<
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

@@ -1,11 +1,10 @@
 import React, { StatelessComponent } from 'react';
-import { FlattenInterpolation } from 'styled-components';
 import moment from 'moment';
 
 import { css, styled, ColorString } from 'z-frontend-theme';
 import { ProgressBar } from 'z-frontend-elements';
 import { color, fontStyles, space } from 'z-frontend-theme/utils';
-import { Box, Flex, Label, TextBlock } from 'zbase';
+import { Box, BoxProps, Flex, Label, TextBlock } from 'zbase';
 
 type TimelineProps = {
   /** Other text that will appear on the top right of the component */
@@ -36,7 +35,15 @@ type TimelineProps = {
    * Include a color to emphasize the progress made. By default there is no color.
    */
   progressColor?: ColorString;
+  /**
+   * If True, it renders a smaller font for otherData
+   */
+  isSmallSize?: boolean;
 };
+
+function getThumbPosition(val: number) {
+  return `left: ${val}%`;
+}
 
 function getThumbTextPosition(val: number) {
   let direction = 'left';
@@ -86,7 +93,6 @@ const StyledLabel = styled(Label)`
 
 const StyledOtherDataText = styled(TextBlock)`
   color: ${color('grayscale.d')};
-  ${props => fontStyles('controls.m')};
   display: inline-block;
 `;
 
@@ -108,9 +114,11 @@ const StyledThumbText = styled(TextBlock)`
   opacity: 0;
 `;
 
-const trackContainerStyle: FlattenInterpolation<{ value: number }>[] = css`
+type TrackProps = BoxProps & { value?: number };
+
+const trackContainerStyle = css<TrackProps>`
   ${StyledThumb} {
-    left: ${props => props.value}%;
+    ${props => getThumbPosition(props.value)};
   }
 
   ${StyledThumbText} {
@@ -118,7 +126,7 @@ const trackContainerStyle: FlattenInterpolation<{ value: number }>[] = css`
   }
 `;
 
-const StyledTrackContainer = styled(Box)`
+const StyledTrackContainer = styled(Box)<BoxProps & TrackProps>`
   width: 100%;
   position: relative;
   ${trackContainerStyle};
@@ -141,7 +149,17 @@ const StyledTrackContainer = styled(Box)`
 `;
 
 const Timeline: StatelessComponent<TimelineProps> = props => {
-  const { startDate, endDate, label, valueDate, otherData, rangeDateFormat, progressValue, progressColor } = props;
+  const {
+    startDate,
+    endDate,
+    label,
+    valueDate,
+    otherData,
+    rangeDateFormat,
+    progressValue,
+    progressColor,
+    isSmallSize,
+  } = props;
 
   const minDate = getDayInteger(startDate);
   const maxDate = getDayInteger(endDate);
@@ -151,7 +169,9 @@ const Timeline: StatelessComponent<TimelineProps> = props => {
     <Box>
       <Flex justify="space-between" mb={1}>
         <StyledLabel>{label}</StyledLabel>
-        {otherData && <StyledOtherDataText> {otherData} </StyledOtherDataText>}
+        {otherData && (
+          <StyledOtherDataText fontStyle={isSmallSize ? 'controls.s' : 'controls.m'}>{otherData}</StyledOtherDataText>
+        )}
       </Flex>
       <StyledTrackContainer value={valuePercent}>
         <ProgressBar value={progressValue} color={progressColor} w={1} />

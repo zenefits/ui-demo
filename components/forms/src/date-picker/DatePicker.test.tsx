@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import DatePicker from './DatePicker';
 import { clickADay } from '../testUtils';
@@ -9,18 +9,18 @@ jest.mock('react-day-picker/lib/style.css', () => jest.fn());
 
 describe('DatePicker', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<DatePicker />)).toHaveLength(1);
+    expect(mountEnzymeWithTheme(<DatePicker />)).toHaveLength(1);
   });
 
   it('should show caption', () => {
-    const wrapper = mountWithTheme(<DatePicker />);
+    const wrapper = mountEnzymeWithTheme(<DatePicker />);
     expect(wrapper.find('.DayPicker-Caption')).toHaveLength(1);
   });
 
   it('should invoke callback on change', () => {
     const onDayClick = jest.fn();
 
-    const wrapper = mountWithTheme(<DatePicker onDayClick={onDayClick} />);
+    const wrapper = mountEnzymeWithTheme(<DatePicker onDayClick={onDayClick} />);
 
     clickADay(wrapper);
 

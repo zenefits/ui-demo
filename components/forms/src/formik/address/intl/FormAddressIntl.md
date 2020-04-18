@@ -27,12 +27,12 @@ With autocompleted address:
 
 #### Implementation Notes
 
-- `Form.AddressIntl.getValidationSchema(key)` provides useful default validation.
-- `Form.AddressIntl.getEmptyValue()` provides an empty default value.
+- `FormAddressIntl.getValidationSchema(key)` provides useful default validation.
+- `FormAddressIntl.getEmptyValue()` provides an empty default value.
 - Use the `AddressValue` type when specifying the type for address values.
 
 #### Related
 
-- [Form.AddressUS](#!/Form.Input)
-- [Form.Input](#!/Form.Input)
-- [Form.Select](#!/Form.Select)
+- [FormAddressUS](#!/FormAddressUS)
+- [FormInput](#!/FormInput)
+- [FormSelect](#!/FormSelect)

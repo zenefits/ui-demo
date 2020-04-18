@@ -5,7 +5,7 @@ import { Box } from 'zbase';
 import Popover, { PopoverProps } from './Popover';
 
 type InformationPopoverProps = {
-  title: String;
+  title: string;
 } & PopoverProps;
 
 class InformationPopover extends Component<InformationPopoverProps> {

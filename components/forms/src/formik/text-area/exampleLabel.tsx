@@ -1,10 +1,15 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormTextarea } from '../../..';
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ description: '', comment: '' }}>
-    <Form.Textarea name="description" label="Description" />
-    <Form.Textarea name="comment" label="Comments" optional />
+    <FormTextarea name="description" label="Description" />
+    <FormTextarea
+      name="comment"
+      label="Comments"
+      optional
+      helpText="Additional comments you have. These will be visible only to you."
+    />
   </Form>
 );

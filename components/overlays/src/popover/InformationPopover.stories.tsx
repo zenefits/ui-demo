@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
-
 import ExampleClickTop from './exampleInformationPopoverTop';
 import OpenByDefault from './exampleInformationPopoverOpenByDefault';
 import ExampleInfoButton from './exampleInfoButton';

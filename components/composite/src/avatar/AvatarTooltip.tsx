@@ -47,11 +47,29 @@ type AvatarTooltipProps = AvatarProps & { children: ReactElement<any> };
 class AvatarTooltip extends Component<AvatarTooltipProps> {
   render() {
     const tooltipContent = evaluateTooltipContent(this.props);
+    const { popperModifiers: customPopperModifiers, ...tooltipProps } = this.props.tooltipProps || {
+      popperModifiers: {},
+    };
+
+    const popperModifiers = {
+      offset: {
+        offset: '0px, 4px',
+      },
+      ...customPopperModifiers,
+    };
+
     if (!tooltipContent) {
       return <>{this.props.children}</>;
     }
     return (
-      <Tooltip event="hover" placement="top" showArrow targetBody={this.props.children} {...this.props.tooltipProps}>
+      <Tooltip
+        event="hover"
+        placement="top"
+        showArrow
+        targetBody={this.props.children}
+        popperModifiers={popperModifiers}
+        {...tooltipProps}
+      >
         {tooltipContent}
       </Tooltip>
     );

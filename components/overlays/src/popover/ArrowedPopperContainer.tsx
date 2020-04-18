@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Arrow } from 'react-popper';
+import { PopperArrowProps } from 'react-popper';
 
 import { getColor, styled, ColorString } from 'z-frontend-theme';
-import { Box } from 'zbase';
+import { Box, BoxProps } from 'zbase';
 import { radius, space } from 'z-frontend-theme/utils';
 
 import { PlacementProp } from './BasePopper';
@@ -16,6 +16,7 @@ type ArrowedPopperContainerProps = ArrowedPopperContainerStylingProps & {
   useDefaultPopperContainer?: boolean;
   dataPlacement: PlacementProp;
   showArrow?: boolean;
+  arrowProps: PopperArrowProps;
 };
 
 const StyledPopperContainer = styled(Box)`
@@ -24,9 +25,9 @@ const StyledPopperContainer = styled(Box)`
   box-shadow: 0 2px 8px 0 rgba(18, 52, 102, 0.2), 0 0 0 1px rgba(18, 52, 102, 0.15);
 `;
 
-const StyledContainer = styled<ArrowedPopperContainerStylingProps>(
-  ({ bg, ...rest }: ArrowedPopperContainerStylingProps) => <Box {...rest} />,
-)`
+const BoxWithoutBg = ({ bg, ...rest }: BoxProps) => <Box {...rest} />;
+
+const StyledContainer = styled(BoxWithoutBg)<ArrowedPopperContainerStylingProps>`
   display: inline;
 
   .popper-arrow {
@@ -123,11 +124,12 @@ class ArrowedPopperContainer extends Component<ArrowedPopperContainerProps> {
     useDefaultPopperContainer: true,
     showArrow: true,
   };
+
   render() {
-    const { dataPlacement, showArrow, bg, ...props } = this.props;
+    const { dataPlacement, arrowProps, showArrow, bg, ...props } = this.props;
     return (
       <StyledContainer data-placement={dataPlacement} bg={bg} {...props}>
-        {showArrow && <Arrow className="popper-arrow" />}
+        {showArrow && <div {...arrowProps} className="popper-arrow" />}
         {this.props.useDefaultPopperContainer ? (
           <StyledPopperContainer bg={bg}>{this.props.children}</StyledPopperContainer>
         ) : (

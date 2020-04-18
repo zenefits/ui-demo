@@ -1,12 +1,12 @@
 We use buttons to confirm the path or action a user takes.
 
-The following Button components are closely related:
+The following Button components are closely related to Button:
 
-- `Button` triggers an action via `onClick`
-- `Button.RouteLink` transitions to a route
-- `Button.Link` transitions to a new page
-- [`IconButton`](#!/IconButton) includes an icon and has an optional label
-- [`InfoButton`](#!/InfoButton) includes an underline
+- [LinkButton](#!/LinkButton) is for de-emphasized or uncommon actions (looks like a link)
+- [IconButton](#!/IconButton) includes an icon and a label
+- [InfoButton](#!/InfoButton) includes an underline
+- Button.RouteLink navigates to a new route
+- Button.Link navigates to a new page
 
 #### Examples
 
@@ -28,36 +28,18 @@ Buttons also support different states:
 
 #### Usage
 
-- Primary buttons are for the main call to action. There should only ever be one.
-- Default buttons are for secondary actions (eg Cancel).
-- Transparent buttons should always include an icon. By default, [IconButton](#!/IconButton) uses transparent.
-- For providing more info in context, use an [InfoButton](#!/InfoButton).
-
-#### Content Guidelines
-
-Using `Title Case`, our buttons are verb-based with concise direction or affirmation. When we use buttons for validation,
-button labels should reflect the task by utilizing the same language as the header or message body.
-Try to focus on the idea, rather than the specific task.
-
-```jsx
-<Flex column align="flex-start" mb={3}>
-  <TextBlock bold>Do:</TextBlock>
-  <Button mb={2}>Continue</Button>
-  <Button mb={3}>Delete Template</Button>
-
-  <TextBlock bold>Avoid:</TextBlock>
-  <Button mb={3}>Next Page</Button>
-
-  <TextBlock bold>Never:</TextBlock>
-  <Button>I Want to Delete This Template</Button>
-</Flex>
+```jsx noeditor
+<FigmaFile
+  height={1850}
+  url="https://www.figma.com/file/OKdw775cxzrwQhGNm1SYM8ZD/Zenebits-Figma-Embed?node-id=24%3A294"
+/>
 ```
 
 #### Related
 
-- [ButtonDropdown](#!/ButtonDropdown)
-- [ButtonGroup](#!/ButtonGroup)
+- [LinkButton](#!/LinkButton)
 - [IconButton](#!/IconButton)
 - [InfoButton](#!/InfoButton)
-- [Link](#!/Link)
+- [ButtonDropdown](#!/ButtonDropdown)
+- [ButtonGroup](#!/ButtonGroup)
 - [Form.Footer](#!/Form.Footer) - Provides default form submit buttons

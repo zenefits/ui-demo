@@ -1,9 +1,7 @@
-// @ts-ignore
 import Highcharts from 'highcharts';
-// @ts-ignore
 import noDataModule from 'highcharts/modules/no-data-to-display';
-// @ts-ignore
 import accessibilityModule from 'highcharts/modules/accessibility';
+import heatmapModule from 'highcharts/modules/heatmap';
 
 import { getColor, theme } from 'z-frontend-theme';
 
@@ -12,6 +10,7 @@ const titleFontSize = `${theme.fontSizes[4]}px`;
 
 noDataModule(Highcharts);
 accessibilityModule(Highcharts);
+heatmapModule(Highcharts);
 
 // global options for all charts
 Highcharts.setOptions({
@@ -65,7 +64,7 @@ Highcharts.setOptions({
         distance: 15, // reduce from default of 30
         y: -6, // override default of 0
         style: {
-          width: '80px', // force long labels to wrap if they're really long, to avoid drastically shrinking chart
+          width: 80, // force long labels to wrap if they're really long, to avoid drastically shrinking chart
         },
       },
     },

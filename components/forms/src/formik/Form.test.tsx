@@ -1,9 +1,9 @@
 import React from 'react';
-import { cleanup, fireEvent, wait } from 'react-testing-library';
+import { cleanup, fireEvent, wait } from '@testing-library/react';
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
-import { Form } from './Form';
+import { Form, FormTextInput } from './../..';
 
 interface FormValues {
   name: string;
@@ -18,7 +18,7 @@ describe('Form', () => {
           name: 'David',
         }}
       >
-        <Form.TextInput name="name" label="Name" />
+        <FormTextInput name="name" label="Name" />
         <button type="submit">Submit</button>
       </Form>
     );

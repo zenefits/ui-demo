@@ -93,7 +93,7 @@ storiesOf('elements|ButtonDropdown', module)
     <ButtonDropdown
       target={
         <Flex align="center" style={{ cursor: 'pointer' }}>
-          <Image src={images.pug} w={50} />
+          <Image src={images.pug} w={50} alt="Pug" />
           <Icon iconName="chevron-down" ml={2} />
         </Flex>
       }

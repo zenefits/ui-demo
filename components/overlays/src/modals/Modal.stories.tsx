@@ -7,38 +7,109 @@ import { withViewport } from '@storybook/addon-viewport';
 import { Box, Flex, Heading, TextBlock, TextInline } from 'zbase';
 import { Button } from 'z-frontend-elements';
 import { setViewports } from 'z-frontend-app-bootstrap';
+import { Example } from 'z-frontend-storybook-config';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
 import Popover from '../popover/Popover';
-import { DialogManager } from '../dialog/DialogManager';
+import { DialogManager, DialogProps } from '../dialog/DialogManager';
 import Modal from './Modal';
 import BasicModalExample from './exampleBasic';
+import DialogsManager from '../dialog/DialogsManager';
 
-const CustomWidthModalExample: StatelessComponent = () => (
-  <DialogManager
-    openByDefault // for visual regression testing
-    render={({ open, close, isVisible, controlEl }) => {
-      const modalProps = {
-        isVisible,
-        controlEl,
-        title: 'Submit claim',
-        onCancel: close,
-        w: [1, 2 / 3],
-      };
+storiesOf('overlays|Modal', module)
+  .addDecorator(withViewport())
+  .add('default', BasicModalExample)
+  .add('sizes', () => <ModalSizes />)
+  .add('large modal', () => <LargeModalExample />)
+  .add('buttons footer', () => <ButtonFooterModalExample />)
+  .add('custom footer', () => <CustomFooterModalExample />)
+  .add(
+    'full screen mobile',
+    () => <FullScreenMobileExample>Basic Modal Content</FullScreenMobileExample>,
+    setViewports([0]),
+  )
+  .add(
+    'full screen mobile (scrolling)',
+    () => (
+      <FullScreenMobileExample>
+        {Array.from(Array(20).keys()).map(value => (
+          <SampleParagraph key={value} />
+        ))}
+      </FullScreenMobileExample>
+    ),
+    setViewports([0]),
+  )
+  .add('with overflowing popover', () => <WithOverflowingPopover />)
+  .add('scrolling', () => <ScrollingExample />)
+  .add('body with sections', () => <SectionedBody />)
+  .add('submission in progress', () => <SubmissionInProgress />);
 
-      return (
-        <Box>
-          <Modal {...modalProps}>
-            <Modal.Body>Basic Modal Content</Modal.Body>
-          </Modal>
-          <Button onClick={open}>Show modal</Button>
-        </Box>
-      );
-    }}
-  />
+export const SampleParagraph = () => (
+  <TextBlock mb={3}>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+    aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </TextBlock>
 );
 
-const CustomHeaderModalExample: StatelessComponent = () => (
+function makeModalProps(dialog: DialogProps) {
+  return {
+    isVisible: dialog.isVisible,
+    controlEl: dialog.controlEl,
+    title: 'Submit claim',
+    onCancel: dialog.close,
+  };
+}
+
+const ModalSizes: StatelessComponent = () => (
+  <>
+    <DialogsManager
+      openByDefault={[true, false, false, false]}
+      dialogsCount={4}
+      render={([smallDialog, mediumDialog, largeDialog, customDialog]) => {
+        return (
+          <>
+            <Example label="Small">
+              <Modal {...makeModalProps(smallDialog)} size="small">
+                <Modal.Body>
+                  <SampleParagraph />
+                </Modal.Body>
+              </Modal>
+              <Button onClick={smallDialog.open}>Show small modal</Button>
+            </Example>
+            <Example label="Medium">
+              <Modal {...makeModalProps(mediumDialog)} size="medium">
+                <Modal.Body>
+                  <SampleParagraph />
+                </Modal.Body>
+              </Modal>
+              <Button onClick={mediumDialog.open}>Show medium modal</Button>
+            </Example>
+            <Example label="Large">
+              <Modal {...makeModalProps(largeDialog)} size="large">
+                <Modal.Body>
+                  <SampleParagraph />
+                </Modal.Body>
+              </Modal>
+              <Button onClick={largeDialog.open}>Show large modal</Button>
+            </Example>
+            <Example label="Custom width">
+              <Modal {...makeModalProps(customDialog)} width={[1, 2 / 3]} size="large">
+                <Modal.Body>
+                  <SampleParagraph />
+                </Modal.Body>
+              </Modal>
+              <Button onClick={customDialog.open}>Show custom modal</Button>
+            </Example>
+          </>
+        );
+      }}
+    />
+  </>
+);
+
+const LargeModalExample: StatelessComponent = () => (
   <DialogManager
     openByDefault // for visual regression testing
     render={({ open, close, isVisible, controlEl }) => {
@@ -47,13 +118,18 @@ const CustomHeaderModalExample: StatelessComponent = () => (
         controlEl,
         title: 'Submit claim',
         onCancel: close,
-        renderHeader: () => <Modal.Header bg="grayscale.e">I am a custom Header</Modal.Header>,
       };
 
       return (
         <Box>
-          <Modal {...modalProps}>
-            <Modal.Body>Simple Modal Content</Modal.Body>
+          <Modal {...modalProps} size="large">
+            <Modal.Body>
+              <>
+                <SampleParagraph />
+                <SampleParagraph />
+                <SampleParagraph />
+              </>
+            </Modal.Body>
           </Modal>
           <Button onClick={open}>Show modal</Button>
         </Box>
@@ -134,7 +210,7 @@ const CustomFooterModalExample: StatelessComponent = () => (
   />
 );
 
-const FullScreenMobileExample: StatelessComponent = () => (
+const FullScreenMobileExample: StatelessComponent = props => (
   <DialogManager
     openByDefault // for visual regression testing
     render={({ open, close, isVisible, controlEl }) => {
@@ -153,7 +229,7 @@ const FullScreenMobileExample: StatelessComponent = () => (
       return (
         <Box>
           <Modal {...modalProps}>
-            <Modal.Body>Basic Modal Content</Modal.Body>
+            <Modal.Body>{props.children}</Modal.Body>
             <Modal.Footer {...footerProps} />
           </Modal>
           <Button onClick={open}>Show modal</Button>
@@ -190,13 +266,7 @@ const WithOverflowingPopover: StatelessComponent = () => (
               >
                 <Box w={200} p={2}>
                   <Heading level={3}>Long content</Heading>
-                  <TextBlock>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum.
-                  </TextBlock>
+                  <SampleParagraph />
                 </Box>
               </Popover>
             </Modal.Body>
@@ -215,46 +285,24 @@ const ScrollingExample: StatelessComponent = () => (
       const modalProps = {
         isVisible,
         controlEl,
-        title: 'Submit claim',
+        title: 'Long content',
         onCancel: close,
-        w: 1 / 2,
+      };
+      const footerProps = {
+        buttons: [{ text: 'Action 1' }],
       };
 
       return (
         <Box>
           <Modal {...modalProps}>
             <Modal.Body>
-              <Heading level={3}>Long content</Heading>
-              <TextBlock>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim id est laborum.
-              </TextBlock>
-              <TextBlock>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
-                vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum
-                qui dolorem eum fugiat quo voluptas nulla pariatur?
-              </TextBlock>
-              <TextBlock>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-                rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-                dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
-                incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-                exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem
-                vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum
-                qui dolorem eum fugiat quo voluptas nulla pariatur?
-              </TextBlock>
+              <>
+                {Array.from(Array(20).keys()).map(value => (
+                  <SampleParagraph key={value} />
+                ))}
+              </>
             </Modal.Body>
+            <Modal.Footer {...footerProps} />
           </Modal>
           <Button onClick={open}>Show modal</Button>
         </Box>
@@ -263,13 +311,56 @@ const ScrollingExample: StatelessComponent = () => (
   />
 );
 
-storiesOf('overlays|Modal', module)
-  .addDecorator(withViewport())
-  .add('default', BasicModalExample)
-  .add('custom width', () => <CustomWidthModalExample />)
-  .add('custom header', () => <CustomHeaderModalExample />)
-  .add('buttons footer', () => <ButtonFooterModalExample />)
-  .add('custom footer', () => <CustomFooterModalExample />)
-  .add('full screen mobile', () => <FullScreenMobileExample />, setViewports([0]))
-  .add('with overflowing popover', () => <WithOverflowingPopover />)
-  .add('scrolling', () => <ScrollingExample />);
+const SectionedBody: StatelessComponent = () => (
+  <DialogManager
+    openByDefault
+    render={({ open, close, isVisible, controlEl }) => {
+      const modalProps = {
+        isVisible,
+        controlEl,
+        title: 'Long content',
+        onCancel: close,
+      };
+      const footerProps = {
+        buttons: [{ text: 'Action 1' }],
+      };
+
+      return (
+        <Box>
+          <Modal {...modalProps}>
+            <Modal.Body p={0}>
+              <Modal.BodySection>Section 1</Modal.BodySection>
+              <Modal.BodySection>Section 2</Modal.BodySection>
+              <Modal.BodySection>Section 3</Modal.BodySection>
+            </Modal.Body>
+            <Modal.Footer {...footerProps} />
+          </Modal>
+          <Button onClick={open}>Show modal</Button>
+        </Box>
+      );
+    }}
+  />
+);
+
+const SubmissionInProgress: StatelessComponent = () => (
+  <DialogManager
+    openByDefault
+    render={({ open, close, isVisible, controlEl }) => {
+      const footerProps = {
+        isSubmitting: true,
+        buttons: [{ text: 'Action 1' }, { text: 'Action 2', inProgress: true }],
+      };
+
+      return (
+        <Modal isVisible title="Submitting" onCancel={() => {}} isSubmitting>
+          <Modal.Body p={0}>
+            <Modal.BodySection>Section 1</Modal.BodySection>
+            <Modal.BodySection>Section 2</Modal.BodySection>
+            <Modal.BodySection>Section 3</Modal.BodySection>
+          </Modal.Body>
+          <Modal.Footer {...footerProps} />
+        </Modal>
+      );
+    }}
+  />
+);

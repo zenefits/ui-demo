@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { without } from 'lodash';
 // @ts-ignore
 import sanitizeHtml from 'sanitize-html';
 import { normalize } from 'styled-normalize';
@@ -68,7 +68,7 @@ type HtmlDocumentViewerProps = {
   contentPy?: number;
 } & ContainerProps;
 
-const IframeContainer = styled<ContainerProps>(Box)`
+const IframeContainer = styled(Box)<ContainerProps>`
   overflow-x: ${props => (props.overflowX ? 'auto' : '')};
   overflow-y: ${props => (props.overflowY ? 'auto' : '')};
 `;
@@ -110,7 +110,7 @@ class HtmlDocumentViewer extends Component<HtmlDocumentViewerProps, State> {
 
   processHtml = (html: string) => {
     const processedHtml = sanitizeHtml(html, {
-      allowedTags: _.without(sanitizeHtml.defaults.allowedTags, 'iframe').concat([
+      allowedTags: without(sanitizeHtml.defaults.allowedTags, 'iframe').concat([
         'h1',
         'h2',
         'style',
@@ -195,7 +195,7 @@ class HtmlDocumentViewer extends Component<HtmlDocumentViewerProps, State> {
         ) : (
           <StyledIframe
             width="100%"
-            innerRef={this.iframe}
+            ref={this.iframe}
             sandbox="allow-same-origin allow-popups"
             {...dynamicHeightProps}
           />

@@ -1,11 +1,11 @@
-import React from 'react';
+/* eslint-disable zenefits-custom-rules/import-filter */
+import React, { createContext } from 'react';
 import { findDOMNode } from 'react-dom';
 
-/* tslint:disable:import-filter */
 import {
+  createGlobalStyle as baseCreateGlobalStyle,
   css as baseCss,
   default as baseStyled,
-  injectGlobal as baseInjectGlobal,
   keyframes as baseKeyframes,
   withTheme as baseWithTheme,
   ThemedStyledComponentsModule,
@@ -13,7 +13,6 @@ import {
 } from 'styled-components';
 import styledNormalize from 'styled-normalize';
 
-/* tslint:enable:import-filter */
 import { theme, ThemeInterface } from './theme';
 import { typographyRules } from './fontsInitWebStyles';
 import { getColor } from '../colors';
@@ -24,11 +23,11 @@ declare global {
   }
 }
 
-const { default: styled, css, withTheme, ThemeProvider, injectGlobal, keyframes } = {
+const { default: styled, css, withTheme, ThemeProvider, createGlobalStyle, keyframes } = {
   default: baseStyled,
   css: baseCss,
   keyframes: baseKeyframes,
-  injectGlobal: baseInjectGlobal,
+  createGlobalStyle: baseCreateGlobalStyle,
   withTheme: baseWithTheme,
   ThemeProvider: BaseThemeProvider,
 } as ThemedStyledComponentsModule<ThemeInterface>;
@@ -39,7 +38,16 @@ export const EMBEDDED_STYLEGUIDE_EXAMPLE_CLASS = 'z-styleguide-embedded-example'
 const isStyleguide = __APP_NAME__ === 'z-styleguide';
 const cssRootSelector = `.${isStyleguide ? EMBEDDED_STYLEGUIDE_EXAMPLE_CLASS : APP_STYLE_ROOT_CLASS}`;
 
-class ZFrontendThemeProvider extends React.Component {
+export const ZFrontendThemeContext = createContext<{
+  theme: ThemeInterface;
+  // NOTE This should be used very rarely. This will update the global theme so could have unwanted side effects.
+  setThemeProp: (propPath: string, newValue: any) => void;
+}>({ theme, setThemeProp: () => {} });
+
+class ZFrontendThemeProvider extends React.Component<{}, { theme: ThemeInterface }> {
+  state = {
+    theme,
+  };
   componentDidMount() {
     if (__IS_STORYBOOK__) {
       const rootEl = findDOMNode(this) as HTMLElement;
@@ -58,8 +66,19 @@ class ZFrontendThemeProvider extends React.Component {
     }
   }
 
+  setThemeProp = (prop: keyof ThemeInterface, newValue: any) => {
+    this.setState(state => ({
+      theme: { ...state.theme, [prop]: newValue },
+    }));
+  };
+
   render() {
-    return <ThemeProvider theme={theme}>{this.props.children}</ThemeProvider>;
+    return (
+      <ZFrontendThemeContext.Provider value={{ theme: this.state.theme, setThemeProp: this.setThemeProp }}>
+        <ThemeProvider theme={this.state.theme}>{this.props.children as any}</ThemeProvider>
+        <GlobalStyle />
+      </ZFrontendThemeContext.Provider>
+    );
   }
 }
 
@@ -72,7 +91,7 @@ const inheritFont = css`
   -moz-osx-font-smoothing: grayscale;
 `;
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   ${!window.__WITHIN_EMBER_APP__ ? `body { background-color: ${getColor('grayscale.g')}; margin: 0; }` : ''}
 
   ${cssRootSelector}  {
@@ -103,6 +122,10 @@ injectGlobal`
       vertical-align: baseline;
     }
 
+    h1, h2, h3, h4, h5, h6 {
+      padding: 0px;
+    }
+
     ol, ul, li {
       ${inheritFont}
       color: inherit;
@@ -128,7 +151,7 @@ injectGlobal`
       vertical-align: baseline;
     }
 
-    i, em {
+    em, i {
       font-style: italic
     }
 
@@ -181,4 +204,4 @@ export type WithThemeProps = {
   theme: ThemeInterface;
 };
 
-export { ZFrontendThemeProvider, createThemeProvider, styled, css, withTheme, injectGlobal, keyframes };
+export { ZFrontendThemeProvider, createThemeProvider, styled, css, withTheme, keyframes };

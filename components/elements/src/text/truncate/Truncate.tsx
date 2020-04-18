@@ -1,10 +1,10 @@
 import React, { Component, ReactNode } from 'react';
-import get from 'lodash/get';
 import { FlattenInterpolation } from 'styled-components';
-import _ from 'lodash';
+import { debounce, get } from 'lodash';
 
-import { css, fontDescriptions, styled, theme } from 'z-frontend-theme';
-import { TextBlock, TextBlockProps } from 'zbase';
+import { css, fontDescriptions, styled, theme, ColorString, FontStyleString } from 'z-frontend-theme';
+import { Box, TextBlock, TextBlockProps, TextInline } from 'zbase';
+import { color } from 'z-frontend-theme/utils';
 
 import { getBrowserName } from '../../utils/detectionUtils';
 
@@ -19,57 +19,50 @@ export type TruncateProps = TextBlockProps & {
   isCustomEllipsisHiddenOnResize?: boolean;
 };
 
-interface State {
+interface TruncateState {
   isEllipsisHidden: boolean;
-  wrap: number;
-  truncateWidth: number;
+}
+
+function getLineHeightPx(fontStyle: FontStyleString) {
+  const fd = get(fontDescriptions, fontStyle);
+  const { lineHeight } = fd;
+  const fontSizeKey = fd.fontSize;
+  const fontSize = theme.fontSizes[fontSizeKey as any];
+  return Number(lineHeight) * fontSize;
 }
 
 export function getHeight(props: TruncateProps) {
-  const fd = get(fontDescriptions, props.fontStyle as any);
-  const lineHeight = fd.lineHeight;
-  const fontSizeKey = fd.fontSize;
-  const fontSize = theme.fontSizes[fontSizeKey as any];
-  const maxHeight = Number(lineHeight) * fontSize * (props.lines as number);
-  return maxHeight;
+  return getLineHeightPx(props.fontStyle as FontStyleString) * (props.lines as number);
 }
 
-const truncatedTextStyle: FlattenInterpolation<TruncateProps & { wrap: number }>[] = css`
-  display: inline-block;
+const truncatedTextStyle: FlattenInterpolation<TruncateProps> = css`
   margin: 0;
-  max-height: ${props => getHeight(props)}px;
+  max-height: ${(props: TruncateProps) => getHeight(props)}px;
   overflow: hidden;
   width: 100%;
-  word-break: break-all;
-  ${props => (props.wrap === 0 ? '' : 'white-space: nowrap')};
-  ${props => (props.lines === 1 ? 'text-overflow: ellipsis' : '')};
-  -ms-text-overflow: ellipsis;
+  word-break: break-word;
 `;
 
-// had to delay the nowrap so text would take up the right amount of space
-const StyledTrucatedText = styled(TextBlock)`
+const StyledTruncatedText = styled(TextBlock)`
   ${truncatedTextStyle};
 `;
 
-const StyledEllipsisSpan = styled.span`
-  float: right;
+function gradientHelper(props: any) {
+  const bg = color(props.bg as ColorString)(props);
+  const bgWithAlpha = color(props.bg as ColorString, 0)(props);
+  return `linear-gradient(to right, ${bgWithAlpha}, ${bg} 30%, ${bg})`;
+}
+
+const EllipsisText = styled(TextInline)`
   white-space: nowrap;
-  position: absolute;
-  right: 0;
+  float: right;
+  position: relative;
+  top: -${(props: any) => getLineHeightPx(props.fontStyle)}px;
+  background: ${gradientHelper};
+  padding-left: 30px; /* leave space for fade */
 `;
 
-// can add bottom: 0 but its not inline with the text
-const truncateSpanStyle: FlattenInterpolation<{ width: number }>[] = css`
-  width: ${props => (props.width > 0 ? `${props.width}px` : '')};
-  min-width: ${props => (props.width > 0 ? `${props.width}px` : '')};
-`;
-
-const StyledTruncateSpan = styled.span`
-  display: inline-block;
-  ${truncateSpanStyle};
-`;
-
-const StyledContainer = styled.div`
+const RelativeContainer = styled.div`
   position: relative;
   width: 100%;
 `;
@@ -77,48 +70,58 @@ const StyledContainer = styled.div`
 /**
  * A helper component that renders truncated text. You should generally use Ellipsis or ReadMore.
  */
-class Truncate extends Component<TruncateProps, State> {
+class Truncate extends Component<TruncateProps, TruncateState> {
   static defaultProps = {
     lines: 1,
     isEllipsisHidden: false,
     fontStyle: 'paragraphs.m' as 'paragraphs.m',
     isCustomEllipsisHiddenOnResize: false,
+    bg: 'grayscale.white',
   };
 
-  truncateSpanEl: HTMLSpanElement;
-  ellipsisEl: HTMLSpanElement;
-  containerEl: HTMLDivElement;
+  ellipsisEl: React.RefObject<HTMLSpanElement>;
+
+  truncateSpanEl: React.RefObject<HTMLSpanElement>;
+
+  containerEl: React.RefObject<HTMLDivElement>;
+
   textEl: HTMLSpanElement;
+
   ellipsisElWidth: number;
+
   maxHeight: number;
+
   isEdgeOrInternetExplorer: boolean;
 
   constructor(props: TruncateProps) {
     super(props);
     this.state = {
       isEllipsisHidden: !!props.isEllipsisHidden,
-      wrap: 0,
-      truncateWidth: 0,
     };
     const browserName = getBrowserName();
     this.isEdgeOrInternetExplorer = browserName === 'edge' || browserName === 'ie';
+
+    this.ellipsisEl = React.createRef<HTMLSpanElement>();
+    this.truncateSpanEl = React.createRef<HTMLSpanElement>();
+    this.containerEl = React.createRef<HTMLDivElement>();
   }
 
   componentDidMount() {
-    this.ellipsisElWidth = this.ellipsisEl.offsetWidth + 4;
-    const clipWidth = this.containerEl.offsetWidth - this.ellipsisElWidth;
+    if (!this.ellipsisEl.current || !this.truncateSpanEl.current || !this.containerEl.current) {
+      return;
+    }
+    this.ellipsisElWidth = this.ellipsisEl.current.offsetWidth + 4;
+    const clipWidth = this.containerEl.current.offsetWidth - this.ellipsisElWidth;
     let hideEllipsis = false;
     if (this.props.lines === 1 && !this.isEdgeOrInternetExplorer) {
       if (
         this.props.isEllipsisHidden ||
-        (this.props.isCustomEllipsisHiddenOnResize && clipWidth >= this.truncateSpanEl.offsetWidth)
+        (this.props.isCustomEllipsisHiddenOnResize && clipWidth >= this.truncateSpanEl.current.offsetWidth)
       ) {
         hideEllipsis = true;
       }
       this.setState(
         {
-          wrap: 1,
-          truncateWidth: clipWidth,
           isEllipsisHidden: hideEllipsis,
         },
         this.onResize,
@@ -133,7 +136,6 @@ class Truncate extends Component<TruncateProps, State> {
       }
       this.setState(
         {
-          truncateWidth: clipWidth,
           isEllipsisHidden: hideEllipsis,
         },
         this.onResize,
@@ -146,45 +148,36 @@ class Truncate extends Component<TruncateProps, State> {
     window.removeEventListener('resize', this.onResize);
   }
 
-  componentWillReceiveProps(nextProps: TruncateProps) {
+  // tslint:disable-next-line:function-name
+  UNSAFE_componentWillReceiveProps(nextProps: TruncateProps) {
     this.setState({ isEllipsisHidden: !!nextProps.isEllipsisHidden }, this.getComponentResize);
   }
 
-  onResize = _.debounce(() => {
+  onResize = debounce(() => {
     this.getComponentResize();
   });
 
-  getDefaultEllipsis = () => {
-    if (this.props.ellipsisText) {
-      return this.props.ellipsisText;
-    }
-  };
-
   getComponentResize = () => {
-    const clipWidth = this.containerEl.offsetWidth - this.ellipsisElWidth;
-    let hideEllipsis = false;
-
+    if (!this.containerEl.current) {
+      return;
+    }
+    const clipWidth = this.containerEl.current.offsetWidth - this.ellipsisElWidth;
     if (clipWidth <= 0) {
       return;
     }
 
-    // NOTE: if this.props.isCustomEllipsisHiddenOnResize = true, in ie and edge the Ellipsiss will still hide as textEl width doesnot overflow like it does in other browsers
+    const { isCustomEllipsisHiddenOnResize, lines } = this.props;
+    // NOTE: if isCustomEllipsisHiddenOnResize = true, in IE and Edge the Ellipsis will still hide as textEl width does not overflow like it does in other browsers
     // window browsers will use maxHeight instead
-    if (this.props.lines === 1 && !this.isEdgeOrInternetExplorer) {
-      if (this.props.isCustomEllipsisHiddenOnResize && this.textEl.offsetWidth <= clipWidth) {
-        hideEllipsis = true;
-      }
+    if (lines === 1 && !this.isEdgeOrInternetExplorer) {
+      const isEllipsisHidden = Boolean(isCustomEllipsisHiddenOnResize && this.textEl.offsetWidth <= clipWidth);
       this.setState({
-        isEllipsisHidden: hideEllipsis,
-        truncateWidth: clipWidth,
+        isEllipsisHidden,
       });
     } else {
-      if (this.props.isCustomEllipsisHiddenOnResize && this.textEl.offsetHeight < this.maxHeight) {
-        hideEllipsis = true;
-      }
+      const isEllipsisHidden = Boolean(isCustomEllipsisHiddenOnResize && this.textEl.offsetHeight < this.maxHeight);
       this.setState({
-        isEllipsisHidden: hideEllipsis,
-        truncateWidth: clipWidth,
+        isEllipsisHidden,
       });
     }
   };
@@ -194,30 +187,33 @@ class Truncate extends Component<TruncateProps, State> {
       children,
       ellipsisText,
       lines,
-      fontStyle = 'paragraphs.m',
+      fontStyle,
       color,
       isEllipsisHidden,
       isCustomEllipsisHiddenOnResize,
+      bg,
       ...rest
     } = this.props;
-    const truncatedEllipsis = this.getDefaultEllipsis();
-
     return (
-      <StyledContainer innerRef={containerEl => (this.containerEl = containerEl)}>
-        <StyledTruncateSpan
-          width={this.state.truncateWidth}
-          innerRef={truncateSpanEl => (this.truncateSpanEl = truncateSpanEl)}
-        >
-          <StyledTrucatedText lines={lines} fontStyle={fontStyle} color={color} {...rest} wrap={this.state.wrap}>
+      <RelativeContainer ref={this.containerEl}>
+        <Box elementRef={this.truncateSpanEl}>
+          <StyledTruncatedText
+            // use standard <TextBlock ellipsis /> unless IE, which will not show ellipsisText
+            ellipsis={lines === 1 && !this.isEdgeOrInternetExplorer}
+            lines={lines}
+            fontStyle={fontStyle}
+            color={color}
+            {...rest}
+          >
             <span ref={(textEl: any) => (this.textEl = textEl)}>{children}</span>
-          </StyledTrucatedText>
-        </StyledTruncateSpan>
+          </StyledTruncatedText>
+        </Box>
         {!this.state.isEllipsisHidden && (
-          <StyledEllipsisSpan innerRef={ellipsisEl => (this.ellipsisEl = ellipsisEl)}>
-            {truncatedEllipsis}
-          </StyledEllipsisSpan>
+          <EllipsisText bg={bg} fontStyle={fontStyle} elementRef={this.ellipsisEl}>
+            {ellipsisText}
+          </EllipsisText>
         )}
-      </StyledContainer>
+      </RelativeContainer>
     );
   }
 }

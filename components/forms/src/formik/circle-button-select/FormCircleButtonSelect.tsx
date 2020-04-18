@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-import { getIn, Field, FieldProps } from 'formik';
+import { range } from 'lodash';
+import { getIn, FieldProps } from 'formik';
 
+import Field from '../Field';
 import CircleButtonArray from '../../circle-button-array/CircleButtonArray';
 import FormFieldWrapper, { getErrorId, FormFieldProps } from '../FormFieldWrapper';
 
-type CircleButtonSelectProps = FormFieldProps & {
+export type CircleButtonSelectProps = FormFieldProps & {
   /**
    * Should the field function as a checkbox group or a radio group
    *  */
@@ -22,18 +23,27 @@ type CircleButtonSelectProps = FormFieldProps & {
 
 class FormCircleButtonSelect extends Component<CircleButtonSelectProps> {
   render() {
-    const { name, label, containerProps, optional, numOptions, behavior, disabled } = this.props;
+    const {
+      name,
+      label,
+      containerProps,
+      optional,
+      numOptions,
+      behavior,
+      disabled,
+      limitRerender,
+      dependencies,
+    } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field limitRerender={limitRerender} dependencies={dependencies} name={name}>
+        {({ field, form }: FieldProps) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           let selectedValues: boolean[];
 
           if (behavior === 'radio') {
-            selectedValues = _.range(numOptions).map(i => field.value === i);
+            selectedValues = range(numOptions).map(i => field.value === i);
           } else {
-            selectedValues = field.value || _.range(numOptions).map(i => false);
+            selectedValues = field.value || range(numOptions).map(i => false);
           }
 
           const onButtonClick = (dayOfWeekValue: number) => {
@@ -68,7 +78,7 @@ class FormCircleButtonSelect extends Component<CircleButtonSelectProps> {
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

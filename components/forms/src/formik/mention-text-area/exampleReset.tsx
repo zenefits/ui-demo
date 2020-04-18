@@ -3,7 +3,7 @@ import React from 'react';
 import { Flex } from 'zbase';
 import { Button } from 'z-frontend-elements';
 
-import { Form } from '../Form';
+import { Form, FormMentionTextarea, FormTextarea, FormTextInput } from '../../..';
 
 const options = [
   {
@@ -31,9 +31,9 @@ export default () => (
   >
     {props => (
       <>
-        <Form.TextInput name="text" />
-        <Form.Textarea name="textarea" />
-        <Form.MentionTextarea name="mentiontextarea" label="Comment" options={options} />
+        <FormTextInput name="text" />
+        <FormTextarea name="textarea" />
+        <FormMentionTextarea name="mentiontextarea" label="Comment" options={options} />
         <Flex justify="flex-end" mt={4}>
           <Button type="submit" mode="primary" inProgress={props.isSubmitting}>
             Save

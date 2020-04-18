@@ -120,11 +120,13 @@ class DragAndDrop extends Component<DragAndDropProps, DragAndDropState> {
     super(props);
     this.state = {
       source: null,
+      // eslint-disable-next-line react/no-unused-state
       target: null,
     };
   }
 
   static Source = DragSource;
+
   static Target = DropTarget;
 
   render() {

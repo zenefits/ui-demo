@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn } from 'formik';
 import * as Yup from 'yup';
 
 import { FlexProps } from 'zbase';
 
+import Field from '../Field';
 import TimeInput, { parseTimeString, PublicTimeInputProps, Time } from '../../time/TimeInput';
 import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
 
@@ -33,14 +34,14 @@ type FormTimeInputProps = {
 
 class FormTimeInput extends Component<FormTimeInputProps & PublicTimeInputProps & FormFieldProps> {
   static getEmptyValue = () => ({ timeString: '' });
+
   static validationSchema = timeInputSchema;
 
   render() {
-    const { name, label, containerProps, optional, ...rest } = this.props;
+    const { name, label, containerProps, optional, limitRerender, dependencies, ...rest } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form, setFieldValueAndTouched }) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           const fieldValue = field.value || { timeString: '' };
           return (
@@ -54,12 +55,11 @@ class FormTimeInput extends Component<FormTimeInputProps & PublicTimeInputProps 
               <TimeInput
                 name={name}
                 error={error}
-                onChange={(timeString, time) => {
-                  form.setFieldValue(field.name, {
+                onChange={(timeString: string, time: Time) => {
+                  setFieldValueAndTouched(field.name, {
                     timeString,
                     time,
                   });
-                  form.setFieldTouched(field.name);
                 }}
                 initialInputValue={fieldValue.timeString}
                 {...rest}
@@ -67,7 +67,7 @@ class FormTimeInput extends Component<FormTimeInputProps & PublicTimeInputProps 
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

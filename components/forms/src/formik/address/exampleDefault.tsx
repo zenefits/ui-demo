@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormAddressUS } from '../../..';
 
 export default () => (
   <Form
@@ -9,10 +9,10 @@ export default () => (
       console.log(values);
     }}
     initialValues={{
-      address: Form.AddressUS.getEmptyValue(),
+      address: FormAddressUS.getEmptyValue(),
     }}
   >
-    <Form.AddressUS name="address" />
+    <FormAddressUS name="address" />
     <Form.Footer primaryText="Save" />
   </Form>
 );

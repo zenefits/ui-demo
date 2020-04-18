@@ -1,9 +1,12 @@
 import React, { HTMLAttributes, StatelessComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { css } from 'z-frontend-theme';
+
+import { makeDummyComponentForDocs } from '../docsUtil';
+
 import withWebUtilProps, { ResultWebComponentProps } from '../withUtilPropsWeb';
 import { removeUtilProps, IntlTextProps, TextAlignProps } from '../../commonTypes';
-
 import { TextTransformProps } from '../types';
 
 type HeadingAttrs = HTMLAttributes<HTMLHeadingElement>;
@@ -26,19 +29,29 @@ const HeadingContainer: StatelessComponent<HeadingProps> = ({ level, textKey, te
     resultLevel = 6;
   }
 
+  const remainingProps = removeUtilProps(rest);
+  remainingProps.ref = rest.elementRef;
   if (rest.children) {
-    return React.createElement(`h${resultLevel}`, removeUtilProps(rest), rest.children);
+    return React.createElement(`h${resultLevel}`, remainingProps, rest.children);
   }
 
   return (
     <FormattedMessage id={textKey || ''} values={textValues}>
-      {(str: string) => React.createElement(`h${resultLevel}`, removeUtilProps(rest), str)}
+      {(str: string) => React.createElement(`h${resultLevel}`, remainingProps, str)}
     </FormattedMessage>
   );
 };
 
+export const HeadingForDocs = makeDummyComponentForDocs<HeadingProps>();
+HeadingForDocs.displayName = 'Heading';
+
 export default withWebUtilProps<HeadingAttrs, AdditionalHeadingProps>({
   displayName: 'Heading',
+  additionalCss: css`
+    :focus {
+      outline: none;
+    }
+  `,
   additionalPropsMap: {
     textAlign: {
       cssName: 'text-align',

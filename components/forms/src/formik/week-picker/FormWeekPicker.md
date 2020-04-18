@@ -18,5 +18,5 @@ Always import this via `Form`, as in the example.
 
 #### Related
 
-- [Form.DatePicker](#!/Form.DatePicker)
-- [Form.DaysOfWeekSelect](#!/Form.DaysOfWeekSelect)
+- [FormDateInput](#!/FormDateInput)
+- [FormDaysOfWeekSelect](#!/FormDaysOfWeekSelect)

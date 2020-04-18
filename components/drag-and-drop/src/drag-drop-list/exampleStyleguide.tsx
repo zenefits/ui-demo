@@ -11,9 +11,9 @@ export default () => (
   <DragDropList.Context onDragEnd={result => console.log(result)}>
     <Box mb={3}>
       <DragDropList.List listId="top">
-        {top.map((item, index) => {
+        {top.map(item => {
           return (
-            <DragDropList.DraggableBox key={index} itemId={item} border borderColor="affirmation.b" p={2}>
+            <DragDropList.DraggableBox key={item} itemId={item} border borderColor="affirmation.b" p={2}>
               {item}
             </DragDropList.DraggableBox>
           );
@@ -22,9 +22,9 @@ export default () => (
     </Box>
     <Box>
       <DragDropList.List listId="bottom">
-        {bottom.map((item, index) => {
+        {bottom.map(item => {
           return (
-            <DragDropList.DraggableBox key={index} itemId={item} border borderColor="affirmation.b" p={2}>
+            <DragDropList.DraggableBox key={item} itemId={item} border borderColor="affirmation.b" p={2}>
               {item}
             </DragDropList.DraggableBox>
           );

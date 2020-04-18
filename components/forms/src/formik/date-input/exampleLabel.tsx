@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormDateInput } from '../../..';
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ sdate: '', edate: '' }}>
-    <Form.DateInput name="sdate" label="Start Date" />
-    <Form.DateInput name="edate" label="End Date" optional />
+    <FormDateInput name="sdate" label="Start Date" />
+    <FormDateInput name="edate" label="End Date" optional />
   </Form>
 );

@@ -8,7 +8,7 @@ import LabelExample from './exampleLabel';
 import ValueExample from './exampleValue';
 import ValidationExample from './exampleValidation';
 
-storiesOf('forms|Form.RadioGroup', module)
+storiesOf('forms|FormRadioGroup', module)
   .addDecorator((getStory: Function) => (
     <Box p={20} w={[1, 1 / 2]} bg="grayscale.white">
       {getStory()}

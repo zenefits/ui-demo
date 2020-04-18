@@ -19,4 +19,4 @@ A component for displaying block text that may have mentions in it.
 
 - [Mention](#!/Mention)
 - [TextBlock](#!/TextBlock)
-- [Form.MentionTextarea](#!/Form.MentionTextarea)
+- [FormMentionTextarea](#!/FormMentionTextarea)

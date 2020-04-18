@@ -31,5 +31,5 @@ Wraps the [HTML `<textarea>` element](https://developer.mozilla.org/en-US/docs/W
 
 #### Related
 
-- [Form.TextInput](#!/Form.TextInput)
-- [Form.MentionTextarea](#!/Form.MentionTextarea)
+- [FormTextInput](#!/FormTextInput)
+- [FormMentionTextarea](#!/FormMentionTextarea)

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 
-import { Link } from 'z-frontend-elements';
+import { Link, LoadingScreen } from 'z-frontend-elements';
 import { styled } from 'z-frontend-theme';
 import { color, radius } from 'z-frontend-theme/utils';
 import { Box } from 'zbase';
-import { LoadingScreen } from 'z-frontend-layout';
 
 interface Props {
   /**
@@ -40,7 +39,9 @@ function getShaFromUrl() {
   return '';
 }
 
-type StorybookExampleState = { isLoading: boolean };
+const storybookNoPreviewClass = 'sb-show-nopreview';
+
+type StorybookExampleState = { isLoading: boolean; hasError: boolean };
 
 class StorybookExample extends Component<Props, StorybookExampleState> {
   static defaultProps = {
@@ -54,6 +55,7 @@ class StorybookExample extends Component<Props, StorybookExampleState> {
     this.iframe = React.createRef();
     this.state = {
       isLoading: true,
+      hasError: false,
     };
   }
 
@@ -70,22 +72,37 @@ class StorybookExample extends Component<Props, StorybookExampleState> {
 
   onLoad = () => {
     this.setState({ isLoading: false });
-    if (!this.props.height) {
+    const iframe = this.iframe.current;
+    const storyNotFound = iframe.contentDocument.body.classList.contains(storybookNoPreviewClass);
+    if (storyNotFound) {
+      iframe.height = '250px';
+      this.setState({ hasError: true });
+    } else if (!this.props.height) {
       // if no height specified, default to auto-sizing based on content
-      const iframe = this.iframe.current;
-      iframe.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+      iframe.height = `${iframe.contentWindow.document.body.scrollHeight}px`;
     }
   };
 
   render() {
     const { hideMoreExamplesLink, height, selectedKind } = this.props;
-    const { isLoading } = this.state;
+    const { isLoading, hasError } = this.state;
     const viewMoreLabel = selectedKind.replace(/^[^|]+\|/, ''); // strip storybook section, if any
+
+    const classNames = [];
+    if (isLoading) {
+      classNames.push('StorybookExample-loading');
+    }
+    if (hasError) {
+      classNames.push('StorybookExample-error');
+    }
+
     return (
       <>
         <Container style={{ minHeight: isLoading ? 100 : null, position: 'relative' }}>
           {isLoading && <LoadingScreen />}
           <iframe
+            data-testid="StorybookExample"
+            className={classNames.join(' ')}
             src={this.getFullSrcString('iframe')}
             frameBorder="0"
             width="100%"

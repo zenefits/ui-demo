@@ -11,10 +11,18 @@ import {
   IconButton,
 } from 'z-frontend-elements';
 import { styled } from 'z-frontend-theme';
-import { Box, BoxProps, Flex, Heading } from 'zbase';
-import { radius, space, zIndex } from 'z-frontend-theme/utils';
+import { Box, BoxProps, Flex, FlexProps, Heading, ResponsiveUtilProp } from 'zbase';
+import { color, radius, space, zIndex } from 'z-frontend-theme/utils';
 
-import { ModalDialog as Dialog } from '../dialog/Dialog';
+import Dialog from '../dialog/Dialog';
+
+export type ModalSize = 'small' | 'medium' | 'large';
+
+const modalWidthMap: { [m in ModalSize]: number } = {
+  small: 568, // 6 columns
+  medium: 768, // 8 columns
+  large: 1168, // 12 columns
+};
 
 export type ModalProps = {
   isVisible: boolean;
@@ -23,60 +31,54 @@ export type ModalProps = {
   /** Action to take when modal is dismissed or explicitly cancelled. */
   onCancel: () => void;
   /** Custom render that replaces default `Modal.Header`. */
-  renderHeader?: (labelId?: string) => JSX.Element;
+  renderHeader?: (labelId?: string, headingRef?: React.RefObject<HTMLElement>) => JSX.Element;
   keepMounted?: boolean;
+  /** If true will show loading icon on submit button and disable other buttons. */
+  isSubmitting?: boolean;
   controlEl?: HTMLElement;
   /**
    * Should the popover take up the full screen on mobile devices?
    * @default false
-   **/
+   * */
   fullScreenMobile?: boolean; // This should default to true, but we need to make updates to the footer first
+  /**
+   *  If true, clicking on backdrop around modal will close the modal
+   * @default false
+   */
+  shouldCancelOnClickAway?: boolean;
+  /** Set a width for the modal. This should be preferred over controlling the width directly. */
+  size?: ModalSize;
 } & BoxProps;
 
-const ModalView = styled(Box)<BoxProps & { fullScreenMobile?: boolean }>`
+const ModalView = styled(Box)`
   position: fixed;
-  top: 50vh;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 100vw;
-  max-height: 100vh;
+  top: ${space(5)};
+  bottom: ${space(5)};
+  left: ${space(3)};
+  right: ${space(3)};
+
+  @media (max-width: ${p => p.theme.breakpoints[0]}em) {
+    /* narrower */
+    top: ${space(3)};
+    bottom: ${space(3)};
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: ${radius()};
   margin: 0;
   box-shadow: none;
   border: none;
   background: none;
   z-index: ${zIndex('modal')};
-
-  ${props =>
-    props.fullScreenMobile
-      ? ` @media (max-width: ${props.theme.breakpoints[0]}em) {
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    padding: ${space(2)({ theme: props.theme })};
-    transform: none;
-  }`
-      : ''};
 `;
 
-const ModalCard = styled(CardContainer)`
+const ModalCard = styled(CardContainer)<{ fullScreenMobile?: boolean }>`
   margin-bottom: 0;
-  min-height: 100%;
-`;
-
-const ModalCardWrapper = styled.div<{ fullScreenMobile?: boolean }>`
-  max-width: 100vw;
-  max-height: calc(100vh - ${space(6)});
-  height: 100%;
-  overflow: auto;
-
-  ${props =>
-    props.fullScreenMobile
-      ? ` @media (max-width: ${props.theme.breakpoints[0]}em) {
-    max-height: 100vh;
-  }`
-      : ''};
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
 `;
 
 const ModalBackdrop = styled(Box)`
@@ -89,6 +91,16 @@ const ModalBackdrop = styled(Box)`
   z-index: ${zIndex('modal')};
 `;
 
+const ModalBody = styled(CardRow)`
+  background: ${color('grayscale.white')};
+  overflow-y: auto;
+  flex-grow: 1; /* push footer to bottom on mobile */
+`;
+
+const ClickableBackdropRegion = styled(Box)`
+  flex-grow: 1;
+`;
+
 export interface ModalButton extends ButtonBasicProps {
   text: string;
 }
@@ -97,6 +109,7 @@ export type ModalFooterActionProps = {
   buttons?: ModalButton[];
   omitCancelButton?: boolean;
   onCancel?: () => void;
+  isSubmitting?: boolean;
 };
 
 export type ModalFooterProps = ModalFooterActionProps & BoxProps;
@@ -106,25 +119,32 @@ const ModalFooter: StatelessComponent<ModalFooterProps> = ({
   omitCancelButton,
   onCancel,
   children,
+  isSubmitting,
   ...rest
 }: ModalFooterProps) => (
-  <CardFooter {...rest}>
+  <CardFooter bg="grayscale.white" {...rest}>
     {buttons ? (
       <Flex justify="flex-end">
         {!omitCancelButton && (
-          <Button type="button" mode="normal" mr={buttons.length > 0 ? 3 : 0} onClick={onCancel}>
+          <Button
+            type="button"
+            mode="normal"
+            mr={buttons.length > 0 ? 3 : 0}
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
             Cancel
           </Button>
         )}
         {buttons.map((button, i) => (
           <Button
-            key={i}
+            key={button.text}
             type={button.type || 'button'}
             mode={button.mode || 'primary'}
             mr={i < buttons.length - 1 ? 3 : 0}
             onClick={button.onClick}
             inProgress={button.inProgress}
-            disabled={button.disabled}
+            disabled={button.disabled || isSubmitting}
           >
             {button.text}
           </Button>
@@ -166,43 +186,95 @@ class EmberZIndexFix extends Component {
   }
 }
 
+function getSizeProps(w: ResponsiveUtilProp, width: ResponsiveUtilProp, size: ModalSize) {
+  const sizeProps = {} as Partial<FlexProps>;
+  if (w || width) {
+    // these take priority over size
+    sizeProps.width = w || width;
+  } else if (size) {
+    sizeProps.width = modalWidthMap[size];
+    sizeProps.maxWidth = 1;
+  } else {
+    sizeProps.width = [1, 1 / 2];
+  }
+
+  return sizeProps;
+}
+
 class Modal extends Component<ModalProps> {
   static Header = CardHeader;
-  static Body = CardRow;
+  static Body = ModalBody;
+  static BodySection = CardRow;
   static Footer = ModalFooter;
   static Container = ModalView;
 
   render() {
-    const { isVisible, keepMounted, controlEl, onCancel, title, children, fullScreenMobile, ...utilProps } = this.props;
+    const {
+      isVisible,
+      keepMounted,
+      controlEl,
+      onCancel,
+      title,
+      children,
+      fullScreenMobile,
+      isSubmitting,
+      shouldCancelOnClickAway,
+      w,
+      width,
+      size,
+      ...utilProps
+    } = this.props;
+
+    const sizeProps = getSizeProps(w, width, size);
     return (
       <Dialog
         isVisible={isVisible}
         keepMounted={keepMounted}
         controlEl={controlEl}
         label={title}
-        render={() => (
-          <EmberZIndexFix>
-            <ModalBackdrop onClick={onCancel} />
-            <ModalView w={[1, 1 / 2]} px={[2, 0]} fullScreenMobile={fullScreenMobile} {...utilProps}>
-              <ModalCardWrapper fullScreenMobile={fullScreenMobile}>
-                <ModalCard data-testid="ModalCard">
-                  {this.props.renderHeader ? (
-                    this.props.renderHeader()
-                  ) : (
-                    <Modal.Header>
-                      <Flex justify="space-between" align="center">
+        render={(labelId, headingRef) => {
+          const onClickAway = () => {
+            if (shouldCancelOnClickAway) onCancel();
+          };
+
+          return (
+            <EmberZIndexFix>
+              <ModalBackdrop onClick={onClickAway} className="js-walkme-modal" />
+              <ModalView>
+                <ClickableBackdropRegion onClick={onClickAway} height={1} />
+                <Flex {...sizeProps} flex="0 0 auto" height={1} direction="column">
+                  <ClickableBackdropRegion onClick={onClickAway} w={1} />
+                  <ModalCard data-testid="ModalCard" w={1} {...utilProps}>
+                    {this.props.renderHeader ? (
+                      this.props.renderHeader(labelId, headingRef)
+                    ) : (
+                      <Modal.Header
+                        actionRender={() => (
+                          <IconButton
+                            iconName="close"
+                            s="small"
+                            iconSize="large"
+                            color="grayscale.d"
+                            onClick={onCancel}
+                            disabled={isSubmitting}
+                          />
+                        )}
+                      >
                         {/* Heading level 5 matches `headings.s` (consistent with Card.Header) */}
-                        <Heading level={5}>{title}</Heading>
-                        <IconButton iconName="close" s="medium" color="grayscale.d" onClick={onCancel} />
-                      </Flex>
-                    </Modal.Header>
-                  )}
-                  {children}
-                </ModalCard>
-              </ModalCardWrapper>
-            </ModalView>
-          </EmberZIndexFix>
-        )}
+                        <Heading level={5} elementRef={headingRef} tabIndex={-1}>
+                          {title}
+                        </Heading>
+                      </Modal.Header>
+                    )}
+                    {children}
+                  </ModalCard>
+                  <ClickableBackdropRegion onClick={onClickAway} w={1} />
+                </Flex>
+                <ClickableBackdropRegion onClick={onClickAway} height={1} />
+              </ModalView>
+            </EmberZIndexFix>
+          );
+        }}
       />
     );
   }

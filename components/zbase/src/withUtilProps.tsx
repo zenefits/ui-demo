@@ -1,9 +1,7 @@
 import React, { Component, Ref } from 'react';
-import { ObjectOmit } from 'typelevel-ts';
 import { capitalize, castArray, flatten, sortBy } from 'lodash';
-
-/* tslint:disable:import-filter */
-import styledWeb, { StyledComponentClass, ThemedStyledInterface, ThemedStyledProps } from 'styled-components';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
+import styledWeb, { AnyStyledComponent, ThemedStyledInterface, ThemedStyledProps } from 'styled-components';
 /* tslint:enable:import-filter */
 
 import { color, fontSizes, space } from 'z-frontend-theme/utils';
@@ -93,7 +91,7 @@ export function getCssFromProps(propsMap: PropsMap, defaultUtilProps = {}) {
   const sortedPropsMap = sortBy(normalizedPropsMap, value => (value.propsMapValue as ExtendedPropsMapValue).order || 0);
 
   return (props: any): string => {
-    const propsWithDefaults = Object.assign({}, /* defaultUtilProps, */ props);
+    const propsWithDefaults = { /* defaultUtilProps, */ ...props };
     return sortedPropsMap
       .map(propsMap => {
         return getCssRuleForProp(propsMap.propName, propsMap.propsMapValue)(propsWithDefaults);
@@ -106,9 +104,9 @@ export function getCssFromProps(propsMap: PropsMap, defaultUtilProps = {}) {
 export const widthValueFn = (v: any) => {
   if (typeof v === 'number') {
     if (v <= 1) {
-      return (v / 1) * 100 + '%';
+      return `${(v / 1) * 100}%`;
     } else {
-      return v + 'px';
+      return `${v}px`;
     }
   } else {
     return v;
@@ -167,24 +165,26 @@ const utilsPropsMap: PropsMap = {
   maxWidth: { cssName: 'max-width', valueHelper: widthValueFn },
   minHeight: { cssName: 'min-height', valueHelper: widthValueFn },
   maxHeight: { cssName: 'max-height', valueHelper: widthValueFn },
+  flexBasis: { cssName: 'flex-basis', valueHelper: widthValueFn },
   height: { cssName: 'height', valueHelper: widthValueFn },
+  display: { cssName: 'display' },
 };
 
-export type ResultComponentProps<ComponentProps, AdditionalProps = {}, UtilProps = {}> = ObjectOmit<
+export type ResultComponentProps<ComponentProps, AdditionalProps = {}, UtilProps = {}> = Omit<
   ComponentProps,
   Extract<keyof (AdditionalProps & UtilProps), string>
 > &
   AdditionalProps &
   UtilProps & { elementRef?: Ref<any> };
 
-export interface WithUtilPropsOptions<ComponentProps, AdditionalProps, UtilProps, Theme> {
+export interface WithUtilPropsOptions<ComponentProps, AdditionalProps, UtilProps, Theme extends object> {
   displayName?: string;
   componentAttrs?: {
     [K in keyof (ComponentProps & AdditionalProps & UtilProps)]:
       | ((
           props: ThemedStyledProps<ResultComponentProps<ComponentProps, UtilProps, AdditionalProps>, Theme>,
         ) => (ComponentProps & AdditionalProps & UtilProps)[K])
-      | (ComponentProps & AdditionalProps & UtilProps)[K]
+      | (ComponentProps & AdditionalProps & UtilProps)[K];
   };
   defaultUtilProps?: Partial<ComponentProps & UtilProps & AdditionalProps>;
   additionalPropsMap?: PropsMap;
@@ -194,7 +194,13 @@ export interface WithUtilPropsOptions<ComponentProps, AdditionalProps, UtilProps
   utilTypes?: UtilsType[];
 }
 
-function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = keyof JSX.IntrinsicElements>({
+function zbase<
+  ComponentProps,
+  AdditionalProps,
+  UtilProps,
+  Theme extends object,
+  StringTag = keyof JSX.IntrinsicElements
+>({
   displayName,
   componentAttrs,
   defaultUtilProps,
@@ -204,11 +210,15 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
   additionalUtilsPropsMap,
   utilTypes,
 }: WithUtilPropsOptions<ComponentProps, AdditionalProps, UtilProps, Theme>) {
+  // If there are any key collisions between Component and Additional/Util props use the type defined in Additional/Util props
+  type BaseComponentProps = Omit<ComponentProps, keyof UtilProps | keyof AdditionalProps> &
+    Pick<UtilProps & AdditionalProps, keyof ComponentProps & (keyof UtilProps | keyof AdditionalProps)>;
+
   type AllProps = ResultComponentProps<ComponentProps, UtilProps, AdditionalProps>;
   const styledFn = (styled || styledWeb) as ThemedStyledInterface<Theme>;
 
-  return (BaseComponent: StringTag | React.ComponentType<ComponentProps>) => {
-    type ComponentToExtendProps = ComponentProps & ({ elementRef?: Ref<any> } | { innerRef?: (instance: any) => void });
+  return (BaseComponent: StringTag | React.ComponentType<BaseComponentProps>) => {
+    type ComponentToExtendProps = BaseComponentProps & ({ elementRef?: Ref<any> } | { ref?: (instance: any) => void });
     let ComponentToExtend: React.ComponentType<ComponentToExtendProps>;
     const isBaseStyledComponent = typeof BaseComponent === 'string';
     if (isBaseStyledComponent) {
@@ -222,21 +232,20 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
     let resultDisplayName: string;
     if (displayName) {
       resultDisplayName = displayName;
+    } else if (typeof BaseComponent === 'string') {
+      resultDisplayName = capitalize(BaseComponent as string);
     } else {
-      if (typeof BaseComponent === 'string') {
-        resultDisplayName = capitalize(BaseComponent as string);
-      } else {
-        const Comp = BaseComponent as React.ComponentType<ComponentToExtendProps>;
-        resultDisplayName = `zbase(${Comp.displayName || Comp.name || 'Component'}`;
-      }
+      const Comp = BaseComponent as React.ComponentType<ComponentToExtendProps>;
+      resultDisplayName = `zbase(${Comp.displayName || Comp.name || 'Component'}`;
     }
 
     class ResultComponentRenderer extends Component<AllProps> {
       static displayName = `zbaseInner(${resultDisplayName})`;
+
       render() {
-        const resultProps = removeUtilProps(this.props, additionalPropsMap) as ComponentProps;
+        const resultProps = removeUtilProps(this.props, additionalPropsMap) as BaseComponentProps;
         const otherProps = isBaseStyledComponent
-          ? { innerRef: this.props.elementRef }
+          ? { ref: this.props.elementRef }
           : { elementRef: this.props.elementRef };
         return <ComponentToExtend {...resultProps} {...otherProps} />;
       }
@@ -257,10 +266,9 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
     // This template tag is not recognized by the plugin as a styled tag, so we
     // need to use && to bump the specificity directly.
     // This should be removed if we remove the plugin
-    const ResultUtilComponentWithOriginalType = styledFn(ResultComponentRenderer).attrs<
-      AllProps,
-      ComponentProps & AdditionalProps
-    >(componentAttrs || ({} as any))`
+    const ResultUtilComponentWithOriginalType = styledFn(ResultComponentRenderer).attrs<AllProps>(
+      componentAttrs || ({} as any),
+    )`
       &&&& {
         ${getCssFromProps({ ...resultUtilsPropsMap, ...additionalUtilsPropsMap }, defaultUtilProps)};
         ${additionalCss || ''};
@@ -269,7 +277,7 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
     `;
 
     const extendProps = function<NewProps>() {
-      return (ResultUtilComponent as any) as StyledComponentClass<AllProps & NewProps, Theme>;
+      return (ResultUtilComponent as any) as AnyStyledComponent; // <AllProps & NewProps, Theme>;
     };
 
     const ResultUtilComponent = ResultUtilComponentWithOriginalType as typeof ResultUtilComponentWithOriginalType & {
@@ -278,7 +286,7 @@ function zbase<ComponentProps, AdditionalProps, UtilProps, Theme, StringTag = ke
 
     ResultUtilComponent.extendProps = extendProps;
 
-    ResultUtilComponent.defaultProps = defaultUtilProps as AllProps;
+    ResultUtilComponent.defaultProps = defaultUtilProps as any;
 
     ResultUtilComponent.displayName = resultDisplayName;
 

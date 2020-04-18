@@ -1,5 +1,6 @@
+/* eslint-disable no-unreachable */
 import React from 'react';
-import _ from 'lodash';
+import { isEqual, some } from 'lodash';
 import { GetItemPropsOptions } from 'downshift';
 
 import { css, styled } from 'z-frontend-theme';
@@ -32,15 +33,15 @@ export type SelectOptionsProps = BoxProps & {
   s: SelectOptionSize;
 };
 
-export const SelectOptions = styled(
-  Box.extendProps<{
-    maxHeight?: string | number;
-    highlightTop?: boolean;
-    position?: 'absolute' | 'static';
-    s: SelectOptionSize;
-  }>(),
-)`
-  ${props => fontStyles(optionFontStyleMap[props.s])};
+type SelectOptions = {
+  maxHeight?: string | number;
+  highlightTop?: boolean;
+  position?: 'absolute' | 'static';
+  s: SelectOptionSize;
+};
+
+export const SelectOptions = styled(Box)<SelectOptions>`
+  ${props => fontStyles(optionFontStyleMap[props.s as SelectOptionSize])};
   position: ${props => props.position};
   ${props => !props.w && 'width: 100%;'}
   z-index: ${zIndex('dropdown')};
@@ -93,7 +94,7 @@ const optionStyles = css<SelectOptionDisplayProps>`
 `;
 
 export type SelectOptionProps = BoxProps & SelectOptionDisplayProps;
-export const SelectOptionContainer = styled<SelectOptionProps>(Box)`
+export const SelectOptionContainer = styled(Box)<SelectOptionProps>`
   ${optionStyles}
   min-height: ${space(5)};
 `;
@@ -105,7 +106,7 @@ SelectOptionContainer.defaultProps = {
   fontStyle: 'paragraphs.m',
 };
 
-export const SelectHeader = styled<SelectOptionProps>(Box)`
+export const SelectHeader = styled(Box)<SelectOptionProps>`
   ${optionStyles}
   min-height: ${space(5)};
 `;
@@ -136,6 +137,8 @@ export type SelectOptionInterfaceProps<OptionValue> = {
 
 export function createSelectOptionInterface<OptionValue>() {
   class OptionInterface<OptionValue> extends React.Component<SelectOptionInterfaceProps<OptionValue>> {
+    static displayName = 'OptionInterface';
+
     render() {
       throw new Error('OptionInterfaces should not be rendered directly');
       return <div> This shouldn't be rendered </div>;
@@ -150,12 +153,19 @@ export const NEW_OPTION_DUMMY_VALUE = 'NEW_OPTION_DUMMY_VALUE';
 
 export class SelectOptionFactory<OptionValue> {
   optionIndex: number;
+
   selectedItems: OptionValue[];
+
   highlightedIndex: number;
+
   size: SelectOptionSize;
+
   getItemProps: (options: GetItemPropsOptions<OptionValue>) => any;
+
   getOptionText: (option: OptionValue) => string;
+
   withMatchEmphasis: (text: string) => JSX.Element | string;
+
   cb?: (element: React.ReactElement<SelectOptionProps>, context: SelectOptionFactory<OptionValue>) => void;
 
   constructor(params: {
@@ -180,7 +190,7 @@ export class SelectOptionFactory<OptionValue> {
   }
 
   isOptionSelected(option: OptionValue) {
-    return _.some(this.selectedItems.map(selectedItem => _.isEqual(option, selectedItem)));
+    return some(this.selectedItems.map(selectedItem => isEqual(option, selectedItem)));
   }
 
   createOption = (option: React.ReactElement<SelectOptionInterfaceProps<OptionValue>>) => {
@@ -197,6 +207,9 @@ export class SelectOptionFactory<OptionValue> {
           item: option.props.option,
           disabled: option.props.disabled,
         })}
+        // Needed for tests
+        // Finding option text directly in cypress doesn't work because the letters are in individual spans
+        data-optionlabel={this.getOptionText(option.props.option)}
       >
         {optionContent}
       </SelectOptionContainer>
@@ -232,8 +245,10 @@ export class SelectOptionFactory<OptionValue> {
 }
 
 export class SelectGroupInterface extends React.Component<{ label: string }> {
+  static displayName = 'SelectGroupInterface';
+
   render() {
-    throw new Error('OptionInterfaces should not be rendered directly');
+    throw new Error('SelectGroupInterface should not be rendered directly');
     return <div> This shouldn't be rendered </div>;
   }
 }
@@ -241,15 +256,19 @@ export class SelectGroupInterface extends React.Component<{ label: string }> {
 export class NewOptionInterface extends React.Component<{
   optionTypeName?: string;
 }> {
+  static displayName = 'NewOptionInterface';
+
   render() {
-    throw new Error('AddOptionInterface should not be rendered directly');
+    throw new Error('NewOptionInterface should not be rendered directly');
     return <div> This shouldn't be rendered </div>;
   }
 }
 
 export class SelectGroupFactory {
   groupIndex = 0;
+
   size: SelectOptionSize;
+
   cb?: (element: React.ReactElement<any>, context: SelectGroupFactory) => void;
 
   constructor(params: {
@@ -280,6 +299,9 @@ export class SelectGroupFactory {
   };
 }
 
+export const doesComponentMatchType = (element: JSX.Element, Component: { displayName?: string }) =>
+  element.type.displayName === Component.displayName;
+
 export function transformSelectOptions<OptionValue>(
   children: React.ReactNode,
   {
@@ -294,15 +316,15 @@ export function transformSelectOptions<OptionValue>(
 ) {
   return recursivelyTransformChildren(children, [
     {
-      condition: element => element.type === OptionInterface,
+      condition: element => doesComponentMatchType(element, OptionInterface),
       transformation: optionFactory.createOption.bind(optionFactory),
     },
     {
-      condition: element => element.type === NewOptionInterface,
+      condition: element => doesComponentMatchType(element, NewOptionInterface),
       transformation: optionFactory.createNewOption.bind(optionFactory),
     },
     {
-      condition: element => element.type === SelectGroupInterface,
+      condition: element => doesComponentMatchType(element, SelectGroupInterface),
       transformation: groupFactory.createGroup.bind(groupFactory),
     },
   ]);

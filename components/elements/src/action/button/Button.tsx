@@ -7,7 +7,6 @@ import {
   A,
   AnchorProps,
   Box,
-  BoxProps,
   Button as ZbaseButton,
   ButtonProps as ZbaseButtonProps,
   ResponsiveUtilProp,
@@ -17,16 +16,18 @@ import { css, styled, ColorString, FontStyleString } from 'z-frontend-theme';
 import { buttonSpace, color, heights, radius } from 'z-frontend-theme/utils';
 
 import LoadingSpinner, { LoadingSpinnerProps } from '../../overlay/loading-spinner/LoadingSpinner';
+import ScreenReaderOnly from '../../text/screen-reader-only/ScreenReaderOnly';
 
 type Size = 'xsmall' | 'small' | 'medium' | 'large';
-type Mode = 'normal' | 'primary' | 'transparent';
+
+export type ButtonMode = 'normal' | 'primary' | 'transparent';
 
 interface SharedButtonProps {
   /**
    * The style of the button.
    * @default normal
    */
-  mode?: Mode;
+  mode?: ButtonMode;
   /**
    * Size of the button.
    * @default medium
@@ -89,7 +90,7 @@ const defaultPaddingSpaceMap = {
   },
 };
 
-const modeSpecsMap: { [key in Mode]: ModeSpec } = {
+const modeSpecsMap: { [key in ButtonMode]: ModeSpec } = {
   normal: {
     bg: 'button.defaultNormal',
     color: 'text.default',
@@ -133,7 +134,7 @@ const modeSpecsMap: { [key in Mode]: ModeSpec } = {
 
 function withModeColorFn(key: string) {
   return (props: SharedButtonProps) => {
-    const colorFn = (modeSpecsMap[props.mode as Mode] as any)[key];
+    const colorFn = (modeSpecsMap[props.mode as ButtonMode] as any)[key];
     return `${colorFn(props)};`;
   };
 }
@@ -157,7 +158,7 @@ function conditionalSize() {
   return (props: any) => {
     const size = heights(props.s)(props);
     if (props.mode === 'transparent') {
-      return parseInt(size, 0) - 8 + 'px'; // reduce for icon buttons etc
+      return `${parseInt(size, 0) - 8}px`; // reduce for icon buttons etc
     }
     return size;
   };
@@ -166,7 +167,7 @@ function conditionalSize() {
 const buttonColorHelper = (props: any) =>
   color((props.color as ColorString) || (modeSpecsMap as any)[props.mode].color);
 // using defaults from fontStyle in most cases (except color)
-const buttonStyle: FlattenInterpolation<SharedButtonProps>[] = css`
+const buttonStyle: FlattenInterpolation<SharedButtonProps> = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -207,18 +208,13 @@ const buttonStyle: FlattenInterpolation<SharedButtonProps>[] = css`
   }
 `;
 
-interface StyledChildrenProps {
-  hide?: boolean;
-}
-
-type StyledChildrenPropsAll = StyledChildrenProps & BoxProps;
-
-const StyledChildren = styled<StyledChildrenPropsAll>(({ hide, ...rest }: StyledChildrenPropsAll) => <Box {...rest} />)`
+const StyledChildren = styled<{ hide: boolean }>(Box)`
+  max-width: 100%;
   visibility: ${props => (props.hide ? 'hidden' : 'visible')};
 `;
 
 const sizeHelper = (props: LoadingSpinnerProps) => heights(props.s as string);
-const InProgressContainer = styled<LoadingSpinnerProps>(Box)`
+const InProgressContainer = styled(Box)<LoadingSpinnerProps>`
   line-height: 0;
   position: absolute;
   top: 50%;
@@ -233,9 +229,9 @@ const InProgressContainer = styled<LoadingSpinnerProps>(Box)`
 // ButtonRouteLink
 type StyledRouteLinkProps = ReactRouterLinkProps & SharedButtonProps;
 export type ButtonRouteLinkProps = ResultComponentProps<StyledRouteLinkProps>;
-const StyledRouteLink = withUtilProps<StyledRouteLinkProps>({ additionalCss: buttonStyle })(
-  ({ elementRef, ...rest }: any) => <ReactRouterLink {...rest} />,
-);
+const StyledRouteLink = withUtilProps<StyledRouteLinkProps>({
+  additionalCss: buttonStyle,
+})(({ elementRef, ...rest }: any) => <ReactRouterLink {...rest} />);
 
 class ButtonRouteLink extends Component<ButtonRouteLinkProps> {
   static defaultProps: ButtonBasicProps = {
@@ -245,12 +241,12 @@ class ButtonRouteLink extends Component<ButtonRouteLinkProps> {
 
   render() {
     const { mode, children, s: size } = this.props;
-    const modeSpecs = modeSpecsMap[mode as Mode];
+    const modeSpecs = modeSpecsMap[mode as ButtonMode];
     return (
       <StyledRouteLink
         bg={modeSpecs.bg}
         fontStyle={modeSpecs.fontStyle[size as Size]}
-        color={modeSpecs.color}
+        color={modeSpecs.color as ColorString}
         {...this.props}
         mode={mode}
         s={size}
@@ -263,7 +259,7 @@ class ButtonRouteLink extends Component<ButtonRouteLinkProps> {
 
 // ButtonLink
 type StyledLinkProps = AnchorProps & SharedButtonProps;
-const StyledLink = styled<StyledLinkProps>(A)`
+const StyledLink = styled(A)<StyledLinkProps>`
   ${buttonStyle};
 `;
 export type ButtonLinkProps = ResultComponentProps<StyledLinkProps>;
@@ -276,7 +272,7 @@ class ButtonLink extends Component<ButtonLinkProps> {
 
   render() {
     const { mode, children, s: size } = this.props;
-    const modeSpecs = modeSpecsMap[mode as Mode];
+    const modeSpecs = modeSpecsMap[mode as ButtonMode];
     return (
       <StyledLink
         bg={modeSpecs.bg}
@@ -294,7 +290,7 @@ class ButtonLink extends Component<ButtonLinkProps> {
 
 // Button
 type StyledButtonProps = ZbaseButtonProps & ButtonProps;
-const StyledButton = styled<StyledButtonProps>(ZbaseButton)`
+const StyledButton = styled(ZbaseButton)<StyledButtonProps>`
   ${buttonStyle};
 `;
 
@@ -308,12 +304,14 @@ class Button extends Component<ButtonBasicProps> {
     s: 'medium',
     type: 'button',
   };
+
   static RouteLink = ButtonRouteLink;
+
   static Link = ButtonLink;
 
   render() {
     const { disabled, inProgress, mode, s: size, children, ...rest } = this.props;
-    const modeSpecs = modeSpecsMap[mode as Mode];
+    const modeSpecs = modeSpecsMap[mode as ButtonMode];
     return (
       <StyledButton
         bg={modeSpecs.bg}
@@ -327,6 +325,7 @@ class Button extends Component<ButtonBasicProps> {
         {inProgress && (
           <InProgressContainer s={size}>
             <LoadingSpinner />
+            <ScreenReaderOnly>Loading</ScreenReaderOnly>
           </InProgressContainer>
         )}
       </StyledButton>

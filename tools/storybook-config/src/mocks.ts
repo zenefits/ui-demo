@@ -7,10 +7,10 @@ export const mocks = {
   ID: () => (idSoFar += 1),
   Int: () => 233,
   Float: () => 2.33,
-  String: () => 'Hello World',
+  String: () => 'another string',
   Date: () => faker.date.recent(),
   DateTime: () => faker.date.recent(),
-  JSON: () => ({ foo: 'this is a mock for JSON type', bar: 123, a: { b: 'c', d: ['e', 'f', 433, { g: 'h' }] } }),
+  JSON: () => ({}),
 
   all_employee: () => ({
     first_name: 'David',

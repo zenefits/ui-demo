@@ -36,12 +36,12 @@ export const utilTypesMap = {
   },
 };
 
-export type UtilsType = keyof (typeof utilTypesMap);
+export type UtilsType = keyof typeof utilTypesMap;
 
 export interface UtilTypeMargin<PropType> {
   /**
    * Margin area separating the component from its neighbors.
-   * @see See [Spacing](#spacing) for details.
+   * @see See [Spacing](#!/Spacing) for details.
    * */
   m?: PropType;
   mb?: PropType;
@@ -55,7 +55,7 @@ export interface UtilTypeMargin<PropType> {
 export interface UtilTypePadding<PropType> {
   /**
    * Padding that extends the component's content area.
-   * @see See [Spacing](#spacing) for details.
+   * @see See [Spacing](#!/Spacing) for details.
    * */
   p?: PropType;
   pb?: PropType;
@@ -71,7 +71,7 @@ export interface UtilTypeFont<PropType, FontPropType> {
    * @deprecated Please use `fontStyle` instead
    * */
   fontSize__deprecated__doNotUse?: PropType;
-  /** Set the font size, weight, line-height, etc. See [Typography](#typography) for details. */
+  /** Set the font size, weight, line-height, etc. See [Typography](#!/Typography) for details. */
   fontStyle?: FontPropType;
 }
 
@@ -93,6 +93,10 @@ export interface UtilTypeWidth<PropType> {
    * */
   maxWidth?: PropType;
   /**
+   * Serves as starting width for flex children
+   * */
+  flexBasis?: PropType;
+  /*
    * Height of a component (border area). Typically the content determines this.
    * */
   height?: PropType;
@@ -109,7 +113,7 @@ export interface UtilTypeWidth<PropType> {
 export interface UtilTypeBg<ColorPropType> {
   /**
    * Background color of the component, specified by key from our theme.
-   * @see See [Color](#color) for details.
+   * @see See [Color](#!/Color) for details.
    */
   bg?: ColorPropType;
 }
@@ -117,32 +121,52 @@ export interface UtilTypeBg<ColorPropType> {
 export interface UtilTypeColor<ColorPropType> {
   /**
    * Foreground color of the component's text content, specified by key from our theme.
-   * @see See [Color](#color) for details.
+   * @see See [Color](#!/Color) for details.
    * */
   color?: ColorPropType;
+}
+
+export interface UtilTypeDisplay {
+  /**
+   * Maps directly to css "display" property
+   * */
+  display?:
+    | 'block'
+    | 'flex'
+    | 'inline'
+    | 'inline-block'
+    | 'inline-flex'
+    | 'table'
+    | 'table-cell'
+    | 'table-column'
+    | 'table-column-group'
+    | 'table-footer-group'
+    | 'table-header-group'
+    | 'table-row'
+    | 'table-row-group';
 }
 
 export interface UtilTypeBorder<ColorStringType> {
   /**
    * Display a solid border around the component with default width and color.
    */
-  border?: boolean;
+  border?: boolean | boolean[];
   /**
    * Display a solid top border with default width and color.
    */
-  borderTop?: boolean;
+  borderTop?: boolean | boolean[];
   /**
    * Display a solid right border with default width and color.
    */
-  borderRight?: boolean;
+  borderRight?: boolean | boolean[];
   /**
    * Display a solid bottom border with default width and color.
    */
-  borderBottom?: boolean;
+  borderBottom?: boolean | boolean[];
   /**
    * Display a solid left border with default width and color.
    */
-  borderLeft?: boolean;
+  borderLeft?: boolean | boolean[];
   /**
    * Override color for all specified borders.
    */
@@ -164,6 +188,7 @@ export function isBorderProp(key: string): boolean {
 
 export interface UtilsMapCommon<PropType, ColorPropType, FontPropType>
   extends UtilTypeMargin<PropType>,
+    UtilTypeDisplay,
     UtilTypePadding<PropType>,
     UtilTypeFont<PropType, FontPropType>,
     UtilTypeWidth<PropType>,
@@ -191,7 +216,13 @@ const utilPropsMap: { [key in keyof UtilsMapCommon<any, any, any>]: boolean } = 
   py: true,
   w: true,
   width: true,
+  minWidth: true,
+  maxWidth: true,
+  flexBasis: true,
   height: true,
+  minHeight: true,
+  maxHeight: true,
+  display: true,
 };
 
 export function removeUtilProps(props: any, additionalProps: any = {}) {
@@ -210,9 +241,9 @@ export function isUtilProp(key: string): boolean {
   return utilPropsMap.hasOwnProperty(key);
 }
 
-export type ValueHelperFn = ((propValue: any, props: any) => string);
+export type ValueHelperFn = (propValue: any, props: any) => string;
 type ValueHelper = ValueHelperFn | string;
-type UtilFn = ((propValue: any) => (props: any) => string);
+type UtilFn = (propValue: any) => (props: any) => string;
 
 export type PropsMapValue = ValueHelperFn | ExtendedPropsMapValue;
 
@@ -269,7 +300,9 @@ export interface TextCommonProps {
   wordBreak?: 'normal' | 'break-all' | 'keep-all' | 'break-word';
 }
 
+export type TextAlign = 'left' | 'right' | 'center' | 'justify' | 'initial';
+
 export interface TextAlignProps {
   /** Alignment of inline content such as text. */
-  textAlign?: 'left' | 'right' | 'center' | 'justify' | 'initial';
+  textAlign?: TextAlign | TextAlign[];
 }

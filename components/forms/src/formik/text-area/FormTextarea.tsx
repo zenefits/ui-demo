@@ -1,24 +1,38 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
+import Field from '../Field';
 import Textarea, { TextareaProps } from '../../textarea/Textarea';
-import FormFieldWrapper, { getErrorId, getLabelId, FormFieldProps } from '../FormFieldWrapper';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
+import { getAriaInputProps } from '../formAccessibility';
 
 type FormTextareaProps = TextareaProps & FormFieldProps;
 
 class FormTextarea extends Component<FormTextareaProps> {
   render() {
-    const { name, label, containerProps, optional, ...rest } = this.props;
+    const {
+      name,
+      label,
+      containerProps,
+      optional,
+      limitRerender,
+      dependencies,
+      'aria-label': ariaLabel,
+      helpText,
+      format,
+      ...rest
+    } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field limitRerender={limitRerender} dependencies={dependencies} name={name}>
+        {({ field, form }: FieldProps) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper
               name={name}
               label={label}
+              helpText={helpText}
               error={error}
+              format={format}
               containerProps={containerProps}
               optional={optional}
             >
@@ -27,14 +41,13 @@ class FormTextarea extends Component<FormTextareaProps> {
                 {...field}
                 {...rest}
                 hasError={Boolean(error)}
-                aria-labelledby={getLabelId(name)}
-                aria-describedby={error ? getErrorId(name) : null}
+                {...getAriaInputProps(name, error, ariaLabel)}
                 mb={0}
               />
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

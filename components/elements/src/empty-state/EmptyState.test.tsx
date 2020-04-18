@@ -1,6 +1,6 @@
 import React from 'react';
 // @ts-ignore
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 
 import { ThemeProvider } from 'z-frontend-theme';
 

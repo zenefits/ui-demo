@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Flex } from 'zbase';
+import { skipVisualTest } from 'z-frontend-app-bootstrap';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
 import Example from './exampleDefault';
@@ -20,6 +21,7 @@ storiesOf('elements|HtmlDocumentViewer', module)
   .addDecorator((getStory: Function) => <Flex p={20}>{getStory()}</Flex>)
   .add('default', () => <Example />)
   .add('loading', () => <LoadingExample />)
-  .add('interactive', () => <InteractiveExample />)
+  // Chromatic has been flaky rendering the content of the textarea in the snapshot
+  .add('interactive', () => <InteractiveExample />, skipVisualTest)
   .add('set height', () => <ExampleSetHeight />)
   .add('dynamic height', () => <DynamicExample />);

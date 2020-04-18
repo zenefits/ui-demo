@@ -10,7 +10,7 @@ type BannerState = {
   closed: boolean;
 };
 
-type BannerFlexContainerProps = Pick<FlexProps, 'm' | 'my' | 'mx' | 'mr' | 'ml' | 'mb' | 'mt' | 'w'>;
+export type BannerFlexContainerProps = Pick<FlexProps, 'm' | 'my' | 'mx' | 'mr' | 'ml' | 'mb' | 'mt' | 'w'>;
 
 type BannerOwnProps = {
   /** Type of banner  */
@@ -48,6 +48,7 @@ export default class Banner extends Component<BannerOwnProps & BannerFlexContain
     isClosable: true,
     showIcon: true,
   };
+
   state = {
     closed: false,
   };
@@ -57,7 +58,7 @@ export default class Banner extends Component<BannerOwnProps & BannerFlexContain
   };
 
   render() {
-    const { type, isClosable, children, showIcon } = this.props;
+    const { type, isClosable, children, showIcon, ...containerProps } = this.props;
     const colors = stateColorsMap[type];
     const iconName = showIcon && iconNameMap[type];
 
@@ -75,6 +76,7 @@ export default class Banner extends Component<BannerOwnProps & BannerFlexContain
         borderColor={colors.borderColor}
         color={colors.color}
         bg={colors.bg}
+        {...containerProps}
       >
         <Flex align="baseline">
           {iconName && <Icon mr={2} iconName={iconName} />}

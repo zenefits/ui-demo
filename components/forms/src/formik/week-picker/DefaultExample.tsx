@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormWeekPicker } from '../../..';
 
 export default () => (
   <Form
@@ -12,6 +12,6 @@ export default () => (
       },
     }}
   >
-    <Form.WeekPicker name="week" label="Week" />
+    <FormWeekPicker name="week" label="Week" />
   </Form>
 );

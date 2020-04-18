@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { cleanup } from 'react-testing-library';
+import { cleanup } from '@testing-library/react';
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 import { Button } from 'z-frontend-elements';

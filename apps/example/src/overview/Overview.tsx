@@ -1,58 +1,72 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { compose, graphql, ChildDataProps } from 'react-apollo';
 
 import { Box } from 'zbase';
-import { withGraphqlProgress, OverviewLayout } from 'z-frontend-layout';
-import { Button, Link } from 'z-frontend-elements';
+import { OverviewLayout } from 'z-frontend-layout';
+import { Query } from 'z-frontend-network';
+import { Button, EmptyState, Link } from 'z-frontend-elements';
 import { Card } from 'z-frontend-composites';
+import { withErrorBoundary } from 'z-frontend-app-bootstrap';
 
 import { OverviewPageQuery } from '../gqlTypes';
 import FrequentlyAskedQuestions from './components/FrequentlyAskedQuestions';
+import { getMockedObjects } from '../mockedBackend';
 
-interface Props {}
+type OverviewPageProps = {};
 
-type AllProps = ChildDataProps<Props, OverviewPageQuery.Query, OverviewPageQuery.Variables>;
-
-class OverviewPage extends Component<AllProps> {
+class OverviewPage extends Component<OverviewPageProps> {
   render() {
-    const article1 = 222;
-    const article2 = 333;
     return (
-      <OverviewLayout
-        isHeroLoading={this.props.data.loading}
-        heroTitle="Example App"
-        heroSubtitle="Example App Sub Header"
-        heroRender={() => (
-          <Button.RouteLink mode="primary" to="/widgets/new">
-            Create Widget
-          </Button.RouteLink>
-        )}
-        mainRender={() => (
-          <Card>
-            <Card.Header>Recent Articles</Card.Header>
-            <Card.Row>
-              <Box mb={3}>
-                <Link to={`/articles/${article1}`}>Article 1</Link>
-              </Box>
-              <Box mb={3}>
-                <Link to={`/articles/${article2}`}>Article 2</Link>
-              </Box>
-            </Card.Row>
-          </Card>
-        )}
-        sideRender={() => (
-          <Box>
-            <FrequentlyAskedQuestions />
-          </Box>
-        )}
-      />
+      <Query<OverviewPageQuery.Query> query={overviewPageQuery}>
+        {({ data, loading }) => {
+          // real app would use data
+          const recentObjects = getMockedObjects().slice(0, 2);
+
+          return (
+            <OverviewLayout
+              isHeroLoading={loading}
+              heroTitle="Example App"
+              heroSubtitle="A basic starter app to get you started."
+              heroRender={() => (
+                <Button.RouteLink mode="primary" to="/objects/new">
+                  Add Object
+                </Button.RouteLink>
+              )}
+              mainRender={() => (
+                <>
+                  <Card>
+                    <Card.Header>Featured Objects</Card.Header>
+                    {!recentObjects.length && <EmptyState message="No featured objects yet." />}
+                    {recentObjects.map(object => (
+                      <Card.Row py={4} key={object.id}>
+                        <Link to={`/objects/${object.id}/edit`}>{object.name}</Link>
+                      </Card.Row>
+                    ))}
+                  </Card>
+                  <Card>
+                    <Card.Header>Companies</Card.Header>
+                    <Card.Row>
+                      <Link to="/company/1">Company 1</Link>
+                    </Card.Row>
+                  </Card>
+                </>
+              )}
+              sideRender={() => (
+                <Box>
+                  <FrequentlyAskedQuestions />
+                </Box>
+              )}
+            />
+          );
+        }}
+      </Query>
     );
   }
 }
 
 const overviewPageQuery = gql`
   query OverviewPageQuery {
+    # dashboard query here just a placeholder
     dashboard {
       id
       employee {
@@ -62,7 +76,4 @@ const overviewPageQuery = gql`
   }
 `;
 
-export default compose(
-  graphql<Props, OverviewPageQuery.Query, OverviewPageQuery.Variables>(overviewPageQuery),
-  withGraphqlProgress(),
-)(OverviewPage);
+export default withErrorBoundary()(OverviewPage);

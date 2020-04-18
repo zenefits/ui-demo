@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Box } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormCheckbox, FormCheckboxGroupDeprecated } from '../../..';
 import FormSubmitter from '../FormSubmitter';
 
 const options = [
@@ -40,11 +40,11 @@ class DefaultExample extends Component {
           tofu: false,
         }}
       >
-        <Form.CheckboxGroupDeprecated>
+        <FormCheckboxGroupDeprecated>
           {options.map(option => (
-            <Form.Checkbox key={option.value} name={option.value} label={option.label} />
+            <FormCheckbox key={option.value} name={option.value} label={option.label} />
           ))}
-        </Form.CheckboxGroupDeprecated>
+        </FormCheckboxGroupDeprecated>
       </Form>
     );
   }
@@ -64,16 +64,16 @@ class LabelExample extends Component {
           seitan: false,
         }}
       >
-        <Form.CheckboxGroupDeprecated label="Proteins">
+        <FormCheckboxGroupDeprecated label="Proteins">
           {options.map(option => (
-            <Form.Checkbox key={option.value} name={option.value} label={option.label} />
+            <FormCheckbox key={option.value} name={option.value} label={option.label} />
           ))}
-        </Form.CheckboxGroupDeprecated>
-        <Form.CheckboxGroupDeprecated label="More Proteins" optional>
+        </FormCheckboxGroupDeprecated>
+        <FormCheckboxGroupDeprecated label="More Proteins" optional>
           {moreOptions.map(option => (
-            <Form.Checkbox key={option.value} name={option.value} label={option.label} />
+            <FormCheckbox key={option.value} name={option.value} label={option.label} />
           ))}
-        </Form.CheckboxGroupDeprecated>
+        </FormCheckboxGroupDeprecated>
       </Form>
     );
   }
@@ -102,11 +102,11 @@ class ValidationExample extends Component {
       >
         {props => (
           <>
-            <Form.CheckboxGroupDeprecated label="Proteins">
+            <FormCheckboxGroupDeprecated label="Proteins">
               {options.map(option => (
-                <Form.Checkbox key={option.value} name={option.value} label={option.label} />
+                <FormCheckbox key={option.value} name={option.value} label={option.label} />
               ))}
-            </Form.CheckboxGroupDeprecated>
+            </FormCheckboxGroupDeprecated>
             {/* submit on load for visual testing only */}
             <FormSubmitter submitForm={props.submitForm} />
           </>

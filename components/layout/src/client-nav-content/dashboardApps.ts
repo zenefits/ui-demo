@@ -14,7 +14,9 @@ interface Button {
 
 export class DashboardApp {
   subscription: Subscription;
+
   switches: any;
+
   showIfSwitchEnabled: string;
 
   constructor(subscription: Subscription, switches: any) {
@@ -37,7 +39,7 @@ export class DashboardApp {
       {
         title: 'View',
         isHighlighted: false,
-        linkTo: zUrl,
+        linkTo: zUrl, // this is different than ember...
         args: typeof zUrl === 'string' ? {} : zUrl.params,
       },
     ];
@@ -105,6 +107,7 @@ export class DashboardApp {
 
 class BusinessInsuranceAdminApp extends DashboardApp {
   showIfSwitchEnabled = 'show_business_insurance_app';
+
   buttons() {
     const subscriptionStatus = this.subscription.inheritedStatus;
     let buttons: Button[] = [];
@@ -152,6 +155,7 @@ class CompanyAdminApp extends DashboardApp {
 
 class ComplianceAdminApp extends DashboardApp {
   showIfSwitchEnabled = 'compliance_companion';
+
   buttons() {
     // this doesn't matter anymore, but if it's not here the default route breaks the page :( ...
     return [
@@ -176,6 +180,7 @@ class LifeAndDisabilityAdminApp extends DashboardApp {
       this.subscription.inheritedStatus = ZAppStatusEnum.DISABLED;
     }
   }
+
   isChosen() {
     const appStatus = this.subscription.appInstall.status;
     const subscriptionStatus = this.subscription.status;
@@ -186,13 +191,13 @@ class LifeAndDisabilityAdminApp extends DashboardApp {
   }
 
   showPermissions() {
-    return this.subscription.appInstall.preferences.isBenAdmin;
+    return this.subscription.appInstall.status === ZAppStatusEnum.OK;
   }
 
   buttons() {
     const appStatus = this.subscription.appInstall.status;
-    const cardBlockType = this.subscription.appInstall.preferences.cardBlockType;
-    const isBenAdmin = this.subscription.appInstall.preferences.isBenAdmin;
+    const { cardBlockType } = this.subscription.appInstall.preferences;
+    const { isBenAdmin } = this.subscription.appInstall.preferences;
     let buttons: Button[] = [];
     // Todo(jason-zenefits): Remove this after built the overview page
     if (cardBlockType) {
@@ -266,6 +271,7 @@ class MedicalInsuranceAdminApp extends DashboardApp {
       }
     }
   }
+
   buttons() {
     const toRet: Button[] = [];
     // Read only card
@@ -297,7 +303,7 @@ class MedicalInsuranceAdminApp extends DashboardApp {
 
 class StockOptionAdminApp extends DashboardApp {
   buttons() {
-    const unapprovedGrants = this.subscription.appInstall.preferences.unapprovedGrants;
+    const { unapprovedGrants } = this.subscription.appInstall.preferences;
     const subscriptionStatus = this.subscription.inheritedStatus;
     let buttons;
     if (subscriptionStatus === ZAppStatusEnum.NOT_ENROLLED) {
@@ -374,7 +380,8 @@ class StockOptionEmployeeApp extends DashboardApp {
 }
 
 class CobraEmployeeApp extends DashboardApp {
-  showIfSwitchEnabled: '!z2_cobra_overview';
+  showIfSwitchEnabled = '!z2_cobra_overview';
+
   buttons() {
     if (this.subscription.preferences.hideButtons) {
       return [
@@ -386,17 +393,17 @@ class CobraEmployeeApp extends DashboardApp {
       ];
     }
     let buttons: Button[] = [];
-    const cobraStatus = this.subscription.preferences.cobraStatus;
+    const { cobraStatus } = this.subscription.preferences;
     let remainingDays = -1;
-    const cobraElectionDeadline = this.subscription.preferences.cobraElectionDeadline;
-    const isBorEmployeeAlreadyCovered = this.subscription.preferences.isBorEmployeeAlreadyCovered;
-    const hasCoverageEnded = this.subscription.preferences.hasCoverageEnded;
+    const { cobraElectionDeadline } = this.subscription.preferences;
+    const { isBorEmployeeAlreadyCovered } = this.subscription.preferences;
+    const { hasCoverageEnded } = this.subscription.preferences;
     // const cancelationType = subscription.preferences.cancelationType;
     const today = moment().startOf('day');
     // make sure switch inbox_task_integration_cobra_employee is on, otherwise we need to redirect EE for renewal
     if (!this.switches.inbox_task_integration_cobra_employee) {
-      const isRenewalParticipant = this.subscription.preferences.isRenewalParticipant;
-      const renewalDeadline = this.subscription.preferences.renewalDeadline;
+      const { isRenewalParticipant } = this.subscription.preferences;
+      const { renewalDeadline } = this.subscription.preferences;
       let isPastEnrollmentDeadline = false;
       if (renewalDeadline) {
         const deadline = moment(renewalDeadline);
@@ -405,7 +412,7 @@ class CobraEmployeeApp extends DashboardApp {
         }
       }
       if (isRenewalParticipant && !isPastEnrollmentDeadline) {
-        const renewalStatus = this.subscription.preferences.renewalStatus;
+        const { renewalStatus } = this.subscription.preferences;
         if (renewalStatus === 'initial' || renewalStatus === 'enrolling') {
           return [
             {
@@ -470,7 +477,9 @@ class CobraEmployeeApp extends DashboardApp {
 
 class CobraEmployeeHealthApp extends DashboardApp {
   lineOfCoverage: string;
+
   showIfSwitchEnabled = 'z2_cobra_overview';
+
   overviewPageLink() {
     if (this.switches.isActive('z2_cobra_overview') && this.lineOfCoverage) {
       return `employee.overview.cobra.${this.lineOfCoverage}`;
@@ -482,6 +491,7 @@ class CobraEmployeeHealthApp extends DashboardApp {
 
 class CobraEmployeeMedicalApp extends CobraEmployeeHealthApp {
   lineOfCoverage: 'medical';
+
   buttons() {
     if (this.subscription.preferences.hideButtons) {
       return [
@@ -493,17 +503,17 @@ class CobraEmployeeMedicalApp extends CobraEmployeeHealthApp {
       ];
     }
     let buttons: Button[] = [];
-    const cobraStatus = this.subscription.preferences.cobraStatus;
+    const { cobraStatus } = this.subscription.preferences;
     let remainingDays = -1;
-    const cobraElectionDeadline = this.subscription.preferences.cobraElectionDeadline;
-    const isBorEmployeeAlreadyCovered = this.subscription.preferences.isBorEmployeeAlreadyCovered;
-    const hasCoverageEnded = this.subscription.preferences.hasCoverageEnded;
+    const { cobraElectionDeadline } = this.subscription.preferences;
+    const { isBorEmployeeAlreadyCovered } = this.subscription.preferences;
+    const { hasCoverageEnded } = this.subscription.preferences;
     // const cancelationType = subscription.preferences.cancelationType;
     const today = moment().startOf('day');
     // make sure switch inbox_task_integration_cobra_employee is on, otherwise we need to redirect EE for renewal
     if (!this.switches.inbox_task_integration_cobra_employee) {
-      const isRenewalParticipant = this.subscription.preferences.isRenewalParticipant;
-      const renewalDeadline = this.subscription.preferences.renewalDeadline;
+      const { isRenewalParticipant } = this.subscription.preferences;
+      const { renewalDeadline } = this.subscription.preferences;
       let isPastEnrollmentDeadline = false;
       if (renewalDeadline) {
         const deadline = moment(renewalDeadline);
@@ -512,7 +522,7 @@ class CobraEmployeeMedicalApp extends CobraEmployeeHealthApp {
         }
       }
       if (isRenewalParticipant && !isPastEnrollmentDeadline) {
-        const renewalStatus = this.subscription.preferences.renewalStatus;
+        const { renewalStatus } = this.subscription.preferences;
         if (renewalStatus === 'initial' || renewalStatus === 'enrolling') {
           return [
             {
@@ -577,6 +587,7 @@ class CobraEmployeeMedicalApp extends CobraEmployeeHealthApp {
 
 class CobraEmployeeDentalApp extends CobraEmployeeHealthApp {
   lineOfCoverage = 'dental';
+
   buttons() {
     if (this.subscription.preferences.hideButtons) {
       return [
@@ -588,17 +599,17 @@ class CobraEmployeeDentalApp extends CobraEmployeeHealthApp {
       ];
     }
     let buttons: Button[] = [];
-    const cobraStatus = this.subscription.preferences.cobraStatus;
+    const { cobraStatus } = this.subscription.preferences;
     let remainingDays = -1;
-    const cobraElectionDeadline = this.subscription.preferences.cobraElectionDeadline;
-    const isBorEmployeeAlreadyCovered = this.subscription.preferences.isBorEmployeeAlreadyCovered;
-    const hasCoverageEnded = this.subscription.preferences.hasCoverageEnded;
+    const { cobraElectionDeadline } = this.subscription.preferences;
+    const { isBorEmployeeAlreadyCovered } = this.subscription.preferences;
+    const { hasCoverageEnded } = this.subscription.preferences;
     // const cancelationType = subscription.preferences.cancelationType;
     const today = moment().startOf('day');
     // make sure switch inbox_task_integration_cobra_employee is on, otherwise we need to redirect EE for renewal
     if (!this.switches.inbox_task_integration_cobra_employee) {
-      const isRenewalParticipant = this.subscription.preferences.isRenewalParticipant;
-      const renewalDeadline = this.subscription.preferences.renewalDeadline;
+      const { isRenewalParticipant } = this.subscription.preferences;
+      const { renewalDeadline } = this.subscription.preferences;
       let isPastEnrollmentDeadline = false;
       if (renewalDeadline) {
         const deadline = moment(renewalDeadline);
@@ -607,7 +618,7 @@ class CobraEmployeeDentalApp extends CobraEmployeeHealthApp {
         }
       }
       if (isRenewalParticipant && !isPastEnrollmentDeadline) {
-        const renewalStatus = this.subscription.preferences.renewalStatus;
+        const { renewalStatus } = this.subscription.preferences;
         if (renewalStatus === 'initial' || renewalStatus === 'enrolling') {
           return [
             {
@@ -672,6 +683,7 @@ class CobraEmployeeDentalApp extends CobraEmployeeHealthApp {
 
 class CobraEmployeeVisionApp extends CobraEmployeeHealthApp {
   lineOfCoverage = 'vision';
+
   buttons() {
     if (this.subscription.preferences.hideButtons) {
       return [
@@ -683,17 +695,17 @@ class CobraEmployeeVisionApp extends CobraEmployeeHealthApp {
       ];
     }
     let buttons: Button[] = [];
-    const cobraStatus = this.subscription.preferences.cobraStatus;
+    const { cobraStatus } = this.subscription.preferences;
     let remainingDays = -1;
-    const cobraElectionDeadline = this.subscription.preferences.cobraElectionDeadline;
-    const isBorEmployeeAlreadyCovered = this.subscription.preferences.isBorEmployeeAlreadyCovered;
-    const hasCoverageEnded = this.subscription.preferences.hasCoverageEnded;
+    const { cobraElectionDeadline } = this.subscription.preferences;
+    const { isBorEmployeeAlreadyCovered } = this.subscription.preferences;
+    const { hasCoverageEnded } = this.subscription.preferences;
     // const cancelationType = subscription.preferences.cancelationType;
     const today = moment().startOf('day');
     // make sure switch inbox_task_integration_cobra_employee is on, otherwise we need to redirect EE for renewal
     if (!this.switches.inbox_task_integration_cobra_employee) {
-      const isRenewalParticipant = this.subscription.preferences.isRenewalParticipant;
-      const renewalDeadline = this.subscription.preferences.renewalDeadline;
+      const { isRenewalParticipant } = this.subscription.preferences;
+      const { renewalDeadline } = this.subscription.preferences;
       let isPastEnrollmentDeadline = false;
       if (renewalDeadline) {
         const deadline = moment(renewalDeadline);
@@ -702,7 +714,7 @@ class CobraEmployeeVisionApp extends CobraEmployeeHealthApp {
         }
       }
       if (isRenewalParticipant && !isPastEnrollmentDeadline) {
-        const renewalStatus = this.subscription.preferences.renewalStatus;
+        const { renewalStatus } = this.subscription.preferences;
         if (renewalStatus === 'initial' || renewalStatus === 'enrolling') {
           return [
             {
@@ -767,9 +779,11 @@ class CobraEmployeeVisionApp extends CobraEmployeeHealthApp {
 
 class LifeAndDisabilityEmployeeApp extends DashboardApp {
   linkToOverview: string;
+
   isChosen() {
     return true;
   }
+
   buttons() {
     return [
       {
@@ -792,7 +806,7 @@ class DisabilityEmployeeApp extends LifeAndDisabilityEmployeeApp {
 class TimeAttendanceAdminApp extends DashboardApp {
   buttons() {
     const overviewPageStatuses = [ZAppStatusEnum.OK, ZAppStatusEnum.ENROLLING];
-    const inheritedStatus = this.subscription.inheritedStatus;
+    const { inheritedStatus } = this.subscription;
     if (overviewPageStatuses.indexOf(inheritedStatus) >= 0) {
       return [
         {
@@ -816,8 +830,8 @@ class TimeAttendanceAdminApp extends DashboardApp {
 
 class TimeAttendanceEmployeeApp extends DashboardApp {
   buttons() {
-    const isApprover = this.subscription.preferences.isApprover;
-    const reportingMethod = this.subscription.preferences.reportingMethod;
+    const { isApprover } = this.subscription.preferences;
+    const { reportingMethod } = this.subscription.preferences;
     let link = 'timeattendanceemployee.employee-overview';
 
     if (isApprover && reportingMethod === 'NR') {
@@ -836,8 +850,8 @@ class TimeAttendanceEmployeeApp extends DashboardApp {
 class PayrollAdminApp extends DashboardApp {
   buttons() {
     // const isSMP = subscription.appInstall.preferences.isSMP;
-    const state = this.subscription.appInstall.preferences.state;
-    const inheritedStatus = this.subscription.inheritedStatus;
+    const { state } = this.subscription.appInstall.preferences;
+    const { inheritedStatus } = this.subscription;
     let buttons;
 
     if (state === 'zpayrollOnboardingSetup') {
@@ -872,9 +886,9 @@ class PayrollAdminApp extends DashboardApp {
 
 class PayrollIntegrationsApp extends DashboardApp {
   buttons() {
-    const isSMP = this.subscription.appInstall.preferences.isSMP;
-    const state = this.subscription.appInstall.preferences.state;
-    const inheritedStatus = this.subscription.inheritedStatus;
+    const { isSMP } = this.subscription.appInstall.preferences;
+    const { state } = this.subscription.appInstall.preferences;
+    const { inheritedStatus } = this.subscription;
     let buttons;
 
     if (isSMP) {
@@ -957,6 +971,7 @@ class PtoAdminApp extends DashboardApp {
   title() {
     return 'PTO Tracking';
   }
+
   buttons() {
     let title;
     let linkTo = 'pto.landing';
@@ -983,31 +998,21 @@ class PtoAdminApp extends DashboardApp {
 
 class SchedulingAdminApp extends DashboardApp {
   showIfSwitchEnabled = 'time_scheduling';
+
   buttons() {
-    const overviewPageStatuses = [ZAppStatusEnum.OK, ZAppStatusEnum.ENROLLING];
-    const inheritedStatus = this.subscription.inheritedStatus;
-    if (overviewPageStatuses.indexOf(inheritedStatus) >= 0) {
-      return [
-        {
-          title: 'Manage',
-          isHighlighted: false,
-          linkTo: '/app/scheduling/#/people',
-        },
-      ];
-    } else if (inheritedStatus === ZAppStatusEnum.NOT_ENROLLED) {
-      return [
-        {
-          title: 'Get Started',
-          isHighlighted: false,
-          linkTo: '/app/scheduling/#/people',
-        },
-      ];
-    }
+    return [
+      {
+        title: 'Manage',
+        isHighlighted: false,
+        linkTo: '/app/scheduling/#/scheduling/people/?mode=1',
+      },
+    ];
   }
 }
 
 class SchedulingEmployeeApp extends DashboardApp {
   showIfSwitchEnabled = 'time_scheduling';
+
   buttons() {
     return [
       {
@@ -1026,7 +1031,7 @@ class CobraAdminApp extends DashboardApp {
 
   buttons() {
     let buttons: Button[] = [];
-    const cobraStatus = this.subscription.appInstall.preferences.cobraStatus;
+    const { cobraStatus } = this.subscription.appInstall.preferences;
     const corbraEmployeeCount = this.subscription.appInstall.preferences.cobraEmps || 0;
 
     if (cobraStatus === 'confirmed') {
@@ -1094,6 +1099,7 @@ class EmployeesApp extends DashboardApp {
 
 class DocumentsAdminApp extends DashboardApp {
   showIfSwitchEnabled = 'documents_main_app_card';
+
   buttons() {
     return [
       {
@@ -1117,6 +1123,7 @@ class DeductionsAdminApp extends DashboardApp {
 
 class CommunityApp extends DashboardApp {
   showIfSwitchEnabled = 'show_community_app';
+
   buttons() {
     return [
       {
@@ -1130,12 +1137,13 @@ class CommunityApp extends DashboardApp {
 
 class HelpCenterApp extends DashboardApp {
   showIfSwitchEnabled = 'show_help_center_app';
+
   buttons() {
     return [
       {
         title: 'Help Center',
         isHighlighted: false,
-        linkTo: 'https://help.zenefits.com/',
+        linkTo: '/app/support-flow/#/home',
       },
     ];
   }
@@ -1143,6 +1151,7 @@ class HelpCenterApp extends DashboardApp {
 
 class InfluitiveSsoApp extends DashboardApp {
   showIfSwitchEnabled = 'show_influitive_sso_app';
+
   buttons() {
     return [
       {
@@ -1202,6 +1211,10 @@ class WellbeingEmployeeApp extends DashboardApp {
   }
 }
 
+class ResourceCenterApp extends DashboardApp {
+  showIfSwitchEnabled = 'resource_center';
+}
+
 class PeopleAnalyticsAdminApp extends DashboardApp {
   buttons() {
     return [
@@ -1209,6 +1222,32 @@ class PeopleAnalyticsAdminApp extends DashboardApp {
         title: 'Compensation Management',
         isHighlighted: false,
         linkTo: '/app/people-analytics/#/',
+      },
+    ];
+  }
+}
+
+class HRAnalyticsAdminApp extends DashboardApp {
+  showIfSwitchEnabled = 'show_hr_analytics';
+
+  buttons() {
+    return [
+      {
+        title: 'HR Analytics',
+        isHighlighted: false,
+        linkTo: '/app/hr-analytics/#/',
+      },
+    ];
+  }
+}
+
+class TotalRewardStatementAdminCard extends DashboardApp {
+  buttons() {
+    return [
+      {
+        title: 'Total Reward Statement',
+        isHighlighted: false,
+        linkTo: '/app/trs/#/',
       },
     ];
   }
@@ -1238,7 +1277,7 @@ class UnicardCommuterAdminApp extends DashboardApp {
         },
       ];
     } else if (this.subscription.inheritedStatus === ZAppStatusEnum.ENROLLING) {
-      const status = this.subscription.appInstall.preferences.status;
+      const { status } = this.subscription.appInstall.preferences;
       let redirectRoute = 'ucommuter.company';
       if (status === 'emails') {
         redirectRoute = 'ucommuteremails';
@@ -1301,6 +1340,7 @@ class FsaAdminApp extends DashboardApp {
   notification(): any {
     return null;
   }
+
   buttons() {
     let buttons;
     let redirectLink;
@@ -1313,7 +1353,7 @@ class FsaAdminApp extends DashboardApp {
         },
       ];
     } else if (this.subscription.inheritedStatus === ZAppStatusEnum.ENROLLING) {
-      const currentPlanStatus = this.subscription.appInstall.preferences.currentPlanStatus;
+      const { currentPlanStatus } = this.subscription.appInstall.preferences;
       redirectLink = 'fsasetup.company';
       // emails or filling-out
       if (currentPlanStatus === 'emails') {
@@ -1347,11 +1387,12 @@ class FsaEmployeeApp extends DashboardApp {
   notification(): any {
     return null;
   }
+
   buttons() {
-    const hideButtonPrimary = this.subscription.preferences.hideButtonPrimary;
-    const redirectRoutePrimary = this.subscription.preferences.redirectRoutePrimary;
-    const buttonMessagePrimary = this.subscription.preferences.buttonMessagePrimary;
-    const isHighlightedPrimary = this.subscription.preferences.isHighlightedPrimary;
+    const { hideButtonPrimary } = this.subscription.preferences;
+    const { redirectRoutePrimary } = this.subscription.preferences;
+    const { buttonMessagePrimary } = this.subscription.preferences;
+    const { isHighlightedPrimary } = this.subscription.preferences;
 
     const buttons: Button[] = [];
     if (!hideButtonPrimary && redirectRoutePrimary && buttonMessagePrimary) {
@@ -1378,7 +1419,7 @@ class HsaAdminApp extends DashboardApp {
         },
       ];
     } else if (this.subscription.inheritedStatus === ZAppStatusEnum.ENROLLING) {
-      const status = this.subscription.appInstall.preferences.status;
+      const { status } = this.subscription.appInstall.preferences;
       let redirectRoute = 'hsa.company';
       if (status === 'emails') {
         redirectRoute = 'hsaemailspreview';
@@ -1405,10 +1446,10 @@ class HsaAdminApp extends DashboardApp {
 
 class HsaEmployeeApp extends DashboardApp {
   buttons() {
-    const hideButton = this.subscription.preferences.hideButton;
-    const redirectRoute = this.subscription.preferences.redirectRoute;
-    const buttonMessage = this.subscription.preferences.buttonMessage;
-    const isHighlighted = this.subscription.preferences.isHighlighted;
+    const { hideButton } = this.subscription.preferences;
+    const { redirectRoute } = this.subscription.preferences;
+    const { buttonMessage } = this.subscription.preferences;
+    const { isHighlighted } = this.subscription.preferences;
     let buttons: Button[] = [];
 
     if (!hideButton && redirectRoute && buttonMessage) {
@@ -1429,6 +1470,7 @@ class HraAdminApp extends DashboardApp {
   notification(): any {
     return null;
   }
+
   buttons() {
     let buttons;
     if (this.subscription.inheritedStatus === ZAppStatusEnum.OK) {
@@ -1440,7 +1482,7 @@ class HraAdminApp extends DashboardApp {
         },
       ];
     } else if (this.subscription.inheritedStatus === ZAppStatusEnum.ENROLLING) {
-      const currentPlanStatus = this.subscription.appInstall.preferences.currentPlanStatus;
+      const { currentPlanStatus } = this.subscription.appInstall.preferences;
       let redirectLink = 'hrasetup.company';
       // emails or filling-out
       if (currentPlanStatus === 'emails') {
@@ -1472,10 +1514,10 @@ class HraEmployeeApp extends DashboardApp {
   }
 
   buttons() {
-    const hideButtonPrimary = this.subscription.preferences.hideButtonPrimary;
-    const redirectRoutePrimary = this.subscription.preferences.redirectRoutePrimary;
-    const buttonMessagePrimary = this.subscription.preferences.buttonMessagePrimary;
-    const isHighlightedPrimary = this.subscription.preferences.isHighlightedPrimary;
+    const { hideButtonPrimary } = this.subscription.preferences;
+    const { redirectRoutePrimary } = this.subscription.preferences;
+    const { buttonMessagePrimary } = this.subscription.preferences;
+    const { isHighlightedPrimary } = this.subscription.preferences;
 
     // const hideButtonSecondary = subscription.preferences.hideButtonSecondary;
     // const redirectRouteSecondary = subscription.preferences.redirectRouteSecondary;
@@ -1555,10 +1597,10 @@ class F01kAdminApp extends DashboardApp {
       connectpayrollfor401k: 'company401k.newEnrollment.connectPayroll',
     };
 
-    let buttonText = this.subscription.preferences.buttonText;
-    let buttonRoute = this.subscription.preferences.buttonRoute;
-    let secondButtonText = this.subscription.preferences.secondButtonText;
-    let secondButtonRoute = this.subscription.preferences.secondButtonRoute;
+    let { buttonText } = this.subscription.preferences;
+    let { buttonRoute } = this.subscription.preferences;
+    let { secondButtonText } = this.subscription.preferences;
+    let { secondButtonRoute } = this.subscription.preferences;
     //  TODO @wdu Because we currently suspend the signup process, when the isSupeneded computed
     //  property is true, we simply
     // display one button that says 'Learn More'. When we turn on the signup process again,
@@ -1603,8 +1645,8 @@ class F01kAdminApp extends DashboardApp {
 
 class F01kEmployeeApp extends DashboardApp {
   buttons() {
-    const buttonText = this.subscription.preferences.buttonText;
-    let buttonRoute: string = this.subscription.preferences.buttonRoute;
+    const { buttonText } = this.subscription.preferences;
+    let { buttonRoute } = this.subscription.preferences;
     let buttons: Button[] = [];
     if (buttonText) {
       // This is a workaround to resolve the conflicts between changing routes and installed Zapps preferences
@@ -1632,7 +1674,7 @@ class F01kEmployeeApp extends DashboardApp {
 class AcaAdminApp extends DashboardApp {
   buttons() {
     let buttons;
-    const inheritedStatus = this.subscription.inheritedStatus;
+    const { inheritedStatus } = this.subscription;
     if (inheritedStatus === ZAppStatusEnum.OK) {
       buttons = [
         {
@@ -1690,9 +1732,11 @@ class HealthInsuranceEmployeeApp extends DashboardApp {
   title() {
     return this.subscription.preferences.title;
   }
+
   buttons() {
     return this.subscription.preferences.buttons;
   }
+
   cardBlockReasonKey() {
     return this.subscription.preferences.cardBlockReasonKey;
   }
@@ -1768,6 +1812,9 @@ export function getApp(subscription: Subscription, switches: any) {
     '1.com.zenefits.WellbeingEmployee': WellbeingEmployeeApp,
     '1.com.zenefits.Influitive': InfluitiveSsoApp,
     '1.com.zenefits.PeopleAnalyticsAdmin': PeopleAnalyticsAdminApp,
+    '1.com.zenefits.HRAnalyticsAdmin': HRAnalyticsAdminApp,
+    '1.com.zenefits.TotalRewardStatementAdmin': TotalRewardStatementAdminCard,
+    '1.com.zenefits.ResourceCenter': ResourceCenterApp,
   };
 
   const AppConstructor = appMap[subscription.appInstall.app.uniqueId] || DashboardApp;

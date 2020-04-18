@@ -1,6 +1,4 @@
-An input component that can be checked or unchecked, similar to HTML's `<input type="checkbox">`.
-
-Use checkboxes to allow the user to make binary choices (checked or unchecked).
+A form component that allows the user to make binary choices (checked or unchecked).
 
 #### Examples
 
@@ -18,19 +16,18 @@ With initial values:
 
 #### Usage
 
-- Each option must include an associated label.
-
-#### Content Guidelines
-
-Since checkboxes are about inclusion, labels for checkboxes are simple descriptions focused on choice being offered,
-not outcome. This label should subtly differentiate between requirements and options. All labels should be active
-descriptions without negative or double-negatives.
-
-```jsx
-// loadExample('./exampleLabels')
+```jsx noeditor
+<FigmaFile
+  height={1455}
+  url="https://www.figma.com/file/OKdw775cxzrwQhGNm1SYM8ZD/Zenebits-Figma-Embed?node-id=121%3A229"
+/>
 ```
+
+#### Implementation Notes
+
+An input component that can be checked or unchecked, similar to HTML's `<input type="checkbox">`.
 
 #### Related
 
-- [Form.CheckboxGroup](#!/Form.CheckboxGroup)
-- [Form.Radio](#!/Form.Radio)
+- [FormCheckboxGroup](#!/FormCheckboxGroup)
+- [FormRadio](#!/FormRadio)

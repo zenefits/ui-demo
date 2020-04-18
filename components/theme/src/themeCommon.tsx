@@ -2,11 +2,16 @@ import { colorsMap, ColorString } from './colors';
 import icons from './icons';
 import depths from './depths';
 
+const zenefitsSmallLogo = require('./images/icon-footer-zenefits.svg');
+
 export const opacities = [0.65];
+
+const isInEmbeddedNativeView =
+  window.ZENEFITS_MOBILE_INTEGRATION && window.ZENEFITS_MOBILE_INTEGRATION.isEmbeddedNativeView;
 
 // TODO: move to another place
 const images = {
-  logo: 'https://www.zenefits.com/static/images/logos/icon-footer-zenefits.svg',
+  logo: zenefitsSmallLogo,
 };
 
 const themeObject = {
@@ -28,7 +33,9 @@ const themeObject = {
     xxxlarge: 152,
   },
   borderColor: 'grayscale.f' as ColorString,
-  topNavHeight: '65px',
+  topNavHeightInPx: isInEmbeddedNativeView ? 0 : 65,
+  // Height of the topNav including any banner. This is what to use if you want to position against the height of the TopNav.
+  topNavHeightContainer: isInEmbeddedNativeView ? '0px' : '65px',
 };
 
 export interface ThemeInterfaceCommon {
@@ -42,7 +49,8 @@ export interface ThemeInterfaceCommon {
   heights: typeof themeObject.heights;
   depths: typeof themeObject.depths;
   borderColor: ColorString;
-  topNavHeight: string;
+  topNavHeightContainer: string;
+  topNavHeightInPx: number;
   fontSizes?: number[];
   fontStyles?: { [key: string]: string };
   fonts?: string[];

@@ -17,7 +17,7 @@ interface TocProps {
 }
 
 // override default to use our Input and style headings
-// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/TableOfContents/TableOfContentsRenderer.js
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/TableOfContents/TableOfContentsRenderer.js
 class TableOfContentsRenderer extends Component<TocProps> {
   render() {
     const { children, searchTerm, onSearchTermChange } = this.props;
@@ -28,7 +28,7 @@ class TableOfContentsRenderer extends Component<TocProps> {
         </Box>
         <StyledList>
           {children.props.items.map(item => (
-            <li key={item.name}>
+            <li key={item.name} data-testid="TableOfContentsSection">
               <TextBlock fontStyle="headings.s">{item.name}</TextBlock>
               {item.content}
             </li>

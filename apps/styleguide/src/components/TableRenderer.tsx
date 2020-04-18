@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import Styled from 'react-styleguidist/lib/rsg-components/Styled';
+import Styled from 'react-styleguidist/lib/client/rsg-components/Styled';
 import { sortBy } from 'lodash';
 
-import { ColorString } from 'z-frontend-theme';
-import { isBorderProp, isFlexItemProp, isIntlTextProp, isUtilProp, Badge, Flex } from 'zbase';
-import { Button } from 'z-frontend-elements';
+import { isBorderProp, isFlexItemProp, isIntlTextProp, isUtilProp, Flex } from 'zbase';
+import { Button, StatusTag, StatusTagProps } from 'z-frontend-elements';
 
 export const styles = ({ space, color, fontFamily, fontSize }) => ({
   table: {
@@ -46,7 +45,7 @@ export const styles = ({ space, color, fontFamily, fontSize }) => ({
   },
 });
 
-const ZBaseUtilBadge = props => <Badge fontStyle="controls.s" {...props} />;
+const ZBaseUtilBadge = props => <StatusTag fontStyle="controls.s" {...props} />;
 
 interface TableCellProps {
   classes: any;
@@ -65,7 +64,7 @@ class TableCell extends Component<TableCellProps> {
       <td className={classes.cell}>
         {render(row)}
         {caption.toLowerCase() === 'prop name' && row.category && (
-          <ZBaseUtilBadge bg={row.category.bg}>{row.category.label}</ZBaseUtilBadge>
+          <ZBaseUtilBadge mode={row.category.mode}>{row.category.label}</ZBaseUtilBadge>
         )}
       </td>
     );
@@ -75,19 +74,20 @@ class TableCell extends Component<TableCellProps> {
 interface PropCategory {
   label: string;
   check: Function;
-  bg: ColorString;
+  mode: StatusTagProps['mode'];
 }
 
 const propCategories: PropCategory[] = [
-  { label: 'intl-text', check: isIntlTextProp, bg: 'avatar.a' },
-  { label: 'border', check: isBorderProp, bg: 'avatar.c' },
-  { label: 'flex-item', check: isFlexItemProp, bg: 'avatar.e' },
-  { label: 'util', check: isUtilProp, bg: 'avatar.g' },
+  // using negation only to maximize contrast
+  { label: 'intl-text', check: isIntlTextProp, mode: 'negation' },
+  { label: 'border', check: isBorderProp, mode: 'negation' },
+  { label: 'flex-item', check: isFlexItemProp, mode: 'negation' },
+  { label: 'util', check: isUtilProp, mode: 'negation' },
 ];
 
 function categorizeProp(prop) {
   const category = propCategories.find(category => category.check(prop.name));
-  return category ? category : null;
+  return category || null;
 }
 
 function sortPropsTableRows(rows) {
@@ -96,9 +96,18 @@ function sortPropsTableRows(rows) {
     return row;
   });
 
-  const requiredPropNames = sortBy(mapped.filter(prop => prop.required), 'name');
-  const optionalPropNames = sortBy(mapped.filter(prop => !prop.required && !prop.category && prop.description), 'name');
-  const zbasePropNames = sortBy(mapped.filter(prop => !prop.required && prop.category), 'name');
+  const requiredPropNames = sortBy(
+    mapped.filter(prop => prop.required),
+    'name',
+  );
+  const optionalPropNames = sortBy(
+    mapped.filter(prop => !prop.required && !prop.category && prop.description),
+    'name',
+  );
+  const zbasePropNames = sortBy(
+    mapped.filter(prop => !prop.required && prop.category),
+    'name',
+  );
   const noDescriptionPropNames = sortBy(
     mapped.filter(prop => !prop.required && !prop.category && !prop.description),
     'name',
@@ -110,7 +119,7 @@ function sortPropsTableRows(rows) {
 }
 
 // override default in order to sort util props last etc
-// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/Table/TableRenderer.js
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/Table/TableRenderer.js
 
 interface Props {
   classes: any;
@@ -135,8 +144,8 @@ class TableRenderer extends Component<Props, State> {
     const { classes, columns, getRowKey } = this.props;
     return (
       <tr key={getRowKey(row)}>
-        {columns.map((column, index) => (
-          <TableCell key={index} column={column} row={row} classes={classes} />
+        {columns.map(column => (
+          <TableCell key={column.caption} column={column} row={row} classes={classes} />
         ))}
       </tr>
     );
@@ -190,8 +199,8 @@ class TableRenderer extends Component<Props, State> {
               ? this.getPropsTableProps(sortedRows)
               : rows.map(row => (
                   <tr key={getRowKey(row)}>
-                    {columns.map((column, index) => (
-                      <TableCell key={index} column={column} row={row} classes={classes} />
+                    {columns.map(column => (
+                      <TableCell key={column.caption} column={column} row={row} classes={classes} />
                     ))}
                   </tr>
                 ))}

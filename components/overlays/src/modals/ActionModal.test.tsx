@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 import { Button } from 'z-frontend-elements';
 
 import ActionModal from './ActionModal';
 
 describe('ActionModal', () => {
   it('toggling isVisible prop should toggle modal content', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <ActionModal title="Foo" isVisible={false} onCancel={() => {}}>
         Bar
       </ActionModal>,
@@ -26,12 +26,15 @@ describe('ActionModal', () => {
     const onClick1 = jest.fn();
     const onClick2 = jest.fn();
 
-    const buttonList = [{ text: 'Button 1', onClick: onClick1 }, { text: 'Button 2', onClick: onClick2 }];
+    const buttonList = [
+      { text: 'Button 1', onClick: onClick1 },
+      { text: 'Button 2', onClick: onClick2 },
+    ];
 
     const expectedLabels = ['Cancel', 'Button 1', 'Button 2'];
     const expectedCallbacks = [cancel, cancel, onClick1, onClick2];
 
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <ActionModal title="Title" isVisible onCancel={cancel} buttons={buttonList}>
         Test Content
       </ActionModal>,

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 
 import { CircleButton } from '../../circle-button-array/CircleButtonArray';
 import CircleButtonSelect from '../circle-button-select/FormCircleButtonSelect';
@@ -33,8 +32,8 @@ class FormDaysOfWeekSelect extends Component<DaysOfWeekSelectProps> {
   render() {
     return (
       <CircleButtonSelect numOptions={7} {...this.props}>
-        {weekdayOptions.map((option, i) => (
-          <CircleButton key={i} aria-label={option.full}>
+        {weekdayOptions.map(option => (
+          <CircleButton key={option.full} aria-label={option.full}>
             {option.label}
           </CircleButton>
         ))}

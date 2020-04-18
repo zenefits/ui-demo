@@ -6,8 +6,8 @@ See [Typography](#!/Typography) for font specifics.
 
 The required `level` prop is used to properly model document structure:
 
-```jsx
-// loadExample('./exampleLevel')
+```jsx noeditor
+<StorybookExample selectedKind="zbase|Heading" selectedStory="levels" />
 ```
 
 Headings are styled by default based on their level. As always, you can also use common utility props like `fontStyle` (to control appearance) and `textKey` (to control text in an i18n friendly way):

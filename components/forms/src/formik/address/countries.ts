@@ -201,3 +201,18 @@ export const ALL_COUNTRIES: CountryList = [
   { label: 'Zambia', value: 'ZM' },
   { label: 'Zimbabwe', value: 'ZW' },
 ];
+
+export const ZENEFITS_SUPPORTED_COUNTRIES = [
+  { label: 'Australia', value: 'AU' },
+  { label: 'Brazil', value: 'BR' },
+  { label: 'Canada', value: 'CA' },
+  { label: 'France', value: 'FR' },
+  { label: 'Germany', value: 'DE' },
+  { label: 'Hong Kong', value: 'HK' },
+  { label: 'India', value: 'IN' },
+  { label: 'Ireland', value: 'IE' },
+  { label: 'Netherlands', value: 'NL' },
+  { label: 'Singapore', value: 'SG' },
+  { label: 'United Kingdom', value: 'GB' },
+  { label: 'United States', value: 'US' },
+];

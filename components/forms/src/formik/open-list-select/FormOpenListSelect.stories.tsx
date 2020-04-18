@@ -5,7 +5,7 @@ import { Button } from 'z-frontend-elements';
 import { skipVisualTest } from 'z-frontend-app-bootstrap';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormOpenListSelect } from '../../..';
 
 storiesOf('forms|Form.OpenListSelect', module)
   .addDecorator((getStory: Function) => (
@@ -24,9 +24,9 @@ const fruitOptions = fruits.map(fruit => ({ label: fruit, value: fruit }));
 
 const DefaultExample = () => (
   <Form onSubmit={() => {}} initialValues={{ fruit: '' }}>
-    <Form.OpenListSelect<{ label: string; value: string }> name="fruit" label="Fruit" getOptionText={o => o.label}>
-      {({ SelectOption }) => fruitOptions.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
-    </Form.OpenListSelect>
+    <FormOpenListSelect<{ label: string; value: string }> name="fruit" label="Fruit" getOptionText={o => o.label}>
+      {({ SelectOption }) => fruitOptions.map(fruit => <SelectOption option={fruit} key={fruit.value} />)}
+    </FormOpenListSelect>
   </Form>
 );
 
@@ -55,17 +55,17 @@ const groups = [
 
 const GroupsExample = () => (
   <Form onSubmit={() => {}} initialValues={{ value: 30, label: 'Steph' }}>
-    <Form.OpenListSelect<{ value: string; label: string }> name="player" label="Player" getOptionText={o => o.label}>
+    <FormOpenListSelect<{ value: string; label: string }> name="player" label="Player" getOptionText={o => o.label}>
       {({ SelectGroup, SelectOption }) =>
-        groups.map((group, i) => (
-          <SelectGroup label={group.groupName} key={i}>
-            {group.options.map((option, j) => (
-              <SelectOption option={option} key={j} />
+        groups.map(group => (
+          <SelectGroup label={group.groupName} key={group.groupName}>
+            {group.options.map(option => (
+              <SelectOption option={option} key={option.value} />
             ))}
           </SelectGroup>
         ))
       }
-    </Form.OpenListSelect>
+    </FormOpenListSelect>
   </Form>
 );
 
@@ -73,19 +73,19 @@ const GroupsExample = () => (
 const SizesExample = () => (
   <>
     <Form onSubmit={() => {}} initialValues={{ fruit: 'Grapefruit' }}>
-      <Form.OpenListSelect<string> name="fruit" label="Fruit (large)" s="large" getOptionText={o => o}>
-        {({ SelectOption }) => fruits.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
-      </Form.OpenListSelect>
+      <FormOpenListSelect<string> name="fruit" label="Fruit (large)" s="large" getOptionText={o => o}>
+        {({ SelectOption }) => fruits.map(fruit => <SelectOption option={fruit} key={fruit} />)}
+      </FormOpenListSelect>
     </Form>
     <Form onSubmit={() => {}} initialValues={{ fruit: 'Grapefruit' }}>
-      <Form.OpenListSelect<string> name="fruit" label="Fruit (medium)" s="medium" getOptionText={o => o}>
-        {({ SelectOption }) => fruits.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
-      </Form.OpenListSelect>
+      <FormOpenListSelect<string> name="fruit" label="Fruit (medium)" s="medium" getOptionText={o => o}>
+        {({ SelectOption }) => fruits.map(fruit => <SelectOption option={fruit} key={fruit} />)}
+      </FormOpenListSelect>
     </Form>
     <Form onSubmit={() => {}} initialValues={{ fruit: 'Grapefruit' }}>
-      <Form.OpenListSelect<string> name="fruit" label="Fruit (small)" s="small" getOptionText={o => o}>
-        {({ SelectOption }) => fruits.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
-      </Form.OpenListSelect>
+      <FormOpenListSelect<string> name="fruit" label="Fruit (small)" s="small" getOptionText={o => o}>
+        {({ SelectOption }) => fruits.map(fruit => <SelectOption option={fruit} key={fruit} />)}
+      </FormOpenListSelect>
     </Form>
   </>
 );
@@ -94,9 +94,9 @@ const ExternalResetExample = () => (
   <Form onSubmit={() => {}} initialValues={{ fruit: '' }}>
     {({ setFieldValue }) => (
       <>
-        <Form.OpenListSelect<{ label: string; value: string }> name="fruit" label="Fruit" getOptionText={o => o.label}>
-          {({ SelectOption }) => fruitOptions.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
-        </Form.OpenListSelect>
+        <FormOpenListSelect<{ label: string; value: string }> name="fruit" label="Fruit" getOptionText={o => o.label}>
+          {({ SelectOption }) => fruitOptions.map(fruit => <SelectOption option={fruit} key={fruit.value} />)}
+        </FormOpenListSelect>
         <Button
           s="small"
           onClick={() => {

@@ -24,6 +24,7 @@ type ProgressUtilProps = {
 
 const progressFirefoxStyles = css`
   background-color: ${(props: ProgressUtilProps) => getColor(props.bg)};
+  min-width: 0;
 
   ::-moz-progress-bar {
     background-color: ${props => getColor(props.color)};
@@ -53,6 +54,7 @@ const progressStyle = css`
   ${progressChromeStyles};
 `;
 
+/** @component */
 export default withUtilProps<ProgressProps, AdditionalProgressProps>({
   displayName: 'ProgressBar',
   defaultUtilProps: {

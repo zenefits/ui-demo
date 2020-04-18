@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../../Form';
+import { Form, FormAddressIntl } from '../../../..';
 
 export default () => (
   <Form
@@ -9,13 +9,13 @@ export default () => (
       console.log(values);
     }}
     initialValues={{
-      address: Form.AddressIntl.getEmptyValue({ country: 'US' }),
+      address: FormAddressIntl.getEmptyValue({ country: 'US' }),
     }}
-    validationSchema={Form.AddressIntl.getValidationSchema('address')}
+    validationSchema={FormAddressIntl.getValidationSchema('address')}
   >
     {props => (
       <>
-        <Form.AddressIntl name="address" />
+        <FormAddressIntl name="address" />
         <Form.Footer
           primaryText="Save"
           primaryProps={{

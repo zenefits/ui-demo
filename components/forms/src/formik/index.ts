@@ -4,15 +4,14 @@ export { default as FormCheckboxGroupDeprecated } from './checkbox/FormCheckboxG
 export { default as FormCheckboxGroup } from './checkbox/FormCheckboxGroup';
 export { default as FormDateInput } from './date-input/FormDateInput';
 export { default as FormError } from './error/FormError';
-export { default as FormGroupSelect } from './group-select/FormGroupSelect';
 export { default as FormMentionTextarea } from './mention-text-area/FormMentionTextarea';
 export { default as FormRadioGroup } from './radio/FormRadioGroup';
 export { default as FormSelectDeprecated } from './select/FormSelectDeprecated';
 export { default as FormSelect } from './select/FormSelect';
 export { default as FormSimpleSelect } from './select/FormSimpleSelect';
-export { default as FormMultiSelect } from './select/FormMultiSelect';
+export { default as FormMultiSelect, FormMultiSelectProps } from './select/FormMultiSelect';
 export { default as FormTextarea } from './text-area/FormTextarea';
-export { default as FormTextInput } from './text-input/FormTextInput';
+export { default as FormTextInput, FormTextInputProps } from './text-input/FormTextInput';
 export { default as FormTimeInput } from './time-input/FormTimeInput';
 export { default as FormTimeRange } from './time-range/FormTimeRange';
 export { default as FormDateRange } from './date-range/FormDateRange';
@@ -28,9 +27,20 @@ export { default as FormSearchSelect } from './search-select/FormSearchSelect';
 export { default as FormSignature } from './signature/FormSignature';
 export { default as FormAddressUS } from './address/FormAddressUS';
 export { default as FormAddressIntl } from './address/intl/FormAddressIntl';
+export { default as FormAddressCountry } from './address/intl/FormAddressCountry';
 export { default as FormSection } from './section/FormSection';
 export { default as FormCircleButtonSelect } from './circle-button-select/FormCircleButtonSelect';
+export { CircleButton as FormCircleButton } from '../circle-button-array/CircleButtonArray';
 export { default as FormDaysOfWeekSelect } from './days-of-week-select/FormDaysOfWeekSelect';
 export { default as FormFileUploader } from './file-uploader/FormFileUploader';
 export { default as FormFooter } from './footer/FormFooter';
 export { default as FormTextareaTypeahead } from './textarea-typeahead/FormTextareaTypeahead';
+export { default as FormRowGroup, FormRowGroupProps } from './row-group/FormRowGroup';
+export { default as FormPhoneInput } from './phone-input/FormPhoneInput';
+export { default as PreventTransition } from './preventTransition/PreventTransition';
+export { default as FormFieldWrapper, FormFieldProps } from './FormFieldWrapper';
+export { getAriaInputProps } from './formAccessibility';
+
+/** @styleguide-autodiscovery-ignore-start */
+export { default as FormRadio } from './radio/FormRadio';
+/** @styleguide-autodiscovery-ignore-end */

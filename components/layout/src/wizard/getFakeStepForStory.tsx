@@ -3,8 +3,9 @@ import gql from 'graphql-tag';
 
 import { Box, Heading } from 'zbase';
 import { Button, Link } from 'z-frontend-elements';
+import { Mutation, Query } from 'z-frontend-network';
 
-import { Mutation, Query, WizardStepComponentProps } from '../../index';
+import { WizardStepComponentProps } from '../../index';
 import { isWizardStepMatchingServerStep } from './utils/namePathUtils';
 
 type GetFakeStepComponentParam = {

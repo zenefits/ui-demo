@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Box } from 'zbase';
+import { Box, BoxProps } from 'zbase';
 
 import { PageLayoutContext } from './PageLayoutContext';
 import { columnSpacing, handleUnsupportedLayout } from './pageLayoutHelpers';
@@ -11,7 +11,9 @@ const widthsMap: { [key: string]: number | number[] } = {
   '8-4': [1, null, 8 / 12],
 };
 
-class PageLayoutMain extends Component {
+type PageLayoutMainProps = BoxProps;
+
+class PageLayoutMain extends Component<PageLayoutMainProps> {
   static contextType = PageLayoutContext;
 
   render() {
@@ -21,11 +23,7 @@ class PageLayoutMain extends Component {
       handleUnsupportedLayout(columns, Object.keys(widthsMap));
     }
 
-    return (
-      <Box px={[0, 0, columnSpacing]} w={width}>
-        {this.props.children}
-      </Box>
-    );
+    return <Box data-testid="PageLayoutMain" px={[0, 0, columnSpacing]} w={width} {...this.props} />;
   }
 }
 

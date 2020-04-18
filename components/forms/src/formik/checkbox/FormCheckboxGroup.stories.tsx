@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Box } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormCheckboxGroup } from '../../..';
 import FormSubmitter from '../FormSubmitter';
 
 const options = [
@@ -34,14 +34,14 @@ class DefaultExample extends Component {
           alerts: false,
         }}
       >
-        <Form.CheckboxGroup>
+        <FormCheckboxGroup>
           {({ Checkbox }) => (
             <>
               <Checkbox name="offers" label="New product offers" />
               <Checkbox name="alerts" label="Service alerts" />
             </>
           )}
-        </Form.CheckboxGroup>
+        </FormCheckboxGroup>
       </Form>
     );
   }
@@ -60,15 +60,15 @@ class LabelExample extends Component {
           friday: false,
         }}
       >
-        <Form.CheckboxGroup name="subscribe" label="Subscribe">
+        <FormCheckboxGroup name="subscribe" label="Subscribe">
           {({ Checkbox }) => (
             <>
               <Checkbox name="offers" label="New product offers" />
               <Checkbox name="alerts" label="Service alerts" />
             </>
           )}
-        </Form.CheckboxGroup>
-        <Form.CheckboxGroup name="deliveryDate" label="This is a very very very long Delivery Date label" optional>
+        </FormCheckboxGroup>
+        <FormCheckboxGroup name="deliveryDate" label="This is a very very very long Delivery Date label" optional>
           {({ Checkbox }) => (
             <>
               <Checkbox name="monday" label="Monday" />
@@ -76,7 +76,7 @@ class LabelExample extends Component {
               <Checkbox name="friday" label="Friday" />
             </>
           )}
-        </Form.CheckboxGroup>
+        </FormCheckboxGroup>
       </Form>
     );
   }
@@ -92,14 +92,14 @@ class DisabledExample extends Component {
           alerts: false,
         }}
       >
-        <Form.CheckboxGroup name="subscribe" label="Subscribe">
+        <FormCheckboxGroup name="subscribe" label="Subscribe">
           {({ Checkbox }) => (
             <>
               <Checkbox name="offers" label="New product offers" />
               <Checkbox disabled name="alerts" label="Service alerts" />
             </>
           )}
-        </Form.CheckboxGroup>
+        </FormCheckboxGroup>
       </Form>
     );
   }
@@ -109,11 +109,11 @@ class ArrayExample extends Component {
   render() {
     return (
       <Form onSubmit={() => {}} initialValues={{ proteins: [] }} validationSchema={{}}>
-        <Form.CheckboxGroup name="proteins" label="Proteins">
+        <FormCheckboxGroup name="proteins" label="Proteins">
           {({ Checkbox }) =>
             options.map(option => <Checkbox key={option.value} name={option.value} label={option.label} />)
           }
-        </Form.CheckboxGroup>
+        </FormCheckboxGroup>
       </Form>
     );
   }
@@ -131,11 +131,11 @@ class ArrayValidationExample extends Component {
       >
         {props => (
           <>
-            <Form.CheckboxGroup name="proteins" label="Proteins">
+            <FormCheckboxGroup name="proteins" label="Proteins">
               {({ Checkbox }) =>
                 options.map(option => <Checkbox key={option.value} name={option.value} label={option.label} />)
               }
-            </Form.CheckboxGroup>
+            </FormCheckboxGroup>
             {/* submit on load for visual testing only */}
             <FormSubmitter submitForm={props.submitForm} />
           </>

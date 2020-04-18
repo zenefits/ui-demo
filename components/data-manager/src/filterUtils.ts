@@ -1,7 +1,22 @@
+import { ReactText } from 'react';
 import { cloneDeep, concat, every, filter, includes, without } from 'lodash';
 
+export type CustomFilter = {
+  /**
+   * key is needed for removing a custom filter from an array
+   */
+  key: string;
+  /**
+   * A filter function to check if a value pass or not
+   */
+  function: (value: any) => boolean;
+};
+
+type MatchAnyValue = string[] | number[];
+
 interface FilterConfigPerKey {
-  matchAny?: string[];
+  matchAny?: MatchAnyValue;
+  customMatchAny?: CustomFilter[];
   stringContains?: string;
   lessThan?: any;
   greaterThan?: any;
@@ -30,9 +45,19 @@ const _passesFilter = (filter: FilterConfigPerKey, value: any): boolean => {
     return false;
   }
 
-  const substring = filter['stringContains'];
-  if (substring && value && !value.toLocaleLowerCase().includes(substring.toLocaleLowerCase())) {
+  const customMatchAny = filter['customMatchAny'] || [];
+  if (customMatchAny.length && !doesCustomMatchAny(customMatchAny, value)) {
     return false;
+  }
+
+  const substring = filter['stringContains'];
+  if (substring) {
+    if (!value) {
+      return false; // never match a falsey value
+    }
+    if (!value.toLocaleLowerCase().includes(substring.toLocaleLowerCase())) {
+      return false;
+    }
   }
 
   const ltValue = filter['lessThan'];
@@ -50,9 +75,9 @@ const _passesFilter = (filter: FilterConfigPerKey, value: any): boolean => {
 
 export const updateFilters = (
   filterConfig: FilterConfig,
-  type: 'matchAny' | 'stringContains',
+  type: 'matchAny' | 'customMatchAny' | 'stringContains',
   key: string,
-  value: string,
+  value: ReactText | CustomFilter,
   addFilter: boolean,
 ): FilterConfig => {
   const filters = cloneDeep(filterConfig);
@@ -63,28 +88,51 @@ export const updateFilters = (
   if (type === 'matchAny') {
     const matchAny = filters[key]['matchAny'] || [];
     if (addFilter && !includes(matchAny, value)) {
-      filters[key]['matchAny'] = concat(matchAny, value);
+      filters[key]['matchAny'] = concat(matchAny, value) as MatchAnyValue;
     }
 
     if (!addFilter && includes(matchAny, value)) {
-      filters[key]['matchAny'] = without(matchAny, value);
+      filters[key]['matchAny'] = without(matchAny, value) as MatchAnyValue;
+    }
+  }
+
+  if (type === 'customMatchAny') {
+    const customMatchAny = filters[key]['customMatchAny'] || [];
+    if (addFilter && !includesCustomFilter(customMatchAny, value as CustomFilter)) {
+      filters[key]['customMatchAny'] = concat(customMatchAny, value as CustomFilter);
+    }
+
+    if (!addFilter && includesCustomFilter(customMatchAny, value as CustomFilter)) {
+      filters[key]['customMatchAny'] = removeCustomFilter(customMatchAny, value as CustomFilter);
     }
   }
 
   if (type === 'stringContains') {
-    filters[key]['stringContains'] = value;
+    filters[key]['stringContains'] = value as string;
   }
 
   return filters;
 };
 
-export const updateMatchAnyFilters = (filterConfig: FilterConfig, key: string, values: string[]) => {
+/**
+ * This can update both matchAny and customMatchAny filters
+ */
+export const updateMatchAnyFilters = (
+  filterConfig: FilterConfig,
+  key: string,
+  values: string[] | number[] | CustomFilter[],
+  filterType: 'matchAny' | 'customMatchAny' = 'matchAny',
+) => {
   const filters = cloneDeep(filterConfig);
   if (!(key in filters)) {
     filters[key] = {};
   }
 
-  filters[key]['matchAny'] = values;
+  if (filterType === 'matchAny') {
+    filters[key][filterType] = values as string[];
+  } else {
+    filters[key][filterType] = values as CustomFilter[];
+  }
 
   return filters;
 };
@@ -100,3 +148,15 @@ export const updateRangeFilters = (filterConfig: FilterConfig, key: string, ltVa
 
   return filters;
 };
+
+function includesCustomFilter(array: CustomFilter[], value: CustomFilter): boolean {
+  return array.some(item => item.key === value.key);
+}
+
+function removeCustomFilter(array: CustomFilter[], value: CustomFilter): CustomFilter[] {
+  return filter(array, item => (item as CustomFilter).key !== value.key);
+}
+
+function doesCustomMatchAny(customMatchAny: CustomFilter[], value: any): boolean {
+  return customMatchAny.some(item => item.function && item.function(value));
+}

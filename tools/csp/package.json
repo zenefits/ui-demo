@@ -11,16 +11,16 @@
   },
   "private": true,
   "engines": {
-    "yarn": "^1.3.2",
+    "yarn": "^1.17.3",
     "node": "^10.14.1"
   },
   "dependencies": {
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "babel-jest": "^23.6.0",
+    "babel-jest": "^25.2.4",
     "eslint-config-z-frontend": "*",
-    "jest": "^23.6.0",
+    "jest": "^25.2.4",
     "z-frontend-jest": "*"
   }
 }

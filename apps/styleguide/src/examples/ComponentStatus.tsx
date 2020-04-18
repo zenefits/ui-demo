@@ -4,6 +4,7 @@ import { Box, Flex, Icon, NumberText, TextBlock } from 'zbase';
 import { EmptyState, Link, ProgressBar } from 'z-frontend-elements';
 import { Table } from 'z-frontend-tables';
 
+// eslint-disable-next-line import/no-unresolved
 const componentStatus = require('../../docs/componentStatusObject.json');
 
 let docsCompletedCount = 0;
@@ -61,6 +62,9 @@ class ComponentStatusTable extends Component {
           completed={testsCompletedCount}
           total={componentStatusKeysLength}
         />
+        <TextBlock ml={4} mb={4} fontStyle="controls.l">
+          Total components: {componentStatusKeysLength}
+        </TextBlock>
         <Table columnWidths={[2 / 4, 1 / 4, 1 / 4]}>
           <Table.Header>
             <Box>Component</Box>

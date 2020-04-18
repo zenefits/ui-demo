@@ -105,7 +105,7 @@ const StyledInput = styled.input`
   }
 `;
 
-export type CustomTileInputProps = LabelProps &
+export type CustomTileInputProps = Omit<LabelProps, 'onChange'> &
   InputHTMLAttributes<HTMLInputElement> & {
     /**
      * Does the input act as a checkbox (multiple can be selected)? If false, defaults to acting as a radio button.

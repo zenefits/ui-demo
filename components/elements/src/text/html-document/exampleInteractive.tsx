@@ -16,7 +16,7 @@ class InteractiveExample extends React.Component<{}, { html: string; loading: bo
         <textarea
           value={this.state.html}
           onChange={event => {
-            const value = event.target.value;
+            const { value } = event.target;
             this.setState({ loading: true, html: value });
             setTimeout(() => {
               this.setState({

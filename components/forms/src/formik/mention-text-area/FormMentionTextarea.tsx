@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
+import Field from '../Field';
 import MentionTextarea, { MentionTextareaProps } from '../../mention/MentionTextarea';
-import FormFieldWrapper, { getErrorId, getLabelId, FormFieldProps } from '../FormFieldWrapper';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
+import { getAriaInputProps } from '../formAccessibility';
 
 type FormMentionTextareaProps = MentionTextareaProps & FormFieldProps;
 
 class FormMentionTextarea extends Component<FormMentionTextareaProps> {
   render() {
-    const { name, label, containerProps, optional, ...rest } = this.props;
+    const {
+      name,
+      label,
+      containerProps,
+      optional,
+      limitRerender,
+      dependencies,
+      'aria-label': ariaLabel,
+      ...rest
+    } = this.props;
     return (
       <Field
         name={name}
-        render={({ field, form }: FieldProps) => {
+        limitRerender={limitRerender}
+        // This is a hacky solution to force rerender for use cases when options change asynchronously
+        // (eg. when loading finishes) without noticeably impacting performance when there are many options
+        limitRerenderWatched={this.props.options.slice(0, 10)}
+        dependencies={dependencies}
+      >
+        {({ field, form }: FieldProps) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           // deliberately using `defaultValue`, not `value`
           // use dynamic key to "reset" uncontrolled component (underlying RichEditor relies heavily on DOM)
@@ -37,14 +54,13 @@ class FormMentionTextarea extends Component<FormMentionTextareaProps> {
                 onBlur={() => form.setFieldTouched(name, true)} // treat as custom because synthetic DOM event `e` not exposed
                 {...rest}
                 hasError={Boolean(error)}
-                aria-labelledby={getLabelId(name)}
-                aria-describedby={error ? getErrorId(name) : null}
+                {...getAriaInputProps(name, error, ariaLabel)}
                 mb={0}
               />
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

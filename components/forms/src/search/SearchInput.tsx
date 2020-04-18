@@ -19,10 +19,10 @@ type SearchInputOwnProps = {
   disabled: boolean;
   expand: () => void;
   omitIcon?: boolean;
-  innerRef?: React.RefObject<any>;
+  elementRef?: React.RefObject<HTMLButtonElement | HTMLInputElement>;
 };
 
-// export type Props = ObjectOmit<SearchPresentationProps, keyof SearchInputOwnProps> & SearchInputOwnProps;
+// export type Props = Omit<SearchPresentationProps, keyof SearchInputOwnProps> & SearchInputOwnProps;
 type SearchInputProps = SearchInputOwnProps & InputProps;
 
 type SearchInputState = { hasExpanded: boolean | null };
@@ -59,11 +59,18 @@ class SearchInput extends Component<SearchInputProps, SearchInputState> {
   }
 
   render() {
-    const { s: size, disabled, isExpanded } = this.props;
+    const { s: size, disabled, isExpanded, elementRef } = this.props;
     return isExpanded ? (
       this.getInput()
     ) : (
-      <Button onClick={this.props.expand as any} mode="transparent" disabled={disabled} s={size}>
+      <Button
+        onClick={this.props.expand as any}
+        mode="transparent"
+        disabled={disabled}
+        s={size}
+        aria-label="Edit search field"
+        elementRef={elementRef}
+      >
         <Icon iconName="search" mr={2} />
         {this.props.buttonText}
       </Button>

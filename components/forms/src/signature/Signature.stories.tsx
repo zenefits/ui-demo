@@ -17,6 +17,7 @@ class SignaturePropChange extends Component<{}, SignatureEditState> {
     disabled: false,
     signature: null,
   };
+
   render() {
     const { disabled, signature } = this.state;
     return (

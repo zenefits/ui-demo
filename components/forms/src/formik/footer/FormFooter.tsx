@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { connect, FormikContext } from 'formik';
+import { connect, FormikContextType } from 'formik';
 import { get } from 'lodash';
 
-import { Flex, FlexProps } from 'zbase';
-import { Button } from 'z-frontend-elements';
+import { Box, Flex, FlexProps } from 'zbase';
+import { Button, LinkButton } from 'z-frontend-elements';
+
+import FormError from '../error/FormError';
 
 type FormFooterProps = {
   /** Primary button label. */
@@ -14,6 +16,7 @@ type FormFooterProps = {
   primaryDisabled?: boolean;
   /** Arbitrary props to pass through to primary button. Useful for attributes like `data-testid`. */
   primaryProps?: Object;
+
   /**
    * Is cancel button shown?
    * @default true
@@ -28,11 +31,23 @@ type FormFooterProps = {
   cancelOnClick?: any;
   /** Arbitrary props to pass through to cancel button. Useful for attributes like `data-testid`. */
   cancelProps?: Object;
+
+  /**
+   * Is tertiary button shown?
+   * @default false
+   */
+  tertiaryShown?: boolean;
+  /** Tertiary button label. */
+  tertiaryText?: string;
+  /** Action to take on tertiary button click. */
+  tertiaryOnClick?: any;
+  /** Arbitrary props to pass through to tertiary button. Useful for attributes like `data-testid`. */
+  tertiaryProps?: Object;
 } & FlexProps;
 
-type FormFooterAllProps = FormFooterProps & { formik: FormikContext<any> };
+type FormFooterAllProps = FormFooterProps & { formik: FormikContextType<any> };
 
-class FormFooter extends Component<FormFooterAllProps> {
+export class FormFooter extends Component<FormFooterAllProps> {
   static defaultProps = {
     cancelShown: true,
     cancelText: 'Cancel',
@@ -46,10 +61,16 @@ class FormFooter extends Component<FormFooterAllProps> {
       'primaryOnClick',
       'primaryDisabled',
       'primaryProps',
+
       'cancelShown',
       'cancelText',
       'cancelOnClick',
       'cancelProps',
+
+      'tertiaryShown',
+      'tertiaryText',
+      'tertiaryOnClick',
+      'tertiaryProps',
     ];
     const shouldUpdate = relevantPropChanges.some(prop => {
       return get(this.props, prop) !== get(nextProps, prop);
@@ -63,13 +84,34 @@ class FormFooter extends Component<FormFooterAllProps> {
       primaryOnClick,
       primaryDisabled,
       primaryProps,
+
       cancelShown,
       cancelText,
       cancelOnClick,
       cancelProps,
-      formik,
+
+      tertiaryShown,
+      tertiaryText,
+      tertiaryOnClick,
+      tertiaryProps,
+
+      // Default to empty object to support cases like DataLayout where the footer is not wrapped in a form.
+      formik = {} as FormikContextType<any>,
       ...flexProps
     } = this.props;
+
+    const tertiaryButton = tertiaryShown ? (
+      <LinkButton
+        s="medium"
+        disabled={formik.isSubmitting}
+        onClick={tertiaryOnClick}
+        mt={[3, 0]}
+        mr={[0, 3]}
+        {...tertiaryProps}
+      >
+        {tertiaryText}
+      </LinkButton>
+    ) : null;
 
     const cancelButton = cancelShown ? (
       <Button
@@ -84,6 +126,7 @@ class FormFooter extends Component<FormFooterAllProps> {
         {cancelText}
       </Button>
     ) : null;
+
     const submitMobileWidth = cancelShown ? 1 / 2 : 1;
     const submitProps = {
       ...(primaryDisabled && { disabled: primaryDisabled }),
@@ -102,12 +145,19 @@ class FormFooter extends Component<FormFooterAllProps> {
         {primaryText}
       </Button>
     );
-
     return (
-      <Flex justify="flex-end" align="center" {...flexProps}>
-        {cancelButton}
-        {submitButton}
-      </Flex>
+      <>
+        {Object.keys(formik).length > 0 && formik.errors['onSubmitError'] && (
+          <FormError mb={2} textDefault={formik.errors['onSubmitError'] as string} />
+        )}
+        <Flex justify={[null, 'space-between']} direction={['column', 'row']} align="center" {...flexProps}>
+          <Box order={[2, 'initial']}>{tertiaryButton}</Box>
+          <Flex w={[1, 'auto']}>
+            {cancelButton}
+            {submitButton}
+          </Flex>
+        </Flex>
+      </>
     );
   }
 }

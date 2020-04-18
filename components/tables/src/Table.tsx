@@ -11,7 +11,6 @@ import { EmptyState } from 'z-frontend-elements';
 import TableAvatarCell from './avatar-cell/TableAvatarCell';
 import TableBulkSelectDropdown from './bulk-select-dropdown/TableBulkSelectDropdown';
 import TableSortableHeaderCell from './sortable-header-cell/TableSortableHeaderCell';
-import TableCheckboxCell from './checkbox-cell/TableCheckboxCell';
 import TableHeaderCell from './header-cell/TableHeaderCell';
 
 // NOTE-DZH: this component ultimately renders <header>, <footer> etc which do not relate to any section content
@@ -33,7 +32,9 @@ class TableBody extends Component<BoxProps> {
     verticalSpacing: PropTypes.number,
     rowAlignment: PropTypes.string,
   };
+
   context: TableContext;
+
   BASE_COMPONENT: React.ComponentClass;
 
   render() {
@@ -70,7 +71,7 @@ class TableHeader extends TableBody {
   BASE_COMPONENT = Header;
 }
 
-const StyledRow = styled(Box)`
+const StyledRow = styled(Box)<BoxProps>`
   padding: ${props => (props.py ? space(+props.py) : space(4))} ${space(4)};
 
   &:last-of-type {
@@ -83,11 +84,11 @@ StyledRow.defaultProps = {
 };
 
 class TableRow extends TableBody {
-  BASE_COMPONENT = StyledRow;
+  BASE_COMPONENT = StyledRow as any; // TODO: styled-components with defaultProps throw off types
 }
 
 class TableFooter extends TableBody {
-  BASE_COMPONENT = Card.Footer;
+  BASE_COMPONENT = Card.Footer as any;
 }
 
 type TableProps = BoxProps & {
@@ -112,18 +113,24 @@ class Table extends Component<TableProps> {
     verticalSpacing: PropTypes.number,
     rowAlignment: PropTypes.string,
   };
+
   static defaultProps = {
     rowAlignment: 'center' as FlexAlign,
   };
+
   static Header = TableHeader;
+
   static Row = TableRow;
+
   static Footer = TableFooter;
 
   // Cell level components
   static SortableHeaderCell = TableSortableHeaderCell;
+
   static BulkSelectDropdown = TableBulkSelectDropdown;
+
   static AvatarCell = TableAvatarCell;
-  static CheckboxCell = TableCheckboxCell;
+
   static HeaderCell = TableHeaderCell;
 
   getChildContext(): TableContext {

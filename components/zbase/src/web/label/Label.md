@@ -3,11 +3,9 @@ Wraps HTML's [`<label>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Eleme
 
 #### Examples
 
-```jsx
-// loadExample('./exampleDefault')
+```jsx noeditor
+<StorybookExample selectedKind="zbase|Label" selectedStory="default" />
 ```
-
-See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=zbase|Label).
 
 #### Usage
 

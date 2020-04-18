@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 
 import { theme } from 'z-frontend-theme';
+import { Tethered, TetherComponentProps } from 'z-frontend-overlays';
 
 import { downshiftReducerCreators } from './downshiftReducers';
 import MultiDownshift from './MultiDownshift';
-
 import {
   createSelectOptionInterface,
   defaultRenderLoading,
@@ -17,7 +16,6 @@ import {
   SelectOptionInterfaceProps,
   SelectOptionSize,
 } from './SelectOptions';
-
 import {
   createMatchEmphasisHelper,
   createMultiOptionFilter,
@@ -27,18 +25,15 @@ import {
 } from './utils';
 import MultiSelectControl from './MultiSelectControl';
 import SelectionWidget from './SelectionWidget';
-import Tethered from '../tethered/Tethered';
 
-type FunctionAsChild<OptionValue> = (
-  params: {
-    SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
-    SelectGroup?: React.ComponentClass<{ label: string }>;
-    NewOption?: React.ComponentClass<{ optionTypeName?: string }>;
-    inputValue: string;
-    multiOptionFilter: (options: OptionValue[]) => OptionValue[];
-    withMatchEmphasis: (text: string) => JSX.Element;
-  },
-) => React.ReactNode;
+type FunctionAsChild<OptionValue> = (params: {
+  SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
+  SelectGroup?: React.ComponentClass<{ label: string }>;
+  NewOption?: React.ComponentClass<{ optionTypeName?: string }>;
+  inputValue: string;
+  multiOptionFilter: (options: OptionValue[]) => OptionValue[];
+  withMatchEmphasis: (text: string) => JSX.Element;
+}) => React.ReactNode;
 
 export type SharedMultiSelectProps<OptionValue> = {
   /**
@@ -51,6 +46,8 @@ export type SharedMultiSelectProps<OptionValue> = {
    * Label used to create aria properties from screen-readers
    * */
   label: string;
+
+  value?: OptionValue[];
 
   /**
    * Should this field be disabled?
@@ -127,24 +124,34 @@ export type SharedMultiSelectProps<OptionValue> = {
    * */
   onInputValueChange?: (inputValue: string) => void;
 
+  /**
+   * Options to customize how dropdown is tethered to input
+   * */
+  tetherProps?: Partial<TetherComponentProps>;
+
   children: FunctionAsChild<OptionValue>;
+
+  /** Custom select label for assistive technologies. */
+  'aria-label'?: string;
 };
 
 type MultiSelectComponentProps<OptionValue> = {
   error?: string;
-  value?: OptionValue[];
   controlAriaDescribedBy?: string;
   // Only use for visual regression test
   openOnFocus?: boolean;
 };
 
-type MultiSelectProps<OptionValue> = SharedMultiSelectProps<OptionValue> & MultiSelectComponentProps<OptionValue>;
+export type MultiSelectProps<OptionValue> = SharedMultiSelectProps<OptionValue> &
+  MultiSelectComponentProps<OptionValue>;
 
 const DEFAULT_MAX_HEIGHT = 240;
 
 export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionValue>> {
   element: HTMLDivElement;
+
   input: React.RefObject<HTMLInputElement>;
+
   tetherTarget: React.RefObject<HTMLDivElement>;
 
   constructor(props: MultiSelectProps<OptionValue>) {
@@ -157,8 +164,9 @@ export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionV
     s: 'medium',
     maxDropdownHeight: DEFAULT_MAX_HEIGHT,
     renderLoading: defaultRenderLoading,
-    autocompleteInputPlaceholder: 'Search...',
-    placeholder: 'Select an Option...',
+    autocompleteInputPlaceholder: 'Search',
+    placeholder: 'Select Option',
+    tetherProps: {},
   };
 
   downshiftStateReducer = downshiftReducerCreators.handleNewOption(this);
@@ -178,11 +186,13 @@ export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionV
       placeholder,
       autocompleteInputPlaceholder,
       getOptionText,
-      controlAriaDescribedBy,
       autoFocus,
       openOnFocus,
       disabled,
+      tetherProps,
+      controlAriaDescribedBy,
       s: size,
+      'aria-label': ariaLabel,
     } = this.props;
     const getOptionOrNullText = makeGuardedGetOptionText(getOptionText);
     return (
@@ -228,8 +238,8 @@ export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionV
             size,
             highlightedIndex,
             selectedItems,
-            getOptionText,
             withMatchEmphasis,
+            getOptionText: getOptionOrNullText,
             cb: () => {
               numRenderedOptions += 1;
             },
@@ -254,7 +264,7 @@ export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionV
           const toggleButtonProps = getToggleButtonProps();
           const inputProps = Object.assign(getInputProps(), {
             name,
-            'aria-label': `Autocomplete input for ${label}`,
+            'aria-label': ariaLabel || `Autocomplete input for ${label}`,
             'aria-busy': isLoading,
             placeholder: autocompleteInputPlaceholder,
             value: inputValue,
@@ -273,8 +283,6 @@ export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionV
           return (
             <div>
               <MultiSelectControl
-                aria-describedby={controlAriaDescribedBy}
-                aria-label={`Edit ${label}`}
                 hasError={!!error}
                 selections={selectedItems.map((selectedItem: OptionValue) => getOptionText(selectedItem))}
                 placeholder={placeholder}
@@ -289,6 +297,9 @@ export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionV
                 }}
                 innerRef={this.tetherTarget}
                 disabled={disabled}
+                fieldName={name}
+                fieldLabel={label}
+                ariaDescribedBy={controlAriaDescribedBy}
               />
               {isOpen && (
                 <Tethered
@@ -305,6 +316,7 @@ export class MultiSelect<OptionValue> extends Component<MultiSelectProps<OptionV
                       },
                     },
                   }}
+                  {...tetherProps}
                 >
                   <SelectionWidget
                     s="medium"

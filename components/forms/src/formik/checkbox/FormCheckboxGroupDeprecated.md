@@ -1,6 +1,6 @@
 A form component that presents a list of related options of which multiple can be selected.
 
-NOTE: this component is deprecated. Please use [Form.CheckboxGroup](#!/Form.CheckboxGroup) instead.
+NOTE: this component is deprecated. Please use [FormCheckboxGroup](#!/FormCheckboxGroup) instead.
 
 #### Examples
 
@@ -20,7 +20,7 @@ Note that each checkbox has its own `name` prop.
 
 #### Content Guidelines
 
-For all instances where each checkbox in a group is its own decision, simply follow the [Form.Checkbox](#!/Form.Checkbox) guidelines.
+For all instances where each checkbox in a group is its own decision, simply follow the [FormCheckbox](#!/FormCheckbox) guidelines.
 
 If your group of checkboxes are conditions on a single decision, simply present the information in its simplist form, presented in alphabetical order.
 
@@ -35,5 +35,5 @@ with styles and layout.
 
 #### Related
 
-- [Form.RadioGroup](#!/Form.RadioGroup)
-- [Form.Checkbox](#!/Form.Checkbox)
+- [FormRadioGroup](#!/FormRadioGroup)
+- [FormCheckbox](#!/FormCheckbox)

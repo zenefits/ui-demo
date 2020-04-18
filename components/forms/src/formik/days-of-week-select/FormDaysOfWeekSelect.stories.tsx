@@ -3,17 +3,17 @@ import React from 'react';
 import { Box } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormDaysOfWeekSelect } from '../../..';
 
 const checkboxExample = () => (
   <Form onSubmit={() => {}} initialValues={{ 'days-of-week': [false, true, true, false, false, false, false] }}>
-    <Form.DaysOfWeekSelect name="days-of-week" label="Days of Week" behavior="checkbox" />
+    <FormDaysOfWeekSelect name="days-of-week" label="Days of Week" behavior="checkbox" />
   </Form>
 );
 
 const radioExample = () => (
   <Form onSubmit={() => {}} initialValues={{ 'days-of-week': 3 }}>
-    <Form.DaysOfWeekSelect name="days-of-week" label="Days of Week" behavior="radio" />
+    <FormDaysOfWeekSelect name="days-of-week" label="Days of Week" behavior="radio" />
   </Form>
 );
 

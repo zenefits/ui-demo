@@ -1,40 +1,53 @@
 import React, { Component } from 'react';
-import { Field, FieldProps } from 'formik';
+import { getIn, FieldArray, FieldProps } from 'formik';
 
-import { Box } from 'zbase';
-
-import FormFieldWrapper, { getLabelId, FormFieldProps } from '../FormFieldWrapper';
-import CustomTileInputGroup, { CustomTileInputGroupProps } from './CustomTileInputGroup';
-
-type FormCustomTileInputGroupProps = Partial<FormFieldProps> & CustomTileInputGroupProps;
+import Field from '../Field';
+import { normalizeError } from '../checkbox/FormCheckboxGroup';
+import CustomTileInputGroupField, {
+  FieldType,
+  FormCustomTileInputGroupProps,
+  Role,
+} from './CustomTileInputGroupFormField';
 
 class FormCustomTileInputGroup extends Component<FormCustomTileInputGroupProps> {
   render() {
-    const { name, label, containerProps, optional, ...rest } = this.props;
-    const fieldType = this.props.isCheckbox ? 'checkbox' : 'radio';
-    const role = this.props.isCheckbox ? 'group' : 'radiogroup';
+    const { name, limitRerender, dependencies, isCheckbox } = this.props;
+    const fieldType: FieldType = isCheckbox ? 'checkboxGroup' : 'radio';
+    const role: Role = isCheckbox ? 'group' : 'radiogroup';
 
-    return (
-      <Field
+    return isCheckbox ? (
+      <FieldArray
         name={name}
-        type={fieldType}
-        render={({ field, form }: FieldProps) => {
+        render={arrayHelpers => {
+          const { form } = arrayHelpers;
+
+          if (!Array.isArray(getIn(form.initialValues, name))) {
+            console.error('When FormCustomTileInputGroup is used in checkbox mode, initial value should be an array.');
+            return null;
+          }
+
+          const error: string = normalizeError(getIn(form.touched, name) && getIn(form.errors, name));
+          const arrayValues: any[] = getIn(form.values, name);
+
           return (
-            <FormFieldWrapper
+            <CustomTileInputGroupField
+              {...this.props}
+              arrayHelpers={arrayHelpers}
+              arrayValues={arrayValues}
+              error={error}
               fieldType={fieldType}
-              name={name}
-              label={label}
-              error={null}
-              containerProps={containerProps}
-              optional={optional}
-            >
-              <Box role={role} aria-labelledby={getLabelId(name)}>
-                <CustomTileInputGroup {...rest} />
-              </Box>
-            </FormFieldWrapper>
+              role={role}
+            />
           );
         }}
       />
+    ) : (
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies} type={fieldType}>
+        {({ field, form }: FieldProps) => {
+          const error: string = getIn(form.touched, name) && getIn(form.errors, name);
+          return <CustomTileInputGroupField {...this.props} error={error} fieldType={fieldType} role={role} />;
+        }}
+      </Field>
     );
   }
 }

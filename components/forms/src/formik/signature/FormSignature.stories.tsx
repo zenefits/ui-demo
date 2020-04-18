@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 
-import { Box, Flex } from 'zbase';
-import { Button } from 'z-frontend-elements';
+import { Box } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
 import LabelExample from './exampleLabel';
-import { Form } from '../Form';
-import { signatureInitials } from '../../signature/signatureData';
+import { Form, FormSignature, SignatureValue } from '../../..';
+import { signatureInitials, tooSmallSignature } from '../../signature/signatureData';
+
+const smallValue: SignatureValue = {
+  dataUrl: tooSmallSignature,
+  date: new Date('2020-01-01'),
+  valid: false,
+};
 
 storiesOf('forms|Form.Signature', module)
   .addDecorator((getStory: Function) => (
@@ -17,13 +22,14 @@ storiesOf('forms|Form.Signature', module)
   .add('default', () => <DefaultExample />)
   .add('with initial value', () => <ValueExample />)
   .add('with label', LabelExample)
-  .add('with validation', () => <ValidationExample />);
+  .add('with validation', () => <ValidationExample initialValue={FormSignature.getEmptyValue()} />)
+  .add('with validation (too small)', () => <ValidationExample initialValue={smallValue} />);
 
 class DefaultExample extends Component {
   render() {
     return (
-      <Form onSubmit={() => {}} initialValues={{ signature: Form.Signature.getEmptyValue() }}>
-        <Form.Signature name="signature" />
+      <Form onSubmit={() => {}} initialValues={{ signature: FormSignature.getEmptyValue() }}>
+        <FormSignature name="signature" />
       </Form>
     );
   }
@@ -36,19 +42,19 @@ class ValueExample extends Component {
         onSubmit={() => {}}
         initialValues={{ signature: { dataUrl: signatureInitials, date: new Date('2019-01-01') } }}
       >
-        <Form.Signature name="signature" />
+        <FormSignature name="signature" />
       </Form>
     );
   }
 }
 
-class ValidationExample extends Component {
+class ValidationExample extends Component<{ initialValue: any }> {
   render() {
     return (
       <Form
-        initialValues={{ signature: Form.Signature.getEmptyValue() }}
+        initialValues={{ signature: this.props.initialValue }}
         validationSchema={{
-          signature: Form.Signature.getValidationSchema('Signature'),
+          signature: FormSignature.getValidationSchema('Signature'),
         }}
         onSubmit={(values, actions) => {
           actions.setSubmitting(false);
@@ -58,21 +64,15 @@ class ValidationExample extends Component {
         {props => {
           return (
             <>
-              <Form.Signature name="signature" label="Signature" />
-              <Flex justify="flex-end" mt={4}>
-                <Button
-                  type="submit"
-                  mode="primary"
-                  inProgress={props.isSubmitting}
-                  // trigger validation immediately (for snapshots):
-                  autoFocus
-                  onFocus={() => {
-                    props.setFieldTouched('signature');
-                  }}
-                >
-                  Save
-                </Button>
-              </Flex>
+              <FormSignature name="signature" label="Signature" />
+              <Form.Footer
+                primaryText="Save"
+                primaryProps={{
+                  // trigger validation immediately:
+                  autoFocus: true,
+                  onFocus: () => props.submitForm(),
+                }}
+              />
             </>
           );
         }}

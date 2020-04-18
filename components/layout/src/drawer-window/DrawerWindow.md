@@ -7,8 +7,8 @@ A window with toggleable drawers and optional header bar
 
 #### Examples
 
-```jsx
-// loadExample('./exampleDefault')
+```jsx noeditor
+<StorybookExample selectedKind="layout|DrawerWindow" selectedStory="default" />
 ```
 
 #### Implementation Notes

@@ -40,6 +40,7 @@ export interface WeekPickerProps {
    * Event handler when the calendar get the blur event.
    */
   onBlur?: (event: SyntheticEvent) => void;
+  'aria-label'?: string;
 }
 
 interface WeekPickerState {
@@ -103,7 +104,7 @@ export default class WeekPicker extends Component<WeekPickerProps, WeekPickerSta
   }
 
   getWeekRange = (date: Date) => {
-    const firstDayOfWeek = this.props.firstDayOfWeek;
+    const { firstDayOfWeek } = this.props;
     return getWeekRange({ date, firstDayOfWeek });
   };
 
@@ -134,7 +135,7 @@ export default class WeekPicker extends Component<WeekPickerProps, WeekPickerSta
     };
 
     return (
-      <WeekPickerWrapper border bg="grayscale.white">
+      <WeekPickerWrapper border bg="grayscale.white" data-testid="week-picker">
         <DatePicker
           showOutsideDays
           onDayMouseEnter={this.handleDayEnter}

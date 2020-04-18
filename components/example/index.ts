@@ -1,1 +1,1 @@
-export { default as MyComponent } from './src/MyComponent';
+export { default as MyComponent } from './src/my-component/MyComponent';

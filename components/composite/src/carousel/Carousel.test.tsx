@@ -1,7 +1,7 @@
 import React from 'react';
 // @ts-ignore
-import { within } from 'react-testing-library';
-import 'jest-dom/extend-expect';
+import { cleanup, within } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 import { Box } from 'zbase';
@@ -17,6 +17,8 @@ const items = [
 ];
 
 describe('Carousel', () => {
+  afterEach(cleanup);
+
   it('shows children', () => {
     // NOTE-DZH: would be nice to check visibility, but difficult with the `overflow: hidden` approach we're using
     // (and visual tests cover that anyway)

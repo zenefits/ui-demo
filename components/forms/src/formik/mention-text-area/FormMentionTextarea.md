@@ -4,13 +4,13 @@ A form component that accepts text input from the user (similar to FormTextarea)
 
 New mentions are triggered by typing `@` in a similar way to Slack or GitHub:
 
-```jsx
-// loadExample('./exampleValue')
+```jsx noeditor
+<StorybookExample selectedKind="forms|Form.MentionTextarea" selectedStory="with initial value" />
 ```
 
 #### Usage
 
-- Use this component only when there may be mentions. Otherwise, just use `Form.Textarea`.
+- Use this component only when there may be mentions. Otherwise, just use `FormTextarea`.
 - For simply displaying text, use `MentionText`.
 
 #### Content Guidelines
@@ -19,12 +19,11 @@ See general field label and error guidelines.
 
 #### Implementation Notes
 
-Always import this via `Form`, as in the example.
-
-Wraps the RichEditor component.
+- In `options` prop, only characters in `[A-Za-z0-9_]` are valid in `id`.
+- Wraps the RichEditor component.
 
 #### Related
 
-- [Form.Textarea](#!/Form.Textarea)
+- [FormTextarea](#!/Form.Textarea)
 - [MentionText](#!/MentionText)
 - RichEditor

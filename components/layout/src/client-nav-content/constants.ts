@@ -13,6 +13,7 @@ export const ZAppStatusEnum = {
   OK: 200,
 };
 
+// from client-app/boot/mixins/product-cards-and-navigation-controller.js in yourPeople3
 export const ZAPP_ORDER = [
   /* Admin Apps: */
   '1.com.zenefits.CompanyAdmin',
@@ -26,7 +27,7 @@ export const ZAPP_ORDER = [
   '1.com.zenefits.Hiring',
   '1.com.zenefits.MedicalInsuranceAdmin',
   '1.com.zenefits.LifeAndDisabilityAdmin',
-  '1.com.zenefits.CobraAdmin',
+  // '1.com.zenefits.CobraAdmin',
   '1.com.zenefits.AcaAdmin',
   '1.com.zenefits.BusinessInsuranceAdmin',
   '1.com.zenefits.HrAdvisor',
@@ -42,7 +43,8 @@ export const ZAPP_ORDER = [
   '1.com.zenefits.WellbeingAdmin',
   '1.com.zenefits.Influitive',
   '1.com.zenefits.PeopleAnalyticsAdmin',
-
+  '1.com.zenefits.HRAnalyticsAdmin',
+  '1.com.zenefits.TotalRewardStatementAdmin',
   // 'Celebrations',
 
   /* Employee Apps: */
@@ -63,9 +65,9 @@ export const ZAPP_ORDER = [
   '1.com.zenefits.DisabilityEmployee',
   '1.com.zenefits.SupplementalInsuranceEmployee',
   // '1.com.zenefits.CobraEmployee',
-  '1.com.zenefits.CobraEmployeeMedical',
-  '1.com.zenefits.CobraEmployeeDental',
-  '1.com.zenefits.CobraEmployeeVision',
+  // '1.com.zenefits.CobraEmployeeMedical',
+  // '1.com.zenefits.CobraEmployeeDental',
+  // '1.com.zenefits.CobraEmployeeVision',
   '1.com.zenefits.UnicardCommuterEmployee',
   '1.com.zenefits.FsaEmployee',
   '1.com.zenefits.HsaEmployee',
@@ -78,4 +80,5 @@ export const ZAPP_ORDER = [
   '1.com.zenefits.HelpCenter',
   '1.com.zenefits.TalentEmployee',
   '1.com.zenefits.WellbeingEmployee',
+  '1.com.zenefits.ResourceCenter',
 ];

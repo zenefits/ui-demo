@@ -12,8 +12,9 @@ export default <P extends { theme: ThemeInterface }>(WrappedComponent: React.Com
 
   return class WithFontStyle extends React.Component<WithFontStyleProps<P>> {
     static displayName = `FontStyles(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
     render() {
-      return <StyledWrappedComponent {...this.props as any} />;
+      return <StyledWrappedComponent {...(this.props as any)} />;
     }
   };
 };

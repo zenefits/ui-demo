@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+
 import Downshift from 'downshift';
 
 import { theme } from 'z-frontend-theme';
+import { Tethered, TetherComponentProps } from 'z-frontend-overlays';
+
+import { getLabelId } from '../formik/FormFieldWrapper';
 
 import {
   createSelectOptionInterface,
@@ -25,18 +28,15 @@ import {
 import { combineReducers, downshiftReducerCreators } from './downshiftReducers';
 import SelectControl from './SelectControl';
 import SelectionWidget from './SelectionWidget';
-import Tethered from '../tethered/Tethered';
 
-type FunctionAsChild<OptionValue> = (
-  params: {
-    SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
-    SelectGroup?: React.ComponentClass<{ label: string }>;
-    NewOption?: React.ComponentClass<{ optionTypeName?: string }>;
-    inputValue: string;
-    basicOptionFilter: (options: OptionValue[]) => OptionValue[];
-    withMatchEmphasis: (text: string) => JSX.Element;
-  },
-) => React.ReactNode;
+type FunctionAsChild<OptionValue> = (params: {
+  SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
+  SelectGroup?: React.ComponentClass<{ label: string }>;
+  NewOption?: React.ComponentClass<{ optionTypeName?: string }>;
+  inputValue: string;
+  basicOptionFilter: (options: OptionValue[]) => OptionValue[];
+  withMatchEmphasis: (text: string) => JSX.Element;
+}) => React.ReactNode;
 
 // Available on OpenListSelect and Form.OpenListSelect
 export type SharedSelectProps<OptionValue> = {
@@ -112,7 +112,7 @@ export type SharedSelectProps<OptionValue> = {
   /**
    * Fires when a selection is made
    * */
-  onChange?: (OptionValue: string) => void;
+  onChange?: (newValue: OptionValue) => void;
 
   /**
    * If a NewOption component is included in children,
@@ -126,7 +126,25 @@ export type SharedSelectProps<OptionValue> = {
    * */
   onInputValueChange?: (inputValue: string) => void;
 
+  /**
+   * Options to customize how dropdown is tethered to input
+   * */
+  tetherProps?: Partial<TetherComponentProps>;
+
   children: FunctionAsChild<OptionValue>;
+
+  /**
+   * Should field have a close icon to clear selection
+   * @default true
+   */
+  clearable?: boolean;
+  /**
+   * Value of field
+   * */
+  value?: OptionValue;
+
+  /** Test ID to find the element in tests */
+  'data-testid'?: string;
 };
 
 type SelectComponentProps<OptionValue> = {
@@ -137,13 +155,15 @@ type SelectComponentProps<OptionValue> = {
   openOnFocus?: boolean;
 };
 
-type SelectProps<OptionValue> = SharedSelectProps<OptionValue> & SelectComponentProps<OptionValue>;
+export type SelectProps<OptionValue> = SharedSelectProps<OptionValue> & SelectComponentProps<OptionValue>;
 
 const DEFAULT_MAX_HEIGHT = 240;
 
 export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
   element: HTMLDivElement;
+
   input: React.RefObject<HTMLInputElement>;
+
   tetherTarget: React.RefObject<HTMLDivElement>;
 
   constructor(props: SelectProps<OptionValue>) {
@@ -156,8 +176,9 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
     s: 'medium',
     maxDropdownHeight: DEFAULT_MAX_HEIGHT,
     renderLoading: defaultRenderLoading,
-    autocompleteInputPlaceholder: 'Search...',
-    placeholder: 'Select an Option...',
+    autocompleteInputPlaceholder: 'Search',
+    placeholder: 'Select Option',
+    tetherProps: {},
   };
 
   downshiftStateReducer = combineReducers<OptionValue>([
@@ -184,7 +205,10 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
       controlAriaDescribedBy,
       openOnFocus,
       autoFocus,
+      clearable,
+      tetherProps,
       s: size,
+      'data-testid': dataTestId,
     } = this.props;
     const getOptionOrNullText = makeGuardedGetOptionText(getOptionText);
     return (
@@ -194,6 +218,7 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
         onSelect={onChange}
         onInputValueChange={onInputValueChange}
         itemToString={getOptionOrNullText}
+        labelId={getLabelId(name)}
       >
         {({
           getInputProps,
@@ -227,8 +252,8 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
             size,
             selectedItem,
             highlightedIndex,
-            getOptionText,
             withMatchEmphasis,
+            getOptionText: getOptionOrNullText,
             cb: () => {
               numRenderedOptions += 1;
             },
@@ -254,7 +279,6 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
 
           const inputProps = Object.assign(getInputProps(), {
             name,
-            'aria-label': `autocomplete input for ${label}`,
             'aria-busy': isLoading,
             placeholder: autocompleteInputPlaceholder,
           });
@@ -273,7 +297,6 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
             <div>
               <SelectControl
                 aria-describedby={controlAriaDescribedBy}
-                aria-label={`Edit ${label}`}
                 hasError={!!error}
                 selection={getOptionOrNullText(selectedItem)}
                 placeholder={placeholder}
@@ -287,6 +310,9 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
                 autoFocus={autoFocus}
                 disabled={disabled}
                 s={size}
+                clearable={clearable}
+                aria-label={`Click or press enter to edit ${label}`}
+                data-testid={dataTestId}
               />
               {isOpen && (
                 <Tethered
@@ -303,6 +329,7 @@ export class Select<OptionValue> extends Component<SelectProps<OptionValue>> {
                       },
                     },
                   }}
+                  {...tetherProps}
                 >
                   <SelectionWidget
                     s="medium"

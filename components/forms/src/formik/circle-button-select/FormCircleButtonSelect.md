@@ -17,7 +17,7 @@ As radio replacement:
 #### Usage
 
 - You may use this component if there is a small fixed number of options that can be represented as single character symbols
-- Do not use this component to represent days of the week, instead use [Form.DaysOfWeekSelect](#!/Form.DaysOfWeekSelect)
+- Do not use this component to represent days of the week, instead use [FormDaysOfWeekSelect](#!/FormDaysOfWeekSelect)
 - For any other select usage, see Select (#!/Form.Select) guidelines
 
 #### Content Guidelines
@@ -27,7 +27,7 @@ ambiguity to the selection, use an alternative component instead.
 
 #### Related
 
-- [Form.RadioGroup](#!/Form.RadioGroup)
-- [Form.CheckboxGroup](#!/Form.CheckboxGroup)
-- [Form.DaysOfWeekSelect](#!/Form.DaysOfWeekSelect)
-- [Form.Select](#!/Form.Select)
+- [FormRadioGroup](#!/FormRadioGroup)
+- [FormCheckboxGroup](#!/FormCheckboxGroup)
+- [FormDaysOfWeekSelect](#!/FormDaysOfWeekSelect)
+- [FormSelect](#!/FormSelect)

@@ -11,7 +11,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "cypress": "^2.1.0 || ^3.0.0"
+    "cypress": "^2.1.0 || ^3.0.0 || ^4.0.0"
   },
   "typesPublisherContentHash": "",
   "typeScriptVersion": "2.2"

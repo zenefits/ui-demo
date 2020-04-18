@@ -1,4 +1,5 @@
 import moment from 'moment';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { Validator } from 'redux-form';
 
 // TODO: localize all the strings

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Calendar from './Calendar';
 
@@ -37,7 +37,7 @@ describe('Calendar', () => {
       },
     ];
 
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <Calendar<Cell, NameViewRow>
         startDate={new Date()}
         rows={rowsData}

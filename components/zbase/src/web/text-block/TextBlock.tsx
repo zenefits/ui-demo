@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import withWebUtilProps, { DivProps, ResultWebComponentProps } from '../withUtilPropsWeb';
 import { removeUtilProps, IntlTextProps, TextAlignProps, TextCommonProps } from '../../commonTypes';
 import { TextTransformProps } from '../types';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 type AdditionalTextProps = IntlTextProps &
   TextAlignProps &
@@ -36,6 +37,9 @@ class VariableTagTextContainer extends Component<TextBlockProps> {
     return React.createElement(resultTag, remainingProps, rest.children);
   }
 }
+
+export const TextBlockForDocs = makeDummyComponentForDocs<TextBlockProps>();
+TextBlockForDocs.displayName = 'TextBlock';
 
 export default withWebUtilProps<DivProps, AdditionalTextProps>({
   displayName: 'TextBlock',

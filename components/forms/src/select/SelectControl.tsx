@@ -3,7 +3,7 @@ import React from 'react';
 import { styled, ColorString } from 'z-frontend-theme';
 import { IconButton } from 'z-frontend-elements';
 import { color, fontSizes, radius } from 'z-frontend-theme/utils';
-import { Box, Flex, Icon, TextInline } from 'zbase';
+import { Box, Flex, FlexProps, Icon, TextInline } from 'zbase';
 
 import { SelectOptionSize } from './SelectOptions';
 import { KEY_CODES } from './utils';
@@ -29,8 +29,8 @@ const getBorderColor = (props: SelectControlContainerProps, defaultColor: ColorS
   return color(defaultColor);
 };
 
-export const SelectControlContainer = styled(Flex.extendProps<SelectControlContainerProps>())`
-  font-size: ${props => fontSizes(sizeMap[props.s])};
+export const SelectControlContainer = styled(Flex)<SelectControlContainerProps>`
+  font-size: ${(props: SelectControlContainerProps) => fontSizes(sizeMap[props.s])};
   border: 1px solid ${props => getBorderColor(props, 'grayscale.f')};
   border-radius: ${radius()};
   background-color: ${props => (props.disabled ? color('grayscale.g') : color('grayscale.white'))};
@@ -70,21 +70,23 @@ type SelectControlProps = {
   placeholder: string;
   disabled?: boolean;
   selection?: string;
-  onClick?: (e?: any) => void;
-  onFocus?: (e?: any) => void;
-  onKeyDown?: (e?: any) => void;
   onCloseIconClick?: () => void;
   s?: SelectOptionSize;
   hasError?: boolean;
   innerRef?: React.RefObject<any>;
   autoFocus?: boolean;
-};
+  clearable?: boolean;
+
+  /** Test ID to find the element in tests */
+  'data-testid'?: string;
+} & FlexProps;
 
 const SELECT_ICON_NAME = 'chevron-down';
 
 class SelectControl extends React.Component<SelectControlProps> {
   static defaultProps = {
     s: 'medium',
+    clearable: true,
   };
 
   componentDidMount() {
@@ -105,6 +107,9 @@ class SelectControl extends React.Component<SelectControlProps> {
       onCloseIconClick,
       innerRef,
       disabled,
+      clearable,
+      'aria-label': ariaLabel,
+      'data-testid': dataTestId,
     } = this.props;
     return (
       <SelectControlContainer
@@ -113,10 +118,12 @@ class SelectControl extends React.Component<SelectControlProps> {
         role="button"
         onClick={disabled ? () => {} : onClick}
         onFocus={disabled ? () => {} : onFocus}
-        tabIndex={!disabled && 0}
+        tabIndex={disabled ? null : 0}
         onKeyDown={disabled ? () => {} : onKeyDown}
         elementRef={innerRef}
         disabled={disabled}
+        aria-label={ariaLabel}
+        data-testid={dataTestId}
       >
         <SelectionContainer align="center" flex="1" pl={3}>
           {selection ? (
@@ -127,7 +134,7 @@ class SelectControl extends React.Component<SelectControlProps> {
           )}
         </SelectionContainer>
 
-        {selection && !disabled && (
+        {selection && clearable && !disabled && (
           <Box>
             <IconButton
               iconName="close"

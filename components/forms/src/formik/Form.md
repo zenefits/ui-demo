@@ -1,21 +1,36 @@
 A wrapper component that handles the submission of forms.
 
-`Form` also acts as a namespace for all form-related components. This means a single import
-(`import { Form } from 'z-frontend-forms'`) to gain access to [Form.Ssection](#!/Form.Section),
-[Form.TextInput](#!/Form.TextInput), and many more.
+`Form` also acts as a namespace for some form-related components. A single import
+(`import { Form } from 'z-frontend-forms'`) can gain access to [Form.Section](#!/Form.Section),
+[Form.Footer](#!/Form.Footer), [Form.Error](#!/Form.Error), [Form.RowGroup](#!/Form.RowGroup), etc.
 
 #### Examples
 
 Simple form with a single field:
 
-```jsx
-// loadExample('./text-input/exampleLabel')
+```jsx noeditor
+<StorybookExample selectedKind="forms|Form.TextInput" selectedStory="default" />
 ```
 
 Form's children can also be a function, which provides access to [FormikProps](https://github.com/jaredpalmer/formik#render-props-formikpropsvalues--reactnode) such as `values`:
 
 ```jsx noeditor
 <StorybookExample selectedKind="forms|Form" selectedStory="login form" />
+```
+
+##### Help Text
+
+When a label is not sufficient on its own, you may provide `helpText`:
+
+```jsx noeditor
+<StorybookExample selectedKind="forms|Form.TextInput" selectedStory="with help text" />
+```
+
+When the help text relates to multiple fields, consider adding a paragraph at the top of the section (modal, form, etc). In either case, be careful not to clutter the form
+with help text. It may be better to add a "Learn More" link to a help center article.
+
+```jsx noeditor
+<FigmaFile height={2200} url="https://www.figma.com/file/OKdw775cxzrwQhGNm1SYM8ZD/Figma-Embed?node-id=313%3A144" />
 ```
 
 ##### Validation
@@ -30,6 +45,11 @@ an error message; the default is not as readable.
 
 If your `validationSchema` needs to be dynamic, try using [`when`](https://github.com/jquense/yup#mixedwhenkeys-string--arraystring-builder-object--value-schema-schema-schema).
 As a last resort, [`validate`](https://github.com/jaredpalmer/formik#validate-values-values--formikerrorsvalues--promiseany) is a more manual option.
+
+#### Prevent Transition
+
+- Add the prop `preventTransition` to prevent the user from page transition while filling the Form.
+- Add the prop `preventTransitionMessage` to override the custom message in the prompt.
 
 #### Usage
 
@@ -47,7 +67,6 @@ As a last resort, [`validate`](https://github.com/jaredpalmer/formik#validate-va
   - Do: "Save"
 - Group related fields in sections with [Form.Section](#!/Form.Section).
 
-<!-- TODO: labels -->
 <!-- TODO: errors -->
 
 #### Implementation Notes
@@ -73,4 +92,5 @@ to manage the filtered content.
 - [Form.Error](#!/Form.Error)
 - [Form.Section](#!/Form.Section)
 - [Form.Footer](#!/Form.Footer)
+- [Form.RowGroup](#!/Form.RowGroup)
 - [DataManager](#!/DataManager)

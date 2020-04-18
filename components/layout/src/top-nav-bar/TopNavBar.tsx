@@ -1,66 +1,97 @@
 import React, { Component } from 'react';
-import { graphql, ChildDataProps } from 'react-apollo';
+import { useQuery } from 'react-apollo';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import gql from 'graphql-tag';
-import _ from 'lodash';
+import { get } from 'lodash';
 
-import { Box, Flex, FlexProps, Image, TextInline } from 'zbase';
-import { styled, theme, HideFor, RenderFor } from 'z-frontend-theme';
-import { color, space, zIndex } from 'z-frontend-theme/utils';
+import { Box, Flex, Image, TextInline } from 'zbase';
+import { styled, theme, useUpdateThemePropWhileMounted, Hide, Render } from 'z-frontend-theme';
+import { color, px, space } from 'z-frontend-theme/utils';
 import { Button, Link } from 'z-frontend-elements';
+import { getEventLogger, ErrorBoundary } from 'z-frontend-app-bootstrap';
 
-import { AppContentContainerFlex, Drawer } from '../../index';
+import { Drawer } from '../../index';
 import ClientDrawerContent from '../client-nav-content/ClientDrawerContent';
-import ProductTitleWithDropdown from './components/ProductTitleWithDropdown';
 import DemoCenterRightColumn from './components/DemoCenterRightColumn';
-import { ExitType, ProductTitleWithDropdownMode } from './types';
+
 import OmniSearch from './components/OmniSearch';
 import AvatarDropdown from './components/AvatarDropdown';
-import { demoCenterSwitch, exitTypes } from './constants';
+import ProductTitle from './components/ProductTitle';
+import ProductNotificationsIcon from './components/ProductNotificationsIcon';
+import { buyLink, demoCenterSwitch, freePayrollPromoCode, freePayrollPromoSwitch } from './constants';
+import { CompanyNameQuery, TopNavBarQuery } from '../gqlTypes';
+import { topNavQuery } from './TopNavBarQueries';
+import { redirectIfNecessary } from './components/utils/prerequisiteRedirectUtil';
+import TopNavBarContainer, { AbsoluteNav, AbsoluteNavPlaceholder } from './components/TopNavBarContainer';
 
 const dashboardLink = '/dashboard/#/';
+const helpLink = '/app/support-flow/#/home';
+const anonymousHelpLink = 'https://secure.zenefits.com/public/#/contact-us/login-issues';
 
-const AbsoluteNav = styled<FlexProps & { hasShadow?: boolean }>(Flex)`
-  position: fixed;
-  height: ${props => props.theme.topNavHeight};
-  left: 0;
-  right: 0;
-  top: 0;
-  /* top padding, to match ember top nav vertical alignment */
-  border-top: 2px solid ${color('grayscale.white')};
-  z-index: ${props => 1 + zIndex('fixed')(props)};
-  background-color: ${color('grayscale.white')};
-  color: ${color('secondary.a')};
-  box-shadow: ${props => (props.hasShadow ? '0 2px 6px 0 rgba(18, 52, 102, 0.1)' : '')};
+const AbsoluteNavBanner = styled(AbsoluteNav)`
+  background-color: ${color('affirmation.c')};
+  border-top: inherit;
+  color: ${color('affirmation.a')};
+  justify-content: center;
+  align-items: center;
 `;
 
-const AbsoluteNavPlaceholder = styled(Box)`
-  height: ${props => props.theme.topNavHeight};
+const NavBannerLink = styled(Link)`
+  color: ${color('affirmation.a')} !important;
 `;
 
 const StyledLogoImage = styled(Image)`
   height: 24px;
 `;
 
-const Separator = styled(Box)`
+export const Separator = styled(Box)`
   height: 24px;
   border-left: 1px solid ${color('primary.a')};
   margin: 0 ${space(3)};
 `;
 
-const smallLogo = <Image w={12} src={theme.images.logo} mr={3} />;
+export const smallLogo = (
+  <Image w={12} src={theme.images.logo} mr={3} alt="Zenefits" className="js-walkme-top-nav-logo" />
+);
 
-const bigLogo = (
+export const bigLogo = (
   <Flex align="center" w={103}>
-    <StyledLogoImage src="https://secure.zenefits.com/static/img/rebranding/zenefits-logo-header-pink.svg" />
+    <StyledLogoImage
+      src="https://secure.zenefits.com/static/img/rebranding/zenefits-logo-header-pink.svg"
+      alt="Zenefits"
+      className="js-walkme-top-nav-logo"
+    />
   </Flex>
 );
 
-interface UserSettingsQueryResult {
-  dashboard: any; // TODO: these types currently live in talent
-}
+const companyNameQuery = gql`
+  query CompanyNameQuery($companyId: ID!) {
+    company(id: $companyId) {
+      id
+      name
+    }
+  }
+`;
+
+// This is currently in this file to avoid a circular dep, but would be good to move some of the sub components like AbsoluteNav to another file so we can move this banner out as well.
+const PromoBanner: React.FC = () => {
+  useUpdateThemePropWhileMounted('topNavHeightContainer', theme => px(theme.topNavHeightInPx * 2));
+
+  return (
+    <AbsoluteNavPlaceholder>
+      <AbsoluteNavBanner>
+        <NavBannerLink href={buyLink}>
+          <TextInline fontStyle="paragraphs.l" color="inherit">
+            <b>We’re here to help &hearts; Payroll is now completely free for a year with an annual contract.</b>
+          </TextInline>
+        </NavBannerLink>
+      </AbsoluteNavBanner>
+    </AbsoluteNavPlaceholder>
+  );
+};
 
 // TO-DO:  The productTitleKey/Default api should be simplified
-export interface Props {
+export interface TopNavBarProps {
   /**
    * An array of items to show in the right side dropdown list
    */
@@ -119,17 +150,41 @@ export interface Props {
    * @default false
    */
   hideSearch?: boolean;
+  /**
+   * ID of the company whose name will be displayed to the right of Zenefits logo
+   */
+  companyId?: string;
+  /**
+   * Indicates if we're on an Ember page. This allows us to hide the PromoBanner since Ember can't account today for the
+   * extra height
+   */
+  isEmber?: boolean;
 }
 
-type AllProps = ChildDataProps<Props, UserSettingsQueryResult>;
+type AllProps = Omit<TopNavBarProps, 'companyId'> & {
+  data: TopNavBarQuery.Query;
+  companyName?: string;
+} & RouteComponentProps<{}>;
 
-class TopNavBar extends Component<AllProps> {
+type TopNavState = { isDrawerOpen: boolean };
+
+class TopNavBar extends Component<AllProps, TopNavState> {
   static defaultProps = {
     disabled: false,
     hideSearch: false,
+    isEmber: false,
     showInbox: false,
     useClientHamburgerContent: false,
   };
+
+  state = {
+    isDrawerOpen: false,
+  };
+
+  openDrawer = () => this.setState({ isDrawerOpen: true });
+
+  closeDrawer = () => this.setState({ isDrawerOpen: false });
+
   render() {
     const {
       children,
@@ -139,61 +194,69 @@ class TopNavBar extends Component<AllProps> {
       dropdownItems,
       hasShadow,
       hideSearch,
+      isEmber,
       isFullWidth,
       productTitleDefault,
       productTitleKey,
       renderHamburgerContent,
       showInbox: showInboxProp,
       useClientHamburgerContent,
+      companyName,
     } = this.props;
 
-    if (data.loading) {
-      return <AbsoluteNavPlaceholder />;
-    }
-
-    const dashboard = data.dashboard;
+    const { dashboard } = data;
 
     const permission = dashboard && dashboard.permission;
     const switches = dashboard && dashboard.switches;
     const canSeeDemoCenter = dashboard && dashboard.canSeeDemoCenter;
+    const isSelfServeTrial = dashboard && dashboard.isSelfServeTrial;
     const employee = dashboard && dashboard.employee;
+    const employeeId = employee && employee.id;
+    const loggedInCompanyId = dashboard && dashboard.company && dashboard.company.id;
+    const employeeNumber = employee && employee.employeeNumber;
     const user = dashboard && dashboard.user;
     const isMTAUser = dashboard && dashboard.isMTAUser;
     const isMTAPartnerUser = dashboard && dashboard.isMTAPartnerUser;
     const isConsoleUser = dashboard && dashboard.isConsoleUser;
     const isSpoofing = dashboard && dashboard.isSpoofing;
     const isTrialCompany = dashboard && dashboard.isTrialCompany;
-    const isTrialPasswordless = dashboard && dashboard.isTrialPasswordless;
+    const userHash = dashboard && dashboard.userIntercomHash;
     /**
      * isTrialSales means it's a trial account with password, for example, account executives use these accounts.
      * When isTrialCompany is true, either isTrialPassowrdless or isTrialSales will be true.
      */
     const isTrialSales = dashboard && dashboard.isTrialSales;
-    const partnerCompanyId = dashboard && _.get(dashboard, 'partner.companyId');
-    const regEmployeeCount = dashboard && _.get(dashboard, 'company.regEmployeeCount');
-    const shouldContactSales = regEmployeeCount && regEmployeeCount > 10;
+    const trialHasFreeLimitedCompany = dashboard && dashboard.trialHasFreeLimitedCompany;
+    const companyTypeIsDemo = dashboard && dashboard.companyTypeIsDemo;
+
+    const regEmployeeCount = dashboard && get(dashboard, 'company.regEmployeeCount');
+    const shouldContactSales = !isSelfServeTrial && regEmployeeCount && regEmployeeCount > 10;
 
     const isAdmin = permission && permission.isAdmin;
     const isAdminOrEmployeeUser = !isConsoleUser && !isMTAPartnerUser;
     const isInTrialAsEE = isTrialCompany && !isAdmin && window.sessionStorage.getItem('isAdminInEE');
     const isInTrialAsEEOrDisabled = isInTrialAsEE || disabled;
 
-    const helpLink = partnerCompanyId ? `/dashboard?company=${partnerCompanyId}/#/support` : `/dashboard/#/support`;
-    const { first_name = undefined, last_name = undefined, photoUrl = undefined } = employee || user || {};
+    const { first_name = undefined, last_name = undefined } = employee || user || {};
+    const { photoUrl = undefined } = employee || {};
 
     let showHamburger: boolean = false;
-    const showOmniSearch = !hideSearch && !children && isAdminOrEmployeeUser && !isInTrialAsEEOrDisabled;
+    const showOmniSearch =
+      !hideSearch && !children && isAdminOrEmployeeUser && !isInTrialAsEEOrDisabled && !isConsoleUser;
     const showMyAccounts = !disabled && isMTAUser && isAdminOrEmployeeUser;
     const showAccountSettings = !disabled && !isSpoofing && !isTrialCompany && isAdminOrEmployeeUser;
-    const showProductTitle = !isInTrialAsEEOrDisabled;
-    const showInbox = showInboxProp && !isInTrialAsEEOrDisabled;
-    const showHelp = !isInTrialAsEEOrDisabled && (!isTrialCompany || isTrialSales);
+    const showInbox = showInboxProp && !isInTrialAsEEOrDisabled && !isConsoleUser;
+    const showHelp = !isInTrialAsEEOrDisabled && (!isTrialCompany || isTrialSales) && !isConsoleUser;
     const showAvatarDropdown = !isInTrialAsEE;
     const linkOnLogo = !isInTrialAsEEOrDisabled;
+    const onCompanyHub = window.location.href.includes('company-hub');
+
+    const redirects = data.prerequisiteRedirect || [];
+    redirectIfNecessary(redirects, window.location.pathname, this.props.location.pathname);
 
     if (useClientHamburgerContent) {
       // Using standard hamburger menu
-      showHamburger = !(isInTrialAsEE || disabled);
+      showHamburger = !(isInTrialAsEE || disabled) && !isConsoleUser;
     } else if (renderHamburgerContent) {
       showHamburger = !disabled;
     }
@@ -212,56 +275,53 @@ class TopNavBar extends Component<AllProps> {
     const isDemoCenterSwitchOn = switches && switches[demoCenterSwitch];
     const isDemoCenter = isDemoCenterSwitchOn && canSeeDemoCenter;
 
-    const productTitleText = isDemoCenter ? (
-      <TextInline>Demo Center</TextInline>
-    ) : productTitleKey ? (
-      <TextInline textKey={productTitleKey} textDefault={productTitleDefault} />
-    ) : productTitleDefault ? (
-      <TextInline>{productTitleDefault}</TextInline>
-    ) : null;
+    const isFreePayrollPromoSwitchActive = switches && switches[freePayrollPromoSwitch];
+    const hasTrialPromoCode = dashboard && dashboard.trialPromoCode === freePayrollPromoCode;
+    const validRoute = __APP_NAME__ !== 'boot' || window.document.location.hash === '#/';
+    const hasPromoBanner = isFreePayrollPromoSwitchActive && hasTrialPromoCode && validRoute && !isEmber;
+    const showProductTitle = !isInTrialAsEEOrDisabled && (isDemoCenter || productTitleKey || productTitleDefault);
 
-    let productTitle;
-    const showProductTitleWithDropdown = isDemoCenter || isCompanyHub;
+    const userInfo = {
+      companyName: companyName || dashboard?.company?.name,
+      firstName: first_name,
+      lastName: last_name,
+      userEmail: (user && user.email) || '',
+    };
 
-    if (showProductTitleWithDropdown) {
-      // demo center has higher priority than company hub
-      const productTitleWithDropdownMode: ProductTitleWithDropdownMode = isDemoCenter ? 'demoCenter' : 'companyHub';
+    const productTitleProps = {
+      isDemoCenter,
+      isCompanyHub,
+      productTitleKey,
+      productTitleDefault,
+      userInfo,
+    };
 
-      productTitle = (
-        <ProductTitleWithDropdown productTitleText={productTitleText} mode={productTitleWithDropdownMode} />
-      );
-    } else {
-      // Default product title is just text
-      productTitle = productTitleText ? (
-        <Flex align="center" fontStyle="headings.s" color="secondary.a">
-          {productTitleText}
-        </Flex>
-      ) : null;
-    }
-
-    /**
-     * exitType determines whether to show "Log Out" or "Start Your Real Account" in avatar dropdown
-     */
-    const exitType: ExitType = isTrialCompany && isTrialPasswordless ? exitTypes.startRealAccount : exitTypes.logout;
+    const companyNameFlex = companyName && <Flex align="center">{companyName}</Flex>;
 
     return (
-      <AbsoluteNavPlaceholder>
-        <AbsoluteNav hasShadow={hasShadow}>
-          <AppContentContainerFlex w={1} align="center" justify="space-between" isFullWidth={isFullWidth}>
-            {/* left column */}
+      <>
+        {hasPromoBanner && <PromoBanner />}
+        <TopNavBarContainer
+          hasShadow={hasShadow}
+          hasBannerAbove={hasPromoBanner}
+          isFullWidth={isFullWidth}
+          leftColumn={
             <Flex align="center">
-              <RenderFor breakpoints={[true]}>
+              <Render forBreakpoints={[true]}>
                 {showHamburger ? (
-                  <Drawer openDrawerUsingLogo>{drawerChildren}</Drawer>
+                  <Drawer.OpenButton onOpen={this.openDrawer} openDrawerUsingLogo />
                 ) : linkOnLogo ? (
                   <Link href={dashboardLink}>{smallLogo}</Link>
                 ) : (
                   smallLogo
                 )}
-              </RenderFor>
 
-              <RenderFor breakpoints={[false, true, true, true, true]}>
-                {showHamburger && <Drawer>{drawerChildren}</Drawer>}
+                {/* For mobile, show either company name or product title */}
+                {companyNameFlex || (showProductTitle && <ProductTitle {...productTitleProps} />)}
+              </Render>
+
+              <Render forBreakpoints={[false, true, true, true, true]}>
+                {showHamburger && <Drawer.OpenButton onOpen={this.openDrawer} />}
 
                 {linkOnLogo ? (
                   <Link href={dashboardLink} color="primary.a">
@@ -271,110 +331,132 @@ class TopNavBar extends Component<AllProps> {
                   bigLogo
                 )}
 
-                {showProductTitle && productTitle && <Separator />}
-              </RenderFor>
+                {companyNameFlex && <Separator />}
 
-              {/* TODO: refactor productTitle to a component */}
-              {showProductTitle && productTitle}
+                {companyNameFlex}
 
-              <HideFor breakpoints={[true]}>{contentAlignLeft && children}</HideFor>
+                {showProductTitle && <Separator />}
+
+                {showProductTitle && <ProductTitle {...productTitleProps} />}
+              </Render>
+
+              <Hide forBreakpoints={[true]}>{contentAlignLeft && children}</Hide>
             </Flex>
+          }
+          rightColumn={
+            <>
+              {isDemoCenter ? (
+                <DemoCenterRightColumn
+                  shouldContactSales={shouldContactSales}
+                  firstName={first_name}
+                  lastName={last_name}
+                  employeeId={employeeId}
+                  companyId={loggedInCompanyId}
+                  employeeNumber={employeeNumber}
+                  photoUrl={photoUrl}
+                  userEmail={user && user.email}
+                  companyTypeIsDemo={companyTypeIsDemo}
+                  trialHasFreeLimitedCompany={trialHasFreeLimitedCompany}
+                  switches={switches}
+                />
+              ) : (
+                <Flex align="center">
+                  <Hide forBreakpoints={[true]}>
+                    {children && !contentAlignLeft && <Box mr={4}>{children}</Box>}
 
-            {/* right column */}
+                    {showOmniSearch && (
+                      <Box mr={4}>
+                        <OmniSearch />
+                      </Box>
+                    )}
 
-            {isDemoCenter ? (
-              <DemoCenterRightColumn shouldContactSales={shouldContactSales} />
-            ) : (
-              <Flex align="center">
-                <HideFor breakpoints={[true]}>
-                  {children && !contentAlignLeft && <Box mr={4}>{children}</Box>}
+                    {showInbox && (
+                      <Link
+                        href="/dashboard/#/inbox-view"
+                        color="secondary.a"
+                        mr={4}
+                        fontSize__deprecated__doNotUse={1}
+                      >
+                        Inbox
+                      </Link>
+                    )}
+                  </Hide>
 
-                  {showOmniSearch && (
-                    <Box mr={4}>
-                      <OmniSearch />
-                    </Box>
-                  )}
-
-                  {showInbox && (
-                    <Link href="/dashboard/#/inbox-view" color="secondary.a" mr={4} fontSize__deprecated__doNotUse={1}>
-                      Inbox
+                  {showHelp && (
+                    <Link
+                      href={onCompanyHub ? anonymousHelpLink : helpLink}
+                      color="secondary.a"
+                      mr={4}
+                      fontSize__deprecated__doNotUse={1}
+                    >
+                      Help
                     </Link>
                   )}
-                </HideFor>
 
-                {showHelp && (
-                  <Link href={helpLink} color="secondary.a" mr={4} fontSize__deprecated__doNotUse={1}>
-                    Help
-                  </Link>
-                )}
+                  <ProductNotificationsIcon userId={userHash} isAdmin={isAdmin} switches={switches} />
 
-                {showAvatarDropdown ? (
-                  <AvatarDropdown
-                    firstName={first_name}
-                    lastName={last_name}
-                    photoUrl={photoUrl}
-                    showInbox={showInbox}
-                    showMyAccounts={showMyAccounts}
-                    showAccountSettings={showAccountSettings}
-                    dropdownItems={dropdownItems}
-                    exitType={exitType}
-                  />
-                ) : (
-                  <Button onClick={() => switchToAdmin()}>Switch back to Admin</Button>
-                )}
-              </Flex>
-            )}
-          </AppContentContainerFlex>
-        </AbsoluteNav>
-      </AbsoluteNavPlaceholder>
+                  {showAvatarDropdown ? (
+                    <AvatarDropdown
+                      firstName={first_name}
+                      lastName={last_name}
+                      employeeId={employeeId}
+                      companyId={loggedInCompanyId}
+                      employeeNumber={employeeNumber}
+                      photoUrl={photoUrl}
+                      showInbox={showInbox}
+                      showMyAccounts={showMyAccounts}
+                      showAccountSettings={showAccountSettings}
+                      dropdownItems={dropdownItems}
+                      className="js-walkme-top-nav-avatar"
+                    />
+                  ) : (
+                    <Button onClick={() => switchToAdmin()}>Switch back to Admin</Button>
+                  )}
+                </Flex>
+              )}
+            </>
+          }
+        />
+        <Drawer show={this.state.isDrawerOpen} onClose={this.closeDrawer}>
+          {drawerChildren}
+        </Drawer>
+      </>
     );
   }
 }
 
-const userSettingsQuery = gql`
-  query TopNavBarQuery {
-    dashboard {
-      id
-      isMTAUser
-      isMTAPartnerUser
-      isConsoleUser
-      isSpoofing
-      isDemoAccount
-      isTrialCompany
-      isTrialPasswordless
-      isTrialSales
-      switches
-      permission
-      canSeeDemoCenter
-      user {
-        id
-        first_name
-        last_name
-      }
-      employee {
-        id
-        first_name
-        last_name
-        photoUrl
-      }
-      partner {
-        id
-        companyId
-      }
-      company {
-        id
-        regEmployeeCount
-      }
-    }
-  }
-`;
-
-export default graphql<Props, UserSettingsQueryResult>(userSettingsQuery, {
-  options: () => ({
-    fetchPolicy: 'cache-and-network',
+const TopNavBarWithQueries: React.FunctionComponent<TopNavBarProps & RouteComponentProps<{}>> = props => {
+  const { loading: topNavLoading, data: topNavData } = useQuery<TopNavBarQuery.Query>(topNavQuery, {
+    fetchPolicy: 'cache-first',
     errorPolicy: 'ignore',
-  }),
-})(TopNavBar);
+  });
+
+  const { loading: companyNameLoading, data: companyNameData } = useQuery<CompanyNameQuery.Query>(companyNameQuery, {
+    errorPolicy: 'ignore',
+    skip: !props.companyId,
+    variables: { companyId: props.companyId },
+  });
+
+  if (topNavLoading || companyNameLoading) {
+    return <AbsoluteNavPlaceholder />;
+  }
+
+  const companyName = companyNameData?.company?.name;
+  return (
+    <Hide inEmbeddedNativeView>
+      <ErrorBoundary
+        text="Sorry, we were unable to load the page header."
+        onError={() => {
+          getEventLogger().logError(new Error('Failed to load TopNavBar'));
+        }}
+      >
+        <TopNavBar {...props} data={topNavData} companyName={companyName} />
+      </ErrorBoundary>
+    </Hide>
+  );
+};
+
+export default withRouter<TopNavBarProps>(TopNavBarWithQueries);
 
 function switchToAdmin() {
   window.location.replace('/accounts/switch-to-trial-admin/');

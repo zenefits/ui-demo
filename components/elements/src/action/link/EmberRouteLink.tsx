@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// @ts-ignore
-import querystring from 'query-string';
+
+import qs from 'qs';
 
 import { ResultComponentProps } from 'zbase';
 
@@ -15,7 +15,7 @@ type QueryParams = {
   queryParams?: string;
 };
 
-type QueryParamsProps = {
+export type QueryParamsProps = {
   /**
    * the name of the ember route or a url that starts with a '/'
    */
@@ -24,25 +24,28 @@ type QueryParamsProps = {
   queryParams?: { [key: string]: string | number };
 };
 
+export function buildEmberRouteRedirect(params: QueryParamsProps): string {
+  const { to, routeParams, queryParams } = params;
+
+  const routeQueryParams: QueryParams = { to };
+  if (routeParams) {
+    routeQueryParams.routeParams = routeParams;
+  }
+  if (queryParams) {
+    routeQueryParams.queryParams = JSON.stringify(queryParams);
+  }
+  return `/dashboard/#/redirect-to-route?${qs.stringify(routeQueryParams, { arrayFormat: 'repeat' })}`;
+}
+
 type EmberAnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & QueryParamsProps;
 
-type EmberLinkProps = ResultComponentProps<EmberAnchorProps>;
+export type EmberLinkProps = ResultComponentProps<EmberAnchorProps>;
 
 class EmberRouteLink extends Component<EmberLinkProps> {
   render() {
-    const { to, routeParams, queryParams: queryParamsProp, ...props } = this.props;
-    /**
-     * queryParamsProp is for the final route
-     * queryParams is for route "redirect-to-route"
-     */
-    const queryParams: QueryParams = { to };
-    if (routeParams) {
-      queryParams.routeParams = routeParams;
-    }
-    if (queryParamsProp) {
-      queryParams.queryParams = JSON.stringify(queryParamsProp);
-    }
-    const href = `/dashboard/#/redirect-to-route?${querystring.stringify(queryParams)}`;
+    const { to, routeParams, queryParams, ...props } = this.props;
+
+    const href = buildEmberRouteRedirect({ to, routeParams, queryParams });
     return <StyledLink {...props} href={href} />;
   }
 }

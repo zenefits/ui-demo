@@ -108,7 +108,7 @@ class DragAndDropCalendarExample extends Component<Props, DragAndDropCalendarExa
 
     if (sourceColumn !== targetColumn || sourceRow !== targetRow) {
       this.setState((prevState: DragAndDropCalendarExampleState) => {
-        const rows = prevState.rows;
+        const { rows } = prevState;
 
         // Set target
         rows[targetRow].columns[targetColumn] = sourceCellData;
@@ -128,7 +128,7 @@ class DragAndDropCalendarExample extends Component<Props, DragAndDropCalendarExa
 
     const rowHeaderTemplate = (rowData: DragAndDropRow) => {
       if (rowData.employee) {
-        const employee = rowData.employee;
+        const { employee } = rowData;
 
         return (
           <Flex pl={3} align="center">
@@ -208,7 +208,7 @@ storiesOf('layout|Calendar', module)
 
     const rowHeaderTemplate = (rowData: NameViewRow) => {
       if (rowData.employee) {
-        const employee = rowData.employee;
+        const { employee } = rowData;
 
         return (
           <Flex pl={3} align="center">

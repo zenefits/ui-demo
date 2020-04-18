@@ -1,5 +1,5 @@
-Component to render a form footer with buttons to submit (required) and cancel (optional). `Form.Footer` handles
-typical button states by tapping into the form context. It also handles responsive layout.
+Component to render a form footer with a primary button (required) and optional cancel and tertiary buttons.
+`Form.Footer` handles typical button states by tapping into the form context. It also handles responsive layout.
 
 #### Examples
 
@@ -9,7 +9,7 @@ typical button states by tapping into the form context. It also handles responsi
 
 #### Usage
 
-- Use for almost all forms.
+- Use in most forms.
 - Often contained within a `Card.Footer` (see [Card](#!/Card)).
 - Forms within a [Modal](#!/Modal) should instead use `Modal.Footer`
   ([example](http://ui.zenefits.com/app/stories/?selectedKind=forms|Form&selectedStory=modal%20form)).

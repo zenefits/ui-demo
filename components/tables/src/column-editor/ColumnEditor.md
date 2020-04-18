@@ -3,7 +3,7 @@ A component used to select and order columns (usually to be displayed in a table
 #### Examples
 
 ```jsx noeditor
-<StorybookExample selectedKind="tables|Column Editor" selectedStory="default" />
+<StorybookExample selectedKind="tables|ColumnEditor" selectedStory="default" />
 ```
 
 #### Usage

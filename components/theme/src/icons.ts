@@ -780,6 +780,6 @@ const iconMap = {
   youtube: '\\f409',
 };
 
-export type IconNameString = keyof (typeof iconMap);
+export type IconNameString = keyof typeof iconMap;
 
 export default iconMap;

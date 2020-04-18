@@ -1,30 +1,56 @@
 import React from 'react';
+import { fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
 import Checkbox from './Checkbox';
 
+const common = {
+  label: 'My Label',
+};
+
 describe('Checkbox', () => {
-  it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<Checkbox />)).toHaveLength(1);
+  it('has a label', () => {
+    const { findByText } = renderWithContext(<Checkbox label="My Label" />);
+    findByText('My Label');
   });
 
-  it('should include a label', () => {
-    const rendered = renderWithTheme(<Checkbox label="Label" />);
-    expect(rendered.text()).toBe('Label');
+  it('should support checked', () => {
+    const { getByLabelText } = renderWithContext(<Checkbox {...common} defaultChecked />);
+
+    const checkbox = getByLabelText('My Label') as HTMLInputElement;
+    expect(checkbox).toBeChecked();
   });
 
-  it('should support standard attributes', () => {
-    const rendered = renderWithTheme(<Checkbox disabled checked />);
-    expect(rendered.find('[disabled]')).toHaveLength(1);
-    expect(rendered.find('[checked]')).toHaveLength(1);
+  it('is not disabled by default', () => {
+    const { getByLabelText } = renderWithContext(<Checkbox {...common} defaultChecked />);
+
+    const checkbox = getByLabelText('My Label') as HTMLInputElement;
+    expect(checkbox).not.toBeDisabled();
+  });
+
+  it('is disabled when specified', () => {
+    const { getByLabelText } = renderWithContext(<Checkbox {...common} defaultChecked disabled />);
+
+    const checkbox = getByLabelText('My Label') as HTMLInputElement;
+    expect(checkbox).toBeDisabled();
+  });
+
+  it('toggles the checkbox', () => {
+    const { getByLabelText } = renderWithContext(<Checkbox {...common} />);
+
+    const checkbox = getByLabelText('My Label') as HTMLInputElement;
+    fireEvent.click(checkbox);
+    expect(checkbox).toBeChecked();
   });
 
   it('should invoke callback on change', () => {
-    const onCheckboxChange = jest.fn();
-    const wrapper = mountWithTheme(<Checkbox onChange={onCheckboxChange} />);
-    wrapper.find('input').simulate('change');
-    expect(onCheckboxChange).toBeCalled();
-    expect(onCheckboxChange.mock.calls[0][0]).toBeTruthy();
+    const onChange = jest.fn();
+    const { getByLabelText } = renderWithContext(<Checkbox {...common} onChange={onChange} />);
+
+    const checkbox = getByLabelText('My Label') as HTMLInputElement;
+    fireEvent.click(checkbox);
+    expect(onChange).toHaveBeenCalled();
   });
 });

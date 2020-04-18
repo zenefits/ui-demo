@@ -30,7 +30,7 @@ const fallbackLabel = 'Postal/ZIP Code';
 class FormAddressPostalCode extends Component<FormAddressPostalCodeProps> {
   render() {
     const { country, ...rest } = this.props;
-    const label = POSTAL_CODE_LABELS[country] || fallbackLabel;
+    const label = POSTAL_CODE_LABELS[country] ?? fallbackLabel;
 
     const mask = postalCodes[country];
     if (mask) {

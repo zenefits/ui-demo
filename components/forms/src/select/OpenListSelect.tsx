@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { omit } from 'lodash';
 import Downshift from 'downshift';
 
 import { LoadingSpinner } from 'z-frontend-elements';
@@ -71,12 +71,10 @@ export type SharedOpenListSelectProps<OptionValue> = {
    */
   renderLoading?: () => JSX.Element;
 
-  children: (
-    params: {
-      SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
-      SelectGroup?: React.ComponentClass<{ label: string }>;
-    },
-  ) => React.ReactNode;
+  children: (params: {
+    SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
+    SelectGroup?: React.ComponentClass<{ label: string }>;
+  }) => React.ReactNode;
 };
 
 type OpenListSelectComponentProps<OptionValue> = {
@@ -148,7 +146,7 @@ export class OpenListSelect<OptionValue> extends Component<OpenListSelectProps<O
             changes.type !== Downshift.stateChangeTypes.blurInput &&
             !changes.isOpen
           ) {
-            return _.omit(changes, 'isOpen', 'highlightedIndex');
+            return omit(changes, 'isOpen', 'highlightedIndex');
           }
 
           return changes;
@@ -195,7 +193,7 @@ export class OpenListSelect<OptionValue> extends Component<OpenListSelectProps<O
                 {label}
               </Label>
               <SelectOptions
-                elementRef={element => {
+                elementRef={(element: any) => {
                   this.element = element;
                 }}
                 s={size}
@@ -212,7 +210,7 @@ export class OpenListSelect<OptionValue> extends Component<OpenListSelectProps<O
                 height={height}
                 aria-describedby={error ? getErrorId(name) : undefined}
                 aria-labelledby={getLabelId(name)}
-                aria-loading={loading}
+                // aria-loading={loading}
               >
                 {loading ? renderLoading() : searchOptions}
               </SelectOptions>

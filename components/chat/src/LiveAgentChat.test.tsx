@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import LiveAgentChat, { setChatStatus } from './LiveAgentChat';
 
 describe('LiveAgentChat', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<LiveAgentChat />)).toHaveLength(1);
+    expect(mountEnzymeWithTheme(<LiveAgentChat />)).toHaveLength(1);
   });
 
   it('should open the chat window properly', () => {
-    const wrapper = mountWithTheme(<LiveAgentChat />);
+    const wrapper = mountEnzymeWithTheme(<LiveAgentChat />);
     expect(wrapper.find('button')).toHaveLength(1);
     wrapper.find('button').simulate('click');
     expect(wrapper.state().isChatWindowOpened).toBe(true);
@@ -18,7 +18,7 @@ describe('LiveAgentChat', () => {
   });
 
   it('should minimize the chat window properly', () => {
-    const wrapper = mountWithTheme(<LiveAgentChat isChatActive />);
+    const wrapper = mountEnzymeWithTheme(<LiveAgentChat isChatActive />);
     expect(wrapper.find('button')).toHaveLength(1);
     wrapper.find('button').simulate('click');
     // mock that salesforce was connected to
@@ -37,7 +37,7 @@ describe('LiveAgentChat', () => {
   });
 
   it('should show unavailable message when chat is unavailable', () => {
-    const wrapper = mountWithTheme(<LiveAgentChat />);
+    const wrapper = mountEnzymeWithTheme(<LiveAgentChat />);
     expect(wrapper.find('button')).toHaveLength(1);
     wrapper.find('button').simulate('click');
     wrapper.setState({ isChatAvailable: false });
@@ -46,7 +46,7 @@ describe('LiveAgentChat', () => {
   });
 
   it('should show close chat window button when chat is ended', () => {
-    const wrapper = mountWithTheme(<LiveAgentChat />);
+    const wrapper = mountEnzymeWithTheme(<LiveAgentChat />);
     expect(wrapper.find('button')).toHaveLength(1);
     wrapper.find('button').simulate('click');
     wrapper.setState({ isChatEnded: true });

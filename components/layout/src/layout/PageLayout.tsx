@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
+import { LoadingScreen } from 'z-frontend-elements';
+
 import { PageLayoutColumns, PageLayoutContext } from './PageLayoutContext';
-import { AppContentContainerFlex, LoadingScreen } from '../../index';
+import { AppContentContainerFlex } from '../../index';
 import PageLayoutNav from './PageLayoutNav';
 import PageLayoutMain from './PageLayoutMain';
 import PageLayoutAside from './PageLayoutAside';

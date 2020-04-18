@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormTextarea } from '../../..';
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ description: '' }}>
-    <Form.Textarea name="description" mt={0} />
+    <FormTextarea name="description" mt={0} />
   </Form>
 );

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
 
 import { Box, Flex, FlexProps } from 'zbase';
 import { styled } from 'z-frontend-theme';
 
+import Field from '../Field';
 import TimeInput, { parseTimeString, PublicTimeInputProps, Time } from '../../time/TimeInput';
 import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
 import { TimeInputValue } from '../time-input/FormTimeInput';
-import FormGroup from '../FormGroup';
+import FormRowGroup from '../row-group/FormRowGroup';
 
 export type TimeRangeValue = {
   startTime: TimeInputValue;
@@ -82,6 +83,7 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
       numberOfIntervals: 1,
     },
   };
+
   static getEmptyValue = () => ({
     startTime: { timeString: '' },
     endTime: { timeString: '' },
@@ -114,6 +116,7 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
       };
     }
   };
+
   endDefaultTime = (startTimeString: string): Time => {
     let endDefaultTime = moment();
     if (
@@ -137,12 +140,11 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
   };
 
   render() {
-    const { name, label, containerProps, optional, ...rest } = this.props;
+    const { name, label, containerProps, optional, limitRerender, dependencies, ...rest } = this.props;
 
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form }: FieldProps) => {
           const touched = getIn(form.touched, name);
           const error: any = touched && getIn(form.errors, name);
           const fieldValue = field.value || FormTimeRange.getEmptyValue();
@@ -155,12 +157,12 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
           }
 
           return (
-            <FormGroup id={name} containerProps={containerProps} label={label} error={error} optional={optional}>
+            <FormRowGroup containerProps={containerProps} label={label} error={error} optional={optional}>
               <Flex>
                 <Box flex="1">
-                  <FormFieldWrapper name={name + '-start'} label={label} error={error} format="raw" optional={optional}>
+                  <FormFieldWrapper name={`${name}-start`} label={label} error={error} format="raw" optional={optional}>
                     <TimeInput
-                      name={name + '-start'}
+                      name={`${name}-start`}
                       error={startTimeError}
                       onChange={(timeString, time) => {
                         form.setFieldValue(field.name, {
@@ -173,7 +175,7 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
 
                         // Shouldn't set field as touched until both subfields have been edited
                         if (fieldValue.endTime.timeString) {
-                          form.setFieldTouched(name, true);
+                          form.setFieldTouched(name, true, false);
                         }
                       }}
                       initialInputValue={fieldValue.startTime.timeString}
@@ -184,9 +186,9 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
                 </Box>
                 <Separator px={5}> &mdash; </Separator>
                 <Box flex="1">
-                  <FormFieldWrapper name={name + '-end'} label={label} error={error} format="raw" optional={optional}>
+                  <FormFieldWrapper name={`${name}-end`} label={label} error={error} format="raw" optional={optional}>
                     <TimeInput
-                      name={name + '-end'}
+                      name={`${name}-end`}
                       error={endTimeError}
                       onChange={(timeString, time) => {
                         form.setFieldValue(field.name, {
@@ -198,7 +200,7 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
                         });
 
                         if (fieldValue.startTime.timeString) {
-                          form.setFieldTouched(name, true);
+                          form.setFieldTouched(name, true, false);
                         }
                       }}
                       initialInputValue={fieldValue.endTime.timeString}
@@ -208,10 +210,10 @@ class FormTimeRange extends Component<FormTimeInputProps & PublicTimeInputProps 
                   </FormFieldWrapper>
                 </Box>
               </Flex>
-            </FormGroup>
+            </FormRowGroup>
           );
         }}
-      />
+      </Field>
     );
   }
 }

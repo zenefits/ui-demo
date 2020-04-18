@@ -1,4 +1,5 @@
 import React, { StatelessComponent } from 'react';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { Field as BaseField, Validator, WrappedFieldProps } from 'redux-form';
 
 import { FieldFormatWrapper, FieldProps } from './FieldWrapper';
@@ -24,7 +25,7 @@ export const InputField: StatelessComponent<AllInputProps> = ({
 }) => {
   const { touched, error } = meta;
   const finalErrorText = (touched && error) || errorText;
-  const InputComponent = getInputComponent(type);
+  const InputComponent = getInputComponent(type) as any;
   return (
     <FieldFormatWrapper
       label={label}

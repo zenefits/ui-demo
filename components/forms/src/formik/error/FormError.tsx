@@ -8,7 +8,7 @@ type FormErrorProps = TextBlockProps & {
   /**
    * Error message to display.
    */
-  textDefault: string;
+  textDefault: JSX.Element | string;
 };
 
 const StyledTextBlock = styled(TextBlock)`

@@ -1,10 +1,10 @@
 import React from 'react';
-import { cleanup, waitForElement } from 'react-testing-library';
+import { cleanup, waitForElement } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils'; // ES6
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
-import { AddressValue, Form } from '../Form';
+import { AddressValue, Form, FormAddressUS } from '../../..';
 
 interface FormValues {
   address: AddressValue;
@@ -18,10 +18,10 @@ describe('Form.AddressUS', () => {
           console.log(values);
         }}
         initialValues={{
-          address: Form.AddressUS.getEmptyValue(),
+          address: FormAddressUS.getEmptyValue(),
         }}
       >
-        <Form.AddressUS name="address" {...props} />
+        <FormAddressUS name="address" {...props} />
       </Form>
     );
   }

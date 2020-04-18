@@ -29,7 +29,7 @@ With expanded input and no search icon:
 - USE when the value that will be submitted with the form should be a string query
 - An additional action MAY be registered on option select.
 - DO NOT USE if the value of the field will be a selected object.
-  Instead use [Form.Select](#!/Form.Select) or [Form.OpenListSelect](#!/Form.OpenListSelect)
+  Instead use [FormSelect](#!/FormSelect) or [FormOpenListSelect](#!/FormOpenListSelect)
 
 #### Content Guidelines
 
@@ -51,5 +51,5 @@ A few more helpers are also provided as render parameters:
 
 #### Related
 
-- [Form.Select](#!/Form.Select)
-- [Form.OpenListSelect](#!/Form.OpenListSelect)
+- [FormSelect](#!/FormSelect)
+- [FormOpenListSelect](#!/FormOpenListSelect)

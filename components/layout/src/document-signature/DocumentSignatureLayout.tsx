@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 
 import { Card } from 'z-frontend-composites';
-import { FileUploaderProps, Form, FormikActions } from 'z-frontend-forms';
+import {
+  FileUploaderProps,
+  Form,
+  FormikHelpers,
+  FormFileUploader,
+  FormRadio,
+  FormRadioGroup,
+  FormSignature,
+  FormTextInput,
+} from 'z-frontend-forms';
 import { hasAdobeReader, isBrowserIe, Link, PdfDocumentViewer, PdfDocumentViewerProps } from 'z-frontend-elements';
 import { TextBlock } from 'zbase';
 
@@ -40,14 +49,17 @@ type Props = {
 };
 
 class DocumentSignatureLayout extends Component<Props> {
-  signatureOptions = [{ value: 'online', label: 'Sign online' }, { value: 'upload', label: 'Upload signed copy' }];
+  signatureOptions = [
+    { value: 'online', label: 'Sign online' },
+    { value: 'upload', label: 'Upload signed copy' },
+  ];
 
   getOnlineSignatureOption = () => {
     return (
       <Card.Row>
-        <Form.TextInput name="name" label="Full Name" />
-        <Form.TextInput name="title" label="Title" />
-        <Form.Signature name="signature" label="Signature" />
+        <FormTextInput name="name" label="Full Name" />
+        <FormTextInput name="title" label="Title" />
+        <FormSignature name="signature" label="Signature" />
       </Card.Row>
     );
   };
@@ -58,7 +70,7 @@ class DocumentSignatureLayout extends Component<Props> {
 
     return (
       <Card.Row>
-        <Form.FileUploader
+        <FormFileUploader
           name="uploader"
           label="Upload File"
           additionalInformation={
@@ -77,13 +89,13 @@ class DocumentSignatureLayout extends Component<Props> {
     );
   };
 
-  onSubmit = (values: DocumentSignatureValues, actions: FormikActions<DocumentSignatureValues>) => {
+  onSubmit = (values: DocumentSignatureValues, actions: FormikHelpers<DocumentSignatureValues>) => {
     this.props.onSubmit(values, actions);
   };
 
   onFileUploaderOnlySubmit = (
     values: DocumentSignatureFileUploaderOnlyValues,
-    actions: FormikActions<DocumentSignatureFileUploaderOnlyValues>,
+    actions: FormikHelpers<DocumentSignatureFileUploaderOnlyValues>,
   ) => {
     this.props.onSubmit(values, actions);
   };
@@ -165,16 +177,16 @@ class DocumentSignatureLayout extends Component<Props> {
                 <PdfDocumentViewer {...pdfDocumentViewerProps} border />
               </Card.Row>
               <Card.Row>
-                <Form.RadioGroup name="signingMethod" label="Signing Method">
+                <FormRadioGroup name="signingMethod" label="Signing Method">
                   {this.signatureOptions.map(option => (
-                    <Form.Radio
+                    <FormRadio
                       key={option.value}
                       value={option.value}
                       label={option.label}
                       disabled={props.isSubmitting}
                     />
                   ))}
-                </Form.RadioGroup>
+                </FormRadioGroup>
               </Card.Row>
               {props.values.signingMethod === 'online'
                 ? this.getOnlineSignatureOption()

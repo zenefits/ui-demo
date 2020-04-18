@@ -6,7 +6,7 @@
   },
   "private": true,
   "engines": {
-    "yarn": "^1.3.2",
+    "yarn": "^1.17.3",
     "node": "^10.14.1"
   },
   "scripts": {
@@ -22,13 +22,13 @@
     "tslint": "^5.8.0",
     "tslint-config-airbnb": "^5.3.0",
     "tslint-react": "^3.2.0",
-    "tsutils": "2.12.2",
-    "typescript": "3.2.2"
+    "tsutils": "3.17.1",
+    "typescript": "3.8.3"
   },
   "devDependencies": {
     "eslint-config-z-frontend": "*",
-    "onchange": "^4.0.0",
-    "find-up": "^2.1.0",
+    "onchange": "^6.1.0",
+    "find-up": "^4.1.0",
     "z-frontend-scripts": "*"
   }
 }

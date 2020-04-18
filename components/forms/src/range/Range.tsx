@@ -160,9 +160,11 @@ class Range extends Component<RangeProps, RangeState> {
     max: 100,
     showValuePercentage: false,
   };
+
   constructor(props: RangeProps) {
     super(props);
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       max: parseInt(props.max as string, 10),
       value:
         (Array.isArray(props.defaultValue) ? props.defaultValue[0] : props.defaultValue) ||

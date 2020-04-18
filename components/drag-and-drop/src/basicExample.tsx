@@ -31,7 +31,7 @@ class DragAndDropExample extends Component<
   // @ts-ignore
   onDrop(sourceData, targetData) {
     this.setState(prevState => {
-      const data = prevState.data;
+      const { data } = prevState;
       const source = sourceData.id;
       const targetPosition = targetData.id;
 

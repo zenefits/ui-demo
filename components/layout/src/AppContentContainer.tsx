@@ -4,7 +4,7 @@ import { space } from 'z-frontend-theme/utils';
 
 type AppContentContainerFlexProps = FlexProps & { isFullWidth?: boolean };
 
-export const AppContentContainerFlex = styled<AppContentContainerFlexProps>(Flex)`
+export const AppContentContainerFlex = styled(Flex)<AppContentContainerFlexProps>`
   max-width: ${props => (props.isFullWidth ? 'none' : '1200px')};
   margin: ${props => (props.isFullWidth ? '0 32px' : '0 auto')};
   padding-left: ${space(3)};
@@ -13,7 +13,7 @@ export const AppContentContainerFlex = styled<AppContentContainerFlexProps>(Flex
 
 export type AppContentContainerBoxProps = BoxProps & { isFullWidth?: boolean };
 
-export const AppContentContainerBox = styled<AppContentContainerBoxProps>(Box)`
+export const AppContentContainerBox = styled(Box)<AppContentContainerBoxProps>`
   max-width: ${props => (props.isFullWidth ? 'none' : '1200px')};
   margin-left: auto;
   margin-right: auto;

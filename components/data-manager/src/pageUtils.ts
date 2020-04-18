@@ -1,6 +1,13 @@
 const { max, min, ceil } = Math;
 
-export const doPage = <T>(items: T[], pageSize: number, currentPage: number): T[] => {
+export type PageConfig = {
+  pageSize: number;
+  currentPage: number;
+};
+export const doPage = <T>(items: T[], config: PageConfig): T[] => {
+  const currentPage = config.currentPage || 1;
+  const pageSize = config.pageSize || Infinity;
+
   if (!currentPage || pageSize === Infinity) {
     return items;
   }

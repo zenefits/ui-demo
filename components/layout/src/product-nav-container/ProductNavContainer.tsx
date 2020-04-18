@@ -11,8 +11,8 @@ const AbsoluteNav = styled(Box)`
   height: 48px;
   left: 0;
   right: 0;
-  top: ${props => props.theme.topNavHeight};
-  z-index: ${zIndex('fixed')};
+  top: ${props => props.theme.topNavHeightContainer};
+  z-index: ${zIndex('sticky')};
   box-shadow: 0 2px 6px 0 rgba(18, 52, 102, 0.1);
 `;
 
@@ -34,10 +34,10 @@ class ProductNavContainer extends Component<ProductNavContainerProps> {
   };
 
   render() {
-    const { children, isFullWidth } = this.props;
+    const { children, isFullWidth, ...rest } = this.props;
 
     return (
-      <AbsoluteNavPlaceholder>
+      <AbsoluteNavPlaceholder {...rest}>
         <AbsoluteNav bg="grayscale.white">
           <AppContentContainerFlex isFullWidth={isFullWidth}>
             <Flex mx={-3} p={0}>

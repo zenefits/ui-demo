@@ -25,9 +25,10 @@ function toggleAction(editor: Editor, activeFn: string, removeFn: string, format
   }
 }
 
-const EditorContainer = styled(Box)`
+const EditorContainer = styled(Box)<{ height: number | string }>`
   > div {
     ${commonTextareaStyles};
+    white-space: pre-wrap; /* match textarea */
     /* match textarea defaults */
     overflow: auto; /* required to show resize */
     min-height: 60px;
@@ -101,11 +102,16 @@ type RichEditorProps = {
 
   /** Callback to get reference to underlying Squire editor. */
   editorRef?: (editor: any) => void;
+
+  /** Starting height of textarea, in pixels */
+  height?: string | number;
 };
 
 class RichEditor extends Component<RichEditorProps> {
   editorDiv: HTMLDivElement;
+
   editor: Editor;
+
   mentionId = 0;
 
   static defaultProps = {
@@ -123,18 +129,23 @@ class RichEditor extends Component<RichEditorProps> {
     // call it onChange instead of onInput only for consistency with react
     this.props.onChange && this.props.onChange(event);
   };
+
   handleKeyPress = (event: any) => {
     this.props.onKeyPress && this.props.onKeyPress(event);
   };
+
   handleKeyDown = (event: any) => {
     this.props.onKeyDown && this.props.onKeyDown(event);
   };
+
   handleFocus = (event: any) => {
     this.props.onFocus && this.props.onFocus(event);
   };
+
   handleBlur = (event: any) => {
     this.props.onBlur && this.props.onBlur(event);
   };
+
   handlePaste = (event: any) => {
     // Remove useless classes (like "MSONormal") and confusing white backgrounds that show up when pasting from MS Word.
     const list = event.fragment.querySelectorAll('*') as HTMLElement[];
@@ -182,7 +193,7 @@ class RichEditor extends Component<RichEditorProps> {
 
   render() {
     // TODO: placeholder prop
-    const { showToolbar, resize, hasError, id, name } = this.props;
+    const { showToolbar, resize, hasError, id, name, height } = this.props;
 
     const containerProps = { resize, hasError, s: 'medium' as any };
     const editorProps = {
@@ -190,6 +201,7 @@ class RichEditor extends Component<RichEditorProps> {
       name,
       'aria-labelledby': this.props['aria-labelledby'],
       'aria-describedby': this.props['aria-describedby'],
+      style: height ? { height } : {}, // This will be overridden by the `resize` css attribute if the user changes the size
     };
     return (
       <Box>

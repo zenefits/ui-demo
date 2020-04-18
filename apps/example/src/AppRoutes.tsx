@@ -1,38 +1,62 @@
 import React, { Component } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, RouteComponentProps, Switch } from 'react-router-dom';
 
 import { TextInline } from 'zbase';
 import { NavBar, ProductNavContainer, ProductPageContainer, TopNavBar } from 'z-frontend-layout';
+import { SectionRoute } from 'z-frontend-app-bootstrap';
 
 import Overview from './overview/Overview';
-import ArticlesRoutes from './articles/ArticlesRoutes';
-import WidgetsRoutes from './widgets/WidgetsRoutes';
+import ObjectsRoutes from './objects/ObjectsRoutes';
+import PeopleRoutes from './people/PeopleRoutes';
+import Company from './company/Company';
+import AvatarUpload from './people/AvatarUpload';
 
 class AppRouters extends Component<{}> {
   render() {
     return (
       <>
-        <TopNavBar productTitleKey="nav.productTitle" productTitleDefault="Example app" />
+        {/**
+          Use this Route with TopNavBar pattern if you want to show a company name in TopNavBar.
+          Otherwise you can use TopNavBar without using Route or passing companyId.
+          Function passed to children gets called whether the path matches or not.
+          https://reacttraining.com/react-router/web/api/Route/children-func
+          */}
+        <Route
+          path="/company/:companyId"
+          children={({ match }: RouteComponentProps<{ companyId?: string }>) => {
+            return (
+              <TopNavBar
+                productTitleKey="nav.productTitle"
+                productTitleDefault="Example app"
+                companyId={match && match.params.companyId}
+                showInbox
+                useClientHamburgerContent
+              />
+            );
+          }}
+        />
 
         <ProductNavContainer>
           <NavBar mode="product">
             <NavBar.RouterNavLink to="/overview">
               <TextInline textKey="nav.overview" textDefault="Overview" />
             </NavBar.RouterNavLink>
-            <NavBar.RouterNavLink to="/articles">
-              <TextInline textKey="nav.articles" textDefault="Articles" />
+            <NavBar.RouterNavLink to="/people">
+              <TextInline textKey="nav.people" textDefault="People" />
             </NavBar.RouterNavLink>
-            <NavBar.RouterNavLink to="/widgets">
-              <TextInline textKey="nav.widgets" textDefault="Widgets" />
+            <NavBar.RouterNavLink to="/objects">
+              <TextInline textKey="nav.objects" textDefault="Objects" />
             </NavBar.RouterNavLink>
           </NavBar>
         </ProductNavContainer>
 
         <ProductPageContainer>
           <Switch>
-            <Route path="/overview" component={Overview} />
-            <Route path="/articles" component={ArticlesRoutes} />
-            <Route path="/widgets" component={WidgetsRoutes} />
+            <SectionRoute path="/overview" component={Overview} />
+            <SectionRoute path="/people" component={PeopleRoutes} title="People" />
+            <SectionRoute path="/objects" component={ObjectsRoutes} title="Objects" />
+            <SectionRoute path="/company/:companyId" component={Company} />
+            <SectionRoute path="/avatar" component={AvatarUpload} />
             <Redirect to="/overview" />
           </Switch>
         </ProductPageContainer>

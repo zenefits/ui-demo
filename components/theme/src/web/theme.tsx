@@ -1,16 +1,10 @@
-/* tslint:disable:import-filter */
-import {
-  injectGlobal as baseInjectGlobal,
-  keyframes as baseKeyframes,
-  ThemedStyledComponentsModule,
-} from 'styled-components';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
+import { keyframes as baseKeyframes, ThemedStyledComponentsModule } from 'styled-components';
 
 /* tslint:enable:import-filter */
 import { fonts, fontSizes, fontStyles, weights } from './fonts';
 import { themeCommon, ThemeInterfaceCommon } from '../themeCommon';
 import zIndex from '../zIndex';
-
-export const opacities = [0.65];
 
 const themeObject = {
   ...themeCommon,
@@ -38,7 +32,6 @@ export interface ThemeInterface extends ThemeInterfaceCommon {
 
 export const theme: ThemeInterface = themeObject;
 
-export const { keyframes, injectGlobal } = {
+export const { keyframes } = {
   keyframes: baseKeyframes,
-  injectGlobal: baseInjectGlobal,
 } as ThemedStyledComponentsModule<ThemeInterface>;

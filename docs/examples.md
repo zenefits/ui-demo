@@ -1,6 +1,6 @@
 Each component has examples demonstrating how to use them, often including various options they support.
 
-From a component page, they can be reached by clicking on the <img src="./images/storybook-icon.png" width="24px" style="vertical-align: text-bottom" />
+From a component page, they can be reached by clicking on the <img src="./assets/images/storybook-icon.png" width="24px" style="vertical-align: text-bottom" />
 icon in the header. You can also browse all of them:
 
 ```jsx noeditor
@@ -26,3 +26,5 @@ You can also quickly experiment with components by clicking "View Code" below an
   Here is an icon: <Icon iconName="edit" ml={2} />
 </Box>
 ```
+
+Because images quickly fall out of date, we prefer embedding Figma pages directly (using `<FigmaFile />`) in some cases.

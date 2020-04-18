@@ -7,7 +7,8 @@ import { Button } from 'z-frontend-elements';
 import { skipVisualTest } from 'z-frontend-app-bootstrap';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormSearchSelect } from '../../..';
+import { simulateNetworkDelay } from '../Form.stories';
 
 storiesOf('forms|Form.SearchSelect', module)
   .addDecorator((getStory: Function) => (
@@ -25,8 +26,11 @@ storiesOf('forms|Form.SearchSelect', module)
 const fruits = ['Apple', 'Banana', 'Grapefruit', 'Strawberry', 'Blueberry', 'Lemon', 'Lime', 'Orange', 'Mango', 'Kiwi'];
 
 const ExampleDefault = () => (
-  <Form onSubmit={() => {}} initialValues={{}}>
-    <Form.SearchSelect<string>
+  <Form
+    initialValues={{}}
+    onSubmit={values => simulateNetworkDelay(() => action('search-select-default-submit')(values))}
+  >
+    <FormSearchSelect<string>
       name="fruit"
       label="Fruit"
       onSelect={action('Item selected')}
@@ -36,7 +40,8 @@ const ExampleDefault = () => (
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(fruits).map(fruit => <SelectOption option={fruit} key={fruit} />)
       }
-    </Form.SearchSelect>
+    </FormSearchSelect>
+    <Form.Footer primaryText="Submit" />
   </Form>
 );
 
@@ -68,15 +73,15 @@ class ExampleAsync extends React.Component<{}, FormState> {
     const { isLoadingFruit, options } = this.state;
     return (
       <Form onSubmit={() => {}} initialValues={{ fruit: undefined }}>
-        <Form.SearchSelect<string>
+        <FormSearchSelect<string>
           name="fruit"
           label="Fruit"
           onChange={this.updateOptions}
           isLoading={isLoadingFruit}
           getOptionText={o => o}
         >
-          {({ SelectOption }) => options.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
-        </Form.SearchSelect>
+          {({ SelectOption }) => options.map(fruit => <SelectOption option={fruit} key={fruit} />)}
+        </FormSearchSelect>
       </Form>
     );
   }
@@ -84,7 +89,7 @@ class ExampleAsync extends React.Component<{}, FormState> {
 
 const OmitIconExample = () => (
   <Form onSubmit={() => {}} initialValues={{ fruit: '' }}>
-    <Form.SearchSelect<string>
+    <FormSearchSelect<string>
       name="fruit"
       label="Fruit"
       alwaysExpandInput
@@ -93,9 +98,9 @@ const OmitIconExample = () => (
       getOptionText={o => o}
     >
       {({ SelectOption, basicOptionFilter }) =>
-        basicOptionFilter(fruits).map((fruit, i) => <SelectOption option={fruit} key={i} />)
+        basicOptionFilter(fruits).map(fruit => <SelectOption option={fruit} key={fruit} />)
       }
-    </Form.SearchSelect>
+    </FormSearchSelect>
   </Form>
 );
 
@@ -116,7 +121,7 @@ const fruitGroups = [
 
 const ExampleGroups = () => (
   <Form onSubmit={() => {}} initialValues={{ fruit: 'Orange' }}>
-    <Form.SearchSelect<string> name="fruit" label="Fruit" getOptionText={o => o}>
+    <FormSearchSelect<string> name="fruit" label="Fruit" getOptionText={o => o}>
       {({ SelectOption, SelectGroup, basicOptionFilter }) =>
         fruitGroups.map(group => {
           const filteredFruits = basicOptionFilter(group.fruits);
@@ -133,15 +138,19 @@ const ExampleGroups = () => (
           }
         })
       }
-    </Form.SearchSelect>
+    </FormSearchSelect>
   </Form>
 );
 
-const fruitObjects = [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }, { id: 3, name: 'Grapefruit' }];
+const fruitObjects = [
+  { id: 1, name: 'Apple' },
+  { id: 2, name: 'Banana' },
+  { id: 3, name: 'Grapefruit' },
+];
 
 const ExampleSelectSideEffect = () => (
   <Form onSubmit={() => {}} initialValues={{ fruit: 'Orange' }}>
-    <Form.SearchSelect<{ id: number; name: string }>
+    <FormSearchSelect<{ id: number; name: string }>
       name="fruit"
       label="Fruit"
       onSelect={option => alert(`Select callback fired on option: ${option}`)}
@@ -150,7 +159,7 @@ const ExampleSelectSideEffect = () => (
       {({ SelectOption, basicOptionFilter }) =>
         basicOptionFilter(fruitObjects).map(fruit => <SelectOption key={fruit.id} option={fruit} />)
       }
-    </Form.SearchSelect>
+    </FormSearchSelect>
   </Form>
 );
 
@@ -158,11 +167,11 @@ const ExampleExternalReset = () => (
   <Form onSubmit={() => {}} initialValues={{ fruit: 'Orange' }}>
     {({ setFieldValue }) => (
       <>
-        <Form.SearchSelect<{ id: number; name: string }> name="fruit" label="Fruit" getOptionText={o => o.name}>
+        <FormSearchSelect<{ id: number; name: string }> name="fruit" label="Fruit" getOptionText={o => o.name}>
           {({ SelectOption, basicOptionFilter }) =>
             basicOptionFilter(fruitObjects).map(fruit => <SelectOption key={fruit.id} option={fruit} />)
           }
-        </Form.SearchSelect>
+        </FormSearchSelect>
         <Button
           s="small"
           onClick={() => {

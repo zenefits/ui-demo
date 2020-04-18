@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RenderFor from './RenderFor';
+import Render from './Render';
 import { styled } from '../web/ThemeProvider';
 import { color } from '../utils';
 
@@ -11,8 +11,9 @@ const PaddedBox = styled.div`
 
 export default () => (
   <div>
-    <RenderFor breakpoints={[false, true, true, true, true]}>
+    Should not see the below on mobile
+    <Render forBreakpoints={[false, true, true, true, true]}>
       <PaddedBox>Rendered at breakpoint 1 and above</PaddedBox>
-    </RenderFor>
+    </Render>
   </div>
 );

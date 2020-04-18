@@ -1,10 +1,14 @@
 const fs = require('fs');
 const ts = require('typescript');
 const path = require('path');
+const glob = require('glob');
 const prettier = require('prettier');
 const prettierConfig = require('../../../prettier.config');
 
 const exampleRegex = /^\/\/ *loadExample\(['"]([a-z_/.-]+)['"]\);?/i;
+
+// These components are related to form layout, not inputs, so we keep them under Form namespace.
+const formSubComponents = ['Error', 'Footer', 'Row', 'RowGroup', 'Section'].map(name => `Form${name}`);
 
 function checkLoadExample(content) {
   const matched = content.match(exampleRegex);
@@ -37,15 +41,10 @@ function prepareExampleCode(rawCode) {
   prepareExampleRegexList.forEach(regexItem => {
     prepared = prepared.replace(regexItem.regex, regexItem.replace);
   });
-  const formatted = prettier.format(
-    prepared,
-    Object.assign(
-      {
-        parser: 'babylon',
-      },
-      prettierConfig,
-    ),
-  );
+  const formatted = prettier.format(prepared, {
+    parser: 'babel',
+    ...prettierConfig,
+  });
   return formatted.trim().replace(/>;$/, '>'); // direct JSX examples look odd with trailing semicolon
 }
 const componentExportsMap = {};
@@ -105,7 +104,7 @@ function convertIndexFileToAST(indexFile) {
   return traverse(sourceFile);
 }
 
-// delimiter comments arent found in ast
+// delimiter comments aren't found in ast
 function scanForComments(file) {
   const delimiterStartComment = '/** @styleguide-autodiscovery-ignore-start */';
   const delimiterEndComment = '/** @styleguide-autodiscovery-ignore-end */';
@@ -135,7 +134,8 @@ function scanForComments(file) {
   return newFile;
 }
 
-let packageExportsMap = {};
+const packageExportsMap = {};
+
 function buildComponentMap(packageName, pathToIndexFromPackage, customPath) {
   const indexFile = getPathFromPackage(packageName, pathToIndexFromPackage);
   const scannedFile = scanForComments(indexFile);
@@ -188,10 +188,20 @@ function createDocumentationPlaceholder(filePath) {
 }
 
 function sortByComponentName(a, b) {
-  const fileA = path.basename(a).toLowerCase();
-  const fileB = path.basename(b).toLowerCase();
-  if (fileA < fileB) return -1;
-  if (fileA > fileB) return 1;
+  const fileA = path.basename(a, '.tsx');
+  const fileB = path.basename(b, '.tsx');
+
+  if (fileA === 'Form') return -1;
+  if (fileB === 'Form') return 1;
+
+  if (formSubComponents.includes(fileA) && !formSubComponents.includes(fileB)) return -1;
+  if (!formSubComponents.includes(fileA) && formSubComponents.includes(fileB)) return 1;
+
+  const lowerCaseFileA = fileA.toLowerCase();
+  const lowerCaseFileB = fileB.toLowerCase();
+
+  if (lowerCaseFileA < lowerCaseFileB) return -1;
+  if (lowerCaseFileA > lowerCaseFileB) return 1;
   return 0;
 }
 
@@ -225,6 +235,22 @@ function getFullListOfFullPaths(packageName) {
   return fullListOfFullPaths.sort(sortByComponentName);
 }
 
+function renameSubComponent(componentName) {
+  if (formSubComponents.includes(componentName)) {
+    return componentName.replace(/^Form/, 'Form.');
+  }
+  if (/^Chart[A-Z]/.test(componentName)) {
+    return componentName.replace(/^Chart/, 'Chart.');
+  }
+  if (/^Table[A-Z]/.test(componentName)) {
+    return componentName.replace(/^Table/, 'Table.');
+  }
+  if (/^EditableTable[A-Z]/.test(componentName)) {
+    return componentName.replace(/^EditableTable/, 'EditableTable.');
+  }
+  return componentName;
+}
+
 function getComponentToExport(packageExportPath) {
   const exportedMods = packageExportsMap[packageExportPath];
 
@@ -238,22 +264,30 @@ function getComponentToExport(packageExportPath) {
     const exportPathStringArray = packageExportPath.split('/');
     compToExport = exportPathStringArray[exportPathStringArray.length - 1];
   }
-  if (/^Form[A-Z]/.test(compToExport)) {
+
+  return renameSubComponent(compToExport);
+}
+
+function findTestedComponents(packageName) {
+  const packagePath = path.dirname(require.resolve(packageName));
+  const allTestFiles = glob.sync(`**/*.@(test|spec).ts?(x)`, {
+    cwd: packagePath,
+    ignore: ['node_modules/**', 'dist/**'],
+  });
+  const testedComponentsMap = allTestFiles.reduce((memo, testFilePath) => {
+    const testedComponent = path.basename(testFilePath).replace(/\..+/g, '');
     // eslint-disable-next-line no-param-reassign
-    compToExport = compToExport.replace(/^Form/, 'Form.');
-  } else if (/^Chart[A-Z]/.test(compToExport)) {
-    // eslint-disable-next-line no-param-reassign
-    compToExport = compToExport.replace(/^Chart/, 'Chart.');
-  } else if (/^Table[A-Z]/.test(compToExport)) {
-    // eslint-disable-next-line no-param-reassign
-    compToExport = compToExport.replace(/^Table/, 'Table.');
-  }
-  return compToExport;
+    memo[testedComponent] = true;
+    return memo;
+  }, {});
+  return testedComponentsMap;
 }
 
 // this needs to return an array of paths for it to apply its ast on
 function getComponentPathsFromPackageIndex(packageName) {
   const fullListOfFullPaths = getFullListOfFullPaths(packageName);
+  const tested = findTestedComponents(packageName);
+
   Object.keys(packageExportsMap).forEach(packageExportPath => {
     const { fileExt, testPath, doesPathExist } = checkExists(packageName, packageExportPath);
     if (doesPathExist) {
@@ -261,6 +295,7 @@ function getComponentPathsFromPackageIndex(packageName) {
       if (!componentStatus[compToExport]) {
         componentStatus[compToExport] = {};
       }
+      componentStatus[compToExport].path = testPath;
 
       const mdFile = testPath.replace(fileExt, '.md');
       const exampleFileExists = fs.existsSync(mdFile);
@@ -275,8 +310,8 @@ function getComponentPathsFromPackageIndex(packageName) {
 
         componentStatus[compToExport].docs = !isPlaceholderDocs;
       }
-      const testFile = testPath.replace(fileExt, `.test${fileExt}`);
-      componentStatus[compToExport].tests = fs.existsSync(testFile);
+      const simplifiedComponentName = compToExport.replace('.', '');
+      componentStatus[compToExport].tests = !!tested[simplifiedComponentName];
     }
   });
 
@@ -285,12 +320,14 @@ function getComponentPathsFromPackageIndex(packageName) {
 }
 
 // for testing
-exports.prepareExampleCode = prepareExampleCode;
 exports.checkLoadExample = checkLoadExample;
-exports.normalizeExamplePath = normalizeExamplePath;
-exports.getPathFromPackage = getPathFromPackage;
 exports.componentExportsMap = componentExportsMap;
+exports.componentStatus = componentStatus;
 exports.convertIndexFileToAST = convertIndexFileToAST;
 exports.getComponentPathsFromPackageIndex = getComponentPathsFromPackageIndex;
-exports.componentStatus = componentStatus;
 exports.getFullListOfFullPaths = getFullListOfFullPaths;
+exports.getPathFromPackage = getPathFromPackage;
+exports.normalizeExamplePath = normalizeExamplePath;
+exports.prepareExampleCode = prepareExampleCode;
+exports.renameSubComponent = renameSubComponent;
+exports.sortByComponentName = sortByComponentName;

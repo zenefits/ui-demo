@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import withWebUtilProps, { ResultWebComponentProps, SpanProps } from '../withUtilPropsWeb';
 import { removeUtilProps, IntlTextProps, TextCommonProps } from '../../commonTypes';
 import { TextTransformProps, UtilTypeBg, UtilTypeColor, UtilTypeFont, UtilTypePadding } from '../types';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 export interface TextInlineTagProps {
   /**
@@ -38,6 +39,9 @@ const VariableTagTextContainer: StatelessComponent<TextInlineProps> = ({
 };
 
 export type TextInlineUtilProps = UtilTypePadding & UtilTypeFont & UtilTypeColor & UtilTypeBg;
+
+export const TextInlineForDocs = makeDummyComponentForDocs<TextInlineProps>();
+TextInlineForDocs.displayName = 'TextInline';
 
 export default withWebUtilProps<SpanProps, AdditionalTextProps, TextInlineUtilProps>({
   displayName: 'TextInline',

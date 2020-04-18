@@ -7,8 +7,7 @@
     "ban": [
       true,
       { "name": ["window", "fetch"], "message": "Use fetchWrapper not window.fetch" },
-      { "name": ["fetch"], "message": "Use fetchWrapper not global fetch" },
-      { "name": ["saveAs"] }
+      { "name": ["fetch"], "message": "Use fetchWrapper not global fetch" }
     ]
   }
 }

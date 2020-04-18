@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormSignature } from '../../..';
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ signature: '' }}>
-    <Form.Signature name="signature" label="Signature" />
+    <FormSignature name="signature" label="Signature" />
   </Form>
 );

@@ -12,9 +12,11 @@ interface RobotAvatarState {}
 
 class RobotAvatar extends Component<RobotAvatarProps, RobotAvatarState> {
   speak = () => {
+    // eslint-disable-next-line compat/compat
     const message = new SpeechSynthesisUtterance('The humans are dead');
     message.pitch = 0.5;
     message.rate = 0.8;
+    // eslint-disable-next-line compat/compat
     window.speechSynthesis.speak(message);
   };
 

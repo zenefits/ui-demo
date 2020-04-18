@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
 import { Box, Flex } from 'zbase';
 
+import Field from '../Field';
 import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
-import FileUploader, { FileResponse, FileUploaderProps } from '../../file-uploader/FileUploader';
+import FileUploader, { FileUploaderProps, UploadingFileResponse } from '../../file-uploader/FileUploader';
 
 type FormFileUploaderProps = FileUploaderProps &
   FormFieldProps & {
@@ -12,7 +13,7 @@ type FormFileUploaderProps = FileUploaderProps &
   };
 
 class FormFileUploader extends Component<FormFileUploaderProps> {
-  removeFile = (file: FileResponse, fieldProps: FieldProps) => {
+  removeFile = (file: UploadingFileResponse, fieldProps: FieldProps) => {
     const { field, form } = fieldProps;
     const fileArray = field.value;
     form.setFieldValue(
@@ -24,12 +25,22 @@ class FormFileUploader extends Component<FormFileUploaderProps> {
   };
 
   render() {
-    const { name, label, containerProps, optional, fieldType, additionalInformation, ...rest } = this.props;
+    const {
+      name,
+      label,
+      containerProps,
+      optional,
+      fieldType,
+      additionalInformation,
+      format,
+      limitRerender,
+      dependencies,
+      ...rest
+    } = this.props;
     return (
-      <Field
-        name={name}
-        render={(fieldProps: FieldProps) => {
-          const { field, form } = fieldProps;
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {fieldProps => {
+          const { field, form, setFieldValueAndTouched } = fieldProps;
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
 
           return (
@@ -38,6 +49,7 @@ class FormFileUploader extends Component<FormFileUploaderProps> {
               name={name}
               label={label}
               error={error}
+              format={format}
               containerProps={containerProps}
               optional={optional}
             >
@@ -49,13 +61,13 @@ class FormFileUploader extends Component<FormFileUploaderProps> {
                 )}
                 <FileUploader
                   {...rest}
+                  initialFiles={field.value}
                   onSuccess={file => {
                     if (!field.value) {
                       field.value = [];
                     }
                     field.value.push(file);
-                    form.setFieldValue(field.name, field.value);
-                    form.setFieldTouched(name, true);
+                    setFieldValueAndTouched(field.name, field.value);
                   }}
                   removeFile={file => this.removeFile(file, fieldProps)}
                 />
@@ -63,7 +75,7 @@ class FormFileUploader extends Component<FormFileUploaderProps> {
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

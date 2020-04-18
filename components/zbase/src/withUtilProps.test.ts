@@ -149,7 +149,10 @@ describe('getCssRuleForProp', () => {
   propsMapValuesWithResults.forEach(d => {
     it(`should work with ${d.testName}`, () => {
       expect(
-        getCssRuleForProp(d.propName, d.propsMapValue)({
+        getCssRuleForProp(
+          d.propName,
+          d.propsMapValue,
+        )({
           theme,
           prefix: 'prefix',
           postfix: 'postfix',

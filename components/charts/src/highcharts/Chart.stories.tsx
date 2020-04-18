@@ -27,12 +27,23 @@ const jobLevel = {
   name: 'Chicago',
 };
 const jobFamily = {
-  company: [{ name: 'Quality', y: 22 }, { name: 'Sales', y: 15 }],
-  market: [{ y: 2, name: 'Quality' }, { y: 70, name: 'Sales' }],
+  company: [
+    { name: 'Quality', y: 22 },
+    { name: 'Sales', y: 15 },
+  ],
+  market: [
+    { y: 2, name: 'Quality' },
+    { y: 70, name: 'Sales' },
+  ],
   name: 'San Diego',
 };
 
 storiesOf('charts|Chart', module)
+  .addDecorator((getStory: Function) => (
+    <Box w={[1]} bg="grayscale.white">
+      {getStory()}
+    </Box>
+  ))
   .add('loading', () => <LoadingExample />)
   .add('no data/error', () => <NoDataExample />)
   .add('dynamically switch data', () => <DynamicChartExample />)
@@ -130,6 +141,7 @@ class DynamicChartExample extends Component<{}, { activeType: any }> {
       activeType: jobLevel,
     };
   }
+
   updateChartData = () => {
     const currentType = this.state.activeType;
     this.setState({ activeType: isEqual(currentType, jobFamily) ? jobLevel : jobFamily });
@@ -155,6 +167,7 @@ class StaticChartExample extends Component<{}, { activeChart: any }> {
       activeChart: jobLevel,
     };
   }
+
   updateChartData = () => {
     const currentChart = this.state.activeChart;
     this.setState({ activeChart: isEqual(currentChart, jobFamily) ? jobLevel : jobFamily });

@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 // import gql from 'graphql-tag';
 
 import { ProfileLayout } from 'z-frontend-layout';
-import { Form } from 'z-frontend-forms';
+import { Form, FormTextInput } from 'z-frontend-forms';
 import { IconButton, Link } from 'z-frontend-elements';
 import { Flex, Heading } from 'zbase';
 import { Card } from 'z-frontend-composites';
@@ -76,7 +76,7 @@ class RobotPage extends Component<RobotPageProps> {
                 </Flex>
               </Card.Header>
               <Card.Row>
-                <Form.TextInput name="name" label="Name" disabled={!editMode} />
+                <FormTextInput name="name" label="Name" disabled={!editMode} />
               </Card.Row>
               {editMode && <SaveFooter />}
             </Card>

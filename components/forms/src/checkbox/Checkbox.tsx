@@ -1,11 +1,13 @@
 import React, { Component, InputHTMLAttributes } from 'react';
 import { omitBy, pickBy } from 'lodash';
 
-import { css, styled, ColorString } from 'z-frontend-theme';
+import { css, styled, theme, ColorString } from 'z-frontend-theme';
 import { isUtilProp, Box, Label, LabelProps } from 'zbase';
 import { color, fontSizes, icon, radius, space } from 'z-frontend-theme/utils';
 
-const checkboxSize = '16px';
+const checkboxSize = 3;
+const checkboxMarginRight = 2;
+const checkboxWrapOffset = `${theme.space[checkboxSize] + theme.space[checkboxMarginRight]}px`;
 
 function borderAndBackground(colorKey: ColorString) {
   return css`
@@ -17,9 +19,9 @@ function borderAndBackground(colorKey: ColorString) {
 const StyledCheckbox = styled.input.attrs({
   type: 'checkbox',
 })`
-  width: ${checkboxSize};
-  height: ${checkboxSize};
-  margin: 0 ${space(2)} 0 0;
+  width: ${space(checkboxSize)};
+  height: ${space(checkboxSize)};
+  margin: 0 ${space(checkboxMarginRight)} 0 0;
   padding: 0;
   border: 2px solid ${color('grayscale.e')};
   border-radius: ${radius()};
@@ -31,6 +33,9 @@ const StyledCheckbox = styled.input.attrs({
   appearance: none;
   vertical-align: text-bottom;
   cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 
   ~ span {
     cursor: pointer;
@@ -42,34 +47,31 @@ const StyledCheckbox = styled.input.attrs({
     font-size: ${fontSizes(2)};
     font-weight: bold;
     color: ${color('grayscale.white')};
-    position: relative;
-    top: -2.5px;
   }
 
   :hover,
   &.simulate-hover,
   :focus,
-  :active {
-    border-color: ${color('grayscale.d')};
+  &.simulate-focus,
+  :active,
+  &.simulate-active {
+    border-color: ${color('link.active')};
   }
 
-  :checked {
-    ${borderAndBackground('tertiary.a')};
+  :checked,
+  :indeterminate {
+    ${borderAndBackground('link.normal')};
 
     ~ span {
       color: ${color('text.dark')};
     }
 
-    ::after {
-      content: '${icon('check')}';
-    }
-
     :hover,
-    :focus {
-      ${borderAndBackground('link.normal')};
-    }
-
-    :active {
+    &.simulate-hover,
+    :focus,
+    &.simulate-focus,
+    :active,
+    &.simulate-active {
       ${borderAndBackground('link.hover')};
     }
 
@@ -80,6 +82,18 @@ const StyledCheckbox = styled.input.attrs({
 
     &.error {
       ${borderAndBackground('negation.a')};
+    }
+  }
+
+  :checked {
+    ::after {
+      content: '${icon('check')}';
+    }
+  }
+
+  :indeterminate {
+    ::after {
+      content: '${icon('minus')}';
     }
   }
 
@@ -94,7 +108,8 @@ const StyledCheckbox = styled.input.attrs({
     }
   }
 
-  :active ~ span {
+  :active ~ span,
+  &.simulate-active ~ span {
     color: ${color('text.dark')};
   }
 
@@ -111,7 +126,7 @@ const StyledCheckbox = styled.input.attrs({
   }
 `;
 
-export type CheckboxProps = LabelProps &
+export type CheckboxProps = Omit<LabelProps, 'onChange'> &
   InputHTMLAttributes<HTMLInputElement> & {
     /** Short description of what the checkbox means to the user */
     label?: string | JSX.Element;
@@ -119,6 +134,8 @@ export type CheckboxProps = LabelProps &
     labelId?: string;
     /** Is the checkbox disabled? */
     disabled?: boolean;
+    /** Is the checkbox indeterminate? (neither checked nor unchecked) */
+    indeterminate?: boolean;
     /** Event handler for when the value changes. */
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   };
@@ -126,17 +143,38 @@ export type CheckboxProps = LabelProps &
 const StyledCheckboxLabel = styled(Label)`
   display: inline-block; /* do not extend clickable area too far -- leads to accidental clicks */
   line-height: 1.5; /* consecutive radios should stack nicely */
+
+  /* wrapped labels should align on LHS instead of falling under checkbox */
+  text-indent: -${checkboxWrapOffset};
+  padding-left: ${checkboxWrapOffset};
 `;
 
 class Checkbox extends Component<CheckboxProps> {
+  checkboxRef: React.RefObject<HTMLInputElement>;
+
+  constructor(props: CheckboxProps) {
+    super(props);
+    this.checkboxRef = React.createRef<HTMLInputElement>();
+  }
+
+  componentDidMount() {
+    this.checkboxRef.current.indeterminate = this.props.indeterminate;
+  }
+
+  componentDidUpdate(prevProps: CheckboxProps) {
+    if (prevProps.indeterminate !== this.props.indeterminate) {
+      this.checkboxRef.current.indeterminate = this.props.indeterminate;
+    }
+  }
+
   render() {
-    const props = this.props;
+    const { props } = this;
     const labelProps = pickBy(props, (value, key) => isUtilProp(key));
     const checkboxProps = omitBy(props, (value, key) => isUtilProp(key) || key === 'label');
     return (
       <Box>
         <StyledCheckboxLabel {...labelProps} id={props.labelId}>
-          <StyledCheckbox {...checkboxProps} />
+          <StyledCheckbox {...checkboxProps} ref={this.checkboxRef} />
           <span>{props.label}</span>
         </StyledCheckboxLabel>
       </Box>

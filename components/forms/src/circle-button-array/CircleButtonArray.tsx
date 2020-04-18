@@ -4,22 +4,24 @@ import { Flex, FlexProps } from 'zbase';
 import { styled } from 'z-frontend-theme';
 import { color, fontSizes, px } from 'z-frontend-theme/utils';
 
+type SizeType = 'small' | 'large';
+
 interface CircleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   'aria-label': string;
   isSelected?: boolean;
-  s?: 'small' | 'large';
+  s?: SizeType;
 }
 
-const sizeDiameterMap = {
+const sizeDiameterMap: { [s in SizeType]: number } = {
   small: 40,
   large: 52,
 };
 
-export const CircleButton = styled<CircleButtonProps>(({ isSelected, ...rest }: CircleButtonProps) => (
-  <button {...rest} />
-))`
-  width: ${props => px(sizeDiameterMap[props.s])};
-  height: ${props => px(sizeDiameterMap[props.s])};
+const ButtonWithoutSelected = ({ isSelected, ...rest }: CircleButtonProps) => <button {...rest} />;
+
+export const CircleButton = styled(ButtonWithoutSelected)<CircleButtonProps>`
+  width: ${props => px(sizeDiameterMap[props.s as SizeType])};
+  height: ${props => px(sizeDiameterMap[props.s as SizeType])};
   border-radius: 50%;
   border: 2px solid ${color('tertiary.a')};
   cursor: pointer;

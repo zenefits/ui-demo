@@ -30,6 +30,7 @@ class FormAddressState extends Component<FormAddressStateProps> {
     return (
       // use FormSimpleSelect (once available)
       <FormSelectDeprecated
+        placeholder="Select Option" // match Select default
         label={stateLabel}
         optional={optional}
         options={availableStates}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Heading } from 'zbase';
 
-import { Form } from '../Form';
+import { Form, FormAddressUS } from '../../..';
 
 export default () => (
   <Form
@@ -11,16 +11,16 @@ export default () => (
       console.log(values);
     }}
     initialValues={{
-      home: Form.AddressUS.getEmptyValue(),
-      office: Form.AddressUS.getEmptyValue(),
+      home: FormAddressUS.getEmptyValue(),
+      office: FormAddressUS.getEmptyValue(),
     }}
-    validationSchema={Form.AddressUS.getValidationSchema('home')}
+    validationSchema={FormAddressUS.getValidationSchema('home')}
   >
     <Heading level="4">Home</Heading>
-    <Form.AddressUS name="home" />
+    <FormAddressUS name="home" />
 
     <Heading level="4">Office</Heading>
-    <Form.AddressUS name="office" />
+    <FormAddressUS name="office" />
 
     <Form.Footer primaryText="Save" />
   </Form>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Flex, Image } from 'zbase';
+import { Box, Flex, Image, TextBlock } from 'zbase';
 import { images } from 'z-frontend-theme';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
@@ -17,7 +17,7 @@ storiesOf('composites|Avatar', module)
     <Flex wrap align="center">
       <Flex column justify="space-around" align="center" mr={2}>
         <Box width={200} height={200}>
-          <Avatar firstName="M" lastName="W" w={1} fontStyle="headings.xxl" />
+          <Avatar firstName="M" lastName="W" w={1} fontStyle="headings.xxl" aria-label="Foo" />
         </Box>
         <Box my={2}>
           <code>
@@ -25,7 +25,7 @@ storiesOf('composites|Avatar', module)
           </code>
         </Box>
         <Box width={200} height={200}>
-          <Avatar firstName="M" lastName="W" photoUrl={images.pug} w={1} />
+          <Avatar firstName="M" lastName="W" photoUrl={images.pug} w={1} aria-label="Foobar" />
         </Box>
       </Flex>
 
@@ -120,7 +120,7 @@ storiesOf('composites|Avatar', module)
   ))
   .add('preserves aspect ratio', () => (
     <Flex column align="flex-start">
-      <Image src={images.aspectRatio} mb={2} />
+      <Image src={images.aspectRatio} mb={2} alt="Laptop on desk" />
       <Avatar photoUrl={images.aspectRatio} s="xxlarge" mb={2} />
       <Avatar photoUrl={images.aspectRatio} s="xlarge" mb={2} />
       <Avatar photoUrl={images.aspectRatio} s="large" mb={2} />
@@ -202,4 +202,10 @@ storiesOf('composites|Avatar', module)
     <Box pt={100}>
       <ExampleTooltips />
     </Box>
+  ))
+  .add('Preserves width', () => (
+    <Flex pt={100} w={300} overflow="hidden">
+      <Avatar firstName="M" lastName="W" photoUrl={images.pug} s="medium" badge="contingent" />{' '}
+      <TextBlock whiteSpace="nowrap">This text should not cause the avatar to shrink.</TextBlock>
+    </Flex>
   ));

@@ -26,7 +26,8 @@ class MultiDownshift<OptionValue> extends React.Component<
 
   clearItem = (index: number) => {
     const { selectedItems } = this.props;
-    this.props.onChange(selectedItems.slice(0, index).concat(selectedItems.slice(index + 1)));
+    const { onChange } = this.props;
+    onChange && onChange(selectedItems.slice(0, index).concat(selectedItems.slice(index + 1)));
   };
 
   clearAll = () => {

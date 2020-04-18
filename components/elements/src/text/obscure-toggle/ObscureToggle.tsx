@@ -1,18 +1,17 @@
 import React, { Component, MouseEvent } from 'react';
 import { pickBy } from 'lodash';
-import { StyledComponentClass } from 'styled-components';
 
 import { isUtilProp, TextInline, TextInlineProps, UtilProps } from 'zbase';
-import { styled, ThemeInterface } from 'z-frontend-theme';
+import { styled } from 'z-frontend-theme';
 
-import Link, { LinkProps } from '../../action/link/Link';
+import { StyledLink } from '../../action/link/Link';
 import Obscure from '../obscure/Obscure';
 
 const StyledContainer = styled(TextInline)`
   vertical-align: bottom;
 `;
 
-const StyledLink: StyledComponentClass<LinkProps, ThemeInterface, LinkProps> = styled<LinkProps>(Link)`
+export const ToggleLink = styled(StyledLink)`
   font-size: 80%; /* de-emphasize relative to data */
   user-select: none; /* double click to select the value, not the link text */
 `;
@@ -29,7 +28,7 @@ interface ObscureToggleCommonProps extends TextInlineProps {
 
 interface ObscureToggleProps extends ObscureToggleCommonProps {
   /** What does the value represent? eg 'ssn' for Social Security Number. Use 'custom' to control the revealed values via `visibleCount`. */
-  valueType: keyof (typeof valueTypes) | typeof customValueType;
+  valueType: keyof typeof valueTypes | typeof customValueType;
   /** If valueType is 'custom', the number of characters to leave revealed at the end */
   visibleCount?: number;
 }
@@ -69,7 +68,7 @@ class ObscureToggle extends Component<ObscureTogglePropsResult, ObscureToggleSta
     return (
       <StyledContainer {...utilProps}>
         {isObscured ? <Obscure value={value} visibleCount={visibleCount} /> : <TextInline>{value}</TextInline>}
-        <StyledLink
+        <ToggleLink
           onClick={this.toggle}
           ml={2}
           href="#" // allow focus via keyboard

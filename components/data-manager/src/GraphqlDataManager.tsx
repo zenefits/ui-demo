@@ -1,74 +1,113 @@
 import React from 'react';
+import { pickBy } from 'lodash';
 import { QueryResult } from 'react-apollo';
-import { ObjectOmit } from 'typelevel-ts';
 
-import { Query, QueryProps } from 'z-frontend-layout';
+import { Query, QueryProps } from 'z-frontend-network';
 
-import { AsyncFilterConfig } from './filterUtils';
-import GenericDataManager, { GenericManagerRenderProps } from './GenericDataManager';
-import UrlStateManager, { ASC_INDICATOR, DESC_INDICATOR, UrlStateManagerInputProps } from './UrlStateManager';
+import { QueryParams, UrlQueryParamsContext } from './UrlQueryParamsManager';
+import GenericDataManagerContext from './GenericDataManagerContext';
+import { getFiltersFromQueryParams } from './url-filters/urlFilterUtils';
 
-export type GraphqlDataManagerQueryVariables = {
-  filter?: AsyncFilterConfig;
-  sort?: string;
-  offset?: number;
-  first?: number;
+const getGraphqlVariablesFromQueryParams = ({ currentPage, pageSize, order_by, ...rest }: QueryParams) =>
+  pickBy(
+    {
+      order_by,
+      limit: pageSize,
+      offset: (currentPage - 1) * pageSize,
+      filter: getFiltersFromQueryParams(rest),
+    },
+    x => x || x === 0,
+  );
+
+type ProcessDataType<T> = {
+  processedData: T;
+  totalItemsCount?: number;
 };
 
-type GraphqlDataManagerOwnProps<TData, TVariables> = {
-  queryVariables?: any;
-  children: (managerProps: GenericManagerRenderProps & QueryResult<TData, TVariables>) => React.ReactNode;
+type GqlManagerRenderProps<Data> = {
+  // The Data in the render prop of GraphqlDataManager will be either QueryData | ProcessDataType
+  data: Data;
+  totalItemsCount?: number;
 };
 
-export type GraphqlDataManagerProps<TData, TVariables> = ObjectOmit<
-  QueryProps<TData, TVariables>,
-  keyof GraphqlDataManagerOwnProps<TData, TVariables>
-> &
-  GraphqlDataManagerOwnProps<TData, TVariables>;
+type ChildrenFn<QueryData, QueryVariables, Data> = (
+  renderProps: GqlManagerRenderProps<Data> & Omit<QueryResult<QueryData, QueryVariables>, 'data'>,
+) => JSX.Element;
 
-const getDataManagerQueryVariables = (managerProps: GenericManagerRenderProps): GraphqlDataManagerQueryVariables => {
-  const variables: GraphqlDataManagerQueryVariables = {};
-
-  // filtering prop
-  if (managerProps.filtering.config) {
-    variables.filter = managerProps.filtering.config;
-  }
-
-  // sorting prop
-  if (managerProps.sorting.config[0]) {
-    const { key, isAscending } = managerProps.sorting.config[0];
-    variables.sort = `${isAscending ? ASC_INDICATOR : DESC_INDICATOR}${key}`;
-  }
-
-  // paging props
-  const currentPage = managerProps.paging.currentPage;
-  const pageSize = managerProps.paging.pageSize;
-  variables.offset = (currentPage - 1) * pageSize;
-  variables.first = pageSize;
-
-  return variables;
+type GraphqlDataManagerProps<QueryData, QueryVariables, Data> = {
+  /**
+   * // TODO: if we want to keep URL as source of truth, shall we change this so that data from URL always take
+   * // priority?
+   * This prop can be used to overwrite query variables calculated from URL query params.
+   *
+   * For pagination, we use "limit" and "offset".
+   *
+   * For sorting, we use "order_by" as the key. "-" means descending.
+   *
+   * e.g.
+   * {
+   *  limit: 25,
+   *  offset: 0,
+   *  order_by: ['-name'],
+   * }
+   */
+  queryVariables?: Partial<QueryVariables>;
+  query: QueryProps<QueryData, QueryVariables>['query'];
+  queryOptions: Partial<QueryProps<QueryData, QueryVariables>>;
+  children: JSX.Element | ChildrenFn<QueryData, QueryVariables, Data>;
+  /**
+   * Optional function to process the data from GraphQL before passing down to context provider and render prop.
+   * If possible, put totalItemsCount in the returned object. It can be used to show total number of results.
+   *
+   * When GraphqlDataManager is used with DataTable, **MUST** use processData to format data into an array of rows,
+   * i.e. data: Row[];
+   */
+  processData?: (data: QueryResult<QueryData, QueryVariables>['data']) => ProcessDataType<Data>;
 };
 
-export class GraphqlDataManager<TData, TVariables> extends React.Component<
-  GraphqlDataManagerProps<TData, TVariables> & UrlStateManagerInputProps
-> {
-  render() {
-    const { queryVariables = {}, children, pageSize, prefix, ...queryProps } = this.props;
-    return (
-      <UrlStateManager pageSize={pageSize} prefix={prefix}>
-        {configManager => (
-          <GenericDataManager configManager={configManager}>
-            {managerProps => (
-              <Query<TData, TVariables>
-                variables={{ ...queryVariables, ...getDataManagerQueryVariables(managerProps) }}
-                {...queryProps}
-              >
-                {props => children({ ...managerProps, ...props })}
-              </Query>
-            )}
-          </GenericDataManager>
-        )}
-      </UrlStateManager>
-    );
-  }
+function GraphqlDataManager<QueryData, QueryVariables, Data = QueryData>(
+  props: GraphqlDataManagerProps<QueryData, QueryVariables, Data>,
+) {
+  const { children, query, queryOptions, queryVariables: queryVariablesProp, processData } = props;
+  const { queryParams } = React.useContext(UrlQueryParamsContext);
+  const queryVariables = ({
+    // TODO: pagination default variables could be implemented here instead of inside UrlQueryParamsContext
+    // ...defaultPaginationVariables
+    ...getGraphqlVariablesFromQueryParams(queryParams),
+    ...queryVariablesProp,
+  } as any) as QueryVariables;
+
+  return (
+    <Query<QueryData, QueryVariables> query={query} variables={queryVariables} {...queryOptions}>
+      {params => {
+        let contextValue = {} as { data: any; totalItemsCount?: number };
+        if (processData) {
+          const { processedData, totalItemsCount } = !params.loading && processData(params.data);
+          contextValue = {
+            totalItemsCount,
+            data: processedData,
+          };
+        } else {
+          contextValue = {
+            data: params.data,
+          };
+        }
+
+        const renderProps = {
+          ...params,
+          data: contextValue.data,
+          totalItemsCount: contextValue.totalItemsCount ?? null,
+        };
+
+        return (
+          <GenericDataManagerContext.Provider value={{ ...contextValue, loading: params.loading }}>
+            {/* Supporting render props pattern for backwards components, but data manager context is recommended */}
+            {typeof children === 'function' ? children(renderProps) : children}
+          </GenericDataManagerContext.Provider>
+        );
+      }}
+    </Query>
+  );
 }
+
+export default GraphqlDataManager;

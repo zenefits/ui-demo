@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormDateRange } from '../../..';
 
 export default () => (
-  <Form onSubmit={() => {}} initialValues={{ dateRange: Form.DateRange.getEmptyValue() }}>
-    <Form.DateRange name="dateRange" label="Date Range" optional />
+  <Form onSubmit={() => {}} initialValues={{ dateRange: FormDateRange.getEmptyValue() }}>
+    <FormDateRange name="dateRange" label="Date Range" optional />
   </Form>
 );

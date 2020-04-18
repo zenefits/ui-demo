@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { ObjectOmit } from 'typelevel-ts';
+import { isEqual } from 'lodash';
 
 import { ThemeProvider } from 'z-frontend-theme';
 import { BoxProps } from 'zbase';
 
 import RichEditor from '../rich-editor/RichEditor';
-import { splitIntoMentions, userMentionRegex, MentionsMap } from './MentionText';
+import { nonIDCharRegex, splitIntoMentions, userMentionRegex, MentionsMap } from './MentionText';
 import Mention from './Mention';
 import MentionSelect, { MentionOption } from './MentionSelect';
 import { SearchContainer } from '../search/SearchSelectDeprecated';
@@ -64,9 +64,12 @@ type MentionTextareaOwnProps = {
    * @default vertical
    */
   resize?: string;
+
+  /** Starting height of textarea, in pixels */
+  height?: string | number;
 };
 
-export type MentionTextareaProps = ObjectOmit<BoxProps, keyof MentionTextareaOwnProps> & MentionTextareaOwnProps;
+export type MentionTextareaProps = Omit<BoxProps, keyof MentionTextareaOwnProps> & MentionTextareaOwnProps;
 
 type MentionTextareaState = {
   showMentionSelect?: boolean;
@@ -102,7 +105,7 @@ function prepareMentions(value: string, options: MentionOption[]): string {
     return value;
   }
 
-  const mentionKeysPresent = matches.map(match => match.replace(/\D/g, ''));
+  const mentionKeysPresent = matches.map(match => match.replace(nonIDCharRegex, ''));
   const mentions: MentionsMap = {};
   options.forEach(option => {
     const mentioned = mentionKeysPresent.includes(option.id);
@@ -161,16 +164,18 @@ class MentionTextarea extends Component<MentionTextareaProps, MentionTextareaSta
         event.preventDefault();
         this.handleMentionSelected(mentionSelectedIndex);
         break;
-      case 'ArrowDown':
+      case 'ArrowDown': {
         event.preventDefault();
         const nextIndex = (1 + mentionSelectedIndex) % mentionSuggestions.length;
         this.updateMentionSelect(nextIndex);
         break;
-      case 'ArrowUp':
+      }
+      case 'ArrowUp': {
         event.preventDefault();
         const previousIndex = mentionSelectedIndex === 0 ? mentionSuggestions.length - 1 : mentionSelectedIndex - 1;
         this.updateMentionSelect(previousIndex);
         break;
+      }
     }
   };
 
@@ -205,6 +210,9 @@ class MentionTextarea extends Component<MentionTextareaProps, MentionTextareaSta
     const query = this.state.mentionSearchQuery;
     if (query !== prevState.mentionSearchQuery) {
       this.updateSuggestions(query);
+    }
+    if (!isEqual(prevProps.options.slice(0, 10), this.props.options.slice(0, 10))) {
+      this.renderMentionsJSX();
     }
   }
 
@@ -271,7 +279,7 @@ class MentionTextarea extends Component<MentionTextareaProps, MentionTextareaSta
   addMentionFromSuggestion(suggestion: MentionOption) {
     const textMention = `[@${suggestion.id}]`;
     const prepared = prepareMentions(textMention, this.props.options);
-    this.editor.insertHTML(prepared + '\u200B'); // zero-width space for smooth editing experience
+    this.editor.insertHTML(`${prepared}\u200B`); // zero-width space for smooth editing experience
     this.renderMentionsJSX();
   }
 
@@ -312,9 +320,19 @@ class MentionTextarea extends Component<MentionTextareaProps, MentionTextareaSta
     const { disabled, defaultValue, onChange, options, ...rest } = this.props;
     const { mentionSelectedIndex } = this.state;
     const contentWithMentions = prepareMentions(defaultValue, options);
+
+    // In the case where the options list is updated, we want to re-render mentions (eg. replace loading tags)
+    // Since component uses squire and doesn't respond normally to new React props, remounting is to only way
+    // to accomplish this.
+    //
+    // Just checking first 10 options should be able to handle these use cases while avoiding performance hit
+    // when component doesn't need it
+    const optionsDerivedKey = JSON.stringify(this.props.options.slice(0, 10));
+
     return (
       <SearchContainer>
         <RichEditor
+          key={optionsDerivedKey}
           disabled={disabled}
           defaultValue={contentWithMentions}
           onChange={this.handleChange}

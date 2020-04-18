@@ -4,6 +4,7 @@ import { css, IconNameString } from 'z-frontend-theme';
 import { fontSizes } from 'z-frontend-theme/utils';
 
 import withUtilPropsWeb, { ResultWebComponentProps } from '../withUtilPropsWeb';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 export const iconFontSizeMap = {
   xsmall: 0,
@@ -14,7 +15,7 @@ export const iconFontSizeMap = {
   xxlarge: 7,
 };
 
-export type IconSize = keyof (typeof iconFontSizeMap);
+export type IconSize = keyof typeof iconFontSizeMap;
 
 type AdditionalProps = {
   /** Name of the icon to display. Available list: http://zavoloklom.github.io/material-design-iconic-font/icons.html */
@@ -55,6 +56,9 @@ export const iconStyle = css`
     }
   }
 `;
+
+export const IconForDocs = makeDummyComponentForDocs<IconProps>();
+IconForDocs.displayName = 'Icon';
 
 export default withUtilPropsWeb<HTMLAttributes<HTMLSpanElement>, AdditionalProps>({
   additionalCss: iconStyle,

@@ -63,4 +63,9 @@ export type QueryParams = {
   queryParams?: string;
 };
 
-export type ExitType = 'startRealAccount' | 'logout';
+export type UserInfoBusinessCase = {
+  firstName: string;
+  lastName: string;
+  userEmail: string;
+  companyName: string;
+};

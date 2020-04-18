@@ -3,7 +3,7 @@ import React from 'react';
 import { Flex } from 'zbase';
 import { Button } from 'z-frontend-elements';
 
-import { Form } from '../Form';
+import { Form, FormSelectDeprecated } from '../../..';
 
 const options = [
   { value: 1, label: 'Bo' },
@@ -31,7 +31,7 @@ export default () => (
     {props => {
       return (
         <>
-          <Form.SelectDeprecated
+          <FormSelectDeprecated
             name="assignee"
             label="Assignee"
             options={options}

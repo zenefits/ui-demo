@@ -2,7 +2,7 @@ To keep our codebase consistent, we have strict guidelines on how to write
 components. Most of these come from the React community, but some are more
 opinionated.
 
-We enforce these practices with linting (where possible) and during PR review.
+We enforce these practices with linting (where possible) and during PR review. Follow [these instructions](https://github.com/zenefits/z-frontend#creating-a-ui-platform-component) when creating a new component to get useful starter files for docs, tests etc.
 
 ### Accessibility
 
@@ -25,37 +25,33 @@ Documenting a new component is straightforward:
 1.  Double check that the component is exported from the package (usually from a file called `index.ts`) and that [`styleguide.config.js`](https://github.com/zenefits/z-frontend/blob/master/apps/styleguide/styleguide.config.js) has a corresponding section.
 1.  `cd apps/styleguide` and `yarn start`
 
-See [`Avatar.tsx`](https://github.com/zenefits/z-frontend/blob/master/components/elements/src/image/avatar/Avatar.tsx) and [`Avatar.md`](https://github.com/zenefits/z-frontend/blob/master/components/elements/src/image/avatar/Avatar.md) for a complete example. Note how it is exported from [`index.ts`](https://github.com/zenefits/z-frontend/blob/master/components/elements/index.ts).
+See [`Avatar.tsx`](https://github.com/zenefits/z-frontend/blob/master/components/composite/src/avatar/Avatar.tsx) and [`Avatar.md`](https://github.com/zenefits/z-frontend/blob/master/components/composite/src/avatar/Avatar.md) for a complete example. Note how it is exported from [`index.ts`](https://github.com/zenefits/z-frontend/blob/master/components/elements/index.ts).
 
 The design system site is built with [React Styleguidist](https://github.com/styleguidist/react-styleguidist/). Documentation tends to fall out of date, which is why we use live examples and auto-generated props.
 
 ### Component structure
 
-#### Function vs class
+#### Functions
 
-There are two ways to write components in React: [a function or a class](https://reactjs.org/docs/components-and-props.html#functional-and-class-components).
+There are two ways to write components in React: [a function or a class](https://reactjs.org/docs/components-and-props.html#functional-and-class-components). New components should be written as **functions** in order to leverage the
+convenience of hooks and to stay current with the latest versions of React. Here's [an example](https://github.com/zenefits/z-frontend/blob/master/components/example/src/my-component/MyComponent.tsx).
 
-We always use class components because:
+Note: Our previous guidance was to favor using classes. Then React 16.8 introduced hooks, which require functions, and
+it now seems clear that [function components are the future of React](https://reactjs.org/docs/hooks-intro.html#motivation).
 
-- consistency reduces friction (eg, is it `props` or `this.props`?)
-- they support state and lifecycle methods
-- it's a pain to convert functional components to a class later
-- it forces us to use better types
-- there's no performance difference
+As of early 2020, many of our existing components are written as classes. There's no urgency to update them,
+and we'll likely only do so when needing to use hooks or when support for lifecycle methods is dropped.
 
-Further reading: [7 Reasons to Outlaw React’s Functional Components](https://medium.freecodecamp.org/7-reasons-to-outlaw-reacts-functional-components-ff5b5ae09b7c)
-
-The only exception are styled components and small, internal subcomponents that are not exported.
-
-#### HOCs vs render props
+#### Hooks, HOCs and render props
 
 In some cases, component logic should be shared among multiple components. There are multiple ways to accomplish
-this with React, including [HOCs](https://reactjs.org/docs/higher-order-components.html)
-and [render props](https://reactjs.org/docs/render-props.html).
+this with React. Here are our preferred solutions in order:
 
-We favor using render props (see, for example, [OverviewLayout](https://github.com/zenefits/z-frontend/blob/master/components/layout/src/overview/OverviewLayout.tsx)). For cases
-where we need to wrap the whole component, we build an HOC on top of the render props implementation.
-The default way to write render props is using FaCC (Function as Child Component).
+- [hooks](https://reactjs.org/docs/hooks-intro.html)
+- [render props](https://reactjs.org/docs/render-props.html)
+- [HOCs](https://reactjs.org/docs/higher-order-components.html)
+
+One nice thing about hooks is that they do not require deep nesting.
 
 #### JSX chunks
 
@@ -129,14 +125,14 @@ Form components are typically structured as two individual components.
 
 The first is just the underlying input, and knows nothing about which form library we're using (just communicates via props like `value` and `onChange`). For example: [Checkbox](https://github.com/zenefits/z-frontend/blob/master/components/forms/src/checkbox/Checkbox.tsx). Stories for this component focus on its various states. _This should generally not be exposed to apps._
 
-Wrapping this component is an adapter that connects it to our form library of choice. For example: [Form.Checkbox](https://github.com/zenefits/z-frontend/blob/master/components/forms/src/formik/checkbox/FormCheckbox.tsx). It needs to be present on both `Form.tsx` and `forms/index.ts`. Stories focus on form concerns, like initial values and validation. This component _is_ exposed.
+Wrapping this component is an adapter that connects it to our form library of choice. For example: [FormCheckbox](https://github.com/zenefits/z-frontend/blob/master/components/forms/src/formik/checkbox/FormCheckbox.tsx). Stories focus on form concerns, like initial values and validation. This component _is_ exposed.
 
-See [Forms](http://ui.zenefits.com/#!/Form) for more context.
+See [Form](http://ui.zenefits.com/#!/Form) for more context.
 
 ### Naming
 
-Use PascalCase for component names, eg `DateTimeText`. This is [a React convention](https://reactjs.org/docs/jsx-in-depth.html#user-defined-components-must-be-capitalized),
-and also reflects that components are classes. The filename should exactly match the name of the contained component, eg `DateTimeText.tsx`.
+Use PascalCase for component names, eg `DateTimeText`. This is [a React convention](https://reactjs.org/docs/jsx-in-depth.html#user-defined-components-must-be-capitalized).
+The filename should exactly match the name of the contained component, eg `DateTimeText.tsx`.
 
 For package and folder names, use kebab-case instead, eg `date-time-text/DateTimeText.tsx`. This helps to avoid issues
 with case sensitivity in directory structures.
@@ -156,8 +152,13 @@ Use `defaultProps`, not default function parameters, to set intelligent prop def
 and can also be parsed by our documentation tools. For example:
 
 ```jsx static
-class Button extends Component<ButtonBasicProps> {
-  static defaultProps: ButtonBasicProps = {
+// Functional components
+const Button: FunctionComponent<ButtonProps> = props => { ... };
+Button.defaultProps = { mode: 'normal', s: 'medium' };
+
+// Class components
+class Button extends Component<ButtonProps> {
+  static defaultProps = {
     mode: 'normal',
     s: 'medium'
   };
@@ -195,7 +196,7 @@ See the [testing guide](http://ui.zenefits.com/#!/Testing) for more details on t
 
 ### Types <a name="component-types"></a>
 
-If you're new to Typescript, [this lighting talk](https://www.youtube.com/watch?v=rJTzA6ohHQA) provides a succinct overview.
+If you're new to Typescript, [this lightning talk](https://www.youtube.com/watch?v=rJTzA6ohHQA) provides a succinct overview.
 
 In React documentation or guides, you may see `PropTypes`. We use Typescript instead, which gives us even more control.
 
@@ -212,6 +213,15 @@ type ObscureToggleState = {
   isObscured: boolean;
 };
 
+// Functional components
+/**
+ * A component that obscures sensitive data and includes a reveal toggle.
+ */
+const ObscureToggle: FunctionComponent<ObscureToggleProps> = props => {
+  const [isObscured, setIsObscured] = useState<boolean>(false);
+};
+
+// Class components
 /**
  * A component that obscures sensitive data and includes a reveal toggle.
  */
@@ -224,7 +234,7 @@ Type names should always be PascalCase, whether using interface/type/enum (even 
 We prefer using `type` instead of `interface` for Props and State.
 
 We rarely use the `declare` keyword, which is merely a hint for the Typescript compiler that a Javascript variable
-or class has been defined elsewhere. It is not useful for separate Typescript types or interfaces.
+or class has been defined elsewhere. It is not useful for separating Typescript types or interfaces.
 
 Useful component types:
 

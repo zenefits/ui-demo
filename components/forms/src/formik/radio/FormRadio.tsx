@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
+import Field from '../Field';
 import Radio, { RadioProps } from '../../radio/Radio';
 
 type FormRadioProps = RadioProps & {
@@ -19,14 +20,12 @@ class FormRadio extends Component<FormRadioProps> {
   render() {
     const { name, value, ...rest } = this.props;
     return (
-      <Field
-        name={name}
-        type="radio"
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} type="radio">
+        {({ field, form }: FieldProps) => {
           // TODO: why is it necessary to set value manually? (Formik is not connecting it to field.value.)
           return <Radio {...field} {...rest} value={value} checked={getIn(form.values, name) === value} />;
         }}
-      />
+      </Field>
     );
   }
 }

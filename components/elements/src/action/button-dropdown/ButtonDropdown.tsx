@@ -8,9 +8,9 @@ import React, {
   ReactElement,
 } from 'react';
 // TODO: use our own popover component
-import { Manager, Popper, Target } from 'react-popper';
+import { Manager, Popper, PopperProps, Reference } from 'react-popper';
 
-import { Flex, Icon } from 'zbase';
+import { Box, BoxProps, Flex, Icon } from 'zbase';
 import { css, styled, theme } from 'z-frontend-theme';
 import { color, depth, px, radius, space, zIndex } from 'z-frontend-theme/utils';
 
@@ -59,6 +59,15 @@ const itemCss = css`
   }
 `;
 
+export const BaseDropdownStyleBox = styled(Box)`
+  ${itemCss};
+`;
+class ButtonDropdownRawItem extends Component<BoxProps> {
+  render() {
+    return <BaseDropdownStyleBox w={1}>{this.props.children}</BaseDropdownStyleBox>;
+  }
+}
+
 const StyledButton = styled(Button)`
   ${itemCss};
 `;
@@ -98,12 +107,12 @@ interface ButtonDropdownAddedProps {
   /** Custom target. Defaults to `<Icon s="small" iconName="more-vert" />` */
   target?: React.ReactNode;
   /** Modifiers for react-popper. */
-  popperModifiers?: Popper.Modifiers;
+  popperModifiers?: PopperProps['modifiers'];
   /**
    * Placement of the dropdown. See react-popper for details.
    * @default 'bottom-start'
    */
-  popperPlacement?: Popper.Placement;
+  popperPlacement?: PopperProps['placement'];
   /**
    * Is the dropdown open by default? This only affects the first render
    * @default false
@@ -125,7 +134,7 @@ interface ButtonDropdownAddedProps {
   /**
    * Event handler when the target is clicked.
    */
-  onTargetClick?: MouseEventHandler<Target>;
+  onTargetClick?: MouseEventHandler<Reference>;
 
   /**
    * Event handler when the user clicks/touches outside of the button and the dropdown.
@@ -146,13 +155,19 @@ interface ButtonDropdownAddedProps {
 export type ButtonDropdownProps = ButtonBasicProps & ButtonDropdownAddedProps;
 
 class ButtonDropdown extends Component<ButtonDropdownProps, ButtonDropdownState> {
-  targetEl: HTMLElement;
-  popperEl: HTMLElement;
+  targetEl: HTMLElement | null;
+
+  popperEl: HTMLElement | null;
+
   documentEventHandlers: [string, (e: any) => void][];
 
   static ItemButton = ButtonDropdownItem;
+
   static ItemLink = ButtonDropdownItemLink;
+
   static ItemRouteLink = ButtonDropdownItemRouteLink;
+
+  static RawItem = ButtonDropdownRawItem;
 
   static defaultProps: ButtonDropdownAddedProps = {
     popperModifiers: {
@@ -183,16 +198,20 @@ class ButtonDropdown extends Component<ButtonDropdownProps, ButtonDropdownState>
       ['click', this.onOuterAction],
       ['keydown', this.onPressEsc],
     ];
+    this.documentEventHandlers.forEach(([eventName, handlerFn]) => {
+      window.document.addEventListener(eventName, handlerFn);
+    });
   }
 
   togglePopover = (isVisible?: boolean) => {
     if (this.state.isVisible === isVisible) {
       return;
     }
-    this.setState({
-      isVisible: isVisible == null ? !this.state.isVisible : isVisible,
-    });
+    this.setState(prevState => ({
+      isVisible: isVisible == null ? !prevState.isVisible : isVisible,
+    }));
   };
+
   onClick = (e: MouseEvent<any>) => {
     // Stops propagation of opening of the detail panel in a table when it is triggered via clicking
     // on this component inside of a table row
@@ -203,17 +222,20 @@ class ButtonDropdown extends Component<ButtonDropdownProps, ButtonDropdownState>
       this.props.onTargetClick(e);
     }
   };
+
   onOuterAction = (e: any) => {
-    if (!this.targetEl.contains(e.target) && (!this.popperEl || !this.popperEl.contains(e.target))) {
+    if (this.targetEl && !this.targetEl.contains(e.target) && (!this.popperEl || !this.popperEl.contains(e.target))) {
       this.togglePopover(false);
       if (typeof this.props.onOuterAction === 'function') {
         this.props.onOuterAction(e);
       }
     }
   };
+
   onPopperClick = (e: MouseEvent<any>) => {
     this.props.closeOnPopperClick && this.togglePopover(false);
   };
+
   onPressEsc = (e: KeyboardEvent<any>) => {
     if (e.keyCode === ESC_KEYCODE) {
       this.togglePopover(false);
@@ -223,11 +245,6 @@ class ButtonDropdown extends Component<ButtonDropdownProps, ButtonDropdownState>
     }
   };
 
-  componentWillMount() {
-    this.documentEventHandlers.forEach(([eventName, handlerFn]) => {
-      window.document.addEventListener(eventName, handlerFn);
-    });
-  }
   componentWillUnmount() {
     this.documentEventHandlers.forEach(([eventName, handlerFn]) => {
       window.document.removeEventListener(eventName, handlerFn);
@@ -235,11 +252,21 @@ class ButtonDropdown extends Component<ButtonDropdownProps, ButtonDropdownState>
   }
 
   render() {
-    const { children, open, popperModifiers, popperPlacement, ...rest } = this.props;
+    const {
+      children,
+      open,
+      popperModifiers,
+      popperPlacement,
+      // avoid forwarding on* props to styled-components, which causes react warnings
+      onTargetClick,
+      onOuterAction,
+      onPressEsc,
+      ...rest
+    } = this.props;
     const targetProps = {
       ...rest,
       onClick: this.onClick,
-      className: childItemClassName,
+      className: rest.className ? `${rest.className} ${childItemClassName}` : childItemClassName,
     };
 
     const targetContent = this.props.target ? (
@@ -258,30 +285,39 @@ class ButtonDropdown extends Component<ButtonDropdownProps, ButtonDropdownState>
 
     return (
       <Manager>
-        <Target
+        <Reference
           innerRef={targetEl => {
             this.targetEl = targetEl;
           }}
         >
-          {targetContent}
-        </Target>
+          {({ ref }) => <div ref={ref}>{targetContent}</div>}
+        </Reference>
         {isVisible && (
           <Popper
-            style={{
-              marginTop: space(1)({ theme }),
-              marginBottom: space(1)({ theme }),
-              zIndex: zIndex('dropdown')({ theme }),
-            }}
             modifiers={popperModifiers}
             placement={popperPlacement}
-            onClick={this.onPopperClick}
+            positionFixed
             innerRef={popperEl => {
               this.popperEl = popperEl;
             }}
           >
-            <StyledContainer {...containerProps} column>
-              {children}
-            </StyledContainer>
+            {({ placement, style, ref }) => (
+              <div
+                ref={ref}
+                style={{
+                  ...style,
+                  marginTop: space(1)({ theme }),
+                  marginBottom: space(1)({ theme }),
+                  zIndex: zIndex('dropdown')({ theme }),
+                }}
+                data-placement={placement}
+                data-testid="dropdown"
+              >
+                <StyledContainer onClick={this.onPopperClick} {...containerProps} column>
+                  {children}
+                </StyledContainer>
+              </div>
+            )}
           </Popper>
         )}
       </Manager>

@@ -1,6 +1,5 @@
 import React, { ChangeEvent, Component } from 'react';
 import { debounce, pickBy } from 'lodash';
-import { ObjectOmit } from 'typelevel-ts';
 
 import { styled } from 'z-frontend-theme';
 import { Button } from 'z-frontend-elements';
@@ -33,7 +32,7 @@ type SearchInputOwnProps = {
   buttonText?: string;
 };
 
-export type Props = ObjectOmit<SearchPresentationProps, keyof SearchInputOwnProps> & SearchInputOwnProps;
+export type Props = Omit<SearchPresentationProps, keyof SearchInputOwnProps> & SearchInputOwnProps;
 
 export interface State {
   query: string;
@@ -54,7 +53,7 @@ class SearchInput extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      query: (Array.isArray(props.defaultValue) ? props.defaultValue[0] : props.defaultValue) || '',
+      query: Array.isArray(props.defaultValue) ? String(props.defaultValue[0]) : props.defaultValue || '',
       focused: false,
       expanded: !!props.defaultValue,
     };
@@ -166,7 +165,7 @@ const InputIcon = styled(Box)`
   align-items: center;
 `;
 
-const SearchControl = styled<SearchPresentationProps & { focused?: boolean }>(Box)`
+const SearchControl = styled(Box)<SearchPresentationProps & { focused?: boolean }>`
   ${commonTextInputStyles};
   display: flex;
   height: ${props => heights(props.s)};

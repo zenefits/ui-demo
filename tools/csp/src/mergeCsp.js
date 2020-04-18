@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 module.exports = (sourceCsp, targetCsp) => {
-  const outputCsp = Object.assign({}, sourceCsp);
+  const outputCsp = { ...sourceCsp };
 
   Object.keys(targetCsp || {}).forEach(directive => {
     outputCsp[directive] = (outputCsp[directive] || []).concat(targetCsp[directive]);

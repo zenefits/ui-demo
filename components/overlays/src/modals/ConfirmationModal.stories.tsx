@@ -40,6 +40,18 @@ class ConfirmationModalOpen extends Component {
   }
 }
 
+const SubmissionInProgress = () => (
+  <ConfirmationModal
+    isVisible
+    title="Submitting"
+    content="This modal is submitting"
+    onCancel={() => {}}
+    onSubmit={() => {}}
+    isSubmitting
+  />
+);
+
 storiesOf('overlays|ConfirmationModal', module)
   .add('basic', () => <SimpleModalWithDialog />)
-  .add('open by default', () => <ConfirmationModalOpen />);
+  .add('open by default', () => <ConfirmationModalOpen />)
+  .add('submission in progress', () => <SubmissionInProgress />);

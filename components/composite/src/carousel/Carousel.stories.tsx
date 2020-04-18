@@ -6,7 +6,7 @@ import { withViewport } from '@storybook/addon-viewport';
 
 import { setViewports } from 'z-frontend-app-bootstrap';
 import { Box, Flex, Image, TextBlock } from 'zbase';
-import { images, HideFor } from 'z-frontend-theme';
+import { images, Hide } from 'z-frontend-theme';
 import { Button, Link } from 'z-frontend-elements';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
@@ -45,7 +45,7 @@ class EmptyExample extends Component<ExampleProps> {
     return (
       <Carousel itemsPerPage={3} isEmpty={items.length === 0}>
         {items.map(item => (
-          <Image key={item} src={item} height={200} />
+          <Image key={item} src={item} height={200} alt="todo" />
         ))}
       </Carousel>
     );
@@ -58,7 +58,7 @@ class ImageExample extends Component<ExampleProps> {
     return (
       <Carousel itemsPerPage={3}>
         {items.map(item => (
-          <Image key={item} src={item} height={200} />
+          <Image key={item} src={item} height={200} alt="todo" />
         ))}
       </Carousel>
     );
@@ -124,7 +124,7 @@ class FluidExample extends Component<ExampleProps> {
       <Carousel itemsPerPage={3}>
         {items.map(item => (
           <Box key={item.id} p={2}>
-            <Image src={item.image} mb={2} w={1} />
+            <Image src={item.image} mb={2} w={1} alt="todo" />
             <TextBlock>
               {item.text} <Link href="https://google.com">Read More</Link>
             </TextBlock>
@@ -141,7 +141,7 @@ class CustomItemsPerPageExample extends Component<ExampleProps> {
     return (
       <Carousel itemsPerPage={2}>
         {items.map(item => (
-          <Image key={item} src={item} height={200} />
+          <Image key={item} src={item} height={200} alt="todo" />
         ))}
       </Carousel>
     );
@@ -155,13 +155,13 @@ class CustomButtonsExample extends Component<ExampleProps> {
       <Carousel
         itemsPerPage={3}
         children={items.map(item => (
-          <Image key={item} src={item} height={200} />
+          <Image key={item} src={item} height={200} alt="todo" />
         ))}
         render={({ currentPage, totalPages, handleClickNext, handleClickPrevious, ...rest }: CarouselRenderProps) => (
           <>
             <Flex justify="space-between" align="center" mb={3} mr="40px">
               <TextBlock fontStyle="headings.s">Recommended for you</TextBlock>
-              <HideFor breakpoints={[true, true]}>
+              <Hide forBreakpoints={[true, true]}>
                 <Flex wrap align="center">
                   <Button mr={2} s="small" disabled={currentPage <= 1} onClick={handleClickPrevious}>
                     Prev
@@ -170,7 +170,7 @@ class CustomButtonsExample extends Component<ExampleProps> {
                     Next
                   </Button>
                 </Flex>
-              </HideFor>
+              </Hide>
             </Flex>
             <Carousel.View
               {...rest}

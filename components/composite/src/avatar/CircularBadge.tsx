@@ -32,11 +32,11 @@ function calculateBadgeStyle(props: any) {
     height: ${badgeSize};
     width: ${badgeSize};
     ${fontStyles('paragraphs.s')};
-    ${fontSizeAdjustment ? fontSizeAdjustment : ''};
+    ${fontSizeAdjustment || ''};
   `;
 }
 
-const CircularBadge = styled<AvatarProps>(Box)`
+const CircularBadge = styled(Box)<AvatarProps>`
   background-color: ${props => color(badgeTypeMap[props.badge].bg)};
   border-radius: 50%;
   ${props => calculateBadgeStyle(props)};

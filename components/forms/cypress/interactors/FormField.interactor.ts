@@ -2,7 +2,7 @@ import { Page } from 'z-frontend-cypress/page';
 
 class FormFieldInteractor extends Page {
   constructor(text: string) {
-    super(text, 'getByLabelText');
+    super(text, 'findByLabelText');
   }
 
   // TODO: just use should? (retry, better assertion in runner)
