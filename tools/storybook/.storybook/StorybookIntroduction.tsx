@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Box, Heading, Icon, TextBlock, TextInline } from 'zbase';
+import { Box, Heading, Icon, PluralText, TextBlock } from 'zbase';
 import { Link } from 'z-frontend-elements';
 
 // NOTE: this story must include references to all fonts (normal, bold, icon) so they're loaded immediately
@@ -13,12 +13,15 @@ class StorybookIntroduction extends Component<{ totalComponents: number }> {
         <Heading level={2} mb={2}>
           Welcome to our storybook <Icon iconName="check-circle" />
         </Heading>
+        <TextBlock className="chromatic-ignore">
+          <PluralText
+            none="We have examples for {count} components."
+            one="We have examples for {count} component."
+            other="We have examples for {count, number} components."
+            count={totalComponents}
+          />
+        </TextBlock>
         <TextBlock>
-          We have examples for{' '}
-          <TextInline bold tag="strong">
-            {totalComponents}
-          </TextInline>{' '}
-          components.{' '}
           <Link href="http://ui.zenefits.com" target="_blank">
             View docs
           </Link>

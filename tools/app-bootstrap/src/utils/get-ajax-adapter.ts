@@ -4,7 +4,7 @@
  * for new code and instead use `fetch` directly.
  */
 export default (fetchFn?: Function) => (config: any) => {
-  const url = config.url;
+  const { url } = config;
   const headers = new Headers([['Content-Type', 'application/json']]);
   const options = {
     headers,

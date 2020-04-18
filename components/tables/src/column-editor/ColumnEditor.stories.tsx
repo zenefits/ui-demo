@@ -46,4 +46,9 @@ storiesOf('tables|ColumnEditor', module)
     <Card>
       <ColumnEditor columns={withPreselectedColumns} onChange={action('on-change')} />
     </Card>
+  ))
+  .add('searchable columns', () => (
+    <Card>
+      <ColumnEditor columns={allColumns} onChange={action('on-change')} enableSearch />
+    </Card>
   ));

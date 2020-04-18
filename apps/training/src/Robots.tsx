@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // import gql from 'graphql-tag';
 
-// import { Query } from 'z-frontend-layout';
+// import { Query } from 'z-frontend-network';
 
 // import { RobotsQuery } from './gqlTypes';
 

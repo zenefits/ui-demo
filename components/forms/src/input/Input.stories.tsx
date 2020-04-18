@@ -60,21 +60,21 @@ storiesOf('forms|Input', module)
         leftIconName="search"
         onLeftIconClick={action('input-icon-onclick')}
         rightIconName="close"
-        placeholder="Search..."
+        placeholder="Search"
         s="small"
       />
       <InputWithIcon
         leftIconName="search"
         onLeftIconClick={action('input-icon-onclick')}
         rightIconName="close"
-        placeholder="Search..."
+        placeholder="Search"
         s="medium"
       />
       <InputWithIcon
         leftIconName="search"
         onLeftIconClick={action('input-icon-onclick')}
         rightIconName="close"
-        placeholder="Search..."
+        placeholder="Search"
         s="large"
       />
     </Box>
@@ -85,7 +85,7 @@ storiesOf('forms|Input', module)
         leftIconName="search"
         onLeftIconClick={action('input-icon-onclick')}
         rightIconName="close"
-        placeholder="Search..."
+        placeholder="Search"
         w={1 / 2}
       />
     </Box>

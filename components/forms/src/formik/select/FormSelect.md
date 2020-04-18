@@ -19,13 +19,13 @@ Grouped options:
 Adding a new option from the select:
 
 ```jsx noeditor
-<StorybookExample selectedKind="forms|Form.Select" selectedStory="add%20new%20option" height="300px" />
+<StorybookExample selectedKind="forms|Form.Select" selectedStory="add new option" height="300px" />
 ```
 
 Async options loading example:
 
 ```jsx noeditor
-<StorybookExample selectedKind="forms|Form.Select" selectedStory="async%20option%20loading" height="300px" />
+<StorybookExample selectedKind="forms|Form.Select" selectedStory="async option loading" height="300px" />
 ```
 
 Custom rendered options:
@@ -37,8 +37,8 @@ Custom rendered options:
 #### Usage
 
 - USE when user can only choose an option from set list of options
-- DO NOT USE if a text input with free input is needed (eg. entering an arbitrary search term). Instead use [Form.SearchSelect](#!/Form.SearchSelect)
-- [Form.RadioGroup](#!/Form.RadioGroup) or [Form.OpenListSelect](#!/Form.OpenListSelect) are alternatives approaches to option selection. Please consult a designer if you are unsure which component to use.
+- DO NOT USE if a text input with free input is needed (eg. entering an arbitrary search term). Instead use [FormSearchSelect](#!/FormSearchSelect)
+- [FormRadioGroup](#!/FormRadioGroup) or [FormOpenListSelect](#!/FormOpenListSelect) are alternatives approaches to option selection. Please consult a designer if you are unsure which component to use.
 
 #### Content Guidelines
 
@@ -77,8 +77,8 @@ handled externally as well.
 
 #### Related
 
-- [Form.SimpleSelect](#!/Form.SimpleSelect)
-- [Form.MultiSelect](#!/Form.MultiSelect)
-- [Form.SearchSelect](#!/Form.SearchSelect)
-- [Form.OpenListSelect](#!/Form.OpenListSelect)
-- [Form.RadioGroup](#!/Form.RadioGroup)
+- [FormSimpleSelect](#!/FormSimpleSelect)
+- [FormMultiSelect](#!/FormMultiSelect)
+- [FormSearchSelect](#!/FormSearchSelect)
+- [FormOpenListSelect](#!/FormOpenListSelect)
+- [FormRadioGroup](#!/FormRadioGroup)

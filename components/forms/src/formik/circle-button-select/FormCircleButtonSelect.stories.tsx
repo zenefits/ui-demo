@@ -1,10 +1,10 @@
 import React from 'react';
-import _ from 'lodash';
+import { range } from 'lodash';
 
 import { Box } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormCircleButton, FormCircleButtonSelect } from '../../..';
 
 storiesOf('forms|Form.CircleButtonSelect', module)
   .addDecorator((getStory: Function) => (
@@ -19,37 +19,37 @@ storiesOf('forms|Form.CircleButtonSelect', module)
 
 export const CheckboxExample = () => (
   <Form onSubmit={() => {}} initialValues={{ numbers: [false, false, true, false, false] }}>
-    <Form.CircleButtonSelect name="numbers" label="Numbers" behavior="checkbox" numOptions={5}>
-      {_.range(5).map(i => (
-        <Form.CircleButton key={i} aria-label={i.toString()}>
-          {i}
-        </Form.CircleButton>
+    <FormCircleButtonSelect name="numbers" label="Numbers" behavior="checkbox" numOptions={5}>
+      {range(5).map(integer => (
+        <FormCircleButton key={integer.toString()} aria-label={integer.toString()}>
+          {integer}
+        </FormCircleButton>
       ))}
-    </Form.CircleButtonSelect>
+    </FormCircleButtonSelect>
   </Form>
 );
 
 export const RadioExample = () => (
   <Form onSubmit={() => {}} initialValues={{ rating: 3 }}>
-    <Form.CircleButtonSelect name="rating" label="Rating" behavior="radio" numOptions={5}>
-      {_.range(5).map(i => (
-        <Form.CircleButton key={i} aria-label={i.toString()}>
-          {i}
-        </Form.CircleButton>
+    <FormCircleButtonSelect name="rating" label="Rating" behavior="radio" numOptions={5}>
+      {range(5).map(integer => (
+        <FormCircleButton key={integer.toString()} aria-label={integer.toString()}>
+          {integer}
+        </FormCircleButton>
       ))}
-    </Form.CircleButtonSelect>
+    </FormCircleButtonSelect>
   </Form>
 );
 
 export const DisabledExample = () => (
   <Form onSubmit={() => {}} initialValues={{ numbers: [false, false, true, false, false] }}>
-    <Form.CircleButtonSelect name="numbers" label="Numbers" behavior="checkbox" numOptions={5} disabled>
-      {_.range(5).map(i => (
-        <Form.CircleButton key={i} aria-label={i.toString()}>
-          {i}
-        </Form.CircleButton>
+    <FormCircleButtonSelect name="numbers" label="Numbers" behavior="checkbox" numOptions={5} disabled>
+      {range(5).map(integer => (
+        <FormCircleButton key={integer.toString()} aria-label={integer.toString()}>
+          {integer}
+        </FormCircleButton>
       ))}
-    </Form.CircleButtonSelect>
+    </FormCircleButtonSelect>
   </Form>
 );
 
@@ -61,19 +61,19 @@ export const SizesExample = () => (
       large: 3,
     }}
   >
-    <Form.CircleButtonSelect name="small" label="Small" behavior="radio" numOptions={7}>
-      {_.range(7).map(i => (
-        <Form.CircleButton key={i} aria-label={i.toString()} s="small">
-          {i}
-        </Form.CircleButton>
+    <FormCircleButtonSelect name="small" label="Small" behavior="radio" numOptions={7}>
+      {range(7).map(integer => (
+        <FormCircleButton key={integer.toString()} aria-label={integer.toString()} s="small">
+          {integer}
+        </FormCircleButton>
       ))}
-    </Form.CircleButtonSelect>
-    <Form.CircleButtonSelect name="large" label="Large" behavior="radio" numOptions={5}>
-      {_.range(5).map(i => (
-        <Form.CircleButton key={i} aria-label={i.toString()} s="large">
-          {i}
-        </Form.CircleButton>
+    </FormCircleButtonSelect>
+    <FormCircleButtonSelect name="large" label="Large" behavior="radio" numOptions={5}>
+      {range(5).map(integer => (
+        <FormCircleButton key={integer.toString()} aria-label={integer.toString()} s="large">
+          {integer}
+        </FormCircleButton>
       ))}
-    </Form.CircleButtonSelect>
+    </FormCircleButtonSelect>
   </Form>
 );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormSelectDeprecated } from '../../..';
 
 const options = [
   { value: 1, label: 'Bo' },
@@ -14,6 +14,6 @@ const options = [
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ assignees: '' }}>
-    <Form.SelectDeprecated multi name="assignees" label="Assignees" options={options} />
+    <FormSelectDeprecated multi name="assignees" label="Assignees" options={options} />
   </Form>
 );

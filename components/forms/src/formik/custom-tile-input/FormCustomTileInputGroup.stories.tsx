@@ -4,10 +4,11 @@ import { withViewport } from '@storybook/addon-viewport';
 
 import { setViewports } from 'z-frontend-app-bootstrap';
 import { Box, Flex, TextBlock } from 'zbase';
-import { styled, HideFor } from 'z-frontend-theme';
+import { styled, Hide } from 'z-frontend-theme';
+import { Button } from 'z-frontend-elements';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormCustomTileInputGroup } from '../../..';
 
 const tileOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'N/A'];
 const proteins = ['Chicken', 'Beef', 'Tofu', 'Pork'];
@@ -48,7 +49,7 @@ const LabelledRatingTile: StatelessComponent<{ rating: string; label: string }> 
   </Flex>
 );
 
-storiesOf('forms|Form.CustomTileInputGroup', module)
+storiesOf('forms|FormCustomTileInputGroup', module)
   .addDecorator((getStory: Function) => (
     <Flex p={20} align-items="start">
       <Box w={[1, 1 / 2]} mr={4}>
@@ -57,27 +58,18 @@ storiesOf('forms|Form.CustomTileInputGroup', module)
     </Flex>
   ))
   .addDecorator(withViewport())
-  .add('Radios', () => (
-    <Form onSubmit={() => {}} initialValues={{ radio: '1' }}>
-      <Form.CustomTileInputGroup>
-        {CustomTileInput =>
-          tileOptions.map(option => <CustomTileInput name="radio" value={option} label={option} key={option} />)
-        }
-      </Form.CustomTileInputGroup>
-    </Form>
-  ))
-  .add('Checkbox', () => (
-    <Form onSubmit={() => {}} initialValues={{ Chicken: false, Beef: false, Tofu: false, Pork: true }}>
-      <Form.CustomTileInputGroup isCheckbox>
-        {CustomTileInput =>
-          proteins.map(option => <CustomTileInput name={option} value={option} label={option} key={option} />)
-        }
-      </Form.CustomTileInputGroup>
+  .add('Radio with validation', () => <RadioWithValidation />)
+  .add('Checkbox with validation', () => <CheckboxWithValidation />)
+  .add('with nested initial value', () => (
+    <Form onSubmit={() => {}} initialValues={{ nested: { proteins: ['Beef', 'Tofu'] } }}>
+      <FormCustomTileInputGroup isCheckbox name="nested.proteins">
+        {CustomTileInput => proteins.map(option => <CustomTileInput name={option} label={option} key={option} />)}
+      </FormCustomTileInputGroup>
     </Form>
   ))
   .add('Custom render - performance rating', () => (
     <Form onSubmit={() => {}} initialValues={{ radio: '1' }}>
-      <Form.CustomTileInputGroup stackMobileVertically>
+      <FormCustomTileInputGroup stackMobileVertically name="radio">
         {CustomTileInput =>
           tileOptionsWithLabels.map(option => (
             <CustomTileInput name="radio" value={option.value} label={option.label} key={option.value}>
@@ -85,19 +77,19 @@ storiesOf('forms|Form.CustomTileInputGroup', module)
             </CustomTileInput>
           ))
         }
-      </Form.CustomTileInputGroup>
+      </FormCustomTileInputGroup>
     </Form>
   ))
   .add(
     'Mobile',
     () => (
       <Form onSubmit={() => {}} initialValues={{ horizontal: '1', vertical: '2' }}>
-        <Form.CustomTileInputGroup>
+        <FormCustomTileInputGroup name="horizontal">
           {CustomTileInput =>
             tileOptions.map(option => <CustomTileInput name="horizontal" label={option} value={option} key={option} />)
           }
-        </Form.CustomTileInputGroup>
-        <Form.CustomTileInputGroup stackMobileVertically>
+        </FormCustomTileInputGroup>
+        <FormCustomTileInputGroup name="vertical" stackMobileVertically>
           {CustomTileInput =>
             tileOptionsWithLabels.map(option => (
               <CustomTileInput name="vertical" value={option.value} label={option.label} key={option.value}>
@@ -105,18 +97,22 @@ storiesOf('forms|Form.CustomTileInputGroup', module)
               </CustomTileInput>
             ))
           }
-        </Form.CustomTileInputGroup>
+        </FormCustomTileInputGroup>
       </Form>
     ),
     setViewports([0]),
   )
   .add('With external labels', () => (
     <Form onSubmit={() => {}} initialValues={{ radio: '1' }}>
-      <Form.CustomTileInputGroup firstInputLabel="Poor performance" lastInputLabel="Exceptional performance">
+      <FormCustomTileInputGroup
+        name="radio"
+        firstInputLabel="Poor performance"
+        lastInputLabel="Exceptional performance"
+      >
         {CustomTileInput =>
           tileOptions.map(option => <CustomTileInput label={option} name="radio" value={option} key={option} />)
         }
-      </Form.CustomTileInputGroup>
+      </FormCustomTileInputGroup>
     </Form>
   ))
   .add(
@@ -124,23 +120,23 @@ storiesOf('forms|Form.CustomTileInputGroup', module)
     () => {
       const firstInputLabel = (
         <Box>
-          <HideFor breakpoints={[false, true, true, true, true]}>Poor</HideFor>
-          <HideFor breakpoints={[true, false, false, false, false]}>Poor performance</HideFor>
+          <Hide forBreakpoints={[false, true, true, true, true]}>Poor</Hide>
+          <Hide forBreakpoints={[true, false, false, false, false]}>Poor performance</Hide>
         </Box>
       );
 
       const lastInputLabel = (
         <Box>
-          Exceptional <HideFor breakpoints={[true, false, false, false, false]}>performance</HideFor>
+          Exceptional <Hide forBreakpoints={[true, false, false, false, false]}>performance</Hide>
         </Box>
       );
       return (
         <Form onSubmit={() => {}} initialValues={{ radio: '1' }}>
-          <Form.CustomTileInputGroup firstInputLabel={firstInputLabel} lastInputLabel={lastInputLabel}>
+          <FormCustomTileInputGroup name="radio" firstInputLabel={firstInputLabel} lastInputLabel={lastInputLabel}>
             {CustomTileInput =>
               tileOptions.map(option => <CustomTileInput label={option} name="radio" value={option} key={option} />)
             }
-          </Form.CustomTileInputGroup>
+          </FormCustomTileInputGroup>
         </Form>
       );
     },
@@ -151,7 +147,7 @@ storiesOf('forms|Form.CustomTileInputGroup', module)
       <TextBlock color="text.dark" mb={4} fontStyle="paragraphs.l">
         How effective of a leader is this person?
       </TextBlock>
-      <Form.CustomTileInputGroup stackMobileVertically>
+      <FormCustomTileInputGroup name="radio" stackMobileVertically>
         {CustomTileInput =>
           tileOptionsWithLabels.map(option => (
             <CustomTileInput name="radio" value={option.value} label={option.label} key={option.value}>
@@ -159,17 +155,94 @@ storiesOf('forms|Form.CustomTileInputGroup', module)
             </CustomTileInput>
           ))
         }
-      </Form.CustomTileInputGroup>
+      </FormCustomTileInputGroup>
     </Form>
   ))
   .add('With field label', () => (
     <Form onSubmit={() => {}} initialValues={{ radio: '1', radio2: '2' }}>
-      <Form.CustomTileInputGroup label="Rating" stackMobileVertically>
+      <FormCustomTileInputGroup name="radio" label="Rating" stackMobileVertically>
         {CustomTileInput =>
           tileOptions
             .slice(0, 5)
             .map(option => <CustomTileInput name="radio" value={option} label={option} key={option} />)
         }
-      </Form.CustomTileInputGroup>
+      </FormCustomTileInputGroup>
+      <FormCustomTileInputGroup name="radio2" label="Label on Top" stackMobileVertically format="form-row-top-label">
+        {CustomTileInput =>
+          tileOptions
+            .slice(0, 5)
+            .map(option => <CustomTileInput name="radio2" value={option} label={option} key={option} />)
+        }
+      </FormCustomTileInputGroup>
     </Form>
   ));
+
+const RadioWithValidation = () => (
+  <Form
+    initialValues={{ customer: { rating: '', recommend: '' } }}
+    validationSchema={{
+      customer: Form.Yup.object().shape({
+        rating: Form.Yup.string().required('Required.'),
+        recommend: Form.Yup.string().required('Required.'),
+      }),
+    }}
+    onSubmit={(values, actions) => {
+      setTimeout(() => {
+        actions.setSubmitting(false);
+        console.log('values:', values);
+      }, 500);
+    }}
+  >
+    {props => (
+      <>
+        <FormCustomTileInputGroup label="Rating" format="form-row-top-label" name="customer.rating">
+          {CustomTileInput =>
+            tileOptions.map(option => (
+              <CustomTileInput name="customer.rating" value={option} label={option} key={option} />
+            ))
+          }
+        </FormCustomTileInputGroup>
+        <FormCustomTileInputGroup label="Would you recommend?" format="form-row-top-label" name="customer.recommend">
+          {CustomTileInput =>
+            tileOptions.map(option => (
+              <CustomTileInput name="customer.recommend" value={option} label={option} key={option} />
+            ))
+          }
+        </FormCustomTileInputGroup>
+        <Flex justify="flex-end" mt={4}>
+          <Button type="submit" mode="primary" inProgress={props.isSubmitting}>
+            Save
+          </Button>
+        </Flex>
+      </>
+    )}
+  </Form>
+);
+
+const CheckboxWithValidation = () => (
+  <Form
+    initialValues={{ proteins: [] }}
+    validationSchema={{
+      proteins: Form.Yup.array().required('Please choose at least one.'),
+    }}
+    onSubmit={(values, actions) => {
+      setTimeout(() => {
+        actions.setSubmitting(false);
+        console.log('values:', values);
+      }, 500);
+    }}
+  >
+    {props => (
+      <>
+        <FormCustomTileInputGroup isCheckbox label="Proteins" format="form-row-top-label" name="proteins">
+          {CustomTileInput => proteins.map(option => <CustomTileInput name={option} label={option} key={option} />)}
+        </FormCustomTileInputGroup>
+        <Flex justify="flex-end" mt={4}>
+          <Button type="submit" mode="primary" inProgress={props.isSubmitting}>
+            Save
+          </Button>
+        </Flex>
+      </>
+    )}
+  </Form>
+);

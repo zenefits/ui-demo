@@ -1,4 +1,5 @@
 import React, { InputHTMLAttributes, StatelessComponent } from 'react';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { Field as BaseField, WrappedFieldProps } from 'redux-form';
 
 import { LabelProps } from 'zbase';

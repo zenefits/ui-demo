@@ -10,37 +10,18 @@ module.exports = {
       // this is .d.ts file, they are ignored by babel, but we are re-exporting types from it, and webpack/jest
       // get confused by export from non-existing (or empty) file
       './wizardGraphqlTypes': require.resolve('z-frontend-webpack/src/emptyModule.js'),
+      // avoid .m.js version from signature_pad "module" field
+      signature_pad: path.resolve(__dirname, '../../node_modules/signature_pad/dist/signature_pad.min.js'),
     },
   },
   module: {
     rules: [
       rules.getMjsRule(),
-      {
-        test: /\.(ts|tsx)$/,
-        use: [
-          {
-            loader: require.resolve('babel-loader'),
-            options: {
-              cacheDirectory: path.join(__dirname, '../../node_modules/.cache/babel-loader'),
-            },
-          },
-        ],
-        exclude: [/node_modules\//],
-      },
+      rules.getScriptsRule(path.join(__dirname, '../../node_modules/.cache/babel-loader')),
       rules.getFontsRule(),
       rules.getCssRule(),
-      {
-        test: /src\/images\/(.*)/,
-        exclude: [/node_modules\//],
-        use: [
-          {
-            loader: require.resolve('file-loader'),
-            options: {
-              name: 'images/[name].[ext]',
-            },
-          },
-        ],
-      },
+      rules.getImageRule(),
+      rules.getCoveoSvgRule(),
     ],
   },
   devServer: {
@@ -55,5 +36,5 @@ module.exports = {
       },
     },
   },
-  plugins: [plugins.createDefinePlugin(), plugins.createWarningFilterPlugin()],
+  plugins: [plugins.createDefinePlugin({ publicPath: '/' }), plugins.createWarningFilterPlugin()],
 };

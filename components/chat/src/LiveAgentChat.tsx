@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import React, { AllHTMLAttributes, Component } from 'react';
 
 import { IconButton, Link } from 'z-frontend-elements';
@@ -117,7 +118,7 @@ function getChatWindowStyle(options: any) {
 }
 
 // need to keep the same iframe in the dom to keep listening for messages
-const StyledFlex = styled<FlexProps & { isChatWindowOpened?: boolean; isChatWindowFullLength?: boolean }>(Flex)`
+const StyledFlex = styled(Flex)<FlexProps & { isChatWindowOpened?: boolean; isChatWindowFullLength?: boolean }>`
   ${props => getChatWindowStyle(props)};
 `;
 
@@ -221,6 +222,7 @@ export default class LiveAgentChat extends Component<Props, State> {
   static defaultProps = {
     queueName: 'implementation',
   };
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -243,7 +245,7 @@ export default class LiveAgentChat extends Component<Props, State> {
   }
 
   listenToChatStatus = (e: any) => {
-    const status = STATUS_LOOKUP[e.data];
+    const status = (STATUS_LOOKUP as any)[e.data];
     if (status) {
       const newState = setChatStatus(status, this.state);
       const currentState = this.state;
@@ -264,7 +266,7 @@ export default class LiveAgentChat extends Component<Props, State> {
         : SALESFORCE_CHAT_LIVEAGENT_INIT_SUPPORT;
     const liveagentInit = liveagentInitQueue[window.location.hostname] || liveagentInitQueue['default'];
 
-    const makeChatUnavailable = this.makeChatUnavailable;
+    const { makeChatUnavailable } = this;
 
     // hack to clean up after previous possible liveagent runs
     // (it can't run more than once, you need to clean up and re-add the javascript)
@@ -276,8 +278,8 @@ export default class LiveAgentChat extends Component<Props, State> {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.onload = function() {
-      const liveagent = (window as any).liveagent; // make linter happy
+    script.onload = () => {
+      const { liveagent } = window as any; // make linter happy
       if (!(window as any)._laq) {
         (window as any)._laq = [];
       }
@@ -396,98 +398,30 @@ export default class LiveAgentChat extends Component<Props, State> {
           />
         </StyledContainer>
       );
-    } else {
-      if (isChatAvailable && isChatActive) {
-        return (
-          <StyledContainer>
-            <Flex justify="flex-end" bg={'secondary.b'}>
-              {isChatWindowOpened &&
-                (isChatWindowFullLength ? (
-                  <IconButton
-                    iconName="chevron-down"
-                    onClick={this.makeChatWindowShort}
-                    title="Shorten the chat window"
-                    aria-label="Shorten the chat window"
-                    m={1}
-                  />
-                ) : (
-                  <IconButton
-                    iconName="chevron-up"
-                    onClick={this.makeChatWindowFullLength}
-                    title="Make the chat window full length"
-                    aria-label="Make the chat window full length"
-                    m={1}
-                  />
-                ))}
-              {isChatWindowOpened &&
-                (isChatEnded ? (
-                  <IconButton
-                    iconName="close"
-                    onClick={this.closeChatWindow}
-                    title="Close the chat window"
-                    aria-label="Close the chat window"
-                    m={1}
-                  />
-                ) : (
-                  <IconButton
-                    iconName="window-minimize"
-                    onClick={this.minimizeChatWindow}
-                    title="Minimize the chat window"
-                    aria-label="Minimize the chat window"
-                    m={1}
-                  />
-                ))}
-            </Flex>
-
-            {!isChatWindowOpened && this.getMinimizedIcon()}
-            <StyledFlex
-              isChatWindowOpened={isChatWindowOpened}
-              isChatWindowFullLength={this.state.isChatWindowFullLength}
-              wrap
-            >
-              {showTimeOutWarning && isChatWindowOpened && (
-                <StyledWarningBanner px={2} pt={1}>
-                  <TextBlock color="negation.a">
-                    The chat is about to timeout. Please respond if you wish to continue.
-                  </TextBlock>
-                </StyledWarningBanner>
-              )}
-              <StyledIframe
-                name="chat-window"
-                id="chat-window"
-                frameBorder="0"
-                allowFullScreen
-                height={showTimeOutWarning ? '85%' : '100%'}
-                isChatWindowOpened={isChatWindowOpened}
-              />
-              <StyledDiv id="liveagent-button" />
-            </StyledFlex>
-          </StyledContainer>
-        );
-      } else {
-        const emailOptions = EMAIL_ADDRESS_AND_SUBJECT[this.props.queueName];
-        return (
-          <StyledContainer>
-            <Flex justify="flex-end" bg={'secondary.b'}>
-              {isChatWindowOpened &&
-                (isChatWindowFullLength ? (
-                  <IconButton
-                    iconName="chevron-down"
-                    onClick={this.makeChatWindowShort}
-                    title="Shorten the chat window"
-                    aria-label="Shorten the chat window"
-                    m={1}
-                  />
-                ) : (
-                  <IconButton
-                    iconName="chevron-up"
-                    onClick={this.makeChatWindowFullLength}
-                    title="Make the chat window full length"
-                    aria-label="Make the chat window full length"
-                    m={1}
-                  />
-                ))}
-              {(isChatEnded || !isChatActive) && isChatWindowOpened && (
+    } else if (isChatAvailable && isChatActive) {
+      return (
+        <StyledContainer>
+          <Flex justify="flex-end" bg="secondary.b">
+            {isChatWindowOpened &&
+              (isChatWindowFullLength ? (
+                <IconButton
+                  iconName="chevron-down"
+                  onClick={this.makeChatWindowShort}
+                  title="Shorten the chat window"
+                  aria-label="Shorten the chat window"
+                  m={1}
+                />
+              ) : (
+                <IconButton
+                  iconName="chevron-up"
+                  onClick={this.makeChatWindowFullLength}
+                  title="Make the chat window full length"
+                  aria-label="Make the chat window full length"
+                  m={1}
+                />
+              ))}
+            {isChatWindowOpened &&
+              (isChatEnded ? (
                 <IconButton
                   iconName="close"
                   onClick={this.closeChatWindow}
@@ -495,51 +429,117 @@ export default class LiveAgentChat extends Component<Props, State> {
                   aria-label="Close the chat window"
                   m={1}
                 />
-              )}
-            </Flex>
-            {!isChatWindowOpened ? (
-              this.getMinimizedIcon()
-            ) : (
-              <StyledFlex
-                isChatWindowOpened={isChatWindowOpened}
-                isChatWindowFullLength={this.state.isChatWindowFullLength}
-              >
-                <StyledUnavailableContainer align="center">
-                  <Flex px={3}>
-                    {isChatActive ? (
-                      <Flex justify="center" wrap>
-                        <CenteredTextBlock fontStyle="headings.s">
-                          All Implementation Managers are currently busy.
-                        </CenteredTextBlock>
-                        <CenteredTextBlock fontStyle="headings.s">
-                          Please try again soon or email us directly, <br />
-                          <Link href={`mailto:${emailOptions.address}?subject=${emailOptions.subject}`}>
-                            {emailOptions.address}
-                          </Link>
-                        </CenteredTextBlock>
-                      </Flex>
-                    ) : (
-                      <Flex justify="center" wrap>
-                        <CenteredTextBlock fontStyle="headings.s">
-                          Implementation Managers are available to chat: Mon - Fri, 9am - 5pm MST.
-                        </CenteredTextBlock>
-                        <CenteredTextBlock fontStyle="headings.s">
-                          You can also email your question to the Implementation team at <br />
-                        </CenteredTextBlock>
-                        <CenteredTextBlock fontStyle="headings.s">
-                          <Link href={`mailto:${emailOptions.address}?subject=${emailOptions.subject}`}>
-                            {emailOptions.address}
-                          </Link>
-                        </CenteredTextBlock>
-                      </Flex>
-                    )}
-                  </Flex>
-                </StyledUnavailableContainer>
-              </StyledFlex>
+              ) : (
+                <IconButton
+                  iconName="window-minimize"
+                  onClick={this.minimizeChatWindow}
+                  title="Minimize the chat window"
+                  aria-label="Minimize the chat window"
+                  m={1}
+                />
+              ))}
+          </Flex>
+
+          {!isChatWindowOpened && this.getMinimizedIcon()}
+          <StyledFlex
+            isChatWindowOpened={isChatWindowOpened}
+            isChatWindowFullLength={this.state.isChatWindowFullLength}
+            wrap
+          >
+            {showTimeOutWarning && isChatWindowOpened && (
+              <StyledWarningBanner px={2} pt={1}>
+                <TextBlock color="negation.a">
+                  The chat is about to timeout. Please respond if you wish to continue.
+                </TextBlock>
+              </StyledWarningBanner>
             )}
-          </StyledContainer>
-        );
-      }
+            <StyledIframe
+              name="chat-window"
+              id="chat-window"
+              frameBorder="0"
+              allowFullScreen
+              height={showTimeOutWarning ? '85%' : '100%'}
+              isChatWindowOpened={isChatWindowOpened}
+            />
+            <StyledDiv id="liveagent-button" />
+          </StyledFlex>
+        </StyledContainer>
+      );
+    } else {
+      const emailOptions = EMAIL_ADDRESS_AND_SUBJECT[this.props.queueName];
+      return (
+        <StyledContainer>
+          <Flex justify="flex-end" bg="secondary.b">
+            {isChatWindowOpened &&
+              (isChatWindowFullLength ? (
+                <IconButton
+                  iconName="chevron-down"
+                  onClick={this.makeChatWindowShort}
+                  title="Shorten the chat window"
+                  aria-label="Shorten the chat window"
+                  m={1}
+                />
+              ) : (
+                <IconButton
+                  iconName="chevron-up"
+                  onClick={this.makeChatWindowFullLength}
+                  title="Make the chat window full length"
+                  aria-label="Make the chat window full length"
+                  m={1}
+                />
+              ))}
+            {(isChatEnded || !isChatActive) && isChatWindowOpened && (
+              <IconButton
+                iconName="close"
+                onClick={this.closeChatWindow}
+                title="Close the chat window"
+                aria-label="Close the chat window"
+                m={1}
+              />
+            )}
+          </Flex>
+          {!isChatWindowOpened ? (
+            this.getMinimizedIcon()
+          ) : (
+            <StyledFlex
+              isChatWindowOpened={isChatWindowOpened}
+              isChatWindowFullLength={this.state.isChatWindowFullLength}
+            >
+              <StyledUnavailableContainer align="center">
+                <Flex px={3}>
+                  {isChatActive ? (
+                    <Flex justify="center" wrap>
+                      <CenteredTextBlock fontStyle="headings.s">
+                        All Implementation Managers are currently busy.
+                      </CenteredTextBlock>
+                      <CenteredTextBlock fontStyle="headings.s">
+                        Please try again soon or email us directly, <br />
+                        <Link href={`mailto:${emailOptions.address}?subject=${emailOptions.subject}`}>
+                          {emailOptions.address}
+                        </Link>
+                      </CenteredTextBlock>
+                    </Flex>
+                  ) : (
+                    <Flex justify="center" wrap>
+                      <CenteredTextBlock fontStyle="headings.s">
+                        Implementation Managers are available to chat: Mon - Fri, 9am - 5pm MST.
+                      </CenteredTextBlock>
+                      <CenteredTextBlock fontStyle="headings.s">
+                        You can also email your question to the Implementation team at <br />
+                      </CenteredTextBlock>
+                      <CenteredTextBlock fontStyle="headings.s">
+                        <Link href={`mailto:${emailOptions.address}?subject=${emailOptions.subject}`}>
+                          {emailOptions.address}
+                        </Link>
+                      </CenteredTextBlock>
+                    </Flex>
+                  )}
+                </Flex>
+              </StyledUnavailableContainer>
+            </StyledFlex>
+          )}
+        </StyledContainer>
+      );
     }
   }
 }

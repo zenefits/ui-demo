@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, waitForElement } from 'react-testing-library';
+import { cleanup, waitForElement } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils'; // ES6
 
 import { Box, Label } from 'zbase';
@@ -44,7 +44,7 @@ describe('Time Input', () => {
     const TimeInputWithLabel = () => (
       <Box>
         <Label htmlFor="time">time</Label>
-        <TimeInput name="time" disableTethering />
+        <TimeInput name="time" tetherProps={{ disabled: true }} />
       </Box>
     );
     afterEach(cleanup);
@@ -67,7 +67,7 @@ describe('Time Input', () => {
         input.value = time;
         ReactTestUtils.Simulate.change(input);
         ReactTestUtils.Simulate.keyDown(input, { key: 'Enter', keyCode: 13, which: 13 });
-        await waitForElement(() => wrapper.getByText(autocompleted));
+        await waitForElement(() => wrapper.getByDisplayValue(autocompleted));
       };
       it('should autocomplete "2" correctly', () => checkAutocompletedTime('2', '2:00 AM'));
       it('should autocomplete "3:" correctly', () => checkAutocompletedTime('3:', '3:00 AM'));

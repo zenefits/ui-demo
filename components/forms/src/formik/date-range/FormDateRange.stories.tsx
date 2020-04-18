@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-// @ts-ignore
-import { action } from '@storybook/addon-actions';
 
 import { Box } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import DefaultExample from './exampleDefault';
 import OptionalLabelExample from './exampleOptionalLabel';
-import { Form } from '../Form';
+import DisabledDatePickerExample from './exampleDisabledDayPickers';
+import { Form, FormDateRange } from '../../..';
 
-storiesOf('forms|Form.DateRange', module)
+storiesOf('forms|FormDateRange', module)
   .addDecorator((getStory: Function) => (
     <Box p={20} w={[1, 0.7]} bg="grayscale.white">
       {getStory()}
@@ -17,7 +15,24 @@ storiesOf('forms|Form.DateRange', module)
   ))
   .add('default', () => <DefaultExample />)
   .add('initial value', () => <InitialValueExample />)
-  .add('optional', () => <OptionalLabelExample />);
+  .add('optional', () => <OptionalLabelExample />)
+  .add('disabled', () => <DisabledDatePickerExample />);
+
+class DefaultExample extends Component {
+  render() {
+    return (
+      <Form
+        onSubmit={() => {}}
+        initialValues={{ dateRange: FormDateRange.getEmptyValue() }}
+        validationSchema={{
+          dateRange: FormDateRange.validationSchema,
+        }}
+      >
+        <FormDateRange name="dateRange" label="Date Range" />
+      </Form>
+    );
+  }
+}
 
 class InitialValueExample extends Component {
   render() {
@@ -30,8 +45,11 @@ class InitialValueExample extends Component {
             endDate: '2019-01-14',
           },
         }}
+        validationSchema={{
+          dateRange: FormDateRange.validationSchema,
+        }}
       >
-        <Form.DateRange name="dateRange" label="Date Range" />
+        <FormDateRange name="dateRange" label="Date Range" />
       </Form>
     );
   }

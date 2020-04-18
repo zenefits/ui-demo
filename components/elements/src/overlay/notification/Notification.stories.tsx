@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { TextInline } from 'zbase';
+import { paddedBox } from 'z-frontend-storybook-config';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
 import Notification from './Notification';
 
 storiesOf('elements|Notification', module)
+  .addDecorator(paddedBox)
   .add('default', () => <Notification open>Task assigned.</Notification>)
   .add('formatted content', () => (
     <Notification open>

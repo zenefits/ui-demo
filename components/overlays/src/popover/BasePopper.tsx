@@ -1,8 +1,7 @@
 import React, { cloneElement, Component, CSSProperties, ReactChild } from 'react';
 import * as ReactDOM from 'react-dom';
-import { IPopperChildrenProps, Manager, Popper, Target } from 'react-popper';
+import { Manager, Popper, PopperChildrenProps, PopperProps, Reference } from 'react-popper';
 
-import { zIndex } from 'z-frontend-theme/utils';
 import { Box } from 'zbase';
 import { styled } from 'z-frontend-theme';
 
@@ -54,9 +53,17 @@ export interface BasePopperProps {
    */
   placement?: PlacementProp;
   /**
+   * Position the popover using position: fixed rather than position: absolute
+   * @default true
+   */
+  positionFixed?: boolean;
+  /**
    * A list of placements to try rendering the popover in if there is not enough room in the primary placement
+   * @deprecated Use popperModiferies instead
    */
   flip?: FlipProp[];
+  /** Modifiers for react-popper. */
+  popperModifiers?: PopperProps['modifiers'];
   /**
    * Show an arrow from the poppover pointing to the target
    * @default false
@@ -70,7 +77,7 @@ export interface BasePopperProps {
   /**
    * Inject a wrapping element for the popover content. Used by tooltip to modify popover styling.
    */
-  children: ((popperChildProps: IPopperChildrenProps, isVisible: boolean, closePopper: () => void) => ReactChild);
+  children: (popperChildProps: PopperChildrenProps, isVisible: boolean, closePopper: () => void) => ReactChild;
 }
 
 interface State {
@@ -78,7 +85,7 @@ interface State {
 }
 
 interface TargetRefProps<T> {
-  setTargetRef: ((instance: TargetRef) => void);
+  setTargetRef: (instance: TargetRef) => void;
 }
 
 type TargetRef = Element | Text;
@@ -115,21 +122,21 @@ const EmptyTarget = <Box />;
 
 const StyledPopperContainer = styled(Box)`
   display: inline;
-
-  .popper {
-    z-index: ${zIndex('popover')};
-  }
 `;
 
 class BasePopover extends Component<BasePopperProps, State> {
   static defaultProps = {
     placement: 'left',
     flip: [] as any[],
+    positionFixed: true,
   };
 
   targetEl: TargetRef;
+
   popperEl: HTMLElement;
+
   documentEventHandlers: [string, (e: any) => void][];
+
   targetElEventHandlers: [string, (e: any) => void][];
 
   constructor(props: BasePopperProps) {
@@ -151,16 +158,20 @@ class BasePopover extends Component<BasePopperProps, State> {
     this.setTargetEl = this.setTargetEl.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: BasePopperProps) {
+  // tslint:disable-next-line:function-name
+  UNSAFE_componentWillReceiveProps(nextProps: BasePopperProps) {
     if (this.props.showPopover !== nextProps.showPopover) {
       this.setState({ isVisible: nextProps.showPopover });
     }
   }
-  componentWillMount() {
+
+  // tslint:disable-next-line:function-name
+  UNSAFE_componentWillMount() {
     this.documentEventHandlers.forEach(([eventName, handlerFn]) => {
       window.document.addEventListener(eventName, handlerFn);
     });
   }
+
   componentWillUnmount() {
     this.documentEventHandlers.forEach(([eventName, handlerFn]) => {
       window.document.removeEventListener(eventName, handlerFn);
@@ -172,7 +183,7 @@ class BasePopover extends Component<BasePopperProps, State> {
     if (this.state.isVisible === isVisible) {
       return;
     }
-    this.setState({ isVisible: isVisible == null ? !this.state.isVisible : isVisible });
+    this.setState(prevState => ({ isVisible: isVisible == null ? !prevState.isVisible : isVisible }));
   };
 
   onTargetClick = (e: any) => {
@@ -185,7 +196,9 @@ class BasePopover extends Component<BasePopperProps, State> {
   onOuterAction = (e: any) => {
     if (
       !this.targetEl.contains(e.target) &&
-      (this.popperEl && !this.popperEl.contains(e.target) && document.body.contains(e.target))
+      this.popperEl &&
+      !this.popperEl.contains(e.target) &&
+      document.body.contains(e.target)
     ) {
       this.togglePopover(false);
     }
@@ -228,12 +241,12 @@ class BasePopover extends Component<BasePopperProps, State> {
   };
 
   getModifiers = () => {
-    const { flip } = this.props;
+    const { flip, popperModifiers } = this.props;
     const flipModifiers: any = { enabled: true };
     if (flip && flip.length > 0) {
       flipModifiers['behavior'] = flip;
     }
-    const modifiers = { flip: flipModifiers };
+    const modifiers = { flip: flipModifiers, ...popperModifiers };
     return modifiers;
   };
 
@@ -264,23 +277,25 @@ class BasePopover extends Component<BasePopperProps, State> {
   };
 
   render() {
-    const { children, targetBody, placement } = this.props;
+    const { children, targetBody, placement, positionFixed } = this.props;
 
     return (
-      <Manager tag={false}>
-        <Target innerRef={ref => this.setTargetEl(ref)} tabIndex={0}>
-          {({ targetProps: { ref }, restProps }) => (
-            <TargetRefManager setTargetRef={ref}>{cloneElement(targetBody || EmptyTarget, restProps)}</TargetRefManager>
+      <Manager>
+        <Reference innerRef={ref => this.setTargetEl(ref)}>
+          {({ ref }) => (
+            <TargetRefManager setTargetRef={ref}>
+              {cloneElement(targetBody || EmptyTarget, { tabIndex: 0 })}
+            </TargetRefManager>
           )}
-        </Target>
+        </Reference>
         {this.state.isVisible && (
           <Popper
             placement={placement}
             modifiers={this.getModifiers()}
+            positionFixed={positionFixed}
             innerRef={popperEl => {
               this.popperEl = popperEl;
             }}
-            className="popper"
           >
             {popperChildProps => (
               <StyledPopperContainer>

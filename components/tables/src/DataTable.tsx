@@ -1,344 +1,254 @@
 import React from 'react';
-import { compact, debounce, range } from 'lodash';
+import { isFragment } from 'react-is';
+import { debounce, range } from 'lodash';
 
-import { Box, BoxProps, Flex, FlexProps, Icon, Table as HtmlTable } from 'zbase';
-import { Button } from 'z-frontend-elements';
-import { Checkbox } from 'z-frontend-forms';
-import { DataManagerContext, SelectionContext } from 'z-frontend-data-manager';
-
-import { styled } from 'z-frontend-theme';
-import { color } from 'z-frontend-theme/utils';
+import { widthHelper, Box, Flex, FlexProps, Table as HtmlTable } from 'zbase';
+import {
+  DataManagerContext,
+  DataManagerRenderProps,
+  GenericDataManagerContext,
+  RowSelectionContext,
+  SelectionContext,
+} from 'z-frontend-data-manager';
+import { styled, ThemeInterface } from 'z-frontend-theme';
+import { color, fontSizes, fontStyles, px, space, zIndex } from 'z-frontend-theme/utils';
+import { EmptyState, LoadingSpinner } from 'z-frontend-elements';
+import { throwInDevelopment } from 'z-frontend-app-bootstrap';
 
 import GridAccessibilityProvider, {
-  AccessibleGridContext,
+  AccessibleGridStateContext,
   CellType,
+  GridHelpers,
   GridState,
-  HeaderType,
+  OnLeaveRowEdit,
 } from './GridAccessibilityProvider';
+import Row, { getFixedTableRowId, HoverProps, RowHoverManager, RowProps, RowSpan } from './DataTableRow';
+import Column, { getColumnKey } from './DataTableColumn';
+import { ColumnHeader, DEFAULT_CELL_HEIGHT, DEFAULT_CELL_WIDTH, GridHeaderProps } from './DataTableCell';
+import RowSelectionColumn, {
+  generateRowSelectionColumn,
+  DEFAULT_SELECT_COLUMN_WIDTH,
+} from './DataTableRowSelectionColumn';
+import IconColumn, { generateIconColumn } from './DataTableIconColumn';
+import DataTableMoneyColumn, { generateDataTableMoneyColumn } from './DataTableMoneyColumn';
+import DataTableBulkMenu, { RenderBulkActions } from './data-table/DataTableBulkMenu';
+import { DEFAULT_STATUS_COLUMN_WIDTH } from './editable-table/columns/EditableTableStatusColumn';
 
 type TableSectionProps = {
   position?: 'left' | 'right';
   showSeparation?: boolean;
 };
 
-const throwInDevelopment = (e: Error) => {
-  if (__DEVELOPMENT__) {
-    throw e;
-  }
+export type TableLayout = 'auto' | 'fixed';
+
+export type SpanStartsForAllRows = {
+  columnsWithSpans: {
+    [columnIndex: string]: boolean;
+  };
+  spanStarts: {
+    [rowIndex: string]: {
+      [columnIndex: string]: {
+        spanLength: number;
+      };
+    };
+  };
 };
 
-const TableSection = styled(Box.extendProps<TableSectionProps>())`
+// Using z-index: sticky + 1 to show box-shadow because <th>s have "sticky" z-index (1020)
+const getPositionalStyles = (props: TableSectionProps & { theme: ThemeInterface }) =>
+  props.position === 'left'
+    ? `
+        scrollbar-width: none;
+        z-index: ${zIndex('sticky')(props) + 1};
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar {
+          width: 0;
+          height: 0;
+        }
+      `
+    : '';
+
+const TableSection = styled(Box)<TableSectionProps>`
   overflow-x: ${props => (props.position === 'right' ? 'auto' : 'hidden')};
   overflow-y: auto;
-
-  ${props =>
-    props.position === 'left'
-      ? `
-    scrollbar-width: none;
-    position: relative;
-    z-index: 1;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
-    }
-  `
-      : ''};
-
+  ${getPositionalStyles};
   ${props => (props.showSeparation ? `box-shadow: 2px 0px 2px ${color('grayscale.f')(props)}` : '')};
 `;
 
-const OuterWrapper = styled(Flex.extendProps<{ hasFocus: boolean }>())`
-  ${props => props.hasFocus && 'box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.15);'}
-
-  &:hover:not(:disabled) {
-    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.15);
-  }
+// Set z-index to 1 in order to create a stacking context. We want this so that it will appear under TopNav
+const OuterWrapper = styled(Flex)<{ hasFocus: boolean }>`
+  position: relative;
+  z-index: 1;
 
   &:focus {
     outline: none;
   }
 `;
 
-const StyledHtmlTable = styled(HtmlTable)`
+const StyledHtmlTable = styled(HtmlTable._Table)<{ isEditing: boolean; cellHeight: number; headerHeight: number }>`
   border-collapse: collapse;
-  width: 100%;
-`;
+  table-layout: ${props => props.tableLayout};
 
-const TableCellContext = React.createContext<{
-  isTableCell: boolean;
-  isActive: boolean;
-}>({
-  isTableCell: false,
-  isActive: false,
-});
-
-type BaseCellProps = {
-  isActive: boolean;
-  isSelected: boolean;
-  rowSpan: number;
-};
-
-type CellChildFunction = (
-  params: {
-    isHovered: boolean;
-    isActive: boolean;
-    hasKeyboardFocus: boolean;
-    isSelected: boolean;
-    onSelectRow: () => void;
-    onDeselectRow: () => void;
-  },
-) => React.ReactNode;
-type GridCellProps<RowObject> = {
-  row?: RowObject;
-  rowIndex: number;
-  columnIndex: number;
-  headerType?: HeaderType;
-  isHovered?: boolean;
-  isExpanded?: boolean;
-  selectionContext?: SelectionContext<RowObject>;
-  contentType: CellType;
-  colSpan?: number;
-  rowSpan?: number;
-  BaseCell?: React.ComponentClass<BoxProps & BaseCellProps>;
-  justify?: FlexProps['justify'];
-  children?: React.ReactNode | CellChildFunction;
-} & BoxProps;
-
-const getCellBackground = (props: BaseCellProps) => {
-  if (props.isActive) {
-    return color('grayscale.g');
-  } else if (props.isSelected) {
-    return color('secondary.c');
-  } else {
-    return color('grayscale.white');
+  & th {
+    position: sticky;
+    padding: 0;
+    top: 0;
+    background-color: ${color('grayscale.white')};
+    box-shadow: 0 1px ${color('grayscale.f')};
+    vertical-align: middle;
+    ${fontStyles('controls.s')};
+    color: ${color('grayscale.d')};
+    height: ${props => px(props.headerHeight)};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
   }
-};
 
-const StyledCell = styled(HtmlTable.Cell.extendProps<BaseCellProps>())`
-  background-color: ${getCellBackground};
-  vertical-align: middle;
-`;
+  & th button.header-button {
+    max-width: 100%;
 
-StyledCell.defaultProps = {
-  px: 3,
-  minWidth: 100,
-};
+    .header-button__content-container {
+      display: flex;
+      align-items: center;
+    }
 
-const CellBody = styled(Flex)`
-  overflow: hidden;
-`;
+    .header-button__content {
+      min-width: 0;
+      overflow: hidden;
+      flex-grow: 1;
+      text-overflow: ellipsis;
+      line-height: normal;
+    }
 
-const StyledColumnHeader = styled(HtmlTable.Cell.extendProps<BaseCellProps>())`
-  background-color: ${getCellBackground};
-  position: sticky;
-  top: 0;
-  box-shadow: 0px 1px ${color('grayscale.f')};
-  color: ${color('grayscale.d')};
-  vertical-align: middle;
-`;
-
-StyledColumnHeader.defaultProps = {
-  px: 2,
-  fontStyle: 'controls.s',
-};
-
-class Cell<RowObject> extends React.Component<GridCellProps<RowObject>> {
-  static defaultProps = {
-    BaseCell: StyledCell,
-  };
-
-  onSelectRow = () => {
-    this.props.selectionContext.onSelect([this.props.row]);
-  };
-
-  onDeselectRow = () => {
-    this.props.selectionContext.onDeselect([this.props.row]);
-  };
-
-  isSelected() {
-    const { row, selectionContext } = this.props;
-    if (selectionContext && row) {
-      return selectionContext.selections[row[selectionContext.selectionKey] as any];
-    } else {
-      return false;
+    i {
+      flex-grow: 0;
     }
   }
 
-  render() {
-    const {
-      row,
-      rowIndex,
-      columnIndex,
-      contentType,
-      children,
-      headerType,
-      isHovered,
-      rowSpan,
-      BaseCell,
-      selectionContext,
-      justify,
-      width,
-      ...containerProps
-    } = this.props;
-    return (
-      <AccessibleGridContext.Consumer>
-        {({ getCellProps, hasFocus, activeRowIndex, activeColumnIndex }) => {
-          const hasKeyboardFocus = hasFocus && rowIndex === activeRowIndex && columnIndex === activeColumnIndex;
-          const isActive = hasKeyboardFocus || isHovered;
-          const isSelected = this.isSelected();
-          return (
-            <TableCellContext.Provider value={{ isActive, isTableCell: true }}>
-              <BaseCell
-                {...getCellProps({
-                  rowIndex,
-                  columnIndex,
-                  contentType,
-                  headerType,
-                  rowSpan,
-                  refPropName: 'elementRef',
-                })}
-                isActive={isActive}
-                isSelected={isSelected}
-                rowSpan={rowSpan}
-                {...containerProps}
-              >
-                <CellBody height={!this.props.isExpanded && this.props.height} align="center" justify={justify}>
-                  {typeof children === 'function'
-                    ? (children as CellChildFunction)({
-                        hasKeyboardFocus,
-                        isHovered,
-                        isActive,
-                        isSelected,
-                        onSelectRow: this.onSelectRow,
-                        onDeselectRow: this.onDeselectRow,
-                      })
-                    : children}
-                </CellBody>
-              </BaseCell>
-            </TableCellContext.Provider>
-          );
-        }}
-      </AccessibleGridContext.Consumer>
-    );
+  & td {
+    vertical-align: middle;
+    padding-left: ${space(3)};
+    padding-right: ${space(3)};
+    height: ${props => px(props.cellHeight)};
+    ${fontStyles('paragraphs.m')};
+    overflow: hidden;
+    align-items: center;
+    ${props => (props.cellHeight ? 'white-space: nowrap;' : '')}
+    text-overflow: ellipsis;
   }
-}
 
-type RowProps<RowObject> = {
-  rowObject?: RowObject;
-  isHovered?: boolean;
-  gridState?: GridState;
-} & BoxProps;
-
-class Row<RowObject> extends React.Component<RowProps<RowObject>> {
-  render() {
-    const _Row = HtmlTable.Row.extendProps<RowProps<RowObject>>();
-    return <_Row {...this.props} borderBottom />;
+  .error-popover-section {
+    margin-bottom: ${space(2)};
   }
-}
 
-type GridHeaderProps<RowObject> = {
-  rowIndex: number;
-  columnIndex: number;
-  label: string;
-  disableSort?: boolean;
-  fieldKey?: keyof RowObject;
-  contentType?: CellType;
-  justify?: FlexProps['justify'];
-  width?: number;
-} & BoxProps;
-
-class ColumnHeader<RowObject> extends React.Component<GridHeaderProps<RowObject>> {
-  render() {
-    const { fieldKey } = this.props;
-    return (
-      <DataManagerContext.Consumer>
-        {({ sorting }) => {
-          if (sorting && !this.props.disableSort) {
-            const config = sorting.config[0];
-            const sortingActive = config && config.key === fieldKey;
-            const isAscending = sortingActive && config.isAscending;
-            const handleSort = () => {
-              // If sorting isn't active, sort ascending, otherwise swap sort order
-              const changedIsAscending = !sortingActive || !isAscending;
-              sorting.onChange({ 0: { key: fieldKey as any, isAscending: changedIsAscending } });
-            };
-
-            return (
-              <Cell headerType="column" {...this.props} contentType="editable" BaseCell={StyledColumnHeader}>
-                <Button mode="transparent" onClick={handleSort} fontStyle="controls.s" color="grayscale.d">
-                  {this.props.label}
-                  {sorting && sortingActive && <Icon iconName={isAscending ? 'chevron-up' : 'chevron-down'} pl={2} />}
-                </Button>
-              </Cell>
-            );
-          } else {
-            return (
-              <Cell
-                headerType="column"
-                {...this.props}
-                contentType={this.props.contentType || 'read-only'}
-                BaseCell={StyledColumnHeader}
-              >
-                {this.props.children ? this.props.children : <Box pl={2}>{this.props.label}</Box>}
-              </Cell>
-            );
-          }
-        }}
-      </DataManagerContext.Consumer>
-    );
+  .error-popover-section:last-child {
+    margin-bottom: 0;
   }
-}
 
-type ColumnChildren<RowObject> = (
-  params: {
-    row: RowObject;
-    gridState: GridState & {
-      isHovered: boolean;
-      isExpanded: boolean;
-    };
-    expandRow: () => void;
-    collapseRow: () => void;
-  },
-) => React.ReactNode;
-
-type TableColumnProps<RowObject> = {
-  headerLabel: string;
-  contentType?: 'editable' | 'read-only';
-  width?: number;
-  isFixed?: boolean;
-  spanByFieldKey?: boolean;
-  fieldKey?: keyof RowObject;
-  disableSort?: boolean;
-  children?: ColumnChildren<RowObject>;
-};
-
-class TableColumn<RowObject> extends React.Component<TableColumnProps<RowObject>> {
-  static defaultProps = {
-    contentType: 'read-only',
-  };
-
-  render() {
-    throw new Error('Table.Column should never be rendered.');
-    return 'Return something for typescript';
+  .error-popover-list {
+    margin: 0;
+    padding-left: ${space(4)};
   }
-}
 
-type RowSpan = {
-  index: number;
-  key: string;
-  spans: {
-    [spanStartIndex: number]: {
-      spanLength: number;
-    };
-  };
+  .error-popover-label {
+    ${fontStyles('controls.s')}
+  }
 
-  // Used when iterating through rows to find span boundaries
-  lastStart: number;
-  lastKeyValue: any;
-};
+  & td[rowspan] {
+    border-right: solid ${color('grayscale.f')} 1px;
+    border-left: solid ${color('grayscale.f')} 1px;
+  }
 
-type TableProps<RowObject> = {
+  & td[rowspan]:last-child {
+    border-right: none;
+  }
+
+  & td[rowspan]:first-child {
+    border-left: none;
+  }
+
+  & th.active,
+  & td.active {
+    background-color: ${color('grayscale.g')};
+  }
+
+  & th.selected,
+  & td.selected {
+    background-color: ${color('secondary.c')};
+  }
+
+  & tr {
+    border-bottom: solid 1px ${color('grayscale.f')};
+  }
+
+  caret-color: ${props => (props.isEditing ? color('grayscale.c') : 'transparent')};
+
+  & input:focus,
+  & select:focus {
+    ${props => (!props.isEditing ? 'box-shadow: none' : '')}
+  }
+
+  .data-table-ellipsis-container {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .data-table-icon {
+    font-family: ${props => props.theme.iconFont};
+    font-size: ${fontSizes(1)};
+    font-style: normal;
+    font-weight: ${props => props.theme.weights[0]};
+    color: ${props => props.theme.colors['grayscale.d']};
+    display: inline-block;
+    cursor: default;
+  }
+
+  & .icon-header-wrapper {
+    display: flex;
+    justify-content: center;
+    font-size: ${fontSizes(1)};
+  }
+
+  & .icon-header-tooltip-wrapper {
+    padding: ${space(2)};
+  }
+
+  & .icon-header-tooltip-target-wrapper {
+    padding: ${space(1)};
+  }
+
+  & .icon-column-popover-target {
+    cursor: pointer;
+  }
+
+  & .wrap-text {
+    white-space: normal;
+  }
+
+  & .deleted-cell-content {
+    text-decoration: line-through;
+  }
+
+  & .disabled-icon {
+    color: ${color('grayscale.f')};
+  }
+
+  .data-table-selection-column {
+    line-height: 1;
+
+    label {
+      line-height: 1;
+    }
+  }
+
+  .data-table-selection-column-header,
+  .data-table-status-column-header {
+    padding: 0 0 0 ${space(4)};
+  }
+`;
+
+export type SharedTableProps<RowObject> = {
   /**
    * Row data for the table.
    * If not provided, this will pull row data from any wrapping DataManager
@@ -360,53 +270,178 @@ type TableProps<RowObject> = {
    * */
   shouldClickActivateTable?: boolean;
   /**
-   * Should row selection be possible.
-   * Only can be used if within DataManager
-   * @default false
-   * */
-  enableRowSelection?: boolean;
+   * Can be used to specified alternative dom id for grid wrapper
+   */
+  gridId?: string;
+  /**
+   * Function to return a primary key for your row. This is needed in EditableTable where we need to uniquely identify a row when updating
+   * This will usually be something like (row, rowIndex) => row.id
+   *
+   * @default (row, rowIndex) => rowIndex
+   */
+  getRowKey?: (row: RowObject, rowIndex: number) => string | number;
+  /** Override default empty state component. */
+  emptyRender?: () => React.ReactNode;
+  /** Specify actions available when rows are selected. */
+  bulkActions?: RenderBulkActions;
+  /**
+   * Sets the `table-layout` css prop for the table. In `auto` mode columns will expand/contract with the content. In fixed mode column widths will always stay static.
+   * NOTE: If fixed is set and you are using percentage widths most columns need a specified width. Columns such as RowSelectionColumn and EditableTableStatusColumn are always the same width and as such don't need one.
+   * EditableTable is always fixed.
+   * @default 'auto'
+   */
+  tableLayout?: TableLayout;
 } & FlexProps;
 
-type TableState = {
-  showTableSeparation: boolean;
-  hoveredRows: {
-    [rowNumber: number]: boolean;
-  };
-  expandedRows: {
-    [rowNumber: number]: boolean;
-  };
+export type TableProps<RowObject, CustomRowProps = {}> = {
+  CustomRowComponent?: React.ComponentClass<RowProps<RowObject> & CustomRowProps>;
+  customRowProps?: CustomRowProps;
+  onLeaveRowEdit?: OnLeaveRowEdit;
+} & SharedTableProps<RowObject>;
+
+function calculateBulkMenuOffset(columns: any[]): number {
+  const columnNames = columns.map(column => column.key);
+  const hasStatusColumn = columnNames.includes('data-table-status-column');
+  const hasRowSelectionColumn = columnNames.includes('data-table-selection-column');
+  let offset = 0;
+  if (hasStatusColumn) {
+    offset += DEFAULT_STATUS_COLUMN_WIDTH;
+  }
+  if (hasRowSelectionColumn) {
+    offset += DEFAULT_SELECT_COLUMN_WIDTH;
+  }
+  return offset;
+}
+
+let nextIncrementedInteger = 0;
+const generateAutoIncrementedId = () => {
+  nextIncrementedInteger += 1;
+  return `z-frontend-data-table-${nextIncrementedInteger}`;
 };
 
-export default class Table<RowObject> extends React.Component<TableProps<RowObject>, TableState> {
-  static Row = Row;
-  static Cell = Cell;
-  static ColumnHeader = ColumnHeader;
-  static Column = TableColumn;
+const flattenReactFragment = (element: JSX.Element): JSX.Element[] => {
+  if (isFragment(element)) {
+    const childElements = React.Children.toArray(element.props.children) as JSX.Element[];
+    return childElements.reduce((flattenedChildren, child) => {
+      return flattenedChildren.concat(flattenReactFragment(child));
+    }, []);
+  } else {
+    return [element];
+  }
+};
 
-  leftTableSection: React.RefObject<HTMLDivElement>;
-  rightTableSection: React.RefObject<HTMLDivElement>;
-  rightTable: React.RefObject<HTMLTableElement>;
+export const flattenFragmentsInChildren = (childrenArray: JSX.Element[]) =>
+  childrenArray.reduce((flattenedChildren, child) => {
+    return flattenedChildren.concat(flattenReactFragment(child));
+  }, []);
+
+type RowPortalsReadyProps = {
+  numRows: number;
+  // if disabled (there are no fixed rows), will always be true
+  disabled: boolean;
+  children: (arePortalsReady: boolean) => React.ReactNode;
+};
+
+type RowPortalsReadyState = {
+  arePortalsReady: boolean;
+  lastNumRows: number;
+};
+// Used to track if portals on fixed side are ready for rows to be loaded into them
+// Once it mounts, it will set boolean to true to indicate portals are ready
+// If new number of rows passed in, boolean will be set back to false until dom is updated
+class RowPortalsReadyManager extends React.Component<RowPortalsReadyProps, RowPortalsReadyState> {
+  constructor(props: RowPortalsReadyProps) {
+    super(props);
+    this.state = {
+      lastNumRows: props.numRows,
+      arePortalsReady: false,
+    };
+  }
+
+  static getDerivedStateFromProps(props: RowPortalsReadyProps, state: RowPortalsReadyState) {
+    if (props.numRows > state.lastNumRows) {
+      return {
+        arePortalsReady: false,
+        lastNumRows: props.numRows,
+      };
+    } else {
+      return {
+        lastNumRows: props.numRows,
+      };
+    }
+  }
+
+  setPortalsReady() {
+    if (!this.state.arePortalsReady) {
+      this.setState({
+        arePortalsReady: true,
+      });
+    }
+  }
+
+  componentDidUpdate() {
+    this.setPortalsReady();
+  }
+
+  componentDidMount() {
+    this.setPortalsReady();
+  }
+
+  render() {
+    return this.props.children(this.state.arePortalsReady);
+  }
+}
+
+export default class DataTable<RowObject, CustomRowProps = {}> extends React.Component<
+  TableProps<RowObject, CustomRowProps>
+> {
+  static Row = Row;
+
+  static Column = Column;
+
+  static RowSelectionColumn = RowSelectionColumn;
+
+  static IconColumn = IconColumn;
+
+  static MoneyColumn = DataTableMoneyColumn;
+
+  static ColumnTypeNames = [
+    Column.displayName,
+    RowSelectionColumn.displayName,
+    IconColumn.displayName,
+    DataTableMoneyColumn.displayName,
+  ];
+
+  fixedTableSection: React.RefObject<HTMLDivElement>;
+
+  fixedTableBody: React.RefObject<HTMLTableSectionElement>;
+
+  fluidTableSection: React.RefObject<HTMLDivElement>;
+
+  fluidTable: React.RefObject<HTMLTableElement>;
+
+  gridId: string;
 
   static defaultProps = {
     shouldClickActivateTable: false,
     headerHeight: 48,
-    cellHeight: 48,
     border: true,
+    getRowKey: (rowObj: any, rowIndex: number) => rowIndex,
+    tableLayout: 'auto',
   };
 
   constructor(props: TableProps<RowObject>) {
     super(props);
-    this.state = {
-      hoveredRows: {},
-      expandedRows: {},
-      showTableSeparation: false,
-    };
-    this.leftTableSection = React.createRef<HTMLDivElement>();
-    this.rightTableSection = React.createRef<HTMLDivElement>();
-    this.rightTable = React.createRef<HTMLTableElement>();
+
+    this.gridId = props.gridId || generateAutoIncrementedId();
+    this.fixedTableSection = React.createRef<HTMLDivElement>();
+    this.fixedTableBody = React.createRef<HTMLTableSectionElement>();
+    this.fluidTableSection = React.createRef<HTMLDivElement>();
+    this.fluidTable = React.createRef<HTMLTableElement>();
   }
 
-  static getRowSpans = function<RowObject>(rows: RowObject[], columns: TableColumn<RowObject>[]) {
+  // eslint-disable-next-line func-names
+  static getRowSpans = function<RowObject>(rows: RowObject[], columns: Column<RowObject>[]): SpanStartsForAllRows {
     const rowSpans: { [columnIndex: number]: RowSpan } = columns.reduce(
       (rowSpans: { [col: number]: RowSpan }, column, i) => {
         if (column.props.spanByFieldKey && column.props.fieldKey) {
@@ -424,10 +459,12 @@ export default class Table<RowObject> extends React.Component<TableProps<RowObje
     );
 
     Object.values<RowSpan>(rowSpans).forEach(rowSpan => {
-      rows.forEach((row: any, rowIndex: number) => {
+      rows.forEach((row: any, i: number) => {
         const keyValueForRow = row[rowSpan.key];
-        if (rowIndex === 0) {
-          rowSpan.lastStart = 0;
+        // Header will be row index 0
+        const rowIndex = i + 1;
+        if (rowIndex === 1) {
+          rowSpan.lastStart = 1;
           rowSpan.lastKeyValue = keyValueForRow;
         } else if (keyValueForRow !== rowSpan.lastKeyValue) {
           rowSpan.spans[rowSpan.lastStart] = { spanLength: rowIndex - rowSpan.lastStart };
@@ -436,212 +473,92 @@ export default class Table<RowObject> extends React.Component<TableProps<RowObje
         }
       });
 
-      rowSpan.spans[rowSpan.lastStart] = { spanLength: rows.length - rowSpan.lastStart };
+      rowSpan.spans[rowSpan.lastStart] = { spanLength: rows.length + 1 - rowSpan.lastStart };
     });
-    return rowSpans;
-  };
 
-  onMouseEnterRow = (rowIndex: number) => () => {
-    this.setState(state => ({
-      hoveredRows: {
-        ...state.hoveredRows,
-        [rowIndex]: true,
+    return Object.entries(rowSpans).reduce(
+      (spansByRow, [columnIndex, rowSpan]) => {
+        Object.entries(rowSpan.spans).forEach(([rowIndex, span]) => {
+          spansByRow.spanStarts[rowIndex] = spansByRow.spanStarts[rowIndex] || {};
+          spansByRow.spanStarts[rowIndex][columnIndex] = span;
+          spansByRow.columnsWithSpans[columnIndex] = true;
+        });
+        return spansByRow;
       },
-    }));
-  };
-
-  onMouseLeaveRow = (rowIndex: number) => () => {
-    this.setState(state => ({
-      hoveredRows: {
-        ...state.hoveredRows,
-        [rowIndex]: false,
-      },
-    }));
-  };
-
-  onExpandRow = (rowIndex: number) => () => {
-    this.setState(state => ({
-      expandedRows: {
-        ...state.expandedRows,
-        [rowIndex]: true,
-      },
-    }));
-  };
-
-  onCollapseRow = (rowIndex: number) => () => {
-    this.setState(state => ({
-      expandedRows: {
-        ...state.expandedRows,
-        [rowIndex]: false,
-      },
-    }));
-  };
-
-  getSelectionCell = (params: { row: RowObject; rowIndex: number; selectionContext: SelectionContext<RowObject> }) => {
-    const { row, rowIndex, selectionContext } = params;
-    const isRowHovered = this.state.hoveredRows[rowIndex];
-    return (
-      <Cell
-        row={row}
-        rowIndex={rowIndex + 1}
-        columnIndex={0}
-        contentType="editable"
-        isHovered={isRowHovered}
-        isExpanded={this.state.expandedRows[rowIndex]}
-        aria-label={`Select row ${rowIndex}`}
-        selectionContext={selectionContext}
-        minWidth={64}
-        justify="center"
-      >
-        {({ isActive, isSelected, onSelectRow, onDeselectRow }) =>
-          isActive || isSelected ? (
-            <Checkbox
-              ml={2}
-              checked={isSelected}
-              onChange={isSelected ? onDeselectRow : onSelectRow}
-              aria-label={`Select row ${rowIndex}`}
-            />
-          ) : (
-            rowIndex + 1
-          )
-        }
-      </Cell>
+      { spanStarts: {}, columnsWithSpans: {} } as SpanStartsForAllRows,
     );
   };
 
-  getSelectAllHeader = (params: { rows: RowObject[]; selectionContext: SelectionContext<RowObject> }) => (
-    <ColumnHeader<RowObject>
-      rowIndex={0}
-      columnIndex={0}
-      label="Select All Rows"
-      aria-label="Select All Rows"
-      height={this.props.headerHeight}
-      disableSort
-      contentType="editable"
-      minWidth={64}
-      justify="center"
-    >
-      <Checkbox
-        ml={2}
-        checked={params.selectionContext.allDisplayedDataIsSelected}
-        onChange={
-          params.selectionContext.allDisplayedDataIsSelected
-            ? () => params.selectionContext.onDeselect(params.rows)
-            : () => params.selectionContext.onSelect(params.rows)
-        }
-        aria-label="Select all rows"
-      />
-    </ColumnHeader>
-  );
-
-  getRowsForColumnsSet(params: {
+  getTableRows(params: {
     rows: RowObject[];
-    columns: TableColumn<RowObject>[];
+    fixedColumns: Column<RowObject>[];
+    fluidColumns: Column<RowObject>[];
     gridState: GridState;
+    gridId: string;
     columnIndexOffset?: number;
-    includeSelectionColumn?: boolean;
     selectionContext?: SelectionContext<RowObject>;
+    accessibilityHelpers?: GridHelpers;
     cellHeight?: number;
+    contentType?: CellType;
+    hoverProps: HoverProps;
   }) {
-    const { rows, columns, gridState, includeSelectionColumn, selectionContext, cellHeight } = params;
+    const {
+      rows,
+      fixedColumns,
+      fluidColumns,
+      gridId,
+      gridState,
+      accessibilityHelpers,
+      selectionContext,
+      cellHeight,
+      hoverProps,
+    } = params;
+
     const columnIndexOffset = params.columnIndexOffset || 0;
+    const Row: React.ComponentClass<RowProps<RowObject>> = this.props.CustomRowComponent || (DataTable.Row as any);
 
-    const rowSpans = Table.getRowSpans<RowObject>(rows, columns);
+    const spanStarts = DataTable.getRowSpans<RowObject>(rows, fixedColumns.concat(fluidColumns));
 
-    return rows.map((rowObject, rowIndex) => {
-      const isExpanded = this.state.expandedRows[rowIndex];
-      const isRowHovered = this.state.hoveredRows[rowIndex];
-      return (
-        <Row
-          key={rowIndex + 1}
-          role="none"
-          rowObject={rowObject}
-          onMouseEnter={this.onMouseEnterRow(rowIndex)}
-          onMouseLeave={this.onMouseLeaveRow(rowIndex)}
-        >
-          {includeSelectionColumn && this.getSelectionCell({ rowIndex, selectionContext, row: rowObject })}
-          {compact(
-            columns.map((column, columnIndex) => {
-              const rowSpansForColumn = rowSpans[columnIndex];
-              if (rowSpansForColumn) {
-                const spanForCell = rowSpansForColumn.spans[rowIndex];
-                if (spanForCell) {
-                  const isSpanHovered = range(rowIndex, rowIndex + spanForCell.spanLength).some(
-                    rowIndex => this.state.hoveredRows[rowIndex],
-                  );
-                  const spanHeightForCell =
-                    cellHeight && cellHeight * spanForCell.spanLength + spanForCell.spanLength - 1;
-
-                  return (
-                    <Cell<RowObject>
-                      row={rowObject}
-                      rowIndex={rowIndex + 1}
-                      columnIndex={columnIndex + columnIndexOffset}
-                      rowSpan={spanForCell.spanLength}
-                      contentType={column.props.contentType}
-                      isHovered={isSpanHovered}
-                      borderRight={columnIndex < columns.length - 1}
-                      borderLeft={columnIndex + columnIndexOffset > 0}
-                      height={spanHeightForCell}
-                      isExpanded={isExpanded}
-                      py={cellHeight ? 0 : 2}
-                    >
-                      {column.props.children
-                        ? column.props.children({
-                            row: rowObject,
-                            gridState: {
-                              ...gridState,
-                              isExpanded,
-                              isHovered: isSpanHovered,
-                            },
-                            expandRow: this.onExpandRow(rowIndex),
-                            collapseRow: this.onCollapseRow(rowIndex),
-                          })
-                        : rowObject[column.props.fieldKey]}
-                    </Cell>
-                  );
-                }
-                return null;
-              } else {
-                return (
-                  <Cell<RowObject>
-                    row={rowObject}
-                    rowIndex={rowIndex + 1}
-                    columnIndex={columnIndex + columnIndexOffset}
-                    contentType={column.props.contentType}
-                    height={cellHeight}
-                    isHovered={isRowHovered}
-                    isExpanded={isExpanded}
-                    selectionContext={selectionContext}
-                    py={cellHeight ? 0 : 2}
-                  >
-                    {column.props.children
-                      ? column.props.children({
-                          row: rowObject,
-                          gridState: { ...gridState, isExpanded, isHovered: isRowHovered },
-                          expandRow: this.onExpandRow(rowIndex),
-                          collapseRow: this.onCollapseRow(rowIndex),
-                        })
-                      : rowObject[column.props.fieldKey]}
-                  </Cell>
-                );
-              }
-            }),
-          )}
-        </Row>
-      );
-    });
+    return rows.map((rowObject, rowIndex) => (
+      <Row
+        key={this.props.getRowKey(rowObject, rowIndex)}
+        rowKey={this.props.getRowKey(rowObject, rowIndex)}
+        rowObject={rowObject}
+        rowIndex={rowIndex + 1}
+        fixedColumns={fixedColumns}
+        fluidColumns={fluidColumns}
+        gridState={gridState}
+        gridId={gridId}
+        selectionContext={selectionContext}
+        accessibilityHelpers={accessibilityHelpers}
+        columnIndexOffset={columnIndexOffset}
+        cellHeight={cellHeight}
+        hoverProps={hoverProps}
+        isHovered={hoverProps.hoveredRow === rowIndex + 1}
+        rowSpanStartsForRow={{
+          columnsWithSpans: spanStarts.columnsWithSpans,
+          spanStarts: spanStarts.spanStarts[rowIndex + 1] || {},
+        }}
+        tableLayout={this.props.tableLayout}
+        {...this.props.customRowProps}
+      />
+    ));
   }
 
-  syncTableScroll() {
-    const leftSectionEl = this.leftTableSection.current;
-    const rightSectionEl = this.rightTableSection.current;
+  hideDismissableChildrenOnScroll = (tableSectionEl: HTMLDivElement) => {
+    Array.from(tableSectionEl.getElementsByClassName('z-dismiss-on-scroll')).forEach(el => {
+      (el as HTMLDivElement).style.display = 'none';
+    });
+  };
 
+  syncTableScroll() {
+    const leftSectionEl = this.fixedTableSection.current;
     let leftScrollCallbackEnabled = true;
     const enableLeftScrollCallback = debounce(() => {
       leftScrollCallbackEnabled = true;
     }, 100);
 
+    const rightSectionEl = this.fluidTableSection.current;
     let rightScrollCallbackEnabled = true;
     const enableRightScrollCallback = debounce(() => {
       rightScrollCallbackEnabled = true;
@@ -653,6 +570,8 @@ export default class Table<RowObject> extends React.Component<TableProps<RowObje
         rightSectionEl.scrollTop = leftSectionEl.scrollTop;
         enableRightScrollCallback();
       }
+
+      this.hideDismissableChildrenOnScroll(leftSectionEl);
     });
 
     rightSectionEl.addEventListener('scroll', (e: any) => {
@@ -661,27 +580,88 @@ export default class Table<RowObject> extends React.Component<TableProps<RowObje
         leftSectionEl.scrollTop = rightSectionEl.scrollTop;
         enableLeftScrollCallback();
       }
+
+      this.hideDismissableChildrenOnScroll(rightSectionEl);
     });
   }
 
-  checkTableOverflow() {
-    const rightSectionEl = this.rightTableSection.current;
-    const rightTableEl = this.rightTable.current;
-    if (rightTableEl.clientWidth > rightSectionEl.clientWidth !== this.state.showTableSeparation) {
-      this.setState({
-        showTableSeparation: rightTableEl.clientWidth > rightSectionEl.clientWidth,
-      });
+  componentDidMount() {
+    if (this.fixedTableSection.current) {
+      this.syncTableScroll();
     }
   }
 
-  componentDidUpdate() {
-    this.checkTableOverflow();
-  }
-  componentDidMount() {
-    if (this.leftTableSection.current) {
-      this.syncTableScroll();
-      this.checkTableOverflow();
+  validateProps(
+    displayData: RowObject[],
+    genericContextData: RowObject[],
+    childrenArray: JSX.Element[],
+    numFixedLeftColumns: number,
+  ) {
+    const { rows: propRows, tableLayout } = this.props;
+
+    if (!displayData && !propRows && !genericContextData) {
+      throw new Error(
+        'You must pass row data either using DataManager context or rows prop or GenericDataManager context.',
+      );
     }
+    if (genericContextData && genericContextData === propRows) {
+      throwInDevelopment('Do not pull table data from both GenericDataManager context and rows props');
+    }
+    if (genericContextData && genericContextData === displayData) {
+      throwInDevelopment(
+        'Do not pull table data from both GenericDataManager context and DataManager Context use GenericDataManager context instead',
+      );
+    }
+    if (displayData && displayData === propRows) {
+      throwInDevelopment('Do not pull table data from both DataManager and rows props');
+    }
+
+    const rows = propRows || displayData || genericContextData;
+    if (!rows) {
+      throw new Error('You must pass in row data to DataTable or wrap it in a DataManager');
+    }
+
+    if (tableLayout === 'fixed') {
+      const colsWithoutWidth = childrenArray.filter(child => {
+        return !child.props.width || child.props.isFixed;
+      });
+
+      const colHasPercentageWidth = childrenArray.some(child => {
+        return child.props.width && child.props.width <= 1;
+      });
+
+      if (colsWithoutWidth.length && colHasPercentageWidth) {
+        throwInDevelopment(
+          `When using table-layout: fixed and percentage widths all columns must have a width. Please specify widths for columns: ${colsWithoutWidth
+            .map(col => col.props.fieldKey)
+            .join(',')}`,
+        );
+      }
+    }
+
+    if (numFixedLeftColumns && tableLayout !== 'fixed') {
+      throwInDevelopment('Must use fixed layout when using fixed columns');
+    }
+
+    const hasRowSpans = childrenArray.some(child => {
+      return child.props.spanByFieldKey;
+    });
+    if (hasRowSpans && tableLayout !== 'fixed') {
+      throwInDevelopment('Must use fixed layout when using row spans');
+    }
+  }
+
+  getWidthForCol(column: Column<RowObject>) {
+    if (column.props.width) {
+      return widthHelper(column.props.width);
+    } else if (this.props.tableLayout === 'fixed') {
+      return widthHelper(DEFAULT_CELL_WIDTH);
+    }
+    // leave width unspecified for tableLayout 'auto'
+  }
+
+  static calculateColumnWidths(columns: Column<any>[]) {
+    return columns.reduce((sum, column) => sum + (column.props.width || DEFAULT_CELL_WIDTH), 0);
   }
 
   render() {
@@ -689,151 +669,268 @@ export default class Table<RowObject> extends React.Component<TableProps<RowObje
       rows: propRows,
       children,
       shouldClickActivateTable,
-      enableRowSelection,
       headerHeight,
+      bulkActions,
+      onLeaveRowEdit,
+      gridId: explicitGridId,
+      tableLayout,
       ...containerProps
     } = this.props;
 
     const childrenArray = React.Children.toArray(this.props.children) as JSX.Element[];
-    childrenArray.forEach((child: JSX.Element) => {
-      if (child.type && child.type !== Table.Column) {
-        throw new Error('All children of Table should Table.Column components');
+    const flattenedChildrenArray = flattenFragmentsInChildren(childrenArray);
+    flattenedChildrenArray.forEach((child: JSX.Element) => {
+      if (!child.type || !DataTable.ColumnTypeNames.includes(child.type.displayName)) {
+        throw new Error('All children of Table should be a DataTable.*Column component');
       }
     });
-    const columns = (this.props.children as any) as TableColumn<RowObject>[];
-
-    let numFixedLeftColumns = 0;
-    for (const column of columns) {
-      if (column.props.isFixed) {
-        numFixedLeftColumns += 1;
-      } else {
-        break;
-      }
-    }
-
-    const fixedColumns = columns.slice(0, numFixedLeftColumns);
-    const normalColumns = columns.slice(numFixedLeftColumns);
-
-    const defaultCellHeight = numFixedLeftColumns > 0 ? 48 : undefined;
-    const cellHeight = this.props.cellHeight || defaultCellHeight;
 
     return (
-      <DataManagerContext.Consumer>
-        {({ displayData, selectionContext }) => {
-          if (displayData === propRows) {
-            throwInDevelopment(new Error('Do not pull table data from both DataManager and rows props'));
+      <GenericDataManagerContext.Consumer>
+        {({ data, loading }) => {
+          if (loading) {
+            return (
+              <Flex align="center" justify="center" height={300}>
+                <LoadingSpinner s="medium" />
+              </Flex>
+            );
           }
-          if (enableRowSelection && !displayData) {
-            throw new Error('Row selection may only be done using data manager');
-          }
-
-          const rows = propRows || displayData;
-
-          if (!rows) {
-            throw new Error('You must pass in row data to DataTable or wrap it in a DataManager');
-          }
-
-          const numRows = rows.length + 1;
-          const numSelectionColumns = enableRowSelection ? 1 : 0;
-          const numColumns = columns.length + numSelectionColumns;
-
           return (
-            <GridAccessibilityProvider
-              numRows={numRows}
-              numColumns={numColumns}
-              disableMouseInteraction={!shouldClickActivateTable}
-            >
-              <AccessibleGridContext.Consumer>
-                {({ getGridProps, ...gridState }) => (
-                  <OuterWrapper
-                    hasFocus={gridState.hasFocus}
-                    {...getGridProps({ refPropName: 'elementRef' })}
-                    {...containerProps}
-                  >
-                    {numFixedLeftColumns > 0 && (
-                      <TableSection
-                        position="left"
-                        height={this.props.height}
-                        flex="0 0 auto"
-                        elementRef={this.leftTableSection}
-                        showSeparation={this.state.showTableSeparation}
-                        borderRight={columns[numFixedLeftColumns - 1].props.spanByFieldKey}
-                      >
-                        <StyledHtmlTable role="none">
-                          <HtmlTable.ColumnGroup>
-                            {range(numFixedLeftColumns).map(columnIndex => (
-                              <HtmlTable.Column width={columns[columnIndex].props.width} />
-                            ))}
-                          </HtmlTable.ColumnGroup>
-                          <Row role="none">
-                            {enableRowSelection && this.getSelectAllHeader({ rows, selectionContext })}
-                            {fixedColumns.map((column, columnIndex) => (
-                              <Table.ColumnHeader<RowObject>
-                                rowIndex={0}
-                                columnIndex={columnIndex + numSelectionColumns}
-                                label={column.props.headerLabel}
-                                height={headerHeight}
-                                fieldKey={column.props.fieldKey}
-                              />
-                            ))}
-                          </Row>
-                          {this.getRowsForColumnsSet({
-                            rows,
-                            gridState,
-                            selectionContext,
-                            cellHeight,
-                            columns: fixedColumns,
-                            columnIndexOffset: numSelectionColumns,
-                            includeSelectionColumn: enableRowSelection,
-                          })}
-                        </StyledHtmlTable>
-                      </TableSection>
-                    )}
+            <DataManagerContext.Consumer>
+              {(dataManagerContext: Partial<DataManagerRenderProps<RowObject>>) => (
+                <RowSelectionContext.Consumer>
+                  {(selectionContext: SelectionContext<RowObject>) => {
+                    const { displayData, sorting } =
+                      dataManagerContext || ({} as Partial<DataManagerRenderProps<RowObject>>);
+                    const columns = (flattenedChildrenArray.map((column, columnIndex) => {
+                      switch (column.type.displayName) {
+                        case RowSelectionColumn.displayName:
+                          return generateRowSelectionColumn(column.props);
+                        case IconColumn.displayName:
+                          return generateIconColumn(column.props);
+                        case DataTableMoneyColumn.displayName:
+                          return generateDataTableMoneyColumn(column.props);
 
-                    <TableSection
-                      position="right"
-                      height={this.props.height}
-                      flex="1 1 auto"
-                      elementRef={this.rightTableSection}
-                    >
-                      <StyledHtmlTable role="none" elementRef={this.rightTable}>
-                        <HtmlTable.ColumnGroup>
-                          {range(numFixedLeftColumns, columns.length).map(columnIndex => (
-                            <HtmlTable.Column width={columns[columnIndex].props.width} />
-                          ))}
-                        </HtmlTable.ColumnGroup>
-                        <Row role="none">
-                          {enableRowSelection &&
-                            numFixedLeftColumns === 0 &&
-                            this.getSelectAllHeader({ rows, selectionContext })}
-                          {normalColumns.map((column, columnIndex) => (
-                            <Table.ColumnHeader<RowObject>
-                              rowIndex={0}
-                              columnIndex={numFixedLeftColumns + numSelectionColumns + columnIndex}
-                              label={column.props.headerLabel}
-                              height={headerHeight}
-                              fieldKey={column.props.fieldKey}
-                            />
-                          ))}
-                        </Row>
-                        {this.getRowsForColumnsSet({
-                          rows,
-                          gridState,
-                          selectionContext,
-                          cellHeight,
-                          columns: normalColumns,
-                          columnIndexOffset: numSelectionColumns + numFixedLeftColumns,
-                          includeSelectionColumn: enableRowSelection && numFixedLeftColumns === 0,
-                        })}
-                      </StyledHtmlTable>
-                    </TableSection>
-                  </OuterWrapper>
-                )}
-              </AccessibleGridContext.Consumer>
-            </GridAccessibilityProvider>
+                        default:
+                          return React.cloneElement(column, {
+                            key: getColumnKey<RowObject>((column as any) as Column<RowObject>, columnIndex),
+                          });
+                      }
+                    }) as any) as Column<RowObject>[];
+                    const rows = propRows || displayData || data;
+                    const isRowsFromGenericDataManagerContext = data;
+                    let numFixedLeftColumns = 0;
+                    if (rows.length > 0) {
+                      for (const column of columns) {
+                        if (column.props.isFixed) {
+                          numFixedLeftColumns += 1;
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+
+                    this.validateProps(displayData, data, flattenedChildrenArray, numFixedLeftColumns);
+
+                    const fixedColumns = columns.slice(0, numFixedLeftColumns);
+                    const fluidColumns = columns.slice(numFixedLeftColumns);
+
+                    const defaultCellHeight = numFixedLeftColumns > 0 ? DEFAULT_CELL_HEIGHT : undefined;
+                    const cellHeight = this.props.cellHeight || defaultCellHeight;
+
+                    const numRows = rows.length + 1;
+                    const numColumns = columns.length;
+
+                    const showFixedTable = numFixedLeftColumns > 0;
+                    return (
+                      <GridAccessibilityProvider
+                        numRows={numRows}
+                        numColumns={numColumns}
+                        disableMouseInteraction={!shouldClickActivateTable}
+                        onLeaveRowEdit={onLeaveRowEdit}
+                        gridId={this.gridId}
+                      >
+                        <AccessibleGridStateContext.Consumer>
+                          {({ helpers, ...gridState }) => (
+                            <RowHoverManager gridState={gridState}>
+                              {hoverProps => {
+                                if (rows.length === 0) {
+                                  return (
+                                    // do not include column headers because:
+                                    // a) there is no data associated with them at this point
+                                    // b) there may be many of them, which causes the empty message to be off-screen
+                                    <Box width={1} {...containerProps}>
+                                      {this.props.emptyRender ? (
+                                        this.props.emptyRender()
+                                      ) : (
+                                        <EmptyState message="No data to show." iconName="info" />
+                                      )}
+                                    </Box>
+                                  );
+                                }
+
+                                const getCommonColumnHeaderParams = (
+                                  column: Column<RowObject>,
+                                  columnIndex: number,
+                                ): Omit<GridHeaderProps<RowObject>, 'columnIndex'> => ({
+                                  rows,
+                                  sorting,
+                                  selectionContext,
+                                  isSortingUpdatedByUrl: isRowsFromGenericDataManagerContext,
+                                  children: column.props.renderHeader,
+                                  key: getColumnKey<RowObject>(column, columnIndex),
+                                  rowIndex: 0,
+                                  label: column.props.headerLabel,
+                                  accessibilityHelpers: helpers,
+                                  height: headerHeight,
+                                  disableSort: column.props.disableSort,
+                                  fieldKey: column.props.fieldKey,
+                                  textAlign: column.props.textAlign,
+                                });
+
+                                return (
+                                  <RowPortalsReadyManager numRows={rows.length} disabled={!showFixedTable}>
+                                    {rowPortalsReady => (
+                                      <OuterWrapper
+                                        hasFocus={gridState.hasFocus}
+                                        {...helpers.getGridHtmlProps({ refPropName: 'elementRef' })}
+                                        {...containerProps}
+                                      >
+                                        {showFixedTable && (
+                                          <TableSection
+                                            position="left"
+                                            height={this.props.height}
+                                            flex="0 0 auto"
+                                            elementRef={this.fixedTableSection}
+                                            showSeparation
+                                            borderRight={columns[numFixedLeftColumns - 1].props.spanByFieldKey}
+                                          >
+                                            <StyledHtmlTable
+                                              role="none"
+                                              isEditing={gridState.editingActiveCell}
+                                              cellHeight={cellHeight}
+                                              headerHeight={headerHeight}
+                                              tableLayout="fixed"
+                                              width={DataTable.calculateColumnWidths(fixedColumns)}
+                                            >
+                                              <colgroup>
+                                                {range(numFixedLeftColumns).map(columnIndex => (
+                                                  <col
+                                                    key={columnIndex}
+                                                    width={this.getWidthForCol(columns[columnIndex])}
+                                                  />
+                                                ))}
+                                              </colgroup>
+                                              {rowPortalsReady && (
+                                                <thead>
+                                                  <tr role="none">
+                                                    {fixedColumns.map((column, columnIndex) => (
+                                                      <ColumnHeader<RowObject>
+                                                        key={column.props.fieldKey as string}
+                                                        {...getCommonColumnHeaderParams(column, columnIndex)}
+                                                        columnIndex={columnIndex}
+                                                      />
+                                                    ))}
+                                                  </tr>
+                                                </thead>
+                                              )}
+                                              <tbody ref={this.fixedTableBody} data-testid="fixed-table-body">
+                                                {range(1, numRows).map(integer => {
+                                                  return (
+                                                    <tr
+                                                      role="none"
+                                                      key={integer.toString()}
+                                                      id={getFixedTableRowId(this.gridId, integer)}
+                                                    />
+                                                  );
+                                                })}
+                                              </tbody>
+                                            </StyledHtmlTable>
+                                          </TableSection>
+                                        )}
+                                        <TableSection
+                                          position="right"
+                                          height={this.props.height}
+                                          flex="1 1 auto"
+                                          elementRef={this.fluidTableSection}
+                                        >
+                                          <StyledHtmlTable
+                                            role="none"
+                                            elementRef={this.fluidTable}
+                                            isEditing={gridState.editingActiveCell}
+                                            cellHeight={cellHeight}
+                                            headerHeight={headerHeight}
+                                            tableLayout={tableLayout}
+                                            width={1}
+                                          >
+                                            {rowPortalsReady && (
+                                              // Because the fixed columns will be rendered using a react portals we
+                                              // shouldn't render the rows until the element for the portal is on the DOM.
+                                              <>
+                                                <colgroup>
+                                                  {range(numFixedLeftColumns, columns.length).map(columnIndex => (
+                                                    <col
+                                                      data-testid="data-table-col"
+                                                      key={columnIndex}
+                                                      width={this.getWidthForCol(columns[columnIndex])}
+                                                    />
+                                                  ))}
+                                                </colgroup>
+                                                {selectionContext && selectionContext.anyDisplayedDataIsSelected ? (
+                                                  <DataTableBulkMenu
+                                                    actions={bulkActions}
+                                                    height={headerHeight}
+                                                    ml={calculateBulkMenuOffset(columns)}
+                                                    selectionContext={selectionContext}
+                                                    accessibilityHelpers={helpers}
+                                                  />
+                                                ) : null}
+                                                <thead>
+                                                  <tr role="none">
+                                                    {fluidColumns.map((column, columnIndex) => (
+                                                      <ColumnHeader<RowObject>
+                                                        key={column.props.fieldKey as string}
+                                                        {...getCommonColumnHeaderParams(column, columnIndex)}
+                                                        columnIndex={numFixedLeftColumns + columnIndex}
+                                                      />
+                                                    ))}
+                                                  </tr>
+                                                </thead>
+                                                <tbody data-testid="fluid-table-body">
+                                                  {rowPortalsReady &&
+                                                    this.getTableRows({
+                                                      rows,
+                                                      gridState,
+                                                      selectionContext,
+                                                      cellHeight,
+                                                      hoverProps,
+                                                      fixedColumns,
+                                                      fluidColumns,
+                                                      gridId: this.gridId,
+                                                      accessibilityHelpers: helpers,
+                                                    })}
+                                                </tbody>
+                                              </>
+                                            )}
+                                          </StyledHtmlTable>
+                                        </TableSection>
+                                      </OuterWrapper>
+                                    )}
+                                  </RowPortalsReadyManager>
+                                );
+                              }}
+                            </RowHoverManager>
+                          )}
+                        </AccessibleGridStateContext.Consumer>
+                      </GridAccessibilityProvider>
+                    );
+                  }}
+                </RowSelectionContext.Consumer>
+              )}
+            </DataManagerContext.Consumer>
           );
         }}
-      </DataManagerContext.Consumer>
+      </GenericDataManagerContext.Consumer>
     );
   }
 }

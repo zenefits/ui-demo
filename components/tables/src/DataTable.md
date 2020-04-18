@@ -1,17 +1,15 @@
 A component that displays tabular data.
 
-This will likely replace the existing [Table](#!/Table) component. Detailed guidelines for how and when
-to use this component in development.
-
 #### Examples
 
 ```jsx noeditor
-<StorybookExample selectedKind="tables|DataTable" selectedStory="default" height="300px" />
+<StorybookExample selectedKind="tables|DataTable" selectedStory="default" />
 ```
 
 #### Usage
 
-- USE whenever rendering tabular data.
+- USE when rendering tabular data with no editable fields
+- DO NOT USE if table includes editable fields. Instead use [EditableTable](#!/EditableTable).
 - DO NOT USE to position unrelated content.
 
 #### Implementation Notes
@@ -33,3 +31,4 @@ A custom render method can be provided as the child of any column. See the [exam
 #### Related
 
 - [Table](#!/Table)
+- [EditableTable](#!/EditableTable)

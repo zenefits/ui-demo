@@ -1,12 +1,11 @@
 A form component that lets the user upload files.
-See [here](https://confluence.inside-zen.com/pages/viewpage.action?spaceKey=ENG&title=File+uploader) to read more on the technical design.
 
 #### Examples
 
 Typical usage:
 
 ```jsx noeditor
-<StorybookExample selectedKind="forms|Form.FileUploader" selectedStory="default" height="300px" />
+<StorybookExample selectedKind="forms|Form.FileUploader" selectedStory="default" height="250px" />
 ```
 
 #### Content Guidelines
@@ -15,7 +14,7 @@ See general field label and error guidelines.
 
 #### Implementation Notes
 
-Always import this via `Form`, as in the example.
+See [technical design](https://confluence.inside-zen.com/pages/viewpage.action?spaceKey=ENG&title=File+uploader).
 
 #### Note
 
@@ -25,4 +24,4 @@ To work around this, you could do testing in Prod or local (recommended). Altern
 
 #### Related
 
-- [FileUploader](#!/FileUploader) could be used independent of a form
+- [DocumentSignatureLayout](#!/DocumentSignatureLayout) includes a FileUploader

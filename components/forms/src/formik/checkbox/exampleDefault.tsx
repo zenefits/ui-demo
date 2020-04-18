@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormCheckbox } from '../../..';
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ remember: false }}>
-    <Form.Checkbox name="remember" label="Remember Me" />
+    <FormCheckbox name="remember" label="Remember Me" />
   </Form>
 );

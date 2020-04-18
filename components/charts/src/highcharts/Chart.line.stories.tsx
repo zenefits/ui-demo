@@ -153,7 +153,6 @@ storiesOf('charts|Chart/Line', module)
       customOptions={{
         tooltip: {
           shared: true,
-          crosshairs: true,
         },
         xAxis: {
           crosshair: {

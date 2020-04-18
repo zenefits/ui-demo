@@ -6,6 +6,8 @@ import { ALL_COUNTRIES } from '../countries';
 type FormAddressCountryProps = {
   /** The name of the control, which is submitted with the control's value as part of the form data. */
   name: string;
+  /** Override the default country label */
+  label?: string;
 };
 
 class FormAddressCountry extends Component<FormAddressCountryProps> {

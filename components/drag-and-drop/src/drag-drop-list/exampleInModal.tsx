@@ -49,11 +49,11 @@ class DragDropListExample extends Component<DragDropListExampleProps, DragDropLi
     if (!targetList) {
       return;
     }
-
-    const items: Item[] = reorder(this.state.items, sourceList.index, targetList.index);
-
-    this.setState({
-      items,
+    this.setState(prevState => {
+      const items: Item[] = reorder(prevState.items, sourceList.index, targetList.index);
+      return {
+        items,
+      };
     });
   };
 

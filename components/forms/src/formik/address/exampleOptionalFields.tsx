@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormAddressUS } from '../../..';
 
 export default () => (
   <Form
@@ -9,11 +9,11 @@ export default () => (
       console.log(values);
     }}
     initialValues={{
-      address: Form.AddressUS.getEmptyValue({ includeName: true }),
+      address: FormAddressUS.getEmptyValue({ includeName: true }),
     }}
-    validationSchema={Form.AddressUS.getValidationSchema('address', { includeName: true })}
+    validationSchema={FormAddressUS.getValidationSchema('address', { includeName: true })}
   >
-    <Form.AddressUS name="address" includeName includeLine2={false} />
+    <FormAddressUS name="address" includeName includeLine2={false} />
     <Form.Footer primaryText="Save" />
   </Form>
 );

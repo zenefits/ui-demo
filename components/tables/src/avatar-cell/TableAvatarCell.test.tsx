@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Avatar } from 'z-frontend-composites';
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import TableAvatarCell from './TableAvatarCell';
 
 describe('AvatarCell', () => {
   it('should render text and avatar', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <TableAvatarCell avatarProps={{ photoUrl: 'img.png' }} firstName="Walter" lastName="White" />,
     );
 
@@ -16,7 +16,7 @@ describe('AvatarCell', () => {
   });
 
   it('should include metadata', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <TableAvatarCell avatarProps={{ photoUrl: 'img.png' }} firstName="Walter" lastName="White" metadata="engineer" />,
     );
 

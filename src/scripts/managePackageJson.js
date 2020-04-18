@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /* eslint-disable */
 // @ts-check
 /**
@@ -44,9 +45,24 @@ const cwd = process.cwd();
 
     if (depNameToUpgrade) {
       if (newVersion) {
-        upgradeDependencies(packages, packageList, [{ name: depNameToUpgrade, newVersion }], true);
+        upgradeDependencies(
+          packages,
+          packageList,
+          [
+            {
+              name: depNameToUpgrade,
+              newVersion,
+            },
+          ],
+          true,
+        );
       } else {
-        upgradeDependencies(packages, packageList, [{ name: depNameToUpgrade, newVersion }]);
+        upgradeDependencies(packages, packageList, [
+          {
+            name: depNameToUpgrade,
+            newVersion,
+          },
+        ]);
       }
     } else {
       checkAllForDifferentVersions(packages);
@@ -81,9 +97,7 @@ const cwd = process.cwd();
           if (!packagesToUpgrade[pkgNpm.moduleName]) {
             packagesToUpgrade[pkgNpm.moduleName] = {
               value: pkgNpm.moduleName,
-              name: chalk` {bold ${pkgNpm.moduleName}} from {yellow.bold ${pkgNpm.packageJson}} (installed ${
-                pkgNpm.installed
-              }) to {green.bold ^${pkgNpm.latest}} in ${pkgNameShort}`,
+              name: chalk` {bold ${pkgNpm.moduleName}} from {yellow.bold ${pkgNpm.packageJson}} (installed ${pkgNpm.installed}) to {green.bold ^${pkgNpm.latest}} in ${pkgNameShort}`,
               short: `${pkgNpm.moduleName}: ^${pkgNpm.latest}`,
               newVersion: `^${pkgNpm.latest}`,
             };
@@ -112,7 +126,10 @@ const cwd = process.cwd();
 
     const upgrades = choices
       .filter(pkg => inqResults.packages.includes(pkg.value))
-      .map(pkg => ({ name: pkg.value, newVersion: pkg.newVersion }));
+      .map(pkg => ({
+        name: pkg.value,
+        newVersion: pkg.newVersion,
+      }));
 
     await upgradeDependencies(packages, packageList, upgrades, true);
 
@@ -125,6 +142,7 @@ async function getAllPackageJsonFiles() {
   // unwrap globs
   const rootPackageJson = require(path.join(cwd, 'package.json'));
   const packages = {};
+
   function mapDependencies(depMap, pkgName) {
     Object.keys(depMap).forEach(depName => {
       if (!packages[depName]) {
@@ -177,7 +195,10 @@ async function getAllPackageJsonFiles() {
     mapDependencies(json.devDependencies || {}, json.name);
   });
 
-  return { packageList, packages };
+  return {
+    packageList,
+    packages,
+  };
 }
 
 function checkAllForDifferentVersions(packages) {

@@ -5,10 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
-const npmCheck = require('npm-check');
 const program = require('commander');
-const inquirer = require('inquirer');
-const chalk = require('chalk');
 
 program.version('0.1.0').parse(process.argv);
 
@@ -142,23 +139,6 @@ async function getAllPackageJsonFiles() {
 }
 
 function checkAllForDifferentVersions(packages) {
-  const packagesWithMultipleVersions = Object.keys(packages)
-    .sort()
-    .filter(depName => Object.keys(packages[depName]).length > 1);
-
-  if (packagesWithMultipleVersions.length) {
-    packagesWithMultipleVersions.forEach(depName => {
-      const versions = Object.keys(packages[depName]);
-      console.log(`${depName} has ${versions.length} versions: ${versions.join(', ')}`);
-    });
-    return false;
-  } else {
-    console.log(`there are no packages with multiple versions`);
-    return true;
-  }
-}
-
-function checkAllForDifferentPackages(packages) {
   const packagesWithMultipleVersions = Object.keys(packages)
     .sort()
     .filter(depName => Object.keys(packages[depName]).length > 1);

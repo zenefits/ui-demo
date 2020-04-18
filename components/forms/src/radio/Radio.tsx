@@ -39,19 +39,30 @@ const StyledRadioInput = styled.input.attrs({ type: 'radio' })`
     color: ${color('text.default')};
   }
 
+  :hover,
+  &.simulate-hover,
+  :focus,
+  &.simulate-focus,
+  :active,
+  &.simulate-active {
+    border-color: ${color('link.active')};
+  }
+
   :checked {
-    ${gradientWithColor('tertiary.a')};
+    ${gradientWithColor('link.normal')};
 
     ~ span {
       color: ${color('text.dark')};
     }
 
-    :hover {
-      ${gradientWithColor('link.normal')};
-    }
-
-    :active {
+    :hover,
+    &.simulate-hover,
+    :focus,
+    &.simulate-focus,
+    :active,
+    &.simulate-active {
       ${gradientWithColor('link.hover')};
+      border-color: ${color('link.hover')};
     }
 
     :disabled,
@@ -75,14 +86,8 @@ const StyledRadioInput = styled.input.attrs({ type: 'radio' })`
     box-shadow: none; /* prevent firefox default */
   }
 
-  :hover,
-  &.simulate-hover,
-  :focus,
-  :active {
-    border-color: ${color('grayscale.d')};
-  }
-
-  :active ~ span {
+  :active ~ span,
+  &.simulate-active ~ span {
     color: ${color('text.dark')};
   }
 

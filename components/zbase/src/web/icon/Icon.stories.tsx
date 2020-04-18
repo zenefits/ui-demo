@@ -20,8 +20,8 @@ class IconList extends Component<Props, State> {
   }
 
   render() {
-    const showAll = this.state.showAll;
-    const icons = this.props.theme.icons;
+    const { showAll } = this.state;
+    const { icons } = this.props.theme;
 
     let iconNames = Object.keys(icons);
     if (!this.state.showAll) {

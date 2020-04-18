@@ -1,17 +1,10 @@
-import querystring from 'query-string';
-import _ from 'lodash';
+import qs from 'qs';
+import { get } from 'lodash';
 
 import { ParsedZenefitsUrl } from '../client-nav-content/utils';
-import {
-  ActionItem,
-  EmployeeItem,
-  HelpItem,
-  OmniSearchSelectOptions,
-  OmniSearchSelectOptionType,
-  QueryParams,
-} from './types';
+import { ActionItem, EmployeeItem, OmniSearchSelectOptions, OmniSearchSelectOptionType, QueryParams } from './types';
+import { OmniSearchDashboardQuery } from '../gqlTypes';
 import { getDashboardApps, DashboardApp } from '../client-nav-content/dashboardApps';
-import { Subscription } from '../client-nav-content/types';
 import { ZAppStatusEnum } from '../client-nav-content/constants';
 
 const appDisabledStatus = ZAppStatusEnum.DISABLED;
@@ -27,7 +20,7 @@ export function formatActionLink(link: ParsedZenefitsUrl): string {
       /**
        * link is a route name
        */
-      return `/dashboard/#/redirect-to-route?${querystring.stringify({ to: link })}`;
+      return `/dashboard/#/redirect-to-route?${qs.stringify({ to: link })}`;
     }
   } else {
     /**
@@ -42,17 +35,17 @@ export function formatActionLink(link: ParsedZenefitsUrl): string {
     if (link.params && link.params.queryParams) {
       queryParams.queryParams = JSON.stringify(link.params.queryParams);
     }
-    return `/dashboard/#/redirect-to-route?${querystring.stringify(queryParams)}`;
+    return `/dashboard/#/redirect-to-route?${qs.stringify(queryParams)}`;
   }
 }
 
 /**
  * Based on subscription data from dashboard query, get an array of active apps
  */
-export function getActiveApps(dashboardData: any): DashboardApp[] {
+export function getActiveApps(dashboardData: OmniSearchDashboardQuery.Dashboard): DashboardApp[] {
   const { zAppInstallSubscriptions, switches, isSpoofing } = dashboardData;
 
-  const subscriptions: Subscription[] = zAppInstallSubscriptions;
+  const subscriptions: OmniSearchDashboardQuery.ZAppInstallSubscriptions[] = zAppInstallSubscriptions;
 
   const apps = getDashboardApps(subscriptions, switches, isSpoofing);
 
@@ -80,7 +73,6 @@ export function getActiveApps(dashboardData: any): DashboardApp[] {
 export function getSelectOptions(
   employeeItems: EmployeeItem[],
   actionItems: ActionItem[],
-  helpItems: HelpItem[],
   options: { showEmployees: boolean } = { showEmployees: true },
 ): OmniSearchSelectOptions {
   // Don't need to generate employeeOptions if they are not showed
@@ -102,17 +94,7 @@ export function getSelectOptions(
     };
   });
 
-  const helpOptions = helpItems.map((helpItem: HelpItem) => {
-    return {
-      type: 'help' as OmniSearchSelectOptionType,
-      displayName: helpItem.title,
-      link: helpItem.link,
-    };
-  });
-
-  return options.showEmployees
-    ? [...employeeOptions, ...actionOptions, ...helpOptions]
-    : [...actionOptions, ...helpOptions];
+  return options.showEmployees ? [...employeeOptions, ...actionOptions] : [...actionOptions];
 }
 
 export function getActiveActions(actionItems: ActionItem[], activeApps: DashboardApp[]): ActionItem[] {
@@ -125,13 +107,13 @@ export function getActiveActions(actionItems: ActionItem[], activeApps: Dashboar
 
     if (action.id) {
       const path = `preferences.links.${action.id}`;
-      const installVisibilityInfo = _.get(app.subscription.appInstall, path);
+      const installVisibilityInfo = get(app.subscription.appInstall, path);
 
       if (installVisibilityInfo && !installVisibilityInfo.isActive) {
         return false;
       }
 
-      const subVisibilityInfo = _.get(app.subscription, path);
+      const subVisibilityInfo = get(app.subscription, path);
 
       if (subVisibilityInfo && !subVisibilityInfo.isActive) {
         return false;
@@ -150,8 +132,11 @@ export function getActiveActions(actionItems: ActionItem[], activeApps: Dashboar
   return activeActions;
 }
 
-export function getSelectOptionsFromData(dashboardData: any, omniSearchSuggestionData: any) {
-  const isCurrentUserTerminated: boolean = _.get(dashboardData, 'employee.allStatus') === terminatedStatus;
+export function getSelectOptionsFromData(
+  dashboardData: OmniSearchDashboardQuery.Dashboard,
+  omniSearchSuggestionData: any,
+) {
+  const isCurrentUserTerminated: boolean = get(dashboardData, 'employee.allStatus') === terminatedStatus;
   const activeApps = getActiveApps(dashboardData);
   const activeAppIds: string[] = activeApps.map(app => app.uniqueId());
   const showEmployees: boolean =
@@ -161,7 +146,6 @@ export function getSelectOptionsFromData(dashboardData: any, omniSearchSuggestio
   const {
     employees: { items: employeeItems },
     actions: { items: actionItems },
-    help: { items: helpItems },
   } = omniSearchSuggestionData;
 
   /**
@@ -172,5 +156,48 @@ export function getSelectOptionsFromData(dashboardData: any, omniSearchSuggestio
   // limit the number of actions to 5
   const slicedActions = activeActions.slice(0, 5);
 
-  return getSelectOptions(employeeItems, slicedActions, helpItems, { showEmployees });
+  return getSelectOptions(employeeItems, slicedActions, { showEmployees });
 }
+
+export const getLeadInfo = () => {
+  const contextData = {
+    referrer: document.referrer || '',
+    location: {
+      hash: document.location.hash || '',
+      host: document.location.host || '',
+      hostname: document.location.hostname || '',
+      href: document.location.href || '',
+      origin: document.location.origin || '',
+      path: document.location.pathname || '',
+      port: document.location.port || '',
+      search: document.location.search || '',
+      protocol: document.location.protocol || '',
+    },
+  };
+
+  const formMetaData = {
+    formId: 'contact-sales',
+    formType: 'Contact_Sales',
+    formStep: 1,
+    formIsFinalStep: true,
+  };
+
+  const syncData = {
+    instantSubmit: true,
+    handlerName: 'mkt',
+    syncTo: {
+      marketoListId: 17390,
+    },
+  };
+
+  const formData = {
+    email: '',
+  };
+
+  return {
+    formData,
+    contextData,
+    formMetaData,
+    syncData,
+  };
+};

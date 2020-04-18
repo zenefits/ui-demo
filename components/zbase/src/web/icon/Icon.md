@@ -1,5 +1,5 @@
 Component to visually signify navigation or available actions. The icon alone is not interactive but is used in many interactive components
-(eg [Pager](#!/Pager) or [Form.DateInput](#!/Form.DateInput)).
+(eg [Pager](#!/Pager) or [FormDateInput](#!/FormDateInput)).
 
 Zenefits currently uses the following font to display icons: [Material Design Iconic Font](http://zavoloklom.github.io/material-design-iconic-font/icons.html). All
 available icons are listed there.

@@ -190,17 +190,145 @@ export const resolvers = addDelayToResolvers(
       flow(root: any, { id }: { id: string }) {
         return flowFragmentData[id];
       },
-      dashboard() {
-        return {};
-      },
       dynamicFlow() {
         return flowFragmentData['112'];
       },
       flowWithMatchingNames() {
         return flowFragmentData['113'];
       },
+      datagrid() {
+        return {
+          id: '5',
+          __typename: 'Datagrid',
+          rows: [
+            {
+              id: '1',
+              data: {
+                first_name: 'Johnny',
+                last_name: 'Canuck',
+                email: 'jcanuck@zenefits.com',
+                age: 31,
+              },
+              errors: () => ({}),
+            },
+            {
+              id: '2',
+              data: {
+                first_name: '',
+                last_name: '',
+              },
+              errors: () => ({}),
+            },
+          ],
+          // Note that server side logic needs to be simulated in the row save resolver
+          columnConfiguration: [
+            {
+              id: 'first_name',
+              label: 'First name',
+              __typename: 'DatagridRow',
+              type: 'string',
+              validations: [
+                {
+                  key: 'firstName_required',
+                  type: 'required',
+                  message: 'First name is required.',
+                  meta: {},
+                },
+              ],
+            },
+            {
+              id: 'last_name',
+              label: 'Last name',
+              __typename: 'DatagridRow',
+              type: 'string',
+              validations: [
+                {
+                  key: 'last_required',
+                  type: 'required',
+                  message: 'Last name is required.',
+                  meta: {},
+                },
+              ],
+            },
+            {
+              id: 'email',
+              label: 'Email',
+              type: 'email',
+              __typename: 'DatagridRow',
+              validations: [
+                {
+                  key: 'email_required',
+                  type: 'required',
+                  message: 'Email is required.',
+                  meta: {},
+                },
+                {
+                  key: 'email_regex_default',
+                  type: 'regex',
+                  message: 'Email address must have a valid format.',
+                  meta: {
+                    pattern: '(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$)',
+                  },
+                },
+                {
+                  key: 'email_zenefits',
+                  type: 'custom',
+                  message: 'Email must have a zenefits domain',
+                },
+              ],
+            },
+            {
+              id: 'age',
+              __typename: 'DatagridRow',
+              label: 'Age',
+              type: 'integer',
+              validations: [
+                {
+                  key: 'age_valueRange',
+                  type: 'valueRange',
+                  message: 'Age must be between 0 and 99.',
+                  meta: {
+                    max: 99,
+                    min: 0,
+                  },
+                },
+              ],
+            },
+          ],
+        };
+      },
     },
     Mutation: {
+      saveDatagridRows(root: any, { rows }: any) {
+        return rows.map((row: any) => {
+          // It's unfortunate that we have to do this but Datagrid will update errors with server returned errors
+          const errors: { [key: string]: any[] } = {};
+
+          if (!row.data.first_name) {
+            errors.first_name = [{ key: 'first_required', message: 'First name is required.' }];
+          }
+          if (!row.data.last_name) {
+            errors.first_name = [{ key: 'last_required', message: 'Last name is required.' }];
+          }
+
+          errors.email = [];
+          if (!row.data.email) {
+            errors.email.push({ key: 'email_required', message: 'Email is required.' });
+          }
+          if (row.data.email && !row.data.email.match(/(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)/)) {
+            errors.email.push({ key: 'email_regex_default', message: 'Email address must have a valid format.' });
+          }
+
+          if (row.data.email && !row.data.email.includes('@zenefits.com')) {
+            errors.email.push({ key: 'email_zenefits', message: 'Email must be in the Zenefits domain.' });
+          }
+          return {
+            __typename: 'DatagridRow',
+            ...row,
+            errors,
+          };
+        });
+      },
       addFamilyStep(root: any, { familySize }: { familySize: number }) {
         flowFragmentData['113'].sections.push({
           dispatcherArgs: familySize,

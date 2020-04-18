@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { range } from 'lodash';
 
 import { DialogManagerState, DialogProps } from './DialogManager';
 
@@ -29,7 +29,7 @@ class DialogsManager extends Component<DialogsManagerProps, DialogsManagerState>
   constructor(props: DialogsManagerProps) {
     super(props);
     this.state = {
-      dialogStates: _.range(props.dialogsCount).map(i => ({ isDialogVisible: !!props.openByDefault[i] })),
+      dialogStates: range(props.dialogsCount).map(i => ({ isDialogVisible: !!props.openByDefault[i] })),
     };
   }
 
@@ -72,7 +72,7 @@ class DialogsManager extends Component<DialogsManagerProps, DialogsManagerState>
   };
 
   render() {
-    const dialogs = _.range(this.props.dialogsCount).map(i => ({
+    const dialogs = range(this.props.dialogsCount).map(i => ({
       isVisible: this.state.dialogStates[i].isDialogVisible,
       open: this.makeIthOpen(i),
       close: this.makeIthClose(i),

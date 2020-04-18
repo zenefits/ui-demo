@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { ObjectOmit } from 'typelevel-ts';
 
-import { styled } from 'z-frontend-theme';
+import { styled, theme } from 'z-frontend-theme';
 import { color } from 'z-frontend-theme/utils';
-import { Flex } from 'zbase';
+import { Box, Flex } from 'zbase';
 
 import BasePopper, { BasePopperProps, PlacementProp } from '../popover/BasePopper';
 import ArrowedPopperContainer from '../popover/ArrowedPopperContainer';
 
-export type TooltipProps = ObjectOmit<BasePopperProps, 'children'>;
+export type TooltipProps = Omit<BasePopperProps, 'children'>;
 
 // For tooltips force text to be white rather than getting the default from a <TextBlock> component
 const StyledPopperContainer = styled(Flex)`
@@ -25,20 +24,28 @@ class Tooltip extends Component<TooltipProps> {
   };
 
   render() {
-    const { children, showArrow } = this.props;
+    const { children, showArrow, popperModifiers: customPopperModifiers } = this.props;
+    const popperModifiers: BasePopperProps['popperModifiers'] = {
+      preventOverflow: {
+        boundariesElement: 'viewport',
+      },
+      ...customPopperModifiers,
+    };
+
     return (
-      <BasePopper {...this.props}>
-        {({ popperProps: { 'data-placement': dataPlacement, ref, style }, restProps }) => (
-          <div {...restProps} style={style} ref={ref}>
+      <BasePopper {...this.props} popperModifiers={popperModifiers}>
+        {({ placement, style, ref, arrowProps }) => (
+          <div style={{ ...style, zIndex: theme.zIndex.popover }} ref={ref}>
             <StyledPopperContainer>
               <ArrowedPopperContainer
+                arrowProps={arrowProps}
                 useDefaultPopperContainer
-                dataPlacement={dataPlacement as PlacementProp}
+                dataPlacement={placement as PlacementProp}
                 showArrow={showArrow}
                 bg="secondary.a"
                 color="grayscale.white"
               >
-                {children}
+                <Box maxWidth={[null, 500]}>{children}</Box>
               </ArrowedPopperContainer>
             </StyledPopperContainer>
           </div>

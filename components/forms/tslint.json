@@ -2,14 +2,5 @@
   "extends": "tslint-config-z-frontend",
   "linterOptions": {
     "exclude": ["**/*.js", "**/*.jsx"]
-  },
-  "rules": {
-    // we're moving away from redux-form but this package is grandfathered in
-    "import-filter": [
-      true,
-      {
-        "redux-form": false
-      }
-    ]
   }
 }

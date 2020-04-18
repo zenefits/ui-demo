@@ -17,7 +17,7 @@ Add `multi` to allow multiple to be selected:
 #### Usage
 
 - Use when there are at least 3 options.
-- For shorter lists of options, consider using [Form.RadioGroup](#!/Form.RadioGroup) instead.
+- For shorter lists of options, consider using [FormRadioGroup](#!/FormRadioGroup) instead.
 - Include an intelligent default selection where it makes sense to do so.
 - The most common way to validate this input is that at least one option is selected.
 
@@ -34,4 +34,4 @@ with styles and layout.
 
 #### Related
 
-- [Form.RadioGroup](#!/Form.RadioGroup)
+- [FormRadioGroup](#!/FormRadioGroup)

@@ -1,6 +1,13 @@
 import React from 'react';
 
 import { Box, Heading } from 'zbase';
+import { styled } from 'z-frontend-theme';
+
+const HeadingOnly = ({ deprecated, level, ...props }) => <Heading level={level} {...props} />;
+
+const StyledHeading = styled(HeadingOnly)<{ deprecated?: boolean }>`
+  ${props => (props.deprecated ? 'text-decoration: line-through' : '')}
+`;
 
 interface SectionHeadingProps {
   children?: React.ReactChildren;
@@ -12,10 +19,10 @@ interface SectionHeadingProps {
 }
 
 // override default to use our Heading, remove link styling, and hide toolbar
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/SectionHeading/SectionHeadingRenderer.js
 class SectionHeadingRenderer extends React.Component<SectionHeadingProps> {
   render() {
-    // TODO: handle deprecated
-    const { children, id, depth } = this.props;
+    const { children, id, depth, deprecated } = this.props;
 
     const headingLevel = Math.min(6, depth + 1);
     // do not render section categories
@@ -25,9 +32,9 @@ class SectionHeadingRenderer extends React.Component<SectionHeadingProps> {
 
     return (
       <Box>
-        <Heading level={headingLevel} id={id}>
+        <StyledHeading level={headingLevel} id={id} deprecated={deprecated}>
           {children}
-        </Heading>
+        </StyledHeading>
         {/*
         TODO: custom ToolbarButtonRenderer?
         <Box className="toolbar">{toolbar}</Box>

@@ -1,4 +1,5 @@
 import React, { StatelessComponent } from 'react';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { Field, Validator, WrappedFieldProps } from 'redux-form';
 
 import { FieldFormatWrapper, FieldProps } from './FieldWrapper';

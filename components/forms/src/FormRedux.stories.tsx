@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 // @ts-ignore
 import { action } from '@storybook/addon-actions';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { reduxForm, Form, InjectedFormProps } from 'redux-form';
-import { compose, graphql, ChildDataProps, MutationFunc } from 'react-apollo';
+import { graphql, ChildProps, MutationFunction } from 'react-apollo';
+import { flowRight } from 'lodash';
 import gql from 'graphql-tag';
 import moment from 'moment';
 
 import { Box } from 'zbase';
 import { Button } from 'z-frontend-elements';
+import { paddedBox } from 'z-frontend-storybook-config';
 
 import { storiesOf } from '../.storybook/storyHelpers';
 import TextField from './fields/TextField';
@@ -18,7 +21,15 @@ import SelectField from './fields/SelectField';
 import DatePickerField from './fields/DatePickerField';
 import { FieldsWrapper, FormRow } from './fields/FieldWrapper';
 
-const allStories = storiesOf('forms|ReduxForm (Deprecated)', module);
+storiesOf('forms|ReduxForm (Deprecated)', module)
+  .addDecorator(paddedBox)
+  .add('simple redux form', () => (
+    <div>
+      <UserSimpleWithForm createUser={action('submit-simple-form')} />
+    </div>
+  ))
+  .add('with graphql', () => <UserGqlWithData />)
+  .add('Text fields', () => <TextFieldsWithData />);
 
 const selectOptions = [
   { value: 'yes', label: 'As a matter of fact, I have!' },
@@ -33,7 +44,10 @@ const planetOptions = [
   { value: 'jupiter', label: 'Jupiter' },
 ];
 
-const heightUnitOptions = [{ value: 'cm', label: 'Centimetre' }, { value: 'inch', label: 'Inch' }];
+const heightUnitOptions = [
+  { value: 'cm', label: 'Centimetre' },
+  { value: 'inch', label: 'Inch' },
+];
 
 /**
  * Simple form with redux-form
@@ -126,12 +140,6 @@ const UserSimpleWithForm = reduxForm<SimpleFormData, UserSimpleProps>({
   initialValues: { game: 'catan' },
 })(UserSimple);
 
-allStories.add('simple redux form', () => (
-  <div>
-    <UserSimpleWithForm createUser={action('submit-simple-form')} />
-  </div>
-));
-
 /**
  * Redux Form with Apollo GraphQL queries and mutations
  */
@@ -180,19 +188,20 @@ type UserFormData = {
 type UserFormProps = {
   createUser?: () => any;
   onSaveIt?: () => any;
-  mutate: MutationFunc<any, any>;
+  mutate: MutationFunction<any, any>;
 };
 
 // a type for redux-form injected props
 type PropsInjected = InjectedFormProps<UserFormData, UserFormProps>;
 // combined type for our props and redux-form props
-type AllProps = ChildDataProps<UserFormProps & PropsInjected, any, any>;
+type AllProps = ChildProps<UserFormProps & PropsInjected, any, any>;
 
 class UserGql extends Component<AllProps> {
   constructor(props: AllProps) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
   onSubmit(values: UserFormData) {
     console.log('onsubmit', values);
     this.props
@@ -204,6 +213,7 @@ class UserGql extends Component<AllProps> {
         console.log('there was an error sending the query', error);
       });
   }
+
   render() {
     const { loading, error, dashboard } = this.props.data;
     const loaded = !(loading || error);
@@ -241,13 +251,11 @@ class UserGql extends Component<AllProps> {
   }
 }
 
-const UserGqlWithData = compose(
+const UserGqlWithData = flowRight([
   reduxForm<UserFormData, UserFormProps>({ form: 'form4' }),
   graphql<any, AllProps>(sampleDataQuery),
   graphql<any, AllProps>(submitUserMutation),
-)(UserGql);
-
-allStories.add('with graphql', () => <UserGqlWithData />);
+])(UserGql);
 
 interface TextFieldsFormData {
   minMax: string;
@@ -300,5 +308,3 @@ interface TextFieldsFormProps {}
 const TextFieldsWithData = reduxForm<TextFieldsFormData, TextFieldsFormProps>({
   form: 'TextFields',
 })(TextFieldsForm);
-
-allStories.add('Text fields', () => <TextFieldsWithData />);

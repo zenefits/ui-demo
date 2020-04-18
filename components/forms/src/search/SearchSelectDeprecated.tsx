@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-state */
+/* eslint-disable react/no-array-index-key */
 import React, { Component, KeyboardEvent } from 'react';
 
 import { css, styled } from 'z-frontend-theme';
@@ -68,7 +70,7 @@ class SearchSelect extends Component<StandardSearchProps, SearchState> {
   constructor(props: StandardSearchProps) {
     super(props);
     this.state = {
-      query: (Array.isArray(props.defaultValue) ? props.defaultValue[0] : props.defaultValue) || '',
+      query: Array.isArray(props.defaultValue) ? String(props.defaultValue[0]) : props.defaultValue || '',
       focused: false,
       expanded: !!props.defaultValue,
       loading: false,
@@ -112,7 +114,7 @@ class SearchSelect extends Component<StandardSearchProps, SearchState> {
 
   onSearchInputSubmit = (query: string) => {
     this.setState({ displayOptions: false });
-    const selectionIndex = this.state.selectionIndex;
+    const { selectionIndex } = this.state;
     if (selectionIndex > -1) {
       this.select(selectionIndex);
     } else {
@@ -180,7 +182,7 @@ class SearchSelect extends Component<StandardSearchProps, SearchState> {
   `;
 
   defaultRenderOption = (option: SearchSelectOption, query: string) => {
-    const value = option.value;
+    const { value } = option;
     if (this.props.showMatchingChars) {
       const matchStart = value.indexOf(query);
       const matchEnd = matchStart + query.length;
@@ -265,7 +267,7 @@ type SearchOptionsProps = {
   highlightTop?: boolean;
 };
 
-export const SearchOptions = styled(Box.extendProps<SearchOptionsProps>())`
+export const SearchOptions = styled(Box)<SearchOptionsProps>`
   position: ${props => !props.isTethered && 'absolute'};
   width: 100%;
   z-index: ${zIndex('dropdown')};
@@ -275,7 +277,7 @@ export const SearchOptions = styled(Box.extendProps<SearchOptionsProps>())`
   background-color: ${color('grayscale.white')};
   box-shadow: none;
   margin-top: -1px;
-  font-size: ${props => fontSizes(sizeMap[props.s])};
+  font-size: ${props => fontSizes(sizeMap[props.s as SearchInputSize])};
   max-height: ${props => props.maxHeight && px(props.maxHeight)};
   overflow-y: auto;
 `;
@@ -288,7 +290,7 @@ const optionStyles = css<SearchOptionProps>`
 `;
 
 const createSearchItemComponent = (defaultProps: Partial<SearchOptionProps & BoxProps>) => {
-  const OptionComponent = styled<BoxProps & SearchOptionProps>(Box)`
+  const OptionComponent = styled(Box)<BoxProps & SearchOptionProps>`
     ${optionStyles}
     min-height: ${space(5)};
   `;
@@ -303,7 +305,7 @@ const createSearchItemComponent = (defaultProps: Partial<SearchOptionProps & Box
 export const SearchOption = createSearchItemComponent({ selectable: true, fontStyle: 'paragraphs.m' });
 export const SearchHeader = createSearchItemComponent({ selectable: false, fontStyle: 'headings.xs' });
 
-export const FixedHeightSearchOption = styled(Flex.extendProps<{ height?: string }>())`
+export const FixedHeightSearchOption = styled(Flex)<{ height?: string }>`
   ${optionStyles};
   height: ${props => heights(props.height)(props)};
 `;

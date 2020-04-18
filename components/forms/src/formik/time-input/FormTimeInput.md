@@ -4,20 +4,20 @@ A form component that accepts time selection from the user.
 
 Typical usage:
 
-```jsx
-// loadExample('./exampleDefault')
+```jsx noeditor
+<StorybookExample selectedKind="forms|TimeInput" selectedStory="default" />
 ```
 
 #### Usage
 
 - Use TimeInputValue type when specifying the value type for this form field.
-- Form.TimeInput.validationSchema with Yup schema validation
+- Form.TimeInputvalidationSchema with Yup schema validation
 - Form.TimeInput.getEmptyValue helper method can be used to format empty default value
 
 ```js static
 <Form<{ time: TimeInputValue}>
-  validationSchema={{time: Form.TimeInput.validationSchema}}
-  defaultValue={{time: Form.TimeInput.getEmptyValue()}}
+  validationSchema={{time: FormTimeInput.validationSchema}}
+  defaultValue={{time: FormTimeInput.getEmptyValue()}}
 >
 ```
 
@@ -33,5 +33,5 @@ Wraps the [HTML `<input>` element](https://developer.mozilla.org/en-US/docs/Web/
 
 #### Related
 
-- [Form.TimeRange](#!/Form.TimeRange) for a range of times
-- [Form.DateInput](#!/Form.DateInput) for a date
+- [FormTimeRange](#!/FormTimeRange) for a range of times
+- [FormDateInput](#!/FormDateInput) for a date

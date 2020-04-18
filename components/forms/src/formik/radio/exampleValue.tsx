@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormRadio, FormRadioGroup } from '../../..';
 
 const options = [
   { value: 'biweekly', label: 'Bi-weekly' },
@@ -10,10 +10,10 @@ const options = [
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ frequency: 'monthly' }}>
-    <Form.RadioGroup name="frequency" label="Pay Frequency">
+    <FormRadioGroup name="frequency" label="Pay Frequency">
       {options.map(option => (
-        <Form.Radio key={option.value} label={option.label} value={option.value} />
+        <FormRadio key={option.value} label={option.label} value={option.value} />
       ))}
-    </Form.RadioGroup>
+    </FormRadioGroup>
   </Form>
 );

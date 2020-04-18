@@ -7,11 +7,11 @@ import React, {
   StatelessComponent,
   TextareaHTMLAttributes,
 } from 'react';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { BaseFieldProps, Field } from 'redux-form';
-import { ObjectOmit } from 'typelevel-ts';
 
 import { Box, BoxProps, Flex, Icon, Label, TextBlock, UtilProps } from 'zbase';
-import { HideFor } from 'z-frontend-theme';
+import { Hide } from 'z-frontend-theme';
 import { Tooltip } from 'z-frontend-overlays';
 
 import InputErrorText from './InputErrorText';
@@ -33,7 +33,7 @@ type GenericFieldHTMLAttributes = InputHTMLAttributes<HTMLInputElement> &
   SelectHTMLAttributes<HTMLSelectElement> &
   TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export type FieldProps<P = {}> = ObjectOmit<Props & GenericFieldHTMLAttributes & BoxProps, keyof BaseFieldProps<P>> &
+export type FieldProps<P = {}> = Omit<Props & GenericFieldHTMLAttributes & BoxProps, keyof BaseFieldProps<P>> &
   BaseFieldProps<P>;
 
 export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
@@ -58,7 +58,7 @@ export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
               <Box w={[1, 1 / 3, 1 / 3, 1 / 4]} px={2} mb={[2, 0]} mt={[0, 2]} {...labelBoxProps}>
                 {label}
                 {tooltipText && (
-                  <HideFor breakpoints={[true]}>
+                  <Hide forBreakpoints={[true]}>
                     <Tooltip
                       event="hover"
                       showArrow
@@ -67,7 +67,7 @@ export const FieldFormatWrapper: StatelessComponent<WrapperProps> = ({
                     >
                       <Box p={10}>{tooltipText}</Box>
                     </Tooltip>
-                  </HideFor>
+                  </Hide>
                 )}
               </Box>
             )}

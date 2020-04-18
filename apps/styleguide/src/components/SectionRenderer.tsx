@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SectionHeading from 'react-styleguidist/lib/rsg-components/SectionHeading';
+import SectionHeading from 'react-styleguidist/lib/client/rsg-components/SectionHeading';
 
 import { Box } from 'zbase';
 import { Card } from 'z-frontend-composites';
@@ -18,7 +18,7 @@ interface SectionProps {
 }
 
 // override default to use our Card styling
-// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/Section/SectionRenderer.js
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/Section/SectionRenderer.js
 class SectionRenderer extends Component<SectionProps> {
   render() {
     const { name, slug, filepath, content, components, sections, depth } = this.props;

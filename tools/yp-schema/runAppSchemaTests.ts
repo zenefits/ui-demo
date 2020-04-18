@@ -1,10 +1,13 @@
 import gql from 'graphql-tag';
 import * as ts from 'typescript';
-import { buildSchema } from 'graphql';
+import { buildSchema, validate } from 'graphql';
 
 import { generateTypes, getSchemaPaths } from './index';
 import getMockSchema from './getMockSchema';
 import checkQueryEntitiesForId from './checkQueryEntitiesForId';
+import defaultMocks from './mock/mocks';
+import defaultResolvers from './mock/resolvers';
+import { fetchProductionSchema, getGraphqlQueriesAST } from './gqlUtils';
 
 const fs = require('fs');
 
@@ -13,15 +16,18 @@ interface RunAppSchemaTestsOptions {
   gqlSchema: any;
   queryTypes: any;
   fragmentTypes: any;
-  resolvers: any;
-  mocks: any;
+  resolvers?: any;
+  mocks?: any;
   createApolloClient: any;
   typesToSkip?: string[];
+  gqlErrorWhitelist?: string[];
+  missingQueryIdPathWhitelist?: string[];
 }
 
 declare global {
+  // eslint-disable-next-line no-redeclare
   namespace jest {
-    interface Matchers<R> {
+    interface Matchers<R, T> {
       toHaveNoQueryEntityErrors: () => R;
     }
   }
@@ -51,10 +57,12 @@ export default function runAppSchemaTests({
   gqlSchema,
   queryTypes,
   fragmentTypes,
-  resolvers,
-  mocks,
   createApolloClient,
   typesToSkip,
+  gqlErrorWhitelist = [],
+  missingQueryIdPathWhitelist = [],
+  mocks = defaultMocks,
+  resolvers = defaultResolvers,
 }: RunAppSchemaTestsOptions) {
   const schema = buildSchema(gqlSchema);
 
@@ -66,7 +74,7 @@ export default function runAppSchemaTests({
   it('should not throw when run generateTypes', async () => {
     const schemaPaths = getSchemaPaths(appPath);
     const result = await generateTypes({
-      files: [__dirname + '/testFile.ts'],
+      files: [`${__dirname}/testFile.ts`],
       schemaPath: fs.existsSync(schemaPaths.graphqlPath) ? schemaPaths.graphqlPath : schemaPaths.jsonPath,
       generateDocuments: true,
       generateSchemaTypes: true,
@@ -76,7 +84,7 @@ export default function runAppSchemaTests({
   });
 
   it('should work with apollo in mock mode', async () => {
-    const [, { client }] = createApolloClient({
+    const client = createApolloClient({
       fragmentTypes,
       mockConfig: {
         gqlSchema,
@@ -104,9 +112,26 @@ export default function runAppSchemaTests({
   });
 
   it('should include an id on queries for entities whose schema has one', () => {
-    const quertyTypesAST = ts.createSourceFile('index.ts', queryTypes, ts.ScriptTarget.ES2015, true);
+    const queryTypesAST = ts.createSourceFile('index.ts', queryTypes, ts.ScriptTarget.ES2015, true);
 
-    const errors = checkQueryEntitiesForId(quertyTypesAST, schema, typesToSkip);
+    let errors = checkQueryEntitiesForId(queryTypesAST, schema, typesToSkip);
+    if (missingQueryIdPathWhitelist) {
+      errors = errors.filter(path => !missingQueryIdPathWhitelist.includes(path.join('.')));
+    }
     expect(errors).toHaveNoQueryEntityErrors();
+  });
+
+  it('should validate against yp3 production schema', async () => {
+    const graphqlAST = await getGraphqlQueriesAST(appPath);
+    if (!graphqlAST) {
+      return;
+    }
+
+    const schema = await fetchProductionSchema();
+    const errors = validate(schema, graphqlAST);
+
+    const uniqueErrors = [...new Set(errors.map(error => error.toString()))];
+    const reportedErrors = uniqueErrors.filter(message => !gqlErrorWhitelist.includes(message));
+    expect(reportedErrors).toHaveLength(0);
   });
 }

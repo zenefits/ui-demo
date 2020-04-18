@@ -1,6 +1,6 @@
 export function hasAdobeReader() {
   let acrobat;
-  const ActiveXObject = (window as any).ActiveXObject;
+  const { ActiveXObject } = window as any;
   let hasReader = false;
   if (!hasReader) {
     try {

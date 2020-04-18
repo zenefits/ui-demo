@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { Badge, Box, Flex, Heading, TextBlock } from 'zbase';
-import { Button } from 'z-frontend-elements';
+import { Box, Flex, Heading, TextBlock } from 'zbase';
+import { Button, StatusTag } from 'z-frontend-elements';
 import { styled, withTheme, ColorString, ThemeInterface } from 'z-frontend-theme';
 import { convertToNestedMap, radius } from 'z-frontend-theme/utils';
 
@@ -30,9 +30,9 @@ class ColorSwatch extends Component<ColorSwatchProps> {
         <ColorBox w={1 / 2} bg={colorString} />
         <Box p={3} borderLeft>
           <TextBlock mb={2}>{colorString}</TextBlock>
-          <Badge bg="grayscale.f" color="text.default" fontStyle="controls.s" mx={0}>
+          <StatusTag mode="neutral" fontStyle="controls.s" mx={0}>
             {colorHex}
-          </Badge>
+          </StatusTag>
         </Box>
       </StyledContainer>
     );
@@ -43,6 +43,7 @@ class ColorGuide extends Component<ColorGuideProps> {
   state = {
     showAll: false,
   };
+
   render() {
     const { showAll } = this.state;
     const colorsMap = convertToNestedMap(this.props.theme.colors);

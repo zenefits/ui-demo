@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 
 import { Box, BoxProps } from 'zbase';
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 import { EmptyState } from 'z-frontend-elements';
 
 import Table from './Table';
@@ -32,13 +32,13 @@ describe('Table', () => {
     expect.assertions(8);
     const tableCells = ['H1', 'H2', 'R11', 'R12', '', 'R22', 'F1', 'F2'];
 
-    const wrapper = mountWithTheme(tableJsx);
+    const wrapper = mountEnzymeWithTheme(tableJsx);
     const tableText = wrapper.text();
     tableCells.forEach(cell => expect(tableText).toContain(cell));
   });
 
   it('supports empty message', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <Table columnWidths={[]} isEmpty emptyRender={() => <EmptyState message="No employees available." />} />,
     );
     expect(wrapper.text()).toContain('No employees available');

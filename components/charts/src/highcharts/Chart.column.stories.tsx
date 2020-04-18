@@ -78,6 +78,32 @@ storiesOf('charts|Chart/Column & Bar', module)
       <Chart.Series data={categoryData1} />
     </Chart>
   ))
+  .add('bar (stacking)', () => (
+    <Chart type="bar" xAxisTitle="Positions" yAxisTitle="Number of Employees">
+      <Chart.Series data={categoryData1} stacking="normal" />
+      <Chart.Series data={categoryData2} stacking="normal" />
+      <Chart.Series data={categoryData3} stacking="normal" />
+    </Chart>
+  ))
+  .add('bar (stacking, 100% percent)', () => (
+    <Chart
+      type="bar"
+      xAxisTitle="Positions"
+      yAxisTitle="Number of Employees"
+      customOptions={{
+        tooltip: {
+          shared: true,
+          // show value AND percent
+          pointFormat:
+            '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        },
+      }}
+    >
+      <Chart.Series data={categoryData1} stacking="percent" />
+      <Chart.Series data={categoryData2} stacking="percent" />
+      <Chart.Series data={categoryData3} stacking="percent" />
+    </Chart>
+  ))
   .add('grouped', () => (
     <Chart type="column" xAxisTitle="Positions" yAxisTitle="Number of Employees">
       <Chart.Series data={categoryData1} name="Your Company" />
@@ -91,9 +117,11 @@ storiesOf('charts|Chart/Column & Bar', module)
       xAxisTitle="Positions"
       yAxisTitle="Number of Employees"
       customOptions={{
+        xAxis: {
+          crosshair: true,
+        },
         tooltip: {
           shared: true,
-          crosshairs: true,
         },
       }}
     >

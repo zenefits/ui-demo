@@ -13,6 +13,7 @@ type TaskListProps = {
 
 export default class TaskList extends Component<TaskListProps & BoxProps> {
   static Item = TaskListItem;
+
   render() {
     const { title, children, ...boxProps } = this.props;
     return (

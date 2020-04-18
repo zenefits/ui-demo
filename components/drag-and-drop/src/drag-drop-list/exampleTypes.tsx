@@ -80,9 +80,9 @@ class DragDropListExample extends Component<DragDropListExampleProps, DragDropLi
             return (
               <Box key={listId} mb={3}>
                 <DragDropList.List listId={listId} type={this.typeMap[listId]}>
-                  {this.state[listId].map((item, index) => {
+                  {this.state[listId].map(item => {
                     return (
-                      <DragDropList.DraggableBox key={index} itemId={item} border borderColor="affirmation.b" p={2}>
+                      <DragDropList.DraggableBox key={item} itemId={item} border borderColor="affirmation.b" p={2}>
                         {item}
                       </DragDropList.DraggableBox>
                     );

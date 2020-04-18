@@ -1,27 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import moment from 'moment';
-import { ReactWrapper } from 'enzyme';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { cleanup, fireEvent, waitForDomChange } from '@testing-library/react';
+
+import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
 import DateInput from './DateInput';
 import { formatIsoString } from '../fields/DatePickerField';
 
 jest.mock('react-day-picker/lib/style.css', () => jest.fn());
 
-const createPortal = ReactDOM.createPortal;
 describe('DatePickerField#formatIsoString', () => {
-  beforeAll(() => {
-    ReactDOM.createPortal = jest.fn((element, node) => {
-      return element;
-    });
-  });
-
-  afterEach(() => {
-    (ReactDOM.createPortal as jest.Mock).mockClear();
-  });
-
   it('handles date', () => {
     const januaryFirst = new Date(2018, 1 - 1, 1);
     expect(formatIsoString(januaryFirst)).toBe('2018-01-01');
@@ -57,46 +46,80 @@ describe('DatePickerField#formatIsoString', () => {
 });
 
 describe('DateInput', () => {
-  beforeAll(() => {
-    ReactDOM.createPortal = createPortal;
+  beforeEach(() => {
+    cleanup();
   });
 
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<DateInput />)).toHaveLength(1);
+    function tryRender() {
+      renderWithContext(<DateInput />);
+    }
+    expect(tryRender).not.toThrow();
   });
 
   it('should show date picker on focus', () => {
-    const wrapper = mountWithTheme(<DateInput />);
-    triggerDateInput(wrapper);
-    expect(wrapper.find('.DayPicker-Caption')).toHaveLength(1);
+    const { container } = renderWithContext(<DateInput />);
+    triggerDateInput(container);
+    expect(container.querySelectorAll('.DayPicker-Caption')).toHaveLength(1);
   });
 
   it('should set value when clicked', () => {
-    const wrapper = mountWithTheme(<DateInput />);
-    triggerDateInput(wrapper);
-    clickDatePicker(wrapper);
-    expect(wrapper.find('input[value]')).toHaveLength(1);
+    const { container } = renderWithContext(<DateInput />);
+    triggerDateInput(container);
+    expect(container.querySelectorAll('input[value]')).toHaveLength(1);
+  });
+
+  it('should close after clicking off', () => {
+    const { container } = renderWithContext(<DateInput />);
+    triggerDateInput(container);
+    expect(container.querySelectorAll('.DayPicker-Caption')).toHaveLength(1);
+    fireEvent.blur(container.querySelector('input'));
+    expect(container.querySelectorAll('.DayPicker-Caption')).toHaveLength(0);
+  });
+
+  it('should close when clicking the customoverlay', () => {
+    const { container } = renderWithContext(<DateInput />);
+    triggerDateInput(container);
+    expect(container.querySelectorAll('.DayPicker-Caption')).toHaveLength(1);
+    fireEvent.click(container.querySelector('.DayPickerInput').children[1]); // custom overlay
+    expect(container.querySelectorAll('.DayPicker-Caption')).toHaveLength(0);
+  });
+
+  it('should close after focusing inside the picker then clicking outside', () => {
+    const wrapper = renderWithContext(<DateInput />);
+    triggerDateInput(wrapper.container);
+    expect(wrapper.container.querySelectorAll('.DayPicker-Caption')).toHaveLength(1);
+    fireEvent.click(wrapper.container.querySelector('.DayPicker-NavButton--prev')); // click prev button
+    fireEvent.click(wrapper.container.querySelector('.DayPickerInput').children[1]); // click outside
+    expect(wrapper.container.querySelectorAll('.DayPicker-Caption')).toHaveLength(0);
   });
 
   it('should invoke callback on change', () => {
     const onDateInputChange = jest.fn();
 
-    const wrapper = mountWithTheme(<DateInput onChange={onDateInputChange} />);
-    triggerDateInput(wrapper);
-    wrapper.find('input').simulate('change', { target: { value: '12/12/2012' } });
+    const { container } = renderWithContext(<DateInput onChange={onDateInputChange} />);
+    triggerDateInput(container);
+    const input = container.querySelector('input');
+    fireEvent.change(input, { target: { value: '12/12/2012' } });
 
     expect(onDateInputChange).toBeCalled();
     expect(onDateInputChange.mock.calls[0][0]).toBeTruthy();
   });
+
+  it('should keep focus on input after clicking date', async () => {
+    const wrapper = renderWithContext(<DateInput />);
+    triggerDateInput(wrapper.container);
+    const input = wrapper.container.querySelector('input');
+
+    const firstDay = wrapper.container.querySelector('.DayPicker-Day[role="gridcell"]');
+    fireEvent.click(firstDay);
+    await waitForDomChange(); // need to wait as handleClickOutside listens to the click event
+    expect(wrapper.container.querySelectorAll('.DayPicker-Caption')).toHaveLength(0); // expect picker to close
+    expect(document.activeElement).toBe(input); // verify that the input has focus
+  });
 });
 
-function clickDatePicker(wrapper: ReactWrapper) {
-  wrapper
-    .find('.DayPicker-Day')
-    .first()
-    .simulate('click');
-}
-
-function triggerDateInput(wrapper: ReactWrapper) {
-  wrapper.find('input').simulate('focus');
+function triggerDateInput(container: HTMLElement) {
+  const input = container.querySelector('input');
+  fireEvent.focus(input);
 }

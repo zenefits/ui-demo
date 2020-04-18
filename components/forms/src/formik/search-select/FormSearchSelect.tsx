@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn } from 'formik';
 
 import { FlexProps } from 'zbase';
 
+import Field from '../Field';
 import SearchSelect, { SharedSearchSelectProps } from '../../search/SearchSelect';
-import FormFieldWrapper from '../FormFieldWrapper';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
 
 type FormSearchSelectProps = {
   /**
@@ -17,13 +18,14 @@ type FormSearchSelectProps = {
   containerProps?: FlexProps;
 };
 
-class FormSearchSelect<OptionValue> extends Component<FormSearchSelectProps & SharedSearchSelectProps<OptionValue>> {
+class FormSearchSelect<OptionValue> extends Component<
+  FormSearchSelectProps & SharedSearchSelectProps<OptionValue> & FormFieldProps
+> {
   render() {
-    const { name, label, containerProps, onChange, ...rest } = this.props;
+    const { name, label, containerProps, onChange, limitRerender, dependencies, ...rest } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field limitRerender={limitRerender} dependencies={dependencies} name={name}>
+        {({ field, form, setFieldValueAndTouched }) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper name={name} error={error} label={label} containerProps={containerProps}>
@@ -31,8 +33,7 @@ class FormSearchSelect<OptionValue> extends Component<FormSearchSelectProps & Sh
                 name={name}
                 error={error}
                 onChange={value => {
-                  form.setFieldValue(field.name, value);
-                  form.setFieldTouched(field.name);
+                  setFieldValueAndTouched(field.name, value);
                   onChange && onChange(value);
                 }}
                 value={field.value}
@@ -41,7 +42,7 @@ class FormSearchSelect<OptionValue> extends Component<FormSearchSelectProps & Sh
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

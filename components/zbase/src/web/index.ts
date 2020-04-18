@@ -1,7 +1,8 @@
 // export all web components and types
 /** @styleguide-autodiscovery-ignore-start */
 export { UtilProps, ResponsiveUtilProp, ResponsiveFontStyleProp } from './types';
-export { isUtilProp, isBorderProp, isIntlTextProp } from '../commonTypes';
+export { isUtilProp, isBorderProp, isIntlTextProp, TextAlign } from '../commonTypes';
+export { widthValueFn as widthHelper } from '../withUtilProps';
 export {
   default as withUtilProps,
   ResultWebComponentProps as ResultComponentProps,

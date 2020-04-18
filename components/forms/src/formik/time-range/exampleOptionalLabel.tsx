@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormTimeRange } from '../../..';
 
 export default () => (
   <Form
     onSubmit={() => {}}
-    initialValues={{ timeRange: Form.TimeRange.getEmptyValue() }}
-    validationSchema={{ timeRange: Form.TimeRange.validationSchema }}
+    initialValues={{ timeRange: FormTimeRange.getEmptyValue() }}
+    validationSchema={{ timeRange: FormTimeRange.validationSchema }}
   >
-    <Form.TimeRange name="timeRange" label="Time Range" optional />
+    <FormTimeRange name="timeRange" label="Time Range" optional />
   </Form>
 );

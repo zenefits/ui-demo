@@ -77,7 +77,7 @@ class FileSystemBlobStore {
 
     try {
       mkdirpSync(this._directory);
-      fs.writeFileSync(this._lockFilename, 'LOCK', { flag: 'wx' });
+      fs.writeFileSync(this._lockFilename, 'LOCK', {flag: 'wx'});
     } catch (error) {
       // Swallow the exception if we fail to acquire the lock.
       return false;
@@ -189,7 +189,8 @@ class NativeCompileCache {
     // Remove shebang
     var contLen = content.length;
     if (contLen >= 2) {
-      if (content.charCodeAt(0) === 35 /*#*/ && content.charCodeAt(1) === 33 /*!*/) {
+      if (content.charCodeAt(0) === 35/*#*/ &&
+          content.charCodeAt(1) === 33/*!*/) {
         if (contLen === 2) {
           // Exact match
           content = '';
@@ -198,7 +199,7 @@ class NativeCompileCache {
           var i = 2;
           for (; i < contLen; ++i) {
             var code = content.charCodeAt(i);
-            if (code === 10 /*\n*/ || code === 13 /*\r*/) break;
+            if (code === 10/*\n*/ || code === 13/*\r*/) break;
           }
           if (i === contLen) {
             content = '';
@@ -268,9 +269,7 @@ function _mkdirpSync(p, mode) {
     } else {
       try {
         const stat = fs.statSync(p);
-        if (!stat.isDirectory()) {
-          throw err0;
-        }
+        if (!stat.isDirectory()) { throw err0; }
       } catch (err1) {
         throw err0;
       }
@@ -284,26 +283,27 @@ function slashEscape(str) {
     ':': 'zC',
     '/': 'zS',
     '\x00': 'z0',
-    z: 'zZ',
+    'z': 'zZ',
   };
-  return str.replace(/[\\:\/\x00z]/g, match => ESCAPE_LOOKUP[match]);
+  return str.replace(/[\\:\/\x00z]/g, match => (ESCAPE_LOOKUP[match]));
 }
 
 function supportsCachedData() {
-  const script = new vm.Script('""', { produceCachedData: true });
+  const script = new vm.Script('""', {produceCachedData: true});
   // chakracore, as of v1.7.1.0, returns `false`.
   return script.cachedDataProduced === true;
 }
 
 function getCacheDir() {
   // Avoid cache ownership issues on POSIX systems.
-  const dirname = typeof process.getuid === 'function' ? 'v8-compile-cache-' + process.getuid() : 'v8-compile-cache';
-  const version =
-    typeof process.versions.v8 === 'string'
-      ? process.versions.v8
-      : typeof process.versions.chakracore === 'string'
-        ? 'chakracore-' + process.versions.chakracore
-        : 'node-' + process.version;
+  const dirname = typeof process.getuid === 'function'
+    ? 'v8-compile-cache-' + process.getuid()
+    : 'v8-compile-cache';
+  const version = typeof process.versions.v8 === 'string'
+    ? process.versions.v8
+    : typeof process.versions.chakracore === 'string'
+      ? 'chakracore-' + process.versions.chakracore
+      : 'node-' + process.version;
   const cacheDir = path.join(os.tmpdir(), dirname, version);
   return cacheDir;
 }
@@ -313,8 +313,9 @@ function getParentName() {
   //    * node -e 'require("v8-compile-cache")'
   //    * node -r 'v8-compile-cache'
   //    * Or, requiring from the REPL.
-  const parentName =
-    module.parent && typeof module.parent.filename === 'string' ? module.parent.filename : process.cwd();
+  const parentName = module.parent && typeof module.parent.filename === 'string'
+    ? module.parent.filename
+    : process.cwd();
   return parentName;
 }
 

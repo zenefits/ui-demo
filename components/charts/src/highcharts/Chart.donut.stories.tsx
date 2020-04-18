@@ -45,8 +45,8 @@ storiesOf('charts|Chart/Donut & Pie', module)
   ))
   .add('size props', () => (
     <Box>
-      {range(2, 6).map(i => (
-        <Chart type="donut" width={i * 100} height={i * 100} key={i}>
+      {range(2, 6).map(integer => (
+        <Chart type="donut" width={integer * 100} height={integer * 100} key={integer.toString()}>
           <Chart.Series data={commonData} />
         </Chart>
       ))}
@@ -56,7 +56,12 @@ storiesOf('charts|Chart/Donut & Pie', module)
     <Box>
       {range(1, 16).map(y => (
         <Chart type="donut" hasTooltip={false} key={y}>
-          <Chart.Series data={[{ y, name: 'Label 1' }, { y: 30 - y, name: 'Label 2' }]} />
+          <Chart.Series
+            data={[
+              { y, name: 'Label 1' },
+              { y: 30 - y, name: 'Label 2' },
+            ]}
+          />
         </Chart>
       ))}
     </Box>

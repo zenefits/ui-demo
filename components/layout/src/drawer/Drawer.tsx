@@ -8,7 +8,6 @@ import { Button, IconButton, Link, LinkProps } from 'z-frontend-elements';
 
 import { Card } from 'z-frontend-composites';
 
-// using .div here because need access to innerRef, and with styled(Box) innerRef returns a react component, not a node
 const StyledBackdrop = styled.div`
   width: 100%;
   height: 100%;
@@ -68,7 +67,7 @@ const Logo = styled(Image)`
 
 interface DrawerComponentProps extends BoxProps {
   /**
-   * Whether to show the content initially
+   * Whether or not to show the drawer
    * @default false
    */
   show?: boolean;
@@ -77,6 +76,10 @@ interface DrawerComponentProps extends BoxProps {
    * @default false
    */
   openDrawerUsingLogo?: boolean;
+  /**
+   * Callback fired on close drawer event
+   */
+  onClose: () => void;
 }
 
 interface DrawerComponentState {
@@ -130,9 +133,9 @@ type DrawerLinkProps = LinkProps & { active?: boolean };
 
 const DrawerLink: StatelessComponent<DrawerLinkProps> = ({ active, ...rest }: DrawerLinkProps) => {
   return getItemComponent<DrawerLinkProps>(
-    styled<DrawerLinkProps>(Link).attrs<DrawerLinkProps, DrawerLinkProps>({
-      className: props => (props.active ? activeClassName : ''),
-    })`
+    styled(Link).attrs<DrawerLinkProps>(props => ({
+      className: props.active ? activeClassName : '',
+    }))`
       ${drawerItemCss};
     `,
     rest,
@@ -141,7 +144,7 @@ const DrawerLink: StatelessComponent<DrawerLinkProps> = ({ active, ...rest }: Dr
 
 const DrawerNavLink: StatelessComponent<NavLinkProps> = props => {
   return getItemComponent<NavLinkProps>(
-    styled<NavLinkProps>(NavLink).attrs({ activeClassName })`
+    styled(NavLink).attrs({ activeClassName })<NavLinkProps>`
       ${drawerItemCss};
     `,
     props,
@@ -161,29 +164,54 @@ const DrawerSection: StatelessComponent<DrawerSectionProps> = ({ title = '', chi
   );
 };
 
+type DrawerOpenButtonProps = { onOpen: () => void; openDrawerUsingLogo?: boolean };
+
+const DrawerOpenButton: StatelessComponent<DrawerOpenButtonProps> = ({ onOpen, openDrawerUsingLogo }) => {
+  return (
+    <>
+      {openDrawerUsingLogo ? (
+        <Button mode="transparent" onClick={onOpen}>
+          <Logo className="js-walkme-top-nav-open" w={12} src={theme.images.logo} alt="Zenefits logo" />
+        </Button>
+      ) : (
+        <IconButton
+          className="js-walkme-top-nav-open"
+          iconName="menu"
+          color="secondary.a"
+          onClick={onOpen}
+          mr={1}
+          aria-label="Open navigation menu"
+        />
+      )}
+    </>
+  );
+};
+
 class Drawer extends Component<DrawerComponentProps, DrawerComponentState> {
   backdropEl: HTMLElement;
+
   documentEventHandlers: [string, (e: any) => void][];
 
   constructor(props: DrawerComponentProps) {
     super(props);
-    this.state = { isVisible: props.show || false };
     this.documentEventHandlers = [
       ['mousedown', this.onOuterAction],
       ['touchstart', this.onOuterAction],
       ['click', this.onOuterAction],
     ];
-  }
-
-  static Link = DrawerLink;
-  static NavLink = DrawerNavLink;
-  static Section = DrawerSection;
-
-  componentWillMount() {
     this.documentEventHandlers.forEach(([eventName, handlerFn]) => {
       window.document.addEventListener(eventName, handlerFn);
     });
   }
+
+  static Link = DrawerLink;
+
+  static NavLink = DrawerNavLink;
+
+  static Section = DrawerSection;
+
+  static OpenButton = DrawerOpenButton;
+
   componentWillUnmount() {
     this.documentEventHandlers.forEach(([eventName, handlerFn]) => {
       window.document.removeEventListener(eventName, handlerFn);
@@ -191,50 +219,24 @@ class Drawer extends Component<DrawerComponentProps, DrawerComponentState> {
   }
 
   onOuterAction = (e: any) => {
-    if (this.backdropEl && this.backdropEl.contains(e.target) && this.state.isVisible) {
-      this.closeDrawer();
+    if (this.backdropEl && this.backdropEl.contains(e.target) && this.props.show) {
+      this.props.onClose();
     }
   };
 
   onInnerAction = (e: any) => {
-    if (isLink(e.target) && this.state.isVisible) {
-      this.closeDrawer();
+    if (isLink(e.target) && this.props.show) {
+      this.props.onClose();
     }
   };
 
-  closeDrawer = () => {
-    this.setState({
-      isVisible: false,
-    });
-  };
-
-  openDrawer = () => {
-    this.setState({
-      isVisible: true,
-    });
-  };
-
   render() {
-    const { children, openDrawerUsingLogo } = this.props;
+    const { children } = this.props;
     return (
       <>
-        {openDrawerUsingLogo ? (
-          <Button mode="transparent" onClick={this.openDrawer}>
-            <Logo w={12} src={theme.images.logo} />
-          </Button>
-        ) : (
-          <IconButton
-            iconName="menu"
-            color="secondary.a"
-            onClick={this.openDrawer}
-            mr={1}
-            aria-label="Open navigation menu"
-          />
-        )}
-
-        <DrawerContainer className={this.state.isVisible ? 'show' : ''}>
+        <DrawerContainer className={this.props.show ? 'show' : ''}>
           <StyledBackdrop
-            innerRef={backdropEl => {
+            ref={(backdropEl: HTMLElement) => {
               this.backdropEl = backdropEl;
             }}
           />
@@ -243,7 +245,7 @@ class Drawer extends Component<DrawerComponentProps, DrawerComponentState> {
               <Flex align="center" justify="space-between">
                 <Link href="/dashboard">
                   <Flex align="center">
-                    <Image w={12} src={theme.images.logo} />
+                    <Image w={12} src={theme.images.logo} alt="" />
                     <TextBlock fontStyle="paragraphs.xl" color="primary.a" ml={2}>
                       zenefits
                     </TextBlock>
@@ -253,7 +255,7 @@ class Drawer extends Component<DrawerComponentProps, DrawerComponentState> {
                 <IconButton
                   iconName="close"
                   color="text.light"
-                  onClick={this.closeDrawer}
+                  onClick={this.props.onClose}
                   aria-label="Close navigation menu"
                 />
               </Flex>

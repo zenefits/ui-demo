@@ -1,7 +1,7 @@
 import faker from 'faker';
 
 // http://dev.apollodata.com/tools/graphql-tools/mocking.html#Customizing-mocks
-import { MockList } from 'z-frontend-app-bootstrap';
+import { MockList } from 'z-frontend-app-bootstrap/mocks';
 
 let idSoFar = 0;
 export default {
@@ -16,7 +16,10 @@ export default {
 
   // Types
   Company: () => ({
-    name: () => 'Zenefits',
+    name: () => 'Mocked Company',
     employees: () => new MockList([10, 100]),
+  }),
+  dashboard: () => ({
+    switches: () => ({ beamer2_killswitch: true }),
   }),
 };

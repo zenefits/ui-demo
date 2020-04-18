@@ -16,7 +16,7 @@ function obscureString(stringToObscure: string, options: { visibleCount: number 
     return obscureCharacter.repeat(stringToObscure.length);
   }
 
-  let visibleCount = options.visibleCount;
+  let { visibleCount } = options;
   if (visibleCount < 0) {
     console.error('trying to render Obscure with invalid visibleCount');
     visibleCount = 0;

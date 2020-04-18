@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 
 import { Box, Flex, FlexProps } from 'zbase';
 import { styled, ColorString } from 'z-frontend-theme';
-import { Dialog, DialogsManager, DialogProps } from 'z-frontend-overlays';
+import { DialogsManager, DialogProps } from 'z-frontend-overlays';
 import { Card } from 'z-frontend-composites';
 
 const DIALOG_ARIA_ROLE = 'dialog';
@@ -25,11 +24,12 @@ type DrawerControls = {
   isOpen: boolean;
 };
 
-type DrawersControls = { [T in DrawerType]: DrawerControls };
+export type DrawersControls = { [T in DrawerType]: DrawerControls };
 
-const DrawerWindowContainer = styled(Flex)`
-  flex-direction: column;
+const DrawerWindowContainer = styled(Flex)<{ layout: 'headerFirst' | 'drawerFirst' }>`
+  flex-direction: ${props => (props.layout === 'headerFirst' ? 'column' : 'row')};
 `;
+
 DrawerWindowContainer.defaultProps = {
   bg: 'grayscale.white' as ColorString,
   border: true,
@@ -42,11 +42,9 @@ type DrawerProps = {
 };
 
 const createDrawer = () => {
-  const DrawerContainer = styled(
-    Flex.extendProps<{
-      isOpen?: boolean;
-    }>(),
-  )`
+  const DrawerContainer = styled(Flex)<{
+    isOpen?: boolean;
+  }>`
     display: ${props => !props.isOpen && 'none'};
     flex-direction: column;
   `;
@@ -66,29 +64,39 @@ const createDrawer = () => {
 
 const LeftDrawer = createDrawer();
 LeftDrawer.defaultProps = { borderRight: true };
+LeftDrawer.displayName = 'DrawerWindowLeftDrawer';
 
 const RightDrawer = createDrawer();
 RightDrawer.defaultProps = { borderLeft: true };
+RightDrawer.displayName = 'DrawerWindowRightDrawer';
 
 // We're not using default props here to avoid stylelint complaining about empty body
 // Stylelint config should be updated to allow this
 const MainContent = styled(Box)`
-  flex: 1 1;
+  flex: 1 1 auto;
+  overflow: auto; /* allow wide content to scroll */
 `;
+MainContent.displayName = 'DrawerWindowMainContent';
 
 const Header = styled(Box)`
-  flex: 0 0;
+  flex: 0 0 auto;
 `;
 Header.defaultProps = {
   p: 2,
   borderBottom: true,
 };
+Header.displayName = 'DrawerWindowHeader';
 
-type DrawerWindowProps = {
+export type DrawerWindowProps = {
   /**
    * Object mapping drawer types ('left'/'right') to default open state (boolean)
    */
   openStatusDefaults?: OpenStatusDefaults;
+  /**
+   * If headerFirst, header will take full width when drawers are open
+   * If drawerFirst, drawer will take full height when drawers are open
+   */
+  layout?: 'headerFirst' | 'drawerFirst';
   children: (drawersControls: DrawersControls) => React.ReactElement<any>;
 } & FlexProps;
 
@@ -96,13 +104,25 @@ type DrawerWindowState = {
   drawerAriaRoles: WindowDrawerAriaRoles;
 };
 
+const doesComponentMatchType = (element: JSX.Element, Component: { displayName?: string }) =>
+  element.type.displayName === Component.displayName;
+
 class DrawerWindow extends Component<DrawerWindowProps, DrawerWindowState> {
   static Header = Header;
+
   static MainContent = MainContent;
+
   static LeftDrawer = LeftDrawer;
+
   static RightDrawer = RightDrawer;
+
   static DrawerHeader = Card.Header;
+
   static DrawerRow = Card.Row;
+
+  static defaultProps = {
+    layout: 'headerFirst',
+  };
 
   constructor(props: DrawerWindowProps) {
     super(props);
@@ -114,9 +134,10 @@ class DrawerWindow extends Component<DrawerWindowProps, DrawerWindowState> {
     };
 
     this.state = {
-      drawerAriaRoles: _.mapValues(openStatusDefaults, openStatus =>
-        openStatus ? REGION_ARIA_ROLE : DIALOG_ARIA_ROLE,
-      ),
+      drawerAriaRoles: {
+        left: openStatusDefaults.left ? REGION_ARIA_ROLE : DIALOG_ARIA_ROLE,
+        right: openStatusDefaults.right ? REGION_ARIA_ROLE : DIALOG_ARIA_ROLE,
+      },
     };
   }
 
@@ -130,22 +151,17 @@ class DrawerWindow extends Component<DrawerWindowProps, DrawerWindowState> {
   }
 
   transformDrawer = (child: React.ReactElement<any>, drawerType: DrawerType, isDrawerOpen: boolean) => {
-    if (this.state.drawerAriaRoles[drawerType] === DIALOG_ARIA_ROLE) {
-      return (
-        <Dialog isVisible={isDrawerOpen} height="100%">
-          {() => React.cloneElement(child as React.ReactElement<any>, { isOpen: true, height: '100%' })}
-        </Dialog>
-      );
-    } else {
-      return React.cloneElement(child as React.ReactElement<any>, { isOpen: isDrawerOpen, role: REGION_ARIA_ROLE });
-    }
+    return React.cloneElement(child as React.ReactElement<any>, {
+      isOpen: isDrawerOpen,
+      role: this.state.drawerAriaRoles[drawerType],
+    });
   };
 
   render() {
-    const { openStatusDefaults, ...boxProps } = this.props;
+    const { openStatusDefaults, layout, ...boxProps } = this.props;
 
     return (
-      <DrawerWindowContainer {...boxProps}>
+      <DrawerWindowContainer {...boxProps} layout={layout}>
         <DialogsManager
           dialogsCount={3}
           openByDefault={[
@@ -181,42 +197,69 @@ class DrawerWindow extends Component<DrawerWindowProps, DrawerWindowState> {
 
             const rendered = this.props.children(drawersControls);
 
-            let renderedHeader = null;
+            type RenderedChildren = {
+              leftDrawer?: JSX.Element;
+              rightDrawer?: JSX.Element;
+              header?: JSX.Element;
+              main?: JSX.Element;
+            };
 
-            const renderedChildren = React.Children.map(rendered.props.children, (child: React.ReactElement<any>) => {
-              const allowedChildComponents = [
-                DrawerWindow.Header,
-                DrawerWindow.MainContent,
-                DrawerWindow.LeftDrawer,
-                DrawerWindow.RightDrawer,
-              ];
-              if (!_.isObject(child) || allowedChildComponents.indexOf(child.type as any) === -1) {
-                throw new Error(
-                  'Children of DrawerWindow must be one the following components:\n' +
-                    allowedChildComponents.join('\n'),
-                );
-              }
-              const isHeader = child.type === Header;
-              const isLeftDrawer = child.type === LeftDrawer;
-              const isRightDrawer = child.type === RightDrawer;
+            const renderedChildren: RenderedChildren = React.Children.toArray(rendered.props.children).reduce(
+              (renderedMap: RenderedChildren, child: React.ReactElement<any>) => {
+                if (!child) {
+                  return renderedMap;
+                }
 
-              if (isLeftDrawer) {
-                return this.transformDrawer(child, LEFT, drawersControls[LEFT].isOpen);
-              } else if (isRightDrawer) {
-                return this.transformDrawer(child, RIGHT, drawersControls[RIGHT].isOpen);
-              } else if (isHeader) {
-                renderedHeader = child;
-                return null;
-              }
-              return child;
-            });
+                const allowedChildComponents = [
+                  DrawerWindow.Header.displayName,
+                  DrawerWindow.MainContent.displayName,
+                  DrawerWindow.LeftDrawer.displayName,
+                  DrawerWindow.RightDrawer.displayName,
+                ];
+                if (child && !allowedChildComponents.includes((child.type as any).displayName)) {
+                  throw new Error(
+                    `Children of DrawerWindow must be one the following components:\n${allowedChildComponents.join(
+                      '\n',
+                    )}`,
+                  );
+                }
 
-            return (
+                const isHeader = doesComponentMatchType(child, DrawerWindow.Header);
+                const isLeftDrawer = doesComponentMatchType(child, DrawerWindow.LeftDrawer);
+                const isRightDrawer = doesComponentMatchType(child, DrawerWindow.RightDrawer);
+
+                if (isLeftDrawer) {
+                  renderedMap.leftDrawer = this.transformDrawer(child, LEFT, drawersControls[LEFT].isOpen);
+                } else if (isRightDrawer) {
+                  renderedMap.rightDrawer = this.transformDrawer(child, RIGHT, drawersControls[RIGHT].isOpen);
+                } else if (isHeader) {
+                  renderedMap.header = child;
+                } else {
+                  renderedMap.main = child;
+                }
+
+                return renderedMap;
+              },
+              {},
+            );
+
+            return layout === 'headerFirst' ? (
               <>
-                {renderedHeader}
+                {renderedChildren.header}
                 <Flex align="stretch" flex="1 1">
-                  {renderedChildren}
+                  {renderedChildren.leftDrawer}
+                  {renderedChildren.main}
+                  {renderedChildren.rightDrawer}
                 </Flex>
+              </>
+            ) : (
+              <>
+                {renderedChildren.leftDrawer}
+                <Flex align="stretch" flex="1 1" direction="column">
+                  {renderedChildren.header}
+                  {renderedChildren.main}
+                </Flex>
+                {renderedChildren.rightDrawer}
               </>
             );
           }}

@@ -2,6 +2,9 @@ import React, { Component, MouseEvent } from 'react';
 
 import { Box, Flex, Label, TextBlock } from 'zbase';
 import { styled } from 'z-frontend-theme';
+import { space } from 'z-frontend-theme/utils';
+
+import FormHelpPopover from './help-popover/FormHelpPopover';
 
 type Height = { normal: number; optional: number };
 
@@ -20,14 +23,20 @@ const StyledLabel = styled(Label)`
   display: inline-block;
 `;
 
+const StyledInnerLabel = styled.span<{ hasHelpText?: boolean }>`
+  margin-right: ${props => (props.hasHelpText ? `${space(1)(props)}` : '')};
+`;
+
 export type FormFieldType = 'input' | 'radio' | 'checkbox' | 'checkboxGroup' | 'block';
 
 type FormLabelProps = {
   id: string;
+  label: string | JSX.Element;
+  helpText?: string | JSX.Element;
   htmlFor?: string;
   fieldType?: FormFieldType;
   onClick?: (event: MouseEvent) => void;
-  optional?: boolean;
+  optional?: boolean | string;
   isTopAligned?: boolean;
 };
 
@@ -37,7 +46,7 @@ export class FormLabel extends Component<FormLabelProps> {
   };
 
   render() {
-    const { fieldType, optional, isTopAligned, children, ...rest } = this.props;
+    const { label, helpText, fieldType, optional, isTopAligned, children, ...rest } = this.props;
     const heightKey = isTopAligned ? 'input' : fieldType;
     const height = heights[heightKey][optional ? 'optional' : 'normal'];
 
@@ -49,12 +58,14 @@ export class FormLabel extends Component<FormLabelProps> {
         column
         justify={optional ? undefined : 'center'}
         mt={optional ? 1 : 0}
+        mb={[2, 0]}
       >
         <StyledLabel mb={0} {...rest}>
-          {children}
+          <StyledInnerLabel hasHelpText={!!helpText}>{label}</StyledInnerLabel>
+          {helpText && <FormHelpPopover title={label as string}>{helpText}</FormHelpPopover>}
           {optional && (
-            <TextBlock fontStyle="paragraphs.s" color="grayscale.d" mt={1}>
-              Optional
+            <TextBlock fontStyle="paragraphs.s" color="text.light" mt={1}>
+              {typeof optional === 'string' ? optional : 'Optional'}
             </TextBlock>
           )}
         </StyledLabel>
@@ -63,9 +74,15 @@ export class FormLabel extends Component<FormLabelProps> {
   }
 }
 
-export class FormInputWrapper extends Component<{ label: string | JSX.Element }> {
+type FormInputWrapperProps = {
+  label: string | JSX.Element;
+  isTopAligned?: boolean;
+};
+
+export class FormInputWrapper extends Component<FormInputWrapperProps> {
   render() {
-    const { label, ...rest } = this.props;
-    return <Box w={label ? inputWidths : 1} {...rest} />;
+    const { label, isTopAligned, ...rest } = this.props;
+    const width = !label || isTopAligned ? 1 : inputWidths;
+    return <Box w={width} {...rest} />;
   }
 }

@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn, FieldProps } from 'formik';
 
-import FormFieldWrapper, { getErrorId, getLabelId, FormFieldProps } from '../FormFieldWrapper';
+import Field from '../Field';
+import FormFieldWrapper, { FormFieldProps } from '../FormFieldWrapper';
 import CustomTileInput, { CustomTileInputProps } from '../../custom-tile-input/CustomTileInput';
+import { getAriaInputProps } from '../formAccessibility';
 
 export type FormCustomTileInputProps = CustomTileInputProps & FormFieldProps;
 
 class FormCustomTileInput extends Component<FormCustomTileInputProps> {
   render() {
-    const { name, value, label, containerProps, optional, ...rest } = this.props;
-    const fieldType = this.props.isCheckbox ? 'checkbox' : 'radio';
-
+    const {
+      name,
+      value,
+      label,
+      isCheckbox,
+      containerProps,
+      optional,
+      limitRerender,
+      dependencies,
+      disableError,
+      'aria-label': ariaLabel,
+      ...rest
+    } = this.props;
+    const fieldType = isCheckbox ? 'checkbox' : 'radio';
     return (
-      <Field
-        name={name}
-        type={fieldType}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies} type={fieldType}>
+        {({ field, form }: FieldProps) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
+          const formikValue = getIn(form.values, name);
+          const isChecked = Boolean(isCheckbox ? formikValue : formikValue === value);
           return (
             <FormFieldWrapper
               fieldType={fieldType}
@@ -25,25 +38,26 @@ class FormCustomTileInput extends Component<FormCustomTileInputProps> {
               error={error}
               containerProps={containerProps}
               optional={optional}
+              disableError={disableError}
             >
               <CustomTileInput
                 id={name}
                 {...field}
-                {...rest}
+                isCheckbox={isCheckbox}
                 // TODO: why is it necessary to set value manually? (Formik is not connecting it to field.value.)
                 // This is similar to why we're having to do this in FormRadio
                 value={value}
-                checked={this.props.isCheckbox ? form.values[name] : form.values[name] === value}
+                checked={isChecked}
+                {...rest}
                 // TODO: Add support for error state to CustomTileInput and uncomment.
                 // hasError={Boolean(error)}
-                aria-labelledby={getLabelId(name)}
-                aria-describedby={error ? getErrorId(name) : null}
+                {...getAriaInputProps(name, error, ariaLabel)}
                 mb={0}
               />
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

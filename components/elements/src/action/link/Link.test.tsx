@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme, renderEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Link from './Link';
 
@@ -11,14 +11,14 @@ const linkTo = '/company/overview';
 describe('Link component', () => {
   it('should mount without throwing an error', () => {
     const linkText = 'foo';
-    const link = mountWithTheme(<Link href={linkHref}>{linkText}</Link>);
+    const link = mountEnzymeWithTheme(<Link href={linkHref}>{linkText}</Link>);
     expect(link.text()).toBe(linkText);
     expect(link.find('a')).toHaveLength(1);
   });
 
   it('should include rel attribute by default', () => {
     const linkText = 'foo';
-    const link = renderWithTheme(<Link href={linkHref}>{linkText}</Link>);
+    const link = renderEnzymeWithTheme(<Link href={linkHref}>{linkText}</Link>);
     expect(link.text()).toBe(linkText);
     expect(link.attr('href')).toBe(linkHref);
     expect(link.attr('rel')).toContain('noopener');
@@ -29,7 +29,7 @@ describe('Link component', () => {
     const linkText = 'foo';
     const addedRel = 'prefetch preload';
 
-    const link = renderWithTheme(
+    const link = renderEnzymeWithTheme(
       <Link rel={addedRel} href={linkHref}>
         {linkText}
       </Link>,
@@ -44,7 +44,7 @@ describe('Link component', () => {
 
   it('should render route link', () => {
     const linkText = 'foo';
-    const link = renderWithTheme(
+    const link = renderEnzymeWithTheme(
       <BrowserRouter>
         <Link to={linkTo}>{linkText}</Link>
       </BrowserRouter>,
@@ -58,7 +58,7 @@ describe('Link component', () => {
     const linkText = 'foo';
     const addedRel = 'prefetch preload';
 
-    const routeLink = renderWithTheme(
+    const routeLink = renderEnzymeWithTheme(
       <BrowserRouter>
         <Link rel={addedRel} to={linkTo}>
           {linkText}
@@ -73,7 +73,7 @@ describe('Link component', () => {
 
   it('should not render passed util props as attributes', () => {
     const myRef = React.createRef();
-    const rendered = renderWithTheme(
+    const rendered = renderEnzymeWithTheme(
       <BrowserRouter>
         <Link elementRef={myRef} to={linkTo} />
       </BrowserRouter>,

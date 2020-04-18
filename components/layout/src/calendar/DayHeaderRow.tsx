@@ -29,7 +29,7 @@ class DayHeaderRow extends React.Component<DayHeaderRowProps> {
       day.setDate(day.getDate() + i);
       dayCells.push(
         <CalendarDayCell
-          key={i}
+          key={day.toString()}
           day={day.getDay()}
           date={day.getDate()}
           month={day.getMonth()}

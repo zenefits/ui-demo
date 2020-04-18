@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { ObjectOmit } from 'typelevel-ts';
 
-import { styled, HideFor, RenderFor } from 'z-frontend-theme';
+import { styled, theme, Hide, Render } from 'z-frontend-theme';
 import { CardContainer, CardHeader, IconButton } from 'z-frontend-elements';
 import { space } from 'z-frontend-theme/utils';
 import { Flex, Heading } from 'zbase';
@@ -12,6 +11,12 @@ import PopoverModal from './PopoverModal';
 
 type PopoverOwnProps = {
   /**
+   * Show popover content when the user clicks or hovers on the target element.
+   * Note: Popover on hover is not encouraged.
+   * @default click
+   */
+  event?: 'click' | 'hover';
+  /**
    * Wrap the popover in a StyledPopperContainer component which provides a container with a border and depth for the content to live in
    * @default true
    */
@@ -20,10 +25,10 @@ type PopoverOwnProps = {
   /**
    * Should the popover take up the full screen on mobile devices?
    * @default true
-   **/
+   * */
   showFullScreenMobile?: boolean;
 };
-export type PopoverProps = ObjectOmit<BasePopperProps, 'children'> & PopoverOwnProps;
+export type PopoverProps = Omit<BasePopperProps, 'children' | 'event'> & PopoverOwnProps;
 
 const Body = styled(CardContainer)`
   margin-bottom: 0;
@@ -43,9 +48,11 @@ class Popover extends Component<PopoverProps> {
   static defaultProps = {
     useDefaultPopperContainer: true,
     showFullScreenMobile: true,
+    event: 'click',
   };
 
   static Header = Header;
+
   static Body = Body;
 
   renderContent = (closePopper: () => void) => {
@@ -69,27 +76,42 @@ class Popover extends Component<PopoverProps> {
 
     return (
       <>
-        <RenderFor breakpoints={[true]}>
+        <Render forBreakpoints={[true]}>
           <DefaultModalContainer direction="row" justify="space-between" align="baseline">
             {this.props.children}
             <IconButton iconName="close" s="small" color="grayscale.d" onClick={closePopper} />
           </DefaultModalContainer>
-        </RenderFor>
-        <HideFor breakpoints={[true]}>{this.props.children}</HideFor>
+        </Render>
+        <Hide forBreakpoints={[true]}>{this.props.children}</Hide>
       </>
     );
   };
 
   render() {
-    const { showArrow, useDefaultPopperContainer, showFullScreenMobile, title } = this.props;
+    const {
+      showArrow,
+      useDefaultPopperContainer,
+      showFullScreenMobile,
+      title,
+      popperModifiers: customPopperModifiers,
+    } = this.props;
+
+    const popperModifiers: BasePopperProps['popperModifiers'] = {
+      preventOverflow: {
+        boundariesElement: 'viewport',
+      },
+      ...customPopperModifiers,
+    };
+
     return (
-      <BasePopper {...this.props}>
-        {({ popperProps: { 'data-placement': dataPlacement, ref, style }, restProps }, isVisible, closePopper) => (
+      <BasePopper event={this.props.event} {...this.props} popperModifiers={popperModifiers}>
+        {({ placement, style, ref, arrowProps }, isVisible, closePopper) => (
           <>
-            <HideFor breakpoints={showFullScreenMobile ? [true] : []}>
-              <div {...restProps} style={style} ref={ref}>
+            <Hide forBreakpoints={showFullScreenMobile ? [true] : []}>
+              <div style={{ ...style, zIndex: theme.zIndex.popover }} ref={ref}>
                 <ArrowedPopperContainer
-                  dataPlacement={dataPlacement as PlacementProp}
+                  arrowProps={arrowProps}
+                  dataPlacement={placement as PlacementProp}
                   showArrow={showArrow}
                   useDefaultPopperContainer={useDefaultPopperContainer}
                   bg="grayscale.white"
@@ -98,13 +120,13 @@ class Popover extends Component<PopoverProps> {
                   {this.renderContent(closePopper)}
                 </ArrowedPopperContainer>
               </div>
-            </HideFor>
+            </Hide>
 
-            <RenderFor breakpoints={showFullScreenMobile ? [true] : []}>
+            <Render forBreakpoints={showFullScreenMobile ? [true] : []}>
               <PopoverModal title={title} onCancel={closePopper} isVisible={isVisible}>
                 {this.renderContent(closePopper)}
               </PopoverModal>
-            </RenderFor>
+            </Render>
           </>
         )}
       </BasePopper>

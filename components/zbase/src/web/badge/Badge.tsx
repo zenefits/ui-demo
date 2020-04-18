@@ -7,7 +7,6 @@ import { radius } from 'z-frontend-theme/utils';
 import withWebUtilProps, { ResultWebComponentProps, SpanProps } from '../withUtilPropsWeb';
 import { removeUtilProps, IntlTextProps } from '../../commonTypes';
 
-// define badge contexts like warning, success, etc? (so client need not choose colors)
 type AdditionalBadgeProps = IntlTextProps;
 
 export type BadgeProps = ResultWebComponentProps<SpanProps, AdditionalBadgeProps>;
@@ -23,6 +22,7 @@ const BadgeContainer: StatelessComponent<BadgeProps> = ({ textKey, textValues, t
   return <span {...removeUtilProps(rest)}>{rest.children}</span>;
 };
 
+/** @deprecated Use StatusTag instead */
 export default withWebUtilProps<SpanProps, AdditionalBadgeProps>({
   displayName: 'Badge',
   defaultUtilProps: {

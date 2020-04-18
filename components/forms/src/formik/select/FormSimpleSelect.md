@@ -27,7 +27,7 @@ Grouped options:
 #### Usage
 
 - USE when user the user must choose an small (`<10`) number of fixed options
-- Do NOT use if autocomplete is necessary. Instead use [Form.Select](#!/Form.Select)
+- Do NOT use if autocomplete is necessary. Instead use [FormSelect](#!/FormSelect)
 
 #### Content Guidelines
 
@@ -51,6 +51,6 @@ in the JSX returned by this component.
 
 #### Related
 
-- [Form.Select](#!/Form.Select)
-- [Form.OpenListSelect](#!/Form.OpenListSelect)
-- [Form.RadioGroup](#!/Form.RadioGroup)
+- [FormSelect](#!/FormSelect)
+- [FormOpenListSelect](#!/FormOpenListSelect)
+- [FormRadioGroup](#!/FormRadioGroup)

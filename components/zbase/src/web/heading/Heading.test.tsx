@@ -2,7 +2,7 @@ import React from 'react';
 import 'jest-styled-components';
 
 import 'z-frontend-jest/modified-jest-styled-components';
-import { mountWithThemeIntl, renderWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
+import { mountEnzymeWithThemeIntl, renderEnzymeWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
 
 import { Heading } from '../index';
 
@@ -12,14 +12,14 @@ const messages = {
 
 describe('Heading', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithThemeIntl(<Heading level={2}>Heading</Heading>).text()).toBe('Heading');
-    const rendered = renderWithThemeIntl(<Heading level={4}>foo</Heading>);
+    expect(mountEnzymeWithThemeIntl(<Heading level={2}>Heading</Heading>).text()).toBe('Heading');
+    const rendered = renderEnzymeWithThemeIntl(<Heading level={4}>foo</Heading>);
     expect(rendered.is('h4')).toBe(true);
   });
 
   describe('should support i18n props', () => {
     it('zero case', () => {
-      const none = mountWithThemeIntl(
+      const none = mountEnzymeWithThemeIntl(
         <Heading
           level={2}
           textKey="title"
@@ -33,7 +33,7 @@ describe('Heading', () => {
     });
 
     it('1 case', () => {
-      const single = mountWithThemeIntl(
+      const single = mountEnzymeWithThemeIntl(
         <Heading
           level={2}
           textKey="title"
@@ -47,7 +47,7 @@ describe('Heading', () => {
     });
 
     it('multiple case', () => {
-      const lots = mountWithThemeIntl(
+      const lots = mountEnzymeWithThemeIntl(
         <Heading
           level={2}
           textKey="title"
@@ -62,11 +62,21 @@ describe('Heading', () => {
   });
 
   it('should respect text props', () => {
-    const mounted = mountWithThemeIntl(
+    const mounted = mountEnzymeWithThemeIntl(
       <Heading level={2} textTransform="uppercase">
         foo
       </Heading>,
     );
     expect(mounted).toHaveStyleRule('text-transform', 'uppercase');
+  });
+
+  it('should pass ref down', () => {
+    const myRef = React.createRef();
+    const wrapper = mountEnzymeWithThemeIntl(
+      <Heading level={4} elementRef={myRef}>
+        foo
+      </Heading>,
+    );
+    expect(myRef.current).toBe(wrapper.getDOMNode());
   });
 });

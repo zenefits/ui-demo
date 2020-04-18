@@ -21,7 +21,7 @@ const spin = keyframes`
   }
 `;
 
-const StyledBox = styled<LoadingSpinnerProps>(Box)`
+const StyledBox = styled(Box)<LoadingSpinnerProps>`
   display: inline-block;
   height: ${props => (props.s ? heights(props.s) : '100%')};
   width: ${props => (props.s ? heights(props.s) : '100%')};

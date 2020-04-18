@@ -32,16 +32,16 @@ export default function withWebUtilProps<ComponentProps, AdditionalProps = {}, U
 }
 
 function getBorderHelper(side?: string) {
-  const getBorderHelperValueFn: ValueHelperFn = (propValue: boolean, props: any) => {
-    if (!propValue) {
-      return '';
-    }
+  const getBorderHelperValueFn: ValueHelperFn = (propValue: boolean | boolean[], props: any) => {
     const borderSelectorStart = side ? `border-${side}` : 'border';
-    const selectors = [
-      `${borderSelectorStart}-color: ${color(props.borderColor)(props)};`,
-      `${borderSelectorStart}-width: 1px;`,
-      `${borderSelectorStart}-style: solid;`,
-    ];
+    const borderColor = props.borderColor || props.theme.borderColor;
+    const selectors = propValue
+      ? [
+          `${borderSelectorStart}-color: ${color(borderColor)(props)};`,
+          `${borderSelectorStart}-width: 1px;`,
+          `${borderSelectorStart}-style: solid;`,
+        ]
+      : [`${borderSelectorStart}-style: none`];
     return selectors.join('\n');
   };
 

@@ -1,13 +1,14 @@
 import React, { Component, SelectHTMLAttributes } from 'react';
-import _ from 'lodash';
+import { isNil } from 'lodash';
 
-import { styled } from 'z-frontend-theme';
-import { color, heights } from 'z-frontend-theme/utils';
+import { styled, theme } from 'z-frontend-theme';
+import { color, heights, px } from 'z-frontend-theme/utils';
 import { Flex, FlexProps, Icon } from 'zbase';
 
 import { commonTextInputStyles } from '../input/Input';
 import {
   createSelectOptionInterface,
+  doesComponentMatchType,
   SelectGroupInterface,
   SelectOptionInterfaceProps,
   SelectOptionSize,
@@ -15,12 +16,12 @@ import {
 import { recursivelyTransformChildren } from './utils';
 import { getErrorId } from '../formik/FormFieldWrapper';
 
-type FunctionAsChild<OptionValue> = (
-  params: {
-    SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
-    SelectGroup?: React.ComponentClass<{ label: string }>;
-  },
-) => React.ReactNode;
+export type SimpleSelectSubcomponents<OptionValue> = {
+  SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
+  SelectGroup?: React.ComponentClass<{ label: string }>;
+};
+
+type FunctionAsChild<OptionValue> = (subcomponents: SimpleSelectSubcomponents<OptionValue>) => React.ReactNode;
 
 export type SharedSimpleSelectProps<OptionValue> = {
   /**
@@ -44,6 +45,11 @@ export type SharedSimpleSelectProps<OptionValue> = {
    * Value of field
    * */
   value?: OptionValue | null;
+
+  /**
+   * Width of field
+   * */
+  width?: number | string;
 
   /**
    * Text to show when no option is selected
@@ -79,13 +85,20 @@ export type SharedSimpleSelectProps<OptionValue> = {
    * Render function that specified that options (and possibly option groups) for the select as JSX
    * */
   children: FunctionAsChild<OptionValue>;
+
+  /** Test ID to find the element in tests */
+  'data-testid'?: string;
 };
 
 type SimpleSelectComponentProps<OptionValue> = {
   error?: string;
 };
 
-type SimpleSelectProps<OptionValue> = SharedSimpleSelectProps<OptionValue> & SimpleSelectComponentProps<OptionValue>;
+type OmitSharedProps<T, K> = Pick<T, Exclude<keyof T, keyof K>>;
+
+export type SimpleSelectProps<OptionValue> = SharedSimpleSelectProps<OptionValue> &
+  SimpleSelectComponentProps<OptionValue> &
+  OmitSharedProps<FlexProps, SharedSimpleSelectProps<OptionValue>>;
 
 type HtmlSelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
   s: SelectOptionSize;
@@ -96,23 +109,34 @@ type HtmlSelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
 const untypedCommonTextInputStyles = commonTextInputStyles as any;
 
 const StyledSelect = styled.select<HtmlSelectProps>`
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   width: 100%;
-  height: 100%;
-  ${untypedCommonTextInputStyles};
-  background-color: rgba(0, 0, 0, 0);
   height: ${props => heights(props.s)};
+  ${untypedCommonTextInputStyles};
+  background-color: ${color('grayscale.white')};
   line-height: 1.43;
-  color: ${props => (props.isPlaceholder ? color('text.off') : color('text.dark'))};
+
+  padding-right: ${props => (props.s === 'small' ? px(theme.space[2] + 8) : px(theme.space[3] + 8))};
+
+  /* color within the select: */
+  color: ${props => (props.isPlaceholder ? color('text.light') : color('text.dark'))};
+  /* color of the options (esp in Firefox): */
+  option {
+    color: ${color('text.dark')};
+  }
+
+  /* hide redundant focus ring in Firefox */
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 ${color('text.dark')};
+  }
 `;
 
 const SelectContainer = styled(Flex)`
   position: relative;
 `;
 
-const IconContainer = styled<FlexProps>(Flex)`
+const IconContainer = styled(Flex)`
   position: absolute;
   right: 0;
   z-index: 1;
@@ -124,16 +148,37 @@ IconContainer.defaultProps = {
   align: 'center',
 };
 
+function prepareValue(value: any, optionType: string) {
+  if (optionType === 'string') {
+    return value;
+  }
+  return JSON.stringify(value);
+}
+
 class SimpleSelect<OptionValue> extends Component<SimpleSelectProps<OptionValue>> {
   static defaultProps = {
     s: 'medium',
     clearable: true,
-    placeholder: 'Select an option...',
+    placeholder: 'Select Option',
     getOptionText: (option: string) => option,
   };
 
   render() {
-    const { s: size, placeholder, value, error, disabled, autoFocus, getOptionText, clearable, children } = this.props;
+    const {
+      s: size,
+      name,
+      placeholder,
+      value,
+      error,
+      disabled,
+      autoFocus,
+      getOptionText,
+      clearable,
+      children,
+      onChange,
+      'data-testid': dataTestId,
+      ...containerProps
+    } = this.props;
     const OptionInterface = createSelectOptionInterface<OptionValue>();
     const renderedChildren = children({
       SelectOption: OptionInterface,
@@ -143,7 +188,7 @@ class SimpleSelect<OptionValue> extends Component<SimpleSelectProps<OptionValue>
     let optionType: 'string' | 'object' | 'number';
     const transformedOptions = recursivelyTransformChildren(renderedChildren, [
       {
-        condition: element => element.type === OptionInterface,
+        condition: element => doesComponentMatchType(element, OptionInterface),
         transformation: (option: React.ReactElement<SelectOptionInterfaceProps<OptionValue>>) => {
           if (!optionType) {
             optionType = typeof option.props.option as any;
@@ -151,15 +196,16 @@ class SimpleSelect<OptionValue> extends Component<SimpleSelectProps<OptionValue>
               throw new Error('Option values must be string, number, or object.');
             }
           }
+          const optionValue = prepareValue(option.props.option, optionType);
           return (
-            <option value={JSON.stringify(option.props.option)} disabled={option.props.disabled}>
+            <option value={optionValue} disabled={option.props.disabled}>
               {option.props.children || getOptionText(option.props.option)}
             </option>
           );
         },
       },
       {
-        condition: element => element.type === SelectGroupInterface,
+        condition: element => doesComponentMatchType(element, SelectGroupInterface),
         transformation: (
           group: React.ReactElement<{
             label: string;
@@ -170,23 +216,32 @@ class SimpleSelect<OptionValue> extends Component<SimpleSelectProps<OptionValue>
     ]);
 
     const nullValue = optionType === 'string' ? '' : null;
-
+    const isValueUnspecified = (value as any) === '' || isNil(value); // allow 0
     return (
-      <SelectContainer>
+      <SelectContainer {...containerProps}>
         <StyledSelect
           id={name}
           s={size}
-          value={JSON.stringify(value)}
-          isPlaceholder={clearable && !value}
+          value={prepareValue(value, optionType)}
+          isPlaceholder={clearable && isValueUnspecified}
           disabled={disabled}
+          data-testid={dataTestId}
           onChange={(event: any) => {
-            this.props.onChange && this.props.onChange(JSON.parse(event.target.value));
+            const { onChange } = this.props;
+            if (!onChange) {
+              return;
+            }
+            if (optionType === 'string') {
+              onChange(event.target.value);
+            } else {
+              onChange(JSON.parse(event.target.value));
+            }
           }}
           hasError={!!error}
           aria-describedby={getErrorId(name)}
           autoFocus={autoFocus}
         >
-          {clearable && <option value={JSON.stringify(nullValue)}>{placeholder}</option>}
+          {clearable && <option value={prepareValue(nullValue, optionType)}>{placeholder}</option>}
           {transformedOptions}
         </StyledSelect>
         <IconContainer px={size === 'small' ? 2 : 3}>

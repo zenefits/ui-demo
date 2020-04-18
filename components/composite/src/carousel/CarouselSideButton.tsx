@@ -8,7 +8,7 @@ type CarouselSideButtonProps = ButtonBasicProps & {
   side: 'left' | 'right';
 };
 
-const SideButtonContainer = styled(Box.extendProps<{ side: string }>())`
+const SideButtonContainer = styled(Box)<{ side: string }>`
   position: absolute;
   ${props => props.side === 'left' && 'left: -50px'};
   ${props => props.side === 'right' && 'right: -50px'};

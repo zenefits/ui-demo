@@ -17,6 +17,10 @@ describe('MentionText', () => {
         label: 'Juniper',
         tooltipText: 'Juniper Stottle\njuniper@zenefits.com',
       },
+      a_1: {
+        label: 'Billy',
+        tooltipText: 'Billy Butcher\nbilly@zenefits.com',
+      },
     };
 
     function checkMentionLabel(obj: any, expectedLabel: string) {
@@ -43,6 +47,15 @@ describe('MentionText', () => {
       expect(result).toHaveLength(3);
       expect(result[0]).toBe('Hey ');
       checkMentionLabel(result[1], mentions['234'].label);
+      expect(result[2]).toBe(', can you take a look at this?');
+    });
+
+    it('mention id with alphanumerics and underscore', () => {
+      const text = 'Hey [@a_1], can you take a look at this?';
+      const result = splitIntoMentions(text, mentions);
+      expect(result).toHaveLength(3);
+      expect(result[0]).toBe('Hey ');
+      checkMentionLabel(result[1], mentions['a_1'].label);
       expect(result[2]).toBe(', can you take a look at this?');
     });
 

@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-
-// @ts-ignore
-import querystring from 'query-string';
+import qs from 'qs';
 
 import { styled } from 'z-frontend-theme';
 import { color } from 'z-frontend-theme/utils';
 import { Box } from 'zbase';
-import { getEventLogger, ErrorBoundary, PermissionChecker } from 'z-frontend-app-bootstrap';
+import { getEventLogger, ErrorBoundary } from 'z-frontend-app-bootstrap';
+import { PermissionChecker, Query } from 'z-frontend-network';
 import { Button } from 'z-frontend-elements';
 
-import Query from '../graphql/Query';
 import Drawer from '../drawer/Drawer';
 import { getDashboardApps } from './dashboardApps';
 import { ADMIN, EMPLOYEE, ZAppStatusEnum, ZAPP_ORDER } from './constants';
@@ -38,13 +36,16 @@ const drawerQuery = gql`
         type
       }
       zAppInstallSubscriptions {
+        id
         status
         inheritedStatus
         preferences
         appInstall {
+          id
           status
           preferences
           app {
+            id
             uniqueId
             appUrl
             role
@@ -74,7 +75,7 @@ export default class ClientDrawerContent extends Component {
     const { zAppInstallSubscriptions, permission, switches, isSpoofing, employee } = data.dashboard;
     const subscriptions: Subscription[] = zAppInstallSubscriptions;
     const hideEmployeeCards = employee.type === 'AD';
-    const hideAdminCards = !permission.isAdmin;
+    const hideAdminCards = !(permission && permission.isAdmin);
 
     type AppInSection = {
       destination: string;
@@ -132,7 +133,7 @@ export default class ClientDrawerContent extends Component {
         const isExternal = /(^http(s?):\/\/|^\/app\/)/.test(destination);
         const isEmberRoute = !isExternal && !destination.startsWith('/');
         if (isEmberRoute) {
-          const destinationQueryString = querystring.stringify({ to: destination });
+          const destinationQueryString = qs.stringify({ to: destination });
           destination = `/dashboard/#/redirect-to-route?${destinationQueryString}`;
         }
         appMap[uniqueId] = {
@@ -166,11 +167,19 @@ export default class ClientDrawerContent extends Component {
           eventLogger.logError(NAV_DRAWER_LOAD_FAILURE_EVENT);
         }}
       >
-        <Query<ClientDrawerContentQuery.Query> query={drawerQuery}>
+        <Query<ClientDrawerContentQuery.Query>
+          isBackgroundQuery
+          query={drawerQuery}
+          handleLoading={false}
+          handleError={false}
+        >
           {({ loading, error, data }) => {
             if (loading || error) {
               return null;
             }
+
+            if (!data.dashboard) return null;
+
             const apps = this.getApps(data);
 
             const {
@@ -208,8 +217,8 @@ export default class ClientDrawerContent extends Component {
 
                 {apps[ADMIN].length > 0 && (
                   <Drawer.Section title="Admin Apps">
-                    {apps[ADMIN].map((app, index) => (
-                      <Drawer.Link href={app.destination} key={index}>
+                    {apps[ADMIN].map(app => (
+                      <Drawer.Link href={app.destination} key={app.name}>
                         {app.name}
                       </Drawer.Link>
                     ))}
@@ -220,8 +229,8 @@ export default class ClientDrawerContent extends Component {
 
                 {apps[EMPLOYEE].length > 0 && (
                   <Drawer.Section title="Employee Apps">
-                    {apps[EMPLOYEE].map((app, index) => (
-                      <Drawer.Link href={app.destination} key={index}>
+                    {apps[EMPLOYEE].map(app => (
+                      <Drawer.Link href={app.destination} key={app.name}>
                         {app.name}
                       </Drawer.Link>
                     ))}

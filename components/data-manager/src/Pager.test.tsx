@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactWrapper } from 'enzyme';
 
 import { Button } from 'z-frontend-elements';
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme, renderEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Pager from './Pager';
 
@@ -14,7 +14,7 @@ describe('Pager', () => {
   beforeEach(() => {
     props = { totalItemsCount: 50, currentPage: 1, pageSize: 20, s: 'large' as any };
     onPageChange = jest.fn();
-    wrapper = mountWithTheme(<Pager {...props} onPageChange={onPageChange} />);
+    wrapper = mountEnzymeWithTheme(<Pager {...props} onPageChange={onPageChange} />);
   });
 
   it('should mount without throwing an error', () => {
@@ -60,8 +60,13 @@ describe('range of items', () => {
   };
 
   it('should display the correct range of items', () => {
-    const wrapper = renderWithTheme(<Pager {...props} onPageChange={null} />);
+    const wrapper = renderEnzymeWithTheme(<Pager {...props} onPageChange={null} />);
     expect(wrapper.text()).toEqual('1-20 (of 50)');
+  });
+
+  it('should correctly handle empty', () => {
+    const wrapper = renderEnzymeWithTheme(<Pager {...props} totalItemsCount={0} onPageChange={null} />);
+    expect(wrapper.text()).toEqual('0 (of 0)');
   });
 
   it('should end on the correct end despite page size', () => {
@@ -69,7 +74,7 @@ describe('range of items', () => {
       ...props,
       currentPage: 3,
     };
-    const wrapper = renderWithTheme(<Pager {...newProps} onPageChange={null} />);
+    const wrapper = renderEnzymeWithTheme(<Pager {...newProps} onPageChange={null} />);
     expect(wrapper.text()).toEqual('41-50 (of 50)');
   });
 });

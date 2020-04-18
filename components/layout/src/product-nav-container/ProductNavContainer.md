@@ -1,8 +1,8 @@
-A container for the **product nav bar**, makes product nav fixed. Usually being used together with ProductPageContainer component.
+A container providing a fixed layout for product navigation links.
 
 #### Usage
 
-- Should be wrapping NavBar component at the top level of an app,
+- Should wrap the NavBar component at the top level of an app
 - Should be placed after TopNavBar and before ProductPageContainer
 
 #### Examples
@@ -10,13 +10,6 @@ A container for the **product nav bar**, makes product nav fixed. Usually being 
 Used in the standard entry point for an app (AppRoutes file)
 
 ```jsx static
-import React from 'react';
-
-import { TextInline } from 'zbase';
-
-import { NavBar, ProductPageContainer, TopNavBar } from '../../index';
-import ProductNavContainer from './ProductNavContainer';
-
 export default () => (
   <>
     <TopNavBar productTitleKey="nav.productTitle" productTitleDefault="Example app" />
@@ -26,8 +19,8 @@ export default () => (
         <NavBar.RouterNavLink to="/overview">
           <TextInline textKey="nav.overview" textDefault="Overview" />
         </NavBar.RouterNavLink>
-        <NavBar.RouterNavLink to="/articles">
-          <TextInline textKey="nav.articles" textDefault="Articles" />
+        <NavBar.RouterNavLink to="/people">
+          <TextInline textKey="nav.people" textDefault="People" />
         </NavBar.RouterNavLink>
       </NavBar>
     </ProductNavContainer>

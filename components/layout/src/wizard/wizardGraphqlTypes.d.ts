@@ -49,16 +49,3 @@ export namespace UpdateFlowSection {
     id?: string | null;
   };
 }
-
-export namespace UpdateFlowSection {
-  export type Variables = {
-    flowSectionId: string;
-    flowSectionUpdate: FlowSectionUpdate;
-  };
-  export type Mutation = {
-    updateFlowSection?: UpdateFlowSection | null;
-  };
-  export type UpdateFlowSection = {
-    id?: string | null;
-  };
-}

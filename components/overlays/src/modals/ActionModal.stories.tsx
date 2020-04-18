@@ -10,6 +10,24 @@ import { withDialog, DialogManager, WithDialogProps } from '../dialog/DialogMana
 import { withDialogs, WithDialogsProps } from '../dialog/DialogsManager';
 import ActionModal from './ActionModal';
 import ActionModalUsingRenderProps from './exampleAction';
+import { SampleParagraph } from './Modal.stories';
+
+storiesOf('overlays|ActionModal', module)
+  .add('default', () => <ActionModalFormWithDialog />)
+  .add('using render props', () => <ActionModalUsingRenderProps />)
+  .add('multiple modals', () => <ActionModalsFormWithDialogs />)
+  .add('open by default', () => <ActionModalOpen children="I am an action modal." />)
+  .add('scrolling body', () => (
+    <ActionModalOpen
+      children={
+        <>
+          {Array.from(Array(20).keys()).map(integer => (
+            <SampleParagraph key={integer.toString()} />
+          ))}
+        </>
+      }
+    />
+  ));
 
 class ActionModalForm extends Component<WithDialogProps> {
   render() {
@@ -30,37 +48,6 @@ class ActionModalForm extends Component<WithDialogProps> {
         <ActionModal {...modalProps}>Modal Content</ActionModal>
         <Button onClick={dialog.open}>Show modal</Button>
       </Box>
-    );
-  }
-}
-
-let renderCount = 0;
-class ActionModalWithUpdateBlocking extends Component {
-  render() {
-    return (
-      <DialogManager
-        render={dialog => {
-          const modalProps = {
-            title: 'Modal Title',
-            onCancel: dialog.close,
-            isVisible: dialog.isVisible,
-            controlEl: dialog.controlEl,
-          };
-
-          // This is just for demonstration.  NEVER MANAGE STATE LIKE THIS
-          renderCount += 1;
-          return (
-            <Box>
-              <ActionModal {...modalProps}>Modal Content</ActionModal>
-              <Button onClick={dialog.open}>Show modal</Button>
-              <Box>This text has been rendered {renderCount} times.</Box>
-              <dialog.IgnoreDialogUpdates>
-                This text has been rendered {renderCount} times (updates ignored).
-              </dialog.IgnoreDialogUpdates>
-            </Box>
-          );
-        }}
-      />
     );
   }
 }
@@ -130,7 +117,7 @@ class ActionModalOpen extends Component {
             isVisible: dialog.isVisible,
             controlEl: dialog.controlEl,
           };
-          return <ActionModal {...modalProps}>I am an action modal.</ActionModal>;
+          return <ActionModal {...modalProps}>{this.props.children}</ActionModal>;
         }}
       />
     );
@@ -140,10 +127,3 @@ class ActionModalOpen extends Component {
 // examples using HoC (using `DialogManager` is often more convenient)
 const ActionModalFormWithDialog = withDialog<{}>()(ActionModalForm);
 const ActionModalsFormWithDialogs = withDialogs<{}>({ dialogsCount: 3, openByDefault: [] })(MultipleActionModalsForm);
-
-storiesOf('overlays|ActionModal', module)
-  .add('default', ActionModalFormWithDialog)
-  .add('using render props', ActionModalUsingRenderProps)
-  .add('using render props and ignore updates', () => <ActionModalWithUpdateBlocking />)
-  .add('multiple modals', ActionModalsFormWithDialogs)
-  .add('open by default', () => <ActionModalOpen />);

@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from 'z-frontend-elements';
 import { Flex } from 'zbase';
 
-import { Form } from '../Form';
+import { Form, FormRadio, FormRadioGroup } from '../../..';
 
 const options = [
   { value: 'biweekly', label: 'Bi-weekly' },
@@ -26,11 +26,11 @@ export default () => (
   >
     {props => (
       <>
-        <Form.RadioGroup name="frequency" label="Pay Frequency">
+        <FormRadioGroup name="frequency" label="Pay Frequency">
           {options.map(option => (
-            <Form.Radio key={option.value} label={option.label} value={option.value} />
+            <FormRadio key={option.value} label={option.label} value={option.value} />
           ))}
-        </Form.RadioGroup>
+        </FormRadioGroup>
         <Flex justify="flex-end" mt={4}>
           <Button
             type="submit"

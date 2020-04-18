@@ -17,6 +17,7 @@ type AddressAutocompleteInputProps = {
   includeLine2: boolean;
   label: string;
   placeholder: string;
+  disabled?: boolean;
 };
 
 class AddressAutocompleteInput extends Component<AddressAutocompleteInputProps> {
@@ -62,7 +63,11 @@ class AddressAutocompleteInput extends Component<AddressAutocompleteInputProps> 
             >
               {({ getInputProps, suggestions, getSuggestionItemProps }) => (
                 <Box style={{ position: 'relative' }}>
-                  <FormTextInput name={name} {...rest} {...getInputProps({})} />
+                  <FormTextInput
+                    name={name}
+                    {...getInputProps(rest || {})}
+                    autoComplete="fix-chrome-autofill-disable" // "off" not supported by chrome
+                  />
                   <AddressAutocompleteOptions
                     suggestions={suggestions}
                     getSuggestionItemProps={getSuggestionItemProps}

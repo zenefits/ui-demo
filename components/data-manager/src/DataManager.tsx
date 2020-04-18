@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 
+import { throwInDevelopment } from 'z-frontend-app-bootstrap';
+
 import { doFilter, FilterConfig } from './filterUtils';
 import { doSort, SortConfig } from './sortUtils';
-import { doPage } from './pageUtils';
+import { doPage, PageConfig } from './pageUtils';
+import DeprecatedUrlStateManager from './DeprecatedUrlStateManager';
+import { RowSelectionContext } from './data-selection/RowSelectionContext';
+import { getSelectionCount, Selections } from './data-selection/utils';
 
 export type OnPageChange = (newPage: number) => void;
+export type OnSectionChange = (newSection: string) => void;
 export type FilterOnChange = (config: FilterConfig) => void;
 
 interface DataContext<T> {
@@ -23,38 +29,14 @@ export interface SortContext<T> extends DataContext<T> {
 }
 
 export interface PageContext<T> extends DataContext<T> {
-  pageSize: number;
-  currentPage: number;
+  config: PageConfig;
   onPageChange: OnPageChange;
   onPageSizeChange: (newPageSize: number) => void;
 }
 
-type Selections = {
-  [key: string]: boolean;
-};
-
-export interface SelectionContext<T> {
-  selections: Selections;
-  allDisplayedDataIsSelected: boolean;
-  onSelect: (addedSelections: T[]) => void;
-  onDeselect: (removedSelections: T[]) => void;
-  selectionKey: keyof T;
-}
-
-function allDisplayedDataIsSelected<T>({
-  data,
-  selections,
-  selectionKey,
-}: {
-  data: T[];
-  selections: Selections;
-  selectionKey: keyof T;
-}) {
-  if (!selectionKey) {
-    return null;
-  } else {
-    return data.every((datum: T) => selections[datum[selectionKey] as any]);
-  }
+export interface SectionContext {
+  config: SectionConfig;
+  onSectionChange: OnSectionChange;
 }
 
 export interface DataManagerRenderProps<T> {
@@ -62,74 +44,123 @@ export interface DataManagerRenderProps<T> {
   filtering: FilterContext<T>;
   sorting: SortContext<T>;
   paging: PageContext<T>;
-  selectionContext: SelectionContext<T>;
+  sections: SectionContext;
+  sourceData: T[];
 }
 
+export type PageSizeString = 'xs' | 's' | 'm' | 'l' | 'xl' | 'unlimited';
+
 interface DataManagerProps<T> {
+  /** The dataset to be filtered/sorted */
   sourceData: T[];
+  /** The initial state of filters */
   initialFilter?: FilterConfig;
+  /** The initial configuration for sorting */
   initialSorter?: SortConfig;
-  initialPageSize?: number;
+  /**
+   * The number of results to include on a single page
+   * @default 'm'
+   */
+  initialPageSize?: PageSizeString;
+  /**
+   * The initial page number
+   * @default 1
+   * */
   initialPage?: number;
+  /**
+   * The initial set of keys to be selected. For example the initial set of keys which represent initially selected rows in DataTable
+   */
+  initialSelections?: Selections<T>;
+  /**
+   * Initial section selected where data is split into multiple sections
+   */
+  initialSection?: string;
+  /**
+   * The key to use to map an element in the dataSet to value to store in selections. For Example if T is {id: string, name: "string"}, your selectionKey would be id.
+   * *Your selectionKey must map to a value which is type string or number*. If your selectionKey maps to a complex type like object selections will not work
+   */
   selectionKey?: keyof T;
+  /** Render function */
   render: (managerProps: DataManagerRenderProps<T>) => any;
 }
 
-interface DataManagerState {
+type SectionConfig = {
+  currentSection: string;
+};
+
+interface DataManagerState<T> {
   filterConfig: FilterConfig;
   sortConfig: SortConfig;
-  selections: Selections;
-  pageSize: number;
-  currentPage: number;
+  selections: Selections<T>;
+  pageConfig: PageConfig;
 }
 
 const FilterManager = ({ data, config, render }: any) => render(doFilter(data || [], config || {}));
 const SortManager = ({ data, config, render }: any) => render(doSort(data || [], config || {}));
-const PageManager = ({ data, pageSize, currentPage, render }: any) =>
-  render(doPage(data || [], pageSize || Infinity, currentPage || 1));
+const PageManager = ({ data, config, render }: any) => render(doPage(data || [], config || {}));
 
-export const DataManagerContext = React.createContext<Partial<DataManagerRenderProps<any>>>({});
+export const pageSizeMap: { [key in PageSizeString]: number } = {
+  xs: 5,
+  s: 10,
+  m: 25, // default
+  l: 50, // prefer m or xl
+  xl: 100,
+  unlimited: Infinity, // backwards compatibility only
+};
 
-export default class DataManager<T> extends Component<DataManagerProps<T>, DataManagerState> {
+export const DataManagerContext = React.createContext<DataManagerRenderProps<any>>(null);
+
+export default class DataManager<T> extends Component<DataManagerProps<T>, DataManagerState<T>> {
+  static defaultProps = {
+    initialPageSize: 'm',
+  };
+
   constructor(props: DataManagerProps<T>) {
     super(props);
     this.state = {
       filterConfig: props.initialFilter || {},
       sortConfig: props.initialSorter || {},
-      pageSize: props.initialPageSize || Infinity,
-      currentPage: props.initialPage || 1,
-      selections: {},
+      pageConfig: {
+        pageSize: pageSizeMap[props.initialPageSize],
+        currentPage: props.initialPage || 1,
+      },
+      selections: props.initialSelections || new Set(),
     };
   }
 
   onFilterChange = (filterConfig: FilterConfig) => {
-    this.setState({ filterConfig, selections: {} });
+    this.setState({ filterConfig, selections: new Set() });
     // reset pagination when filters change
     this.onPageChange(1);
   };
 
   onSortChange = (sortConfig: SortConfig) => {
-    this.setState({ sortConfig, selections: {} });
+    this.setState({ sortConfig, selections: new Set() });
     // reset pagination after sorting/re-sorting
     this.onPageChange(1);
   };
 
-  createSelectionsObject = (selections: T[], operation: 'add' | 'remove') =>
-    selections.reduce((updatedSelectionKeys: Selections, selection) => {
-      updatedSelectionKeys[selection[this.props.selectionKey] as any] = operation === 'add';
-      return updatedSelectionKeys;
-    }, {});
+  createSelectionsSet = (selections: T[], operation: 'add' | 'remove'): Selections<T> =>
+    selections.reduce((updatedSelectionSet: Selections<T>, selection) => {
+      if (!['number', 'string'].includes(typeof selection[this.props.selectionKey])) {
+        throwInDevelopment('selectionKey must map to a value of type number of string');
+      }
+
+      if (operation === 'add') {
+        return updatedSelectionSet.add(selection[this.props.selectionKey]);
+      } else {
+        updatedSelectionSet.delete(selection[this.props.selectionKey]);
+        return updatedSelectionSet;
+      }
+    }, new Set(this.state.selections)) as any;
 
   onSelect = (addedSelections: T[]) => {
     if (!this.props.selectionKey) {
       throw new Error('Selection may not be used unless a unique selectionKey prop is provided');
     }
 
-    this.setState((state: DataManagerState) => ({
-      selections: {
-        ...state.selections,
-        ...this.createSelectionsObject(addedSelections, 'add'),
-      },
+    this.setState((state: DataManagerState<T>) => ({
+      selections: this.createSelectionsSet(addedSelections, 'add'),
     }));
   };
 
@@ -138,85 +169,119 @@ export default class DataManager<T> extends Component<DataManagerProps<T>, DataM
       throw new Error('Selection may not be used unless a unique selectionKey prop is provided');
     }
 
-    this.setState((state: DataManagerState) => ({
-      selections: {
-        ...state.selections,
-        ...this.createSelectionsObject(removedSelections, 'remove'),
-      },
+    this.setState((state: DataManagerState<T>) => ({
+      selections: this.createSelectionsSet(removedSelections, 'remove'),
     }));
   };
 
-  onPageChange = (newPage: number) => this.setState({ currentPage: newPage, selections: {} });
-  onPageSizeChange = (newPageSize: number) => this.setState({ pageSize: newPageSize, selections: {} });
+  onPageChange = (newPage: number) =>
+    this.setState(state => ({
+      pageConfig: {
+        ...state.pageConfig,
+        currentPage: newPage,
+      },
+      selections: new Set(),
+    }));
+
+  onPageSizeChange = (newPageSize: number) =>
+    this.setState(state => ({
+      pageConfig: {
+        ...state.pageConfig,
+        pageSize: newPageSize,
+      },
+      selections: new Set(),
+    }));
 
   render() {
-    const { sourceData, selectionKey } = this.props;
-    const { filterConfig, selections, sortConfig, pageSize, currentPage } = this.state;
-    const onFilterChange = this.onFilterChange;
-    const onSortChange = this.onSortChange;
-    const onPageChange = this.onPageChange;
-    const onPageSizeChange = this.onPageSizeChange;
+    const { sourceData, selectionKey, initialSection } = this.props;
+    const { filterConfig, selections, sortConfig, pageConfig } = this.state;
+    const { onFilterChange } = this;
+    const { onSortChange } = this;
+    const { onPageChange } = this;
+    const { onPageSizeChange } = this;
 
     return (
-      <FilterManager
-        data={sourceData}
-        config={filterConfig}
-        render={(filteredData: T[]) => (
-          <SortManager
-            data={filteredData}
-            config={sortConfig}
-            render={(sortedData: T[]) => (
-              <PageManager
-                data={sortedData}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                render={(pagedData: T[]) => {
-                  const renderProps: DataManagerRenderProps<T> = {
-                    displayData: pagedData,
-                    filtering: {
-                      config: filterConfig,
-                      onChange: onFilterChange,
-                      inputData: sourceData,
-                      outputData: filteredData,
-                    },
-                    sorting: {
-                      config: sortConfig,
-                      onChange: onSortChange,
-                      inputData: filteredData,
-                      outputData: sortedData,
-                    },
-                    paging: {
-                      pageSize,
-                      currentPage,
-                      onPageChange,
-                      onPageSizeChange,
-                      inputData: sortedData,
-                      outputData: pagedData,
-                    },
-                    selectionContext: {
-                      selections,
-                      selectionKey,
-                      onSelect: this.onSelect,
-                      onDeselect: this.onDeselect,
-                      allDisplayedDataIsSelected: allDisplayedDataIsSelected({
+      <DeprecatedUrlStateManager prefix="" section={initialSection}>
+        {configManager => (
+          <FilterManager
+            data={sourceData}
+            config={filterConfig}
+            render={(filteredData: T[]) => (
+              <SortManager
+                data={filteredData}
+                config={sortConfig}
+                render={(sortedData: T[]) => (
+                  <PageManager
+                    data={sortedData}
+                    config={pageConfig}
+                    render={(pagedData: T[]) => {
+                      // TODO: use configManager for all config? (like DeprecatedGenericDataManager)
+                      const onSectionChange = (section: string) => {
+                        this.onPageChange(1);
+                        configManager.setConfigs({
+                          ...configManager.configs,
+                          currentSection: section,
+                        });
+                      };
+
+                      const renderProps: DataManagerRenderProps<T> = {
+                        sourceData,
+                        displayData: pagedData,
+                        filtering: {
+                          config: filterConfig,
+                          onChange: onFilterChange,
+                          inputData: sourceData,
+                          outputData: filteredData,
+                        },
+                        sorting: {
+                          config: sortConfig,
+                          onChange: onSortChange,
+                          inputData: filteredData,
+                          outputData: sortedData,
+                        },
+                        paging: {
+                          onPageChange,
+                          onPageSizeChange,
+                          config: pageConfig,
+                          inputData: sortedData,
+                          outputData: pagedData,
+                        },
+                        sections: {
+                          onSectionChange,
+                          config: { currentSection: configManager.configs.currentSection },
+                        },
+                      };
+
+                      const selectionCount = getSelectionCount({
                         selections,
                         selectionKey,
                         data: pagedData,
-                      }),
-                    },
-                  };
+                      });
+                      const selectionContext = {
+                        selections,
+                        selectionKey,
+                        selectionCount,
+                        onSelect: this.onSelect,
+                        onDeselect: this.onDeselect,
+                        allDisplayedDataIsSelected: pagedData.length > 0 && selectionCount === pagedData.length,
+                        anyDisplayedDataIsSelected: selectionCount > 0,
+                      };
 
-                  return (
-                    <DataManagerContext.Provider value={renderProps}>
-                      {this.props.render(renderProps)}
-                    </DataManagerContext.Provider>
-                  );
-                }}
+                      return (
+                        <DataManagerContext.Provider value={renderProps}>
+                          <RowSelectionContext.Provider value={selectionContext}>
+                            {this.props.render(renderProps)}
+                          </RowSelectionContext.Provider>
+                        </DataManagerContext.Provider>
+                      );
+                    }}
+                  />
+                )}
               />
             )}
           />
         )}
-      />
+      </DeprecatedUrlStateManager>
     );
   }
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { Flex } from 'zbase';
 import { Button } from 'z-frontend-elements';
 
-import { Form } from '../Form';
+import { Form, FormCheckbox } from '../../..';
 
 export default () => (
   <Form
@@ -20,7 +20,7 @@ export default () => (
   >
     {props => (
       <>
-        <Form.Checkbox name="agree" label="I agree to the terms of use." />
+        <FormCheckbox name="agree" label="I agree to the terms of use." />
         <Flex justify="flex-end" mt={4}>
           <Button
             type="submit"

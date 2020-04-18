@@ -21,6 +21,7 @@ const targetBody = (
 
 storiesOf('overlays|Popover', module)
   .addDecorator(withViewport())
+  .addDecorator((getStory: Function) => <Box>{getStory()}</Box>)
   .add('click top', () => (
     <Box mx={50} my={75}>
       {ExampleClickTop()}
@@ -38,7 +39,10 @@ storiesOf('overlays|Popover', module)
       <Flex>
         <Box>
           <Popover event="click" showArrow showPopover placement="top" targetBody={targetBody}>
-            <TextBlock p={10}>I am a popover... click to hide.</TextBlock>
+            <TextBlock p={10}>
+              I am a popover... click to hide. I am a popover... click to hide. I am a popover... click to hide. I am a
+              popover... click to hide. I am a popover... click to hide. I am a popover... click to hide.
+            </TextBlock>
           </Popover>
         </Box>
       </Flex>

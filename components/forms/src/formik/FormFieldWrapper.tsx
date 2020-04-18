@@ -22,6 +22,8 @@ export type FormFieldProps = {
   name: string;
   /** Human-friendly label for the input. */
   label?: string | JSX.Element;
+  /** Help info triggered by clicking on an icon in the label. To be used when the label is not self-explanatory. */
+  helpText?: string | JSX.Element;
   /** Utility props to pass through to the container. */
   containerProps?: FlexProps;
   /** Which kind of input is being wrapped (to help determine layout). */
@@ -37,17 +39,31 @@ export type FormFieldProps = {
   /** Manually trigger focus when label is clicked. Only for non-inputs like contenteditable. */
   manualLabelFocus?: boolean;
   /**
-   * Whether this field is non-required.
+   * Whether this field is non-required. The label "Optional" can be overridden if a string is provided but this should only be done in extenuating circumstances (ex: legal requirement).
+   *
    * @default false
    */
-  optional?: boolean;
+  optional?: boolean | string;
+  /**
+   * Optimizes this field so that it only re-renders if its value changes. Changes to values not in this slice of formik state,
+   * will not trigger a re-render. This also means updating other props like `containerProps` will not trigger a re-render.
+   * Under the covers setting this flag will use a Formik `<FastField>` component. Please read the FastField docs: https://jaredpalmer.com/formik/docs/api/fastfield before using.
+   */
+  limitRerender?: boolean;
+  dependencies?: string[];
+  /**
+   * Whether to disable error message. When disabled, error message will not be displayed.
+   * @default false
+   */
+  disableError?: boolean;
 };
 
-type FormFieldInternalProps = FormFieldProps & {
+type FormFieldWrapperInternalProps = {
+  // Error message for the field.
   error?: string;
 };
 
-class FormFieldWrapper extends Component<FormFieldInternalProps> {
+class FormFieldWrapper extends Component<FormFieldWrapperInternalProps & FormFieldProps> {
   static defaultProps = {
     format: 'form-row',
   };
@@ -57,24 +73,38 @@ class FormFieldWrapper extends Component<FormFieldInternalProps> {
   };
 
   render() {
-    const { label, name, error, children, containerProps, fieldType, format, optional } = this.props;
+    const {
+      label,
+      helpText,
+      name,
+      error,
+      children,
+      containerProps,
+      fieldType,
+      format,
+      optional,
+      disableError,
+    } = this.props;
+    const showError = error && !disableError;
+
     if (format === 'form-row' || format === 'form-row-top-label') {
       const isGroupField = ['checkboxGroup', 'radio'].includes(fieldType);
-      const conditionalProps = {
+      const isTopAligned = format === 'form-row-top-label';
+      const labelProps = {
+        label,
+        helpText,
+        fieldType,
+        optional,
+        isTopAligned,
         ...(this.props.manualLabelFocus && { onClick: this.handleClickFocus }),
-        ...(format === 'form-row-top-label' && { isTopAligned: true }),
         ...(!isGroupField && { htmlFor: name }), // groups should not have a `for` attribute; there are multiple inputs
       };
       return (
         <FieldRow {...containerProps} data-fieldrow-test-marker>
-          {label && (
-            <FormLabel id={getLabelId(name)} fieldType={fieldType} {...conditionalProps} optional={optional}>
-              {label}
-            </FormLabel>
-          )}
-          <FormInputWrapper label={label}>
+          {label && <FormLabel id={getLabelId(name)} {...labelProps} />}
+          <FormInputWrapper label={label} isTopAligned={isTopAligned}>
             {children}
-            {error && <FormError id={getErrorId(name)} textDefault={error} />}
+            {showError && <FormError id={getErrorId(name)} textDefault={error} />}
           </FormInputWrapper>
         </FieldRow>
       );
@@ -90,7 +120,7 @@ class FormFieldWrapper extends Component<FormFieldInternalProps> {
                 </TextInline>
               )}
             </Label>
-            {error && <FormError id={getErrorId(name)} textDefault={error} />}
+            {showError && <FormError id={getErrorId(name)} textDefault={error} />}
           </ScreenReaderOnly>
           {children}
         </>

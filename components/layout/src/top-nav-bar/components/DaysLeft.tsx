@@ -2,12 +2,12 @@ import React from 'react';
 import gql from 'graphql-tag';
 import moment from 'moment';
 
-import { Box, Flex, TextBlock } from 'zbase';
-import { styled, RenderFor } from 'z-frontend-theme';
-import { color } from 'z-frontend-theme/utils';
+import { Flex, TextBlock } from 'zbase';
+import { Render } from 'z-frontend-theme';
+import { Query } from 'z-frontend-network';
 
-import { Query } from '../../..';
 import { DaysLeftQuery } from '../../gqlTypes';
+import CircularProgress from './CircularProgress';
 
 function getDaysLeft(trialToExpireAt: string): number {
   const today = moment().startOf('day');
@@ -16,26 +16,13 @@ function getDaysLeft(trialToExpireAt: string): number {
   return daysLeft >= 0 ? daysLeft : 0;
 }
 
-const StyledFlex = styled(Flex)`
-  border-radius: 50%;
-  border-color: ${color('primary.a')};
-  border-top-color: ${color('grayscale.f')};
-  border-width: 2px;
-  width: 32px;
-  height: 32px;
-  transform: rotate(45deg);
-`;
-
-const StyledBox = styled(Box)`
-  transform: rotate(-45deg);
-`;
-
 const daysLeftQuery = gql`
   query DaysLeftQuery {
     dashboard {
       id
       trialToExpireAt
       isTrialCompany
+      companyTypeIsDemo
     }
   }
 `;
@@ -47,30 +34,30 @@ const daysLeftQuery = gql`
 class DaysLeft extends React.Component<{}> {
   render() {
     return (
-      <Query<DaysLeftQuery.Query> query={daysLeftQuery} handleGraphqlProgress={false}>
+      <Query<DaysLeftQuery.Query> query={daysLeftQuery} handleLoading={false} handleError={false}>
         {({ data, loading, error }) => {
           if (error || loading) {
             return null;
           }
 
           const {
-            dashboard: { trialToExpireAt },
+            dashboard: { trialToExpireAt, companyTypeIsDemo },
           } = data;
 
           if (!trialToExpireAt) return null;
 
           const daysLeft: number = getDaysLeft(trialToExpireAt);
+          const maximumDays = 14;
+          const percent = Math.min(daysLeft, maximumDays) / maximumDays;
 
           return (
-            <Flex align="center">
-              <StyledFlex border fontStyle="controls.s" color="primary.a" p={1} align="center" justify="center">
-                <StyledBox>{daysLeft}</StyledBox>
-              </StyledFlex>
-              <RenderFor breakpoints={[false, false, true, true, true]}>
-                <TextBlock ml={2} fontStyle="headings.xs" color="grayscale.e">
-                  days left in trial
+            <Flex align="center" className="js-walkme-top-nav-demo-days-left">
+              <CircularProgress percent={percent} text={`${daysLeft}`} />
+              <Render forBreakpoints={[false, false, true, true, true]}>
+                <TextBlock ml={2} bold color="grayscale.e">
+                  days left in {companyTypeIsDemo ? 'demo' : 'trial'}
                 </TextBlock>
-              </RenderFor>
+              </Render>
             </Flex>
           );
         }}

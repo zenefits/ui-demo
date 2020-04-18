@@ -83,10 +83,10 @@ interface InitialsAvatarProps extends AvatarCommonProps, TextBlockProps {
   workerType?: string;
 }
 
-const AvatarInitials = styled<InitialsAvatarProps>(TextBlock)`
+const AvatarInitials = styled(TextBlock)<InitialsAvatarProps>`
   line-height: 1;
   color: inherit;
-  letter-spacing: ${props => (props.s === 'xsmall' ? '0' : '1px')};
+  letter-spacing: ${(props: InitialsAvatarProps) => (props.s === 'xsmall' ? '0' : '1px')};
   font-size: inherit;
   font-weight: normal;
 `;
@@ -97,11 +97,16 @@ interface ImageAvatarProps extends AvatarCommonProps {
   crossOrigin?: '' | 'anonymous' | 'use-credentials';
   /** Custom alternative text description used by screen readers, for example. */
   alt?: string;
+  /**
+   * Lazy load employee photo. When true photo will not be loaded until Avatar is in the viewport
+   * @default true
+   */
+  lazyLoadPhoto?: boolean;
 }
 
-const AvatarStyle: FlattenInterpolation<AvatarCommonProps>[] = css`
+const AvatarStyle: FlattenInterpolation<AvatarCommonProps> = css`
   box-sizing: border-box;
-  border-radius: ${props => (props.isSquare ? radius : '50%')};
+  border-radius: ${(props: AvatarCommonProps) => (props.isSquare ? radius : '50%')};
   opacity: ${props => (props.disabled ? 0.5 : 1)};
   box-shadow: 0px 0px 0px 2px ${color('secondary.b')};
 
@@ -111,12 +116,12 @@ const AvatarStyle: FlattenInterpolation<AvatarCommonProps>[] = css`
   }
 `;
 
-const StyledImageAvatar = styled<ImageProps & ImageAvatarProps>(Image)`
+const StyledImageAvatar = styled(Image)<ImageProps & ImageAvatarProps>`
   ${AvatarStyle};
   object-fit: ${props => props.imageFit}; /* preserve aspect ratio */
 `;
 
-const StyledInitialsAvatar = styled<BoxProps & InitialsAvatarProps>(Box)`
+const StyledInitialsAvatar = styled(Box)<BoxProps & InitialsAvatarProps>`
   ${AvatarStyle};
   display: flex;
   justify-content: center;
@@ -182,9 +187,9 @@ const StyledContainer = styled(Box)`
   height: 100%;
 `;
 
-const StyledAvatarContainer = styled<AvatarProps>(Box)`
+const StyledAvatarContainer = styled(Box)<AvatarProps>`
   position: absolute;
-  ${props => calculateBadgePosition(props)};
+  ${(props: AvatarProps) => calculateBadgePosition(props)};
 `;
 
 function hash(str: string) {
@@ -203,6 +208,16 @@ function getDefaultColor(initials: string): ColorString {
 
 export type AvatarProps = BoxProps & InitialsAvatarProps & ImageAvatarProps;
 
+function getAltText(alt: string, firstName: string, lastName: string) {
+  if (alt !== undefined) {
+    return alt; // allow "" as alt
+  }
+  if (firstName && lastName) {
+    return `${firstName} ${lastName}'s picture`;
+  }
+  return null;
+}
+
 class Avatar extends Component<AvatarProps> {
   static defaultProps = {
     s: 'medium' as AvatarSize,
@@ -210,6 +225,7 @@ class Avatar extends Component<AvatarProps> {
     isSquare: false,
     imageFit: 'cover' as AvatarImageFit,
     color: 'grayscale.white' as ColorString,
+    lazyLoadPhoto: true,
   };
 
   getAvatarBadge = (sizeProps: any, utilProps: UtilProps) => {
@@ -223,34 +239,53 @@ class Avatar extends Component<AvatarProps> {
   };
 
   render() {
-    const { firstName, lastName, photoUrl, s, disabled, isSquare, imageFit, badge, alt, onClick } = this.props;
+    const {
+      firstName,
+      lastName,
+      photoUrl,
+      s,
+      disabled,
+      isSquare,
+      imageFit,
+      badge,
+      alt,
+      'aria-label': ariaLabel,
+      onClick,
+      lazyLoadPhoto,
+    } = this.props;
     const utilProps: UtilProps = pickBy(this.props, (value, key) => isUtilProp(key));
     const optionalProps = onClick ? { onClick: onClick as any } : {};
 
     const computedSize = utilProps.w || utilProps.width || theme.heights[s];
-    const sizeProps = {
+    const baseSizeProps = {
       width: computedSize,
       height: computedSize,
+    };
+    const avatarSizeProps = {
+      ...baseSizeProps,
+      minWidth: computedSize,
+      minHeight: computedSize,
     };
     const Container = badge ? StyledContainer : Fragment;
 
     if (photoUrl) {
-      const altText = alt || (firstName && lastName ? `${firstName} ${lastName}'s picture` : null);
       return (
         <AvatarTooltip {...this.props}>
           <Container>
             <StyledImageAvatar
               className={this.props.className}
               src={photoUrl}
-              alt={altText}
+              alt={getAltText(alt, firstName, lastName)}
+              aria-label={ariaLabel}
               disabled={disabled}
               isSquare={isSquare}
               imageFit={imageFit}
+              loading={lazyLoadPhoto ? 'lazy' : 'auto'}
               {...utilProps}
-              {...sizeProps}
+              {...avatarSizeProps}
               {...optionalProps}
             />
-            {badge && this.getAvatarBadge(sizeProps, utilProps)}
+            {badge && this.getAvatarBadge(baseSizeProps, utilProps)}
           </Container>
         </AvatarTooltip>
       );
@@ -270,12 +305,13 @@ class Avatar extends Component<AvatarProps> {
             className={this.props.className}
             disabled={disabled}
             isSquare={isSquare}
+            aria-label={ariaLabel}
             {...utilProps}
-            {...sizeProps}
+            {...avatarSizeProps}
           >
             <AvatarInitials s={s}>{initialsComputed}</AvatarInitials>
           </StyledInitialsAvatar>
-          {badge && this.getAvatarBadge(sizeProps, utilProps)}
+          {badge && this.getAvatarBadge(baseSizeProps, utilProps)}
         </Container>
       </AvatarTooltip>
     );

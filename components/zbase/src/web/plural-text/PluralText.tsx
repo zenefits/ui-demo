@@ -5,6 +5,7 @@ import withWebUtilProps, { ResultWebComponentProps, SpanProps } from '../withUti
 import TextInline, { TextInlineTagProps, TextInlineUtilProps } from '../text-inline/TextInline';
 import { TextCommonProps } from '../../commonTypes';
 import { TextTransformProps } from '../types';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 // from https://github.com/yahoo/react-intl/wiki/Components#formattedplural
 type AdditionalProps = TextCommonProps &
@@ -66,6 +67,9 @@ class PluralText extends Component<PluralTextProps & { intl: InjectedIntl }> {
 }
 
 const withIntl = injectIntl<PluralTextProps>(PluralText);
+
+export const PluralTextForDocs = makeDummyComponentForDocs<PluralTextProps>();
+PluralTextForDocs.displayName = 'PluralText';
 
 export default withWebUtilProps<SpanProps, AdditionalProps, TextInlineUtilProps>({
   displayName: 'PluralText',

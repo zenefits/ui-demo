@@ -38,7 +38,7 @@ export class DroppableList extends Component<DroppableListProps, {}> {
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {React.Children.map(children, (item: React.ReactElement<any>, index) => (
               <Draggable
-                key={index}
+                key={item.props.itemId}
                 draggableId={item.props.itemId}
                 index={index}
                 isDragDisabled={item.props.isDragDisabled}

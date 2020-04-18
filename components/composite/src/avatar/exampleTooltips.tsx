@@ -5,19 +5,21 @@ import { Box, Flex, TextBlock } from 'zbase';
 import Avatar from './Avatar';
 
 export default () => (
-  <Flex align="center">
+  <Flex direction="column">
     <Flex column justify="space-around" align="center" mr={4}>
       <Box>
         <Avatar
           firstName="Jennifer"
           lastName="Saison"
-          s="medium"
+          email="jsaison@zenefits.com"
+          workerType="Company Paid Temp"
+          s="xxlarge"
           badge="contingent"
-          tooltipBody={<TextBlock p={2}>Tooltip content</TextBlock>}
+          tooltipProps={{ showPopover: true }}
         />
       </Box>
       <Box textAlign="center" my={2}>
-        We can set a custom tooltip
+        Tooltip defaults to full content for contingent worker
       </Box>
     </Flex>
 
@@ -35,15 +37,13 @@ export default () => (
         <Avatar
           firstName="Jennifer"
           lastName="Saison"
-          email="jsaison@zenefits.com"
-          workerType="Company Paid Temp"
-          s="xxlarge"
+          s="medium"
           badge="contingent"
-          tooltipProps={{ showPopover: true }}
+          tooltipBody={<TextBlock p={2}>Tooltip content</TextBlock>}
         />
       </Box>
       <Box textAlign="center" my={2}>
-        Tooltip defaults to full content for contingent worker
+        We can set a custom tooltip
       </Box>
     </Flex>
 

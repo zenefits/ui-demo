@@ -18,5 +18,5 @@ Always import this via `Form`, as in the example.
 
 #### Related
 
-- [Form.DateRange](#!/Form.DateRange) for a range of dates
-- [Form.TimeInput](#!/Form.TimeInput) for a time of day
+- [FormDateRange](#!/FormDateRange) for a range of dates
+- [FormTimeInput](#!/FormTimeInput) for a time of day

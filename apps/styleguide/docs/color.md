@@ -14,4 +14,6 @@ const MyComponent = styled.div`
 `;
 ```
 
-To promote consistency and maintainability, _only_ these colors are available. This is enforced by [types](https://github.com/z-frontend/components/theme/src/colors.ts) and [linting](https://github.com/zenefits/z-frontend/blob/master/.stylelintrc.js).
+To promote consistency and maintainability, _only_ these colors are available. This is enforced by [types](https://github.com/zenefits/z-frontend/components/theme/src/colors.ts) and [linting](https://github.com/zenefits/z-frontend/blob/master/.stylelintrc.js).
+
+We strive to meet [WCAG 2 contrast requirements](https://www.w3.org/TR/WCAG20/#visual-audio-contrast) so that all users can use Zenefits comfortably.

@@ -17,7 +17,7 @@ Basic example:
 - USE in cases when the contents of a text field may include keywords from a set list, and it is
   beneficial to provide autocomplete support for those keywords.
 - DO NOT USE if selecting a keyword needs to have any effect other than updating the text value of the input.
-- If the textarea needs to contain data references, use [Form.MentionTextarea](#!/Form.MentionTextarea)
+- If the textarea needs to contain data references, use [FormMentionTextarea](#!/FormMentionTextarea)
 
 #### Content Guidelines
 
@@ -48,6 +48,6 @@ application.
 
 #### Related
 
-- [Form.SearchSelect](#!/Form.SearchSelect)
-- [Form.Textarea](#!/Form.Textarea)
-- [Form.MentionTextarea](#!/Form.MentionTextarea)
+- [FormSearchSelect](#!/FormSearchSelect)
+- [FormTextarea](#!/FormTextarea)
+- [FormMentionTextarea](#!/FormMentionTextarea)

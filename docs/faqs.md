@@ -1,5 +1,5 @@
 **Q: Do we have good coding practices in Zenefits React development?**
-<br/>A: Yes. See our [Component Guide](#!/Components%20Best%20Practices) and [Airbnb's StyleGuide](https://github.com/airbnb/javascript)
+<br/>A: Yes. See our [Component Guide](#!/Component%20Best%20Practices) and [Airbnb's StyleGuide](https://github.com/airbnb/javascript)
 
 **Q: Do we have guidelines for how to request a new platform component?**
 <br/>A: You can ping the _#dev-ui-react_ channel. Please also include in your request:
@@ -18,7 +18,7 @@
 **Q: How do I run z-frontend on a spoof?**
 <br/>A: You can either:
 
-- run your z-frontend locally and proxy graphql and yp to point to the spoof documented [here](https://github.com/zenefits/z-frontend/#development). See `YP_BASEURL` and `GRAPHQL_BASEURL`
+- run your z-frontend locally and proxy graphql and yp to point to the spoof documented [here](https://github.com/zenefits/z-frontend/#development). See `YP_BASEURL`
 - deploy your YP3 code to the spoof and use your z-frontend commit SHA to match this pattern of URL: `https:/<spoofdomanin>/app/<appname>/index.html:<SHA>`
 
 **Q: As we have existing local code setup with yarn 0.24 and z-frontend uses yarn 1.3.2 , Can we have two versions of yarn in same machine?**

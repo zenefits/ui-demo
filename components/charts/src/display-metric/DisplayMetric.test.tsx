@@ -3,14 +3,14 @@ import 'jest-styled-components';
 
 import 'z-frontend-jest/modified-jest-styled-components';
 import { TextBlock } from 'zbase';
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 import { getColor } from 'z-frontend-theme';
 
 import DisplayMetric from './DisplayMetric';
 
 describe('DisplayMetric', () => {
   it('should mount with correct label and value', () => {
-    const wrapper = mountWithTheme(<DisplayMetric label="Label">100</DisplayMetric>);
+    const wrapper = mountEnzymeWithTheme(<DisplayMetric label="Label">100</DisplayMetric>);
     expect(wrapper.find(TextBlock)).toHaveLength(2);
     expect(
       wrapper
@@ -27,7 +27,7 @@ describe('DisplayMetric', () => {
   });
 
   it('accepts element as child', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <DisplayMetric label="Label" color="secondary.a">
         <TextBlock>123</TextBlock>
       </DisplayMetric>,
@@ -41,7 +41,7 @@ describe('DisplayMetric', () => {
   });
 
   it('should set value color', () => {
-    const wrapper = mountWithTheme(
+    const wrapper = mountEnzymeWithTheme(
       <DisplayMetric label="Label" color="secondary.a">
         100
       </DisplayMetric>,

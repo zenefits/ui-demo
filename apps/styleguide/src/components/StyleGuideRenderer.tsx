@@ -44,7 +44,7 @@ class SimpleTopNav extends React.Component {
     return (
       <SimpleTopContainer align="center">
         <Flex align="center">
-          <Image w={12} src={theme.images.logo} />
+          <Image w={12} src={theme.images.logo} alt="" />
           <TextBlock fontStyle="paragraphs.xl" ml={2} color="grayscale.white">
             zenefits
           </TextBlock>
@@ -60,6 +60,7 @@ class SimpleTopNav extends React.Component {
 }
 
 const PageContainer = styled.main`
+  display: block; /* IE11 */
   width: 100%;
   padding: 80px ${space(3)} 0;
   max-width: ${1300 - sideNavWidth}px;
@@ -79,16 +80,16 @@ interface StyleGuideProps {
   hasSidebar?: boolean;
 }
 
-// override default to provide our theme and add our TopNav
-// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/StyleGuide/StyleGuideRenderer.js
+// override default to provide our theme, add our TopNav, and always show sidebar
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/StyleGuide/StyleGuideRenderer.js
 class StyleGuideRenderer extends Component<StyleGuideProps> {
   render() {
-    const { children, toc, hasSidebar } = this.props;
+    const { children, toc } = this.props;
     return (
       <ThemeProvider>
         <div className={APP_STYLE_ROOT_CLASS}>
           <SimpleTopNav>Design System</SimpleTopNav>
-          {hasSidebar && <SideNav p={3}>{toc}</SideNav>}
+          <SideNav p={3}>{toc}</SideNav>
           <PageContainer>{children}</PageContainer>
         </div>
       </ThemeProvider>

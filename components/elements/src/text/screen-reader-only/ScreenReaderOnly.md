@@ -15,4 +15,4 @@ Component used to visually hide content but retain it for screen readers.
 
 #### Related
 
-- [HideFor](#!/HideFor) hide content at small screen sizes
+- [Hide](#!/Hide) hide content at small screen sizes

@@ -22,5 +22,5 @@ Status: **Alpha** - this component lacks designs and is not feature complete ([d
 
 #### Related
 
-- [Form.Textarea](#!/Form.Textarea)
-- [Form.MentionTextarea](#!/Form.MentionTextarea)
+- [FormTextarea](#!/FormTextarea)
+- [FormMentionTextarea](#!/FormMentionTextarea)

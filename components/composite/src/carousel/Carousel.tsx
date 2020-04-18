@@ -108,6 +108,7 @@ class Carousel extends Component<CarouselProps, CarouselState> {
   handleSwipeLeft = () => {
     this.handleSwipe(true);
   };
+
   handleSwipeRight = () => {
     this.handleSwipe(false);
   };
@@ -125,6 +126,7 @@ class Carousel extends Component<CarouselProps, CarouselState> {
   goNext = () => {
     this.changePage(NEXT_PAGE_DELTA);
   };
+
   goPrevious = () => {
     this.changePage(PREV_PAGE_DELTA);
   };
@@ -132,6 +134,7 @@ class Carousel extends Component<CarouselProps, CarouselState> {
   isNextDisabled() {
     return this.state.currentPage >= this.getTotalPages();
   }
+
   isPreviousDisabled() {
     return this.state.currentPage <= 1;
   }

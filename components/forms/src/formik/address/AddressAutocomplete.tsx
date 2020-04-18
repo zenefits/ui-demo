@@ -28,6 +28,7 @@ class AddressAutocomplete extends Component<AddressAutocompleteProps> {
   };
 
   handleScriptLoad = () => this.setState({ scriptLoaded: true });
+
   handleScriptError = () => this.setState({ scriptError: true });
 
   handleSelect = async (address: string, placeId?: string) => {

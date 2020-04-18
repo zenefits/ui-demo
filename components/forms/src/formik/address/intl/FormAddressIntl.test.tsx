@@ -1,9 +1,9 @@
 import React from 'react';
-import { cleanup } from 'react-testing-library';
+import { cleanup } from '@testing-library/react';
 
 import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
-import { AddressValue, Form } from '../../Form';
+import { AddressValue, Form, FormAddressIntl } from '../../../..';
 
 interface FormValues {
   address: AddressValue;
@@ -17,10 +17,10 @@ describe('Form.AddressIntl', () => {
           console.log(values);
         }}
         initialValues={{
-          address: Form.AddressIntl.getEmptyValue(),
+          address: FormAddressIntl.getEmptyValue(),
         }}
       >
-        <Form.AddressIntl name="address" {...props} />
+        <FormAddressIntl name="address" {...props} />
       </Form>
     );
   }

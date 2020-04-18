@@ -2,25 +2,25 @@ A form component that presents a list of related options of which one can be sel
 
 #### Examples
 
-Typically, `Form.Radio` components are passed as children:
+Typically, `FormRadio` components are passed as children:
 
-```jsx
-// loadExample('./exampleLabel')
+```jsx noeditor
+<StorybookExample selectedKind="forms|FormRadioGroup" selectedStory="basic group" />
 ```
 
-(Note that children do not need to include a `name` prop; they will inherit that of the `Form.RadioGroup`.)
+(Note that children do not need to include a `name` prop; they will inherit that of the `FormRadioGroup`.)
 
 With an initial value:
 
-```jsx
-// loadExample('./exampleValue')
+```jsx noeditor
+<StorybookExample selectedKind="forms|FormRadioGroup" selectedStory="with initial value" />
 ```
 
 #### Usage
 
 - Each option must include an associated label.
 - Use when there are at least 2 options.
-- For long lists of options, consider using `Form.Select` instead.
+- For long lists of options, consider using `FormSelect` instead.
 - Include an intelligent default selection where it makes sense to do so.
 - The only logical validation is that at least one option is selected.
 
@@ -38,8 +38,8 @@ See general field label and error guidelines.
 The children are wrappers around [HTML `<input type="radio">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio)
 with styles and layout.
 
-You should never use `Form.Radio` directly.
+You should never use `FormRadio` directly.
 
 #### Related -->
 
-- [Form.CheckboxGroup](#!/Form.CheckboxGroup)
+- [FormCheckboxGroup](#!/Form.CheckboxGroup)

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Timeline from './Timeline';
 
@@ -10,6 +10,8 @@ const valueDate = new Date('7/2/2018');
 
 describe('Timeline', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<Timeline startDate={startDate} endDate={endDate} valueDate={valueDate} />)).toHaveLength(1);
+    expect(
+      mountEnzymeWithTheme(<Timeline startDate={startDate} endDate={endDate} valueDate={valueDate} />),
+    ).toHaveLength(1);
   });
 });

@@ -48,7 +48,7 @@ class EmptyState extends Component<EmptyStateProps> {
         {...containerProps}
       >
         <Icon iconName={iconName} s="xlarge" />
-        <TextBlock color="inherit" mt={2}>
+        <TextBlock textAlign="center" color="inherit" mt={2}>
           {message}
         </TextBlock>
         {askToReload && (

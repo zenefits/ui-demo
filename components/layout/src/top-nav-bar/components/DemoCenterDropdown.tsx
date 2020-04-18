@@ -4,13 +4,24 @@ import React, { Component } from 'react';
 import { Box, Flex, Icon, Image } from 'zbase';
 import { Button, Link } from 'z-frontend-elements';
 import { styled, IconNameString } from 'z-frontend-theme';
+import { Query } from 'z-frontend-network';
 
-import Query from '../../graphql/Query';
 import { DropdownQuery } from '../../gqlTypes';
+import { UserInfoBusinessCase } from '../types';
 
 type CollapsibleSectionState = {
   tours: DropdownQuery.Tours[];
 };
+
+declare global {
+  interface Window {
+    walkme_ready: any;
+  }
+}
+const DarkBlueBox = styled(Box)`
+  /* stylelint-disable-next-line color-no-hex */
+  background-color: #0f2b5b;
+`;
 
 const StyledCollapsibleDropdownSection = styled(Box)`
   &.open-demo-dropdown-section {
@@ -30,19 +41,52 @@ const StyledDropDownIcon = styled(Icon)`
   text-align: center;
 `;
 
-const ZenefitsIconImage = styled(Image)`
+const IconImage = styled(Image)`
   max-height: 100%;
 `;
 
-function goToTour(tourLink: string, e: any) {
-  const walkme_tour_prefix = '/dashboard/#/?walkme=';
-  window.location.href = walkme_tour_prefix + tourLink;
+const startTour = (tourNumber: number) => {
+  if (window.WalkMeAPI) {
+    window.WalkMeAPI.startFlowById(tourNumber);
+  } else {
+    window.walkme_ready = () => {
+      window.WalkMeAPI.startFlowById(tourNumber);
+    };
+  }
+};
+
+const activateShoutOut = (tourNumber: number) => {
+  if (window.WalkMeAPI) {
+    window.WalkMeAPI.activateDeployable(14, tourNumber);
+  } else {
+    window.walkme_ready = () => {
+      window.WalkMeAPI.activateDeployable(14, tourNumber);
+    };
+  }
+};
+
+function triggerWalkme(fn: any, tourLink: string) {
+  const tourNumber = parseInt(tourLink.split('-')[1], 10);
 
   if (window.location.pathname === '/dashboard/') {
-    window.location.reload();
-  }
+    const onDashboard = window.location.href.endsWith('/dashboard/') || window.location.href.endsWith('/dashboard/#/');
 
-  e.stopPropagation();
+    const escKeyEvent = new KeyboardEvent('keydown', {
+      keyCode: 27,
+      bubbles: false,
+    } as any);
+
+    // Trigger ESC key to close the dropdown
+    document.dispatchEvent(escKeyEvent);
+    window.location.href = '/dashboard/#/';
+    if (!onDashboard) {
+      location.reload();
+    }
+    fn(tourNumber);
+  } else {
+    const walkme_tour_prefix = '/dashboard/?walkme=';
+    window.location.href = walkme_tour_prefix + tourLink;
+  }
 }
 
 type CollapsibleSectionProps = {
@@ -60,22 +104,22 @@ class CollapsibleSection extends Component<CollapsibleSectionProps, CollapsibleS
 
   handleToggle = (tourName: string) => {
     const { tours } = this.state;
-    const idx = tours.findIndex((tour: DropdownQuery.Tours) => tour.name === tourName);
+    const currTourIndex = tours.findIndex((tour: DropdownQuery.Tours) => tour.name === tourName);
 
-    const newDataTours = tours.map(tour => Object.assign({}, tour));
-    newDataTours.map((newDataTour: DropdownQuery.Tours) => {
-      if (newDataTour.isOpened) {
+    const newDataTours = tours.map(tour => ({ ...tour }));
+    newDataTours.map((newDataTour: DropdownQuery.Tours, index: number) => {
+      if (newDataTour.isOpened && index !== currTourIndex) {
         newDataTour.isOpened = false;
       }
     });
-    newDataTours[idx].isOpened = !newDataTours[idx].isOpened;
+    newDataTours[currTourIndex].isOpened = !newDataTours[currTourIndex].isOpened;
     this.setState({ tours: newDataTours });
   };
 
   render() {
     const { tours } = this.state;
     return (
-      <Box>
+      <DarkBlueBox>
         {tours.map((tour: DropdownQuery.Tours) => (
           <Box pt={3} px={4} color="grayscale.g" key={tour.name} onClick={() => this.handleToggle(tour.name)}>
             <Flex align="center">
@@ -97,7 +141,7 @@ class CollapsibleSection extends Component<CollapsibleSectionProps, CollapsibleS
               pt={3}
             >
               {tour.tourItems.map(item => (
-                <Link key={item.tourName} onClick={e => goToTour(item.tourId, e)}>
+                <Link key={item.tourName} onClick={e => triggerWalkme(startTour, item.tourId)}>
                   <Flex py={3} px={4} pl={5} align="center" color="grayscale.g">
                     <Box fontStyle="paragraphs.s" color="grayscale.g">
                       {item.tourName}
@@ -108,40 +152,78 @@ class CollapsibleSection extends Component<CollapsibleSectionProps, CollapsibleS
             </StyledCollapsibleDropdownSection>
           </Box>
         ))}
-      </Box>
+      </DarkBlueBox>
     );
   }
 }
 
-class DemoCenterDropdown extends Component<{}> {
+type DemoCenterDropdownProps = {
+  userInfo: UserInfoBusinessCase;
+};
+
+class DemoCenterDropdown extends Component<DemoCenterDropdownProps> {
   render() {
+    const { firstName, lastName, userEmail, companyName } = this.props.userInfo;
+    const businessCaseUrl = `https://zenefits.com/business-case/questionnaire/?person_firstname=${firstName}&person_lastname=${lastName}&email=${userEmail}&company_name=${companyName}`;
+    const competitorComparisonUrl = 'https://zenefits.com/compare-zenefits/';
+    const pricingUrl = 'https://www.zenefits.com/pricing/';
+
     return (
-      <Query<DropdownQuery.Query> query={dropdownQuery} handleGraphqlProgress={false}>
+      <Query<DropdownQuery.Query> query={dropdownQuery} handleLoading={false} handleError={false}>
         {({ data, loading, error }) => {
           if (error || loading) {
             return null;
           }
           return (
             <Flex color="grayscale.g" fontStyle="paragraphs.m" w="270px" bg="secondary.a" column>
-              <Link to="/overview">
+              <Link href="/app/demo-center/#/overview">
                 <Flex py={3} px={4} mt={3} align="center" color="grayscale.g">
                   <Icon iconName="home" mr={3} s="large" />
                   <Box>Demo Center Home</Box>
                 </Flex>
               </Link>
 
-              <Link onClick={e => goToTour('14-146664', e)}>
-                <Flex py={3} px={4} align="center" color="grayscale.g">
-                  <Flex w={20} height="24px" justify="center" mr={3}>
-                    <ZenefitsIconImage src="/static/img/growth/zenefits-dropdown-logo.svg" />
+              <DarkBlueBox>
+                <Link onClick={e => triggerWalkme(activateShoutOut, '14-146664')}>
+                  <Flex py={3} px={4} color="grayscale.g">
+                    <Flex w={20} height={24} justify="center" mr={3}>
+                      <IconImage src="/static/img/growth/zenefits-dropdown-logo.svg" alt="" />
+                    </Flex>
+                    <Box>Zenefits Overview</Box>
                   </Flex>
-                  <Box>Zenefits Overview</Box>
-                </Flex>
-              </Link>
+                </Link>
+              </DarkBlueBox>
 
               {data.demoCenterDropdownOptions.tours && (
                 <CollapsibleSection tours={data.demoCenterDropdownOptions.tours} />
               )}
+
+              <Link href={competitorComparisonUrl} target="_blank">
+                <Flex py={3} px={4} align="center" color="grayscale.g">
+                  <Flex w={20} height={24} justify="center" align="center" mr={3}>
+                    <IconImage src="/static/img/growth/compare_us.png" alt="" />
+                  </Flex>
+                  <Box>Compare Us</Box>
+                </Flex>
+              </Link>
+
+              <Link href={businessCaseUrl} target="_blank">
+                <Flex py={3} px={4} align="center" color="grayscale.g">
+                  <Flex w={20} height={24} justify="center" mr={3}>
+                    <StyledDropDownIcon iconName="plus-circle-o" s="large" w={20} text-align="center" />
+                  </Flex>
+                  <Box>Create Business Case</Box>
+                </Flex>
+              </Link>
+
+              <Link href={pricingUrl} target="_blank">
+                <Flex py={3} px={4} align="center" color="grayscale.g">
+                  <Flex w={20} height={21} justify="center" align="center" mr={3}>
+                    <IconImage src="/static/img/growth/pricing.png" alt="" />
+                  </Flex>
+                  <Box>Pricing</Box>
+                </Flex>
+              </Link>
 
               <Flex mb={3} mt={2} mx={4} align="center" justify="center" height="60px">
                 <Button.Link href="/dashboard" height="40" w="100%" mode="primary">

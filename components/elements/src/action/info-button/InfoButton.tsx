@@ -1,5 +1,4 @@
 import React, { Component, MouseEventHandler } from 'react';
-import { ObjectOmit } from 'typelevel-ts';
 
 import { styled } from 'z-frontend-theme';
 import { color, radius } from 'z-frontend-theme/utils';
@@ -13,7 +12,7 @@ type DisallowedButtonProps =
   | 'type' // do not use InfoButton for "submit"
   | 'mode';
 
-type InfoButtonProps = ObjectOmit<ButtonBasicProps, DisallowedButtonProps> & {
+type InfoButtonProps = Omit<ButtonBasicProps, DisallowedButtonProps> & {
   /** Action to take when button is clicked. */
   onClick?: MouseEventHandler<any>;
 };

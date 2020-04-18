@@ -6,7 +6,8 @@ import { Box, Flex } from 'zbase';
 import { Button } from 'z-frontend-elements';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormMultiSelect } from '../../..';
+import { simulateNetworkDelay } from '../Form.stories';
 
 storiesOf('forms|Form.MultiSelect', module)
   .addDecorator((getStory: Function) => (
@@ -15,26 +16,36 @@ storiesOf('forms|Form.MultiSelect', module)
     </Box>
   ))
   .add('default', () => <DefaultExample />)
+  .add('help text', () => <DefaultExample helpText="The main course of your meal." />)
   .add('custom rendering', () => <CustomRenderingExample />)
   .add('add new option', () => <AddNewExample />)
   .add('with validation', () => <ValidationExample />)
   .add('select all', () => <SelectAllExample />);
 
-// Default example
-const optionList = [{ id: 1, label: 'Chicken' }, { id: 2, label: 'Beef' }, { id: 3, label: 'Fish' }];
+const optionList = [
+  { id: 1, label: 'Chicken' },
+  { id: 2, label: 'Beef' },
+  { id: 3, label: 'Fish' },
+];
+const stringOptionList = ['Chicken', 'Beef', 'Fish', 'Tofu'];
 
-const DefaultExample = () => (
-  <Form onSubmit={() => {}} initialValues={{ entree: [optionList[1]] }}>
-    <Form.MultiSelect<{ id: number; label: string }>
+const DefaultExample = (fieldProps: any) => (
+  <Form
+    onSubmit={values => simulateNetworkDelay(() => action('multiselect-default-submit')(values))}
+    initialValues={{ entree: [optionList[1]] }}
+  >
+    <FormMultiSelect<{ id: number; label: string }>
       name="entree"
       label="Entree"
       getOptionText={o => o.label}
       onChange={action('Select value changed')}
+      {...fieldProps}
     >
       {({ SelectOption, multiOptionFilter }) =>
         multiOptionFilter(optionList).map(option => <SelectOption key={option.id} option={option} />)
       }
-    </Form.MultiSelect>
+    </FormMultiSelect>
+    <Form.Footer primaryText="Submit" />
   </Form>
 );
 
@@ -46,7 +57,7 @@ const entreesWithPrices = [
 ];
 const CustomRenderingExample = () => (
   <Form onSubmit={() => {}} initialValues={{ entree: [entreesWithPrices[0]] }}>
-    <Form.MultiSelect<{ id: number; label: string; price: string }>
+    <FormMultiSelect<{ id: number; label: string; price: string }>
       name="entree"
       label="Entree"
       getOptionText={o => o.label}
@@ -61,15 +72,13 @@ const CustomRenderingExample = () => (
           </SelectOption>
         ))
       }
-    </Form.MultiSelect>
+    </FormMultiSelect>
   </Form>
 );
 
-// Add New Example
-const stringOptionList = ['Chicken', 'Beef', 'Fish', 'Tofu'];
 const AddNewExample = () => (
   <Form onSubmit={() => {}} initialValues={{ entree: ['Tofu'] }}>
-    <Form.MultiSelect<string>
+    <FormMultiSelect<string>
       name="entree"
       label="Entree"
       onCreateNewOption={() => alert('Create new entree callback fired')}
@@ -83,7 +92,7 @@ const AddNewExample = () => (
           ))}
         </>
       )}
-    </Form.MultiSelect>
+    </FormMultiSelect>
   </Form>
 );
 
@@ -91,7 +100,7 @@ const SelectAllExample = () => (
   <Form onSubmit={() => {}} initialValues={{ entree: ['Tofu'] }}>
     {({ setFieldValue }) => (
       <>
-        <Form.MultiSelect<string> name="entree" label="Entree" getOptionText={o => o}>
+        <FormMultiSelect<string> name="entree" label="Entree" getOptionText={o => o}>
           {({ SelectOption, multiOptionFilter }) => (
             <>
               {multiOptionFilter(stringOptionList).map(option => (
@@ -99,7 +108,7 @@ const SelectAllExample = () => (
               ))}
             </>
           )}
-        </Form.MultiSelect>
+        </FormMultiSelect>
         <Button
           onClick={() => {
             setFieldValue('entree', stringOptionList);
@@ -120,10 +129,10 @@ const ValidationExample = () => (
     initialValues={{ entree: ['Tofu'] }}
     validationSchema={{ entree: Form.Yup.array().required('Please select at least one entree') }}
   >
-    <Form.MultiSelect<string> name="entree" label="Entree" getOptionText={o => o}>
+    <FormMultiSelect<string> name="entree" label="Entree" getOptionText={o => o}>
       {({ SelectOption, multiOptionFilter }) =>
         multiOptionFilter(stringOptionList).map(option => <SelectOption key={option} option={option} />)
       }
-    </Form.MultiSelect>
+    </FormMultiSelect>
   </Form>
 );

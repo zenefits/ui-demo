@@ -9,7 +9,7 @@ import { ThemeInterfaceCommon } from './themeCommon';
 
 export const px = (val: number | string) => {
   if (typeof val === 'number') {
-    return val + 'px';
+    return `${val}px`;
   }
   return val;
 };
@@ -49,7 +49,7 @@ export function icon<TProps extends ThemeProps>(key: string) {
   return (props: TProps) => findInTheme(key, props, 'icons');
 }
 
-export function zIndex<TProps extends ThemeProps>(key: keyof (typeof zIndexValues)) {
+export function zIndex<TProps extends ThemeProps>(key: keyof typeof zIndexValues) {
   return (props: TProps) => findInTheme(key, props, 'zIndex');
 }
 
@@ -70,7 +70,7 @@ export function depth<TProps extends ThemeProps>(index: number | 'header') {
 export function space<TProps extends ThemeProps>(index: number, strict: boolean = true) {
   return (props: TProps) => {
     const result = px(findInTheme(Math.abs(index), props, 'space', strict));
-    return result && index < 0 ? '-' + result : result;
+    return result && index < 0 ? `-${result}` : result;
   };
 }
 
@@ -89,7 +89,7 @@ export function color<TProps extends ThemeProps>(path: ColorString, opacity?: nu
     if (__DEVELOPMENT__ && (found === null || found === undefined)) {
       throw new Error(`referenced undefined color "${path}"`);
     }
-    if (opacity) {
+    if (opacity !== undefined) {
       return rgba(found, opacity);
     }
     return found;

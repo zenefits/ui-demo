@@ -14,8 +14,8 @@ to be helpful.
 From an implementation perspective, there are three main ways to achieve responsiveness:
 
 - Using responsive props such as `width`, `fontStyle`, `margin`, and `padding`
-- Using [RenderFor](#!/RenderFor) to only render content at specified breakpoints
-- Using [HideFor](#!/HideFor) to hide content at specified breakpoints
+- Using [Render](#!/Render) to only render content at specified breakpoints
+- Using [Hide](#!/Hide) to hide content at specified breakpoints
 
 All three operate in basically the same way, using an array whose entries correspond to the breakpoints above.
 For example, here's how you can use `width` responsively:
@@ -47,27 +47,27 @@ Here's an illustrative (but not very representative) example using the `bg` prop
 </Box>
 ```
 
-Similarly, this is how `RenderFor` and its `breakpoints` prop work (resize page to see changes):
+Similarly, this is how `Render` and its `forBreakpoints` prop work (resize page to see changes):
 
 ```jsx
-<RenderFor breakpoints={[true]}>
+<Render forBreakpoints={[true]}>
   <Box mb={2}><Icon size="large" mr={1} iconName="smartphone" /> Phone  &lt; 512px</Box>
   <code>{`breakpoints={[true]}`}</code>
-</RenderFor>
-<RenderFor breakpoints={[false, true]}>
+</Render>
+<Render forBreakpoints={[false, true]}>
   <Box mb={2}><Icon size="xlarge" mr={1} iconName="tablet-mac" /> Tablet (portrait)  ≥ 512px &lt; 768px</Box>
   <code>{`breakpoints={[false, true]}`}</code>
-</RenderFor>
-<RenderFor breakpoints={[false, false, true]}>
+</Render>
+<Render forBreakpoints={[false, false, true]}>
   <Box mb={2}><Icon size="xlarge" mr={1} iconName="tablet" /> Tablet (landscape)  ≥ 768px &lt; 1024px</Box>
   <code>{`breakpoints={[false, false, true]}`}</code>
-</RenderFor>
-<RenderFor breakpoints={[false, false, false, true]}>
+</Render>
+<Render forBreakpoints={[false, false, false, true]}>
   <Box mb={2}><Icon size="xxlarge" mr={1} iconName="desktop-mac" /> Laptop  ≥ 1024px &lt; 1280px</Box>
   <code>{`breakpoints={[false, false, false, true]}`}</code>
-</RenderFor>
-<RenderFor breakpoints={[false, false, false, false, true]}>
+</Render>
+<Render forBreakpoints={[false, false, false, false, true]}>
   <Box mb={2}><Icon size="xxlarge" mr={1} iconName="desktop-mac" /> Laptop (Large)  ≥ 1280px</Box>
   <code>{`breakpoints={[false, false, false, false, true]}`}</code>
-</RenderFor>
+</Render>
 ```

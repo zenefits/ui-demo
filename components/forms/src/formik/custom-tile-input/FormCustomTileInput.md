@@ -26,5 +26,5 @@ Wraps the [HTML `<input>` element](https://developer.mozilla.org/en-US/docs/Web/
 
 #### Related
 
-- [Form.RadioGroup](#!/Form.RadioGroup)
-- [Form.CheckboxGroup](#!/Form.CheckboxGroup)
+- [FormRadioGroup](#!/FormRadioGroup)
+- [FormCheckboxGroup](#!/FormCheckboxGroup)

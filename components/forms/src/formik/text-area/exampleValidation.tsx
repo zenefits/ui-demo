@@ -3,7 +3,7 @@ import React from 'react';
 import { Flex } from 'zbase';
 import { Button } from 'z-frontend-elements';
 
-import { Form } from '../Form';
+import { Form, FormTextarea } from '../../..';
 
 export default () => (
   <Form
@@ -23,7 +23,7 @@ export default () => (
     {props => {
       return (
         <>
-          <Form.Textarea
+          <FormTextarea
             name="description"
             label="Description"
             // trigger validation immediately:

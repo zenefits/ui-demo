@@ -19,25 +19,22 @@ const MobileTopBar = styled(Box)`
 
 type StepState = 'active' | 'disabled' | 'complete' | 'ready';
 
-const stepStateContentMap = {
+const stepStateContentMap: { [state in StepState]: any } = {
   complete: icon('check'),
   disabled: icon('lock-outline'),
   active: '',
   ready: '',
 };
 const StepContainer = styled(Box)<{ stepState: StepState }>`
-
-      
   padding-left: 15px;
   position: relative;
-  
 
   ::before {
-    border-left: ${props => (props.stepState === 'active' ? `2px solid ${getColor('primary.a')}` : 'none')};    
+    border-left: ${props => (props.stepState === 'active' ? `2px solid ${getColor('primary.a')}` : 'none')};
     font-family: ${props =>
       props.stepState === 'complete' || props.stepState === 'disabled' ? 'Material-Design-Iconic-Font' : 'inherit'};
     margin-left: -15px;
-    content: '${props => stepStateContentMap[props.stepState]}';
+    content: '${props => stepStateContentMap[props.stepState as StepState]}';
     position: absolute;
     top: 0;
     bottom: 0;
@@ -46,9 +43,9 @@ const StepContainer = styled(Box)<{ stepState: StepState }>`
 `;
 
 /* display: ${props => (props.isOpen ? 'block' : 'none')}; */
-const NavContainerWrapper = styled<BoxProps & { isOpen?: boolean }>(Box)`
+const NavContainerWrapper = styled(Box)<BoxProps & { isOpen?: boolean }>`
   @media screen and (max-width: ${p => p.theme.breakpoints[1]}em) {
-    bottom: calc(100vh - ${props => props.theme.topNavHeight});
+    bottom: calc(100vh - ${props => props.theme.topNavHeightContainer});
     transition: bottom 0.3s ease-in-out;
     top: 0;
     position: absolute;
@@ -57,10 +54,11 @@ const NavContainerWrapper = styled<BoxProps & { isOpen?: boolean }>(Box)`
   }
 `;
 
-const NavContainer = styled<BoxProps & { isOpen?: boolean }>(Box)`
+const NavContainer = styled(Box)<BoxProps & { isOpen?: boolean }>`
   @media screen and (max-width: ${p => p.theme.breakpoints[1]}em) {
-    height: calc(100vh - ${props => props.theme.topNavHeight});
-    top: ${props => (props.isOpen ? 0 : `calc(${props.theme.topNavHeight} - 100vh)`)};
+    height: calc(100vh - ${props => props.theme.topNavHeightContainer});
+    /* height - topNavHeight = -100vh */
+    top: ${props => (props.isOpen ? 0 : '-100vh')};
     transition: top 0.3s ease-in-out;
     background-color: ${color('grayscale.g')};
     position: absolute;
@@ -120,7 +118,8 @@ class WizardSideNav extends Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
+  // tslint:disable-next-line:function-name
+  UNSAFE_componentWillReceiveProps(nextProps: Props) {
     const currentSection = nextProps.sections.find(sec => sec.isCurrent);
 
     if (currentSection && currentSection.path !== this.state.expandedSectionPath) {
@@ -129,11 +128,14 @@ class WizardSideNav extends Component<Props, State> {
       });
     }
   }
+
   onClickSection(e: React.MouseEvent<HTMLAnchorElement>, sectionPath: string) {
     e.preventDefault();
-    const newSectionPath = this.state.expandedSectionPath === sectionPath ? null : sectionPath;
-    this.setState({
-      expandedSectionPath: newSectionPath,
+    this.setState(prevState => {
+      const newSectionPath = prevState.expandedSectionPath === sectionPath ? null : sectionPath;
+      return {
+        expandedSectionPath: newSectionPath,
+      };
     });
   }
   // onClickStep(e: React.MouseEvent<HTMLAnchorElement>, step: WizardStep, section: WizardSection) {
@@ -201,7 +203,7 @@ class WizardSideNav extends Component<Props, State> {
                         to={this.props.wizardPath + section.path}
                         // completed={section.isComplete}
                         // active={section.isCurrent}
-                        onClick={e => this.onClickSection(e, section.path)}
+                        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => this.onClickSection(e, section.path)}
                         fontStyle="controls.m"
                       >
                         {section.title} ({completedSteps}/{totalSteps})

@@ -17,11 +17,11 @@ storiesOf('forms|OpenListSelect', module)
   ))
   .add('default', () => (
     <OpenListSelect<string> name="Fruit" label="Fruit" getOptionText={o => o}>
-      {({ SelectOption }) => fruits.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
+      {({ SelectOption }) => fruits.map(fruit => <SelectOption option={fruit} key={fruit} />)}
     </OpenListSelect>
   ))
   .add('loading', () => (
     <OpenListSelect<string> name="Fruit" label="Fruit" height={240} loading getOptionText={o => o}>
-      {({ SelectOption }) => fruits.map((fruit, i) => <SelectOption option={fruit} key={i} />)}
+      {({ SelectOption }) => fruits.map(fruit => <SelectOption option={fruit} key={fruit} />)}
     </OpenListSelect>
   ));

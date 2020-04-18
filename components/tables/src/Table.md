@@ -1,4 +1,6 @@
-Use tables to display tabular data in a two-dimensional grid consisting of rows and columns.
+A component that displays tabular data in a two-dimensional grid consisting of rows and columns.
+
+#### Examples
 
 A `Table` consists of:
 
@@ -41,7 +43,7 @@ A `Table` consists of:
 </Table>
 ```
 
-#### Width
+##### Width
 
 By default, tables have 100% width. Use the `width` prop to override this for tables with limited content.
 
@@ -62,7 +64,7 @@ By default, tables have 100% width. Use the `width` prop to override this for ta
 </Table>
 ```
 
-#### Alignment
+##### Alignment
 
 Columns are left aligned by default. To enhance readability, use right alignment for numeric columns and data.
 
@@ -92,7 +94,13 @@ Buttons should also be right aligned and do not require a column label.
 </Table>
 ```
 
-#### Sortable tables
+#### Usage
+
+- DO NOT USE if row selection is needed. Use DataTable which has row selection built-in.
+
+#### Implementation Notes
+
+##### Sortable tables
 
 Use the `Table.SortableHeaderCell` component to build sortable tables. The current convention is for sort params to be stored in url's query and for the consumer to implement the filtering and sorting but this should be improved upon.
 
@@ -104,3 +112,4 @@ See [example](http://ui.zenefits.com/app/stories/?selectedKind=tables|Table&sele
 - [Table.CheckboxCell](#!/Table.CheckboxCell) Renders a cell containing a single checkbox.
 - [Table.HeaderCell](#!/Table.HeaderCell) Base styling for a header cell along with options to show a tooltip or icon.
 - [Table.SortableHeaderCell](#!/Table.SortableHeaderCell) Header cell used for building sortable tables.
+- [DataTable](#!/DataTable)

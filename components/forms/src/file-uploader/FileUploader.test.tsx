@@ -3,8 +3,8 @@ import 'jest-styled-components';
 import Dropzone from 'react-dropzone';
 
 import 'z-frontend-jest/modified-jest-styled-components';
-import { mountWithTheme, renderWithTheme } from 'z-frontend-theme/test-utils/theme';
-import { mountWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
+import { mountEnzymeWithTheme, renderEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithThemeIntl, renderEnzymeWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
 import { getColor } from 'z-frontend-theme';
 
 import FileUploader from './FileUploader';
@@ -25,7 +25,7 @@ function getFetchMock() {
   });
   const fetch = jest.fn(() => {
     setTimeout(fetchDoneFn, 100);
-    return '{ "sdfsd": "dsfsd" }';
+    return Promise.resolve('{ "sdfsd": "dsfsd" }');
   });
   return { fetch, fetchDonePromise };
 }
@@ -34,46 +34,48 @@ describe('FileUploader', () => {
   const file = createFile();
 
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<FileUploader />)).toHaveLength(1);
+    expect(mountEnzymeWithTheme(<FileUploader />)).toHaveLength(1);
   });
 
   it('should render a link if prop isLink is passed in', () => {
-    const rendered = renderWithTheme(<FileUploader isLink />).find('a');
+    const rendered = renderEnzymeWithTheme(<FileUploader isLink />).find('button');
     expect(rendered).toHaveLength(1);
     expect(rendered.text().trim()).toBe('Browse Files');
   });
 
   it('should ultimately render an input with type=file', () => {
-    const rendered = renderWithTheme(<FileUploader />).find('input');
+    const rendered = renderEnzymeWithTheme(<FileUploader />).find('input');
     expect(rendered).toHaveLength(1);
     expect(rendered.attr('type')).toBe('file');
   });
 
   it('should accept only the type of files given through the acceptedFileTypes prop', () => {
-    const rendered = renderWithTheme(<FileUploader acceptedFileTypes={['image', 'pdf']} />).find('input');
+    const rendered = renderEnzymeWithTheme(<FileUploader acceptedFileTypes={['image', 'pdf']} />).find('input');
     expect(rendered.attr('accept')).toBe('image/*,application/pdf');
   });
 
   it('should apply the dragStyle if isDragActive', () => {
-    const wrapper = mountWithTheme(<FileUploader />);
+    const wrapper = mountEnzymeWithThemeIntl(<FileUploader />);
     wrapper.setState({ isDragActive: true });
 
     expect(wrapper.find(Dropzone)).toHaveStyleRule('background-color', `${getColor('grayscale.g')}`);
     expect(wrapper.find(Dropzone)).toHaveStyleRule('border-color', `${getColor('secondary.b')}`);
   });
 
-  it('should acceptFiles on Drop', done => {
+  it('should accept files on drop', done => {
     const { fetch, fetchDonePromise } = getFetchMock();
 
-    const wrapper = mountWithTheme(<FileUploader internalFetch={fetch} />);
+    const wrapper = mountEnzymeWithThemeIntl(<FileUploader internalFetch={fetch} />);
     wrapper.find(Dropzone).simulate('drop', { dataTransfer: { files: [file] } });
     expect(wrapper.state().fileList.length).toBe(1);
 
-    fetchDonePromise.then(() => {
-      expect(fetch).toHaveBeenCalled();
-      expect(fetch.mock.calls.length).toBe(3);
-      done();
-    });
+    return fetchDonePromise
+      .then(() => {
+        expect(fetch).toHaveBeenCalled();
+        expect(fetch.mock.calls.length).toBe(3);
+        done();
+      })
+      .catch(done);
   });
 
   it('should reject files that exceed the maximum file size', () => {
@@ -81,7 +83,7 @@ describe('FileUploader', () => {
     const onError = jest.fn();
 
     const fileWithSize = createFile(100000000000000000000000);
-    const wrapper = mountWithTheme(<FileUploader onError={onError} maxFileSize={0} internalFetch={fetch} />);
+    const wrapper = mountEnzymeWithThemeIntl(<FileUploader onError={onError} maxFileSize={0} internalFetch={fetch} />);
     wrapper.find(Dropzone).simulate('drop', { dataTransfer: { files: [fileWithSize] } });
 
     expect(onError).toHaveBeenCalled();
@@ -91,7 +93,7 @@ describe('FileUploader', () => {
   it('should show an error if the number of files dropped is more than maxFiles', () => {
     const { fetch } = getFetchMock();
 
-    const wrapper = mountWithThemeIntl(<FileUploader maxFiles={2} internalFetch={fetch} />);
+    const wrapper = mountEnzymeWithThemeIntl(<FileUploader maxFiles={2} internalFetch={fetch} />);
     wrapper.find(Dropzone).simulate('drop', { dataTransfer: { files: [file, file, file, file] } });
 
     expect(wrapper.state().fileList.length).toBe(0);
@@ -101,7 +103,7 @@ describe('FileUploader', () => {
   it('should append to the fileList if more items are dropped', () => {
     const { fetch } = getFetchMock();
 
-    const wrapper = mountWithThemeIntl(<FileUploader internalFetch={fetch} />);
+    const wrapper = mountEnzymeWithThemeIntl(<FileUploader internalFetch={fetch} />);
     wrapper.find(Dropzone).simulate('drop', { dataTransfer: { files: [file] } });
     expect(wrapper.state().fileList.length).toBe(1);
     wrapper.setState({ isUploading: false });
@@ -124,7 +126,7 @@ describe('FileComponentItem', () => {
   const removeFile = jest.fn();
 
   it('should render the name of the file and format it correctly', () => {
-    const rendered = renderWithTheme(<FileComponentItem file={fakeFile} removeFile={removeFile} />);
+    const rendered = renderEnzymeWithThemeIntl(<FileComponentItem file={fakeFile} removeFile={removeFile} />);
     expect(
       rendered
         .text()
@@ -134,7 +136,7 @@ describe('FileComponentItem', () => {
   });
 
   it('should render a progress bar if prop isUploading is passed in', () => {
-    const rendered = renderWithTheme(
+    const rendered = renderEnzymeWithThemeIntl(
       <FileComponentItem file={fakeFileWithProgress} removeFile={removeFile} isUploading />,
     );
     expect(rendered.find('progress')).toHaveLength(1);
@@ -148,7 +150,7 @@ describe('FileComponentItem', () => {
   });
 
   it('should format the size display correctly', () => {
-    const rendered = renderWithTheme(
+    const rendered = renderEnzymeWithThemeIntl(
       <FileComponentItem file={fakeFile} removeFile={removeFile} isUploading isNumberProgress />,
     );
 
@@ -160,12 +162,12 @@ describe('FileComponentItem', () => {
     ).toBe(true);
   });
 
-  it('shouldshow the right error state if there is an error', () => {
+  it('should show the right error state if there is an error', () => {
     const fakeFileWithProgressAndError = {
       ...fakeFileWithProgress,
       hasError: 'THERE IS AN ERROR',
     };
-    const wrapper = mountWithThemeIntl(
+    const wrapper = mountEnzymeWithThemeIntl(
       <FileComponentItem file={fakeFileWithProgressAndError} removeFile={removeFile} isUploading isNumberProgress />,
     );
     expect(wrapper.find('ProgressBar')).toHaveStyleRule('color', `${getColor('negation.b')}`);

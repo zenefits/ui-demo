@@ -19,7 +19,7 @@ Custom rendered options:
 #### Usage
 
 - USE when user will select multiple options from a list of options
-- If the number of options is small, consider using [Form.CheckboxGroup](#!/Form.CheckboxGroup) instead
+- If the number of options is small, consider using [FormCheckboxGroup](#!/FormCheckboxGroup) instead
 
 #### Content Guidelines
 
@@ -59,5 +59,5 @@ handled externally as well.
 
 #### Related
 
-- [Form.Select](#!/Form.SearchSelect)
-- [Form.CheckboxGroup](#!/Form.CheckboxGroup)
+- [FormSelect](#!/FormSelect)
+- [FormCheckboxGroup](#!/FormCheckboxGroup)

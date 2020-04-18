@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormTextarea } from '../../..';
 
 const initialValues = { description: 'Annual self review' };
 
 export default () => (
   <Form initialValues={initialValues} onSubmit={() => {}}>
-    <Form.Textarea name="description" label="Description" autoGrow />
+    <FormTextarea name="description" label="Description" autoGrow />
   </Form>
 );

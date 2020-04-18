@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { sortBy, ListIteratee } from 'lodash';
 
 export interface SortConfig {
   [propName: string]: {
@@ -12,8 +12,22 @@ export const doSort = <T>(items: T[], sortConfig: SortConfig): T[] => {
     return items;
   }
 
-  const sortedItems = _.sortBy(items, sortConfig[0].key);
-  return sortConfig[0].isAscending ? sortedItems : sortedItems.reverse();
+  // Currently only support sorting by one key.
+  const { key, isAscending } = sortConfig[0];
+
+  const iteratee: ListIteratee<T> = (item: T) => {
+    const value = item[key as keyof T];
+    if (typeof value === 'string') {
+      // For string, we sort case-insensitively
+      return value.toLowerCase();
+    } else {
+      return value;
+    }
+  };
+
+  const sortedItems = sortBy(items, iteratee);
+
+  return isAscending ? sortedItems : sortedItems.reverse();
 };
 
 // currently not using previous sortConfig, but might be useful in the future

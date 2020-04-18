@@ -17,9 +17,9 @@ const RowHeader: StatelessComponent<RowHeaderProps> = ({ heading, metadata, ...p
 );
 
 type AvatarCellProps = {
-  /** First name rendered in the cell. Also used for avatar initial if no image is passed in avatarProps*/
+  /** First name rendered in the cell. Also used for avatar initial if no image is passed in avatarProps */
   firstName: string;
-  /** Last name rendered in the cell. Also used for avatar initial if no image is passed in avatarProps*/
+  /** Last name rendered in the cell. Also used for avatar initial if no image is passed in avatarProps */
   lastName: string;
   /** Metadata which is rendered below the name in the call ex: department of an employee */
   metadata?: string;

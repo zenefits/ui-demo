@@ -112,14 +112,14 @@ stories.add('all', () => (
     <Flex mb={3}>
       <Flex column mr={2}>
         Original FormattedRelative
-        {timeProps.map((props, i) => (
-          <FormattedRelative key={i} initialNow={initialNow} {...props} />
+        {timeProps.map(props => (
+          <FormattedRelative key={props.value.toString()} initialNow={initialNow} {...props} />
         ))}
       </Flex>
       <Flex column>
         RelativeDate component
-        {timeProps.map((props, i) => (
-          <RelativeText key={i} initialNow={initialNow} {...props} bg="affirmation.c" />
+        {timeProps.map(props => (
+          <RelativeText key={props.value} initialNow={initialNow} {...props} bg="affirmation.c" />
         ))}
       </Flex>
     </Flex>
@@ -127,14 +127,21 @@ stories.add('all', () => (
     <Flex mb={5}>
       <Flex column mr={2}>
         Original FormattedNumber
-        {numberProps.map((props, i) => (
-          <FormattedNumber key={i} {...props} />
+        {numberProps.map(props => (
+          <FormattedNumber
+            key={`${props.value}-${props.style}-${props.currency}-${props.currencyDisplay}`}
+            {...props}
+          />
         ))}
       </Flex>
       <Flex column>
         NumberText component numberProps
-        {numberProps.map((props, i) => (
-          <NumberText key={i} {...props} bg="affirmation.c" />
+        {numberProps.map(props => (
+          <NumberText
+            key={`${props.value}-${props.style}-${props.currency}-${props.currencyDisplay}`}
+            {...props}
+            bg="affirmation.c"
+          />
         ))}
       </Flex>
     </Flex>

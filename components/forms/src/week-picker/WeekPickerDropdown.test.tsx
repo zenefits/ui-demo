@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import WeekPickerDropdown from './WeekPickerDropdown';
 import { clickADay, clickButton } from '../testUtils';
@@ -14,11 +14,11 @@ const date = new Date(dateString);
 
 describe('WeekPickerDropdown', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<WeekPickerDropdown />)).toHaveLength(1);
+    expect(mountEnzymeWithTheme(<WeekPickerDropdown />)).toHaveLength(1);
   });
 
   it('should show caption', () => {
-    const wrapper = mountWithTheme(<WeekPickerDropdown />);
+    const wrapper = mountEnzymeWithTheme(<WeekPickerDropdown />);
 
     clickButton(wrapper);
 
@@ -28,7 +28,7 @@ describe('WeekPickerDropdown', () => {
   it('should invoke callback on week select', () => {
     const weekSelectHandler = jest.fn();
 
-    const wrapper = mountWithTheme(<WeekPickerDropdown selectedWeek={date} onWeekSelect={weekSelectHandler} />);
+    const wrapper = mountEnzymeWithTheme(<WeekPickerDropdown selectedWeek={date} onWeekSelect={weekSelectHandler} />);
 
     clickButton(wrapper);
 

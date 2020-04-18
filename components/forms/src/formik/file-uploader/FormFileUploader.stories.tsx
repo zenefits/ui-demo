@@ -4,8 +4,20 @@ import { Box, TextBlock } from 'zbase';
 import { Button, Link } from 'z-frontend-elements';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Form } from '../Form';
+import { Form, FormFileUploader } from '../../..';
 import { fakeFetch } from '../../file-uploader/fakeFetchUtil';
+import { FileResponse } from '../../file-uploader/fileUtil';
+
+// File doesn't support spread operator
+const existingFile: FileResponse = {
+  file: new File(['This is my file content'], 'testFile.txt'),
+  fileName: 'testFile',
+  randomKey: 'foo',
+  fileId: '123',
+  fullFileUrl: 'http://localhost/foo',
+  fileUrl: 'localhost/foo',
+  uploadUrl: 'localhost/upload',
+};
 
 storiesOf('forms|Form.FileUploader', module)
   .addDecorator((getStory: Function) => (
@@ -15,7 +27,7 @@ storiesOf('forms|Form.FileUploader', module)
   ))
   .add('default', () => (
     <Form onSubmit={() => {}} initialValues={{ uploader: [] }}>
-      <Form.FileUploader name="uploader" label="Upload Your File" internalFetch={fakeFetch} />
+      <FormFileUploader name="uploader" label="Upload Your File" internalFetch={fakeFetch} />
     </Form>
   ))
   .add('with validation', () => (
@@ -35,7 +47,7 @@ storiesOf('forms|Form.FileUploader', module)
     >
       {props => (
         <>
-          <Form.FileUploader name="uploader" label="Upload Your File" internalFetch={fakeFetch} />
+          <FormFileUploader name="uploader" label="Upload Your File" internalFetch={fakeFetch} />
           <Button
             type="submit"
             mode="primary"
@@ -52,16 +64,14 @@ storiesOf('forms|Form.FileUploader', module)
   ))
   .add('with additionalInformation prop', () => (
     <Form onSubmit={() => {}} initialValues={{ uploader: [] }}>
-      <Form.FileUploader
+      <FormFileUploader
         name="uploader"
         label="Upload your file"
         internalFetch={fakeFetch}
         additionalInformation={
           <TextBlock>
             <Link
-              href={
-                'https://zenefits.s3.amazonaws.com/media/plandetails/United/United_HMO%20Platinum%20Select%2020-10.pdf'
-              }
+              href="https://zenefits.s3.amazonaws.com/media/plandetails/United/United_HMO%20Platinum%20Select%2020-10.pdf"
               download
             >
               Print document
@@ -70,5 +80,15 @@ storiesOf('forms|Form.FileUploader', module)
           </TextBlock>
         }
       />
+    </Form>
+  ))
+  .add('with existing files', () => (
+    <Form onSubmit={() => {}} initialValues={{ uploader: [existingFile] }}>
+      <FormFileUploader name="uploader" label="Upload your file" internalFetch={fakeFetch} />
+    </Form>
+  ))
+  .add('link', () => (
+    <Form onSubmit={() => {}} initialValues={{ uploader: [] }}>
+      <FormFileUploader name="uploader" label="Upload your file" internalFetch={fakeFetch} isLink />
     </Form>
   ));

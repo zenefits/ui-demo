@@ -96,7 +96,7 @@ class TableBulkSelectDropdown extends Component<TableBulkSelectDropdownProps, {}
                   color="tertiary.a"
                   iconName="minus-square"
                   mr={2}
-                  onClick={e => this.onClickMinusSquare()}
+                  onClick={() => this.onClickMinusSquare()}
                 />
                 <Box color="grayscale.c" mr={3}>
                   {numberOfSelected} selected

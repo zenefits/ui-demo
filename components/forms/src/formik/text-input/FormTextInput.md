@@ -4,8 +4,8 @@ A form component that accepts text input from the user.
 
 Typical usage:
 
-```jsx
-// loadExample('./exampleLabel')
+```jsx noeditor
+<StorybookExample selectedKind="forms|Form.TextInput" selectedStory="default" />
 ```
 
 With an initial value:
@@ -38,4 +38,4 @@ Wraps the [HTML `<input>` element](https://developer.mozilla.org/en-US/docs/Web/
 
 #### Related
 
-- [Form.Textarea](#!/Form.Textarea)
+- [FormTextarea](#!/FormTextarea)

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import HideFor from './HideFor';
+import Hide from './Hide';
 import { styled } from '../web/ThemeProvider';
 import { color } from '../utils';
 
@@ -11,8 +11,9 @@ const PaddedBox = styled.div`
 
 export default () => (
   <div>
-    <HideFor breakpoints={[true]}>
+    Should not see the below on mobile
+    <Hide forBreakpoints={[true]}>
       <PaddedBox>Hidden at breakpoint 0</PaddedBox>
-    </HideFor>
+    </Hide>
   </div>
 );

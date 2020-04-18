@@ -13,8 +13,8 @@ interface ReactComponentProps {
   toolbar: ReactNode;
 }
 
-// override default to put everything in a Card and opt into using viewCode when using embeded iframe
-// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/Playground/PlaygroundRenderer.js
+// override default to put everything in a Card and opt into using viewCode when using embedded iframe
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/Playground/PlaygroundRenderer.js
 class PlaygroundRenderer extends Component<ReactComponentProps> {
   render() {
     const {
@@ -40,13 +40,20 @@ class PlaygroundRenderer extends Component<ReactComponentProps> {
 
     return (
       <Box mb={4}>
-        <Card {...rest} mb={0} p={showViewCodeOption ? 4 : 0} className={EMBEDDED_STYLEGUIDE_EXAMPLE_CLASS}>
+        <Card
+          {...rest}
+          data-testid="PlaygroundRenderer"
+          mb={0}
+          p={showViewCodeOption ? 4 : 0}
+          className={EMBEDDED_STYLEGUIDE_EXAMPLE_CLASS}
+        >
           {preview}
         </Card>
         <>
           <Flex align="center">
             <Box>{tabButtons}</Box>
-            <Box>{toolbar}</Box>
+            {/* omit isolate button */}
+            {/* <Box>{toolbar}</Box> */}
           </Flex>
           <Box>{tabBody}</Box>
         </>

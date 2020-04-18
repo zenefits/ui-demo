@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+
 import Downshift from 'downshift';
 
 import { theme } from 'z-frontend-theme';
+import { Tethered, TetherComponentProps } from 'z-frontend-overlays';
 
 import {
   createSelectOptionInterface,
@@ -20,21 +21,19 @@ import {
   createMatchEmphasisHelper,
   getDropdownContent,
   makeGuardedGetOptionText,
+  KEY_CODES,
 } from '../select/utils';
 import { combineReducers, downshiftReducerCreators } from '../select/downshiftReducers';
 import SearchInput from './SearchInput';
 import { getErrorId, getLabelId } from '../formik/FormFieldWrapper';
-import Tethered from '../tethered/Tethered';
 
-type FunctionAsChild<OptionValue> = (
-  params: {
-    SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
-    SelectGroup?: React.ComponentClass<{ label: string }>;
-    inputValue: string;
-    basicOptionFilter: (options: OptionValue[]) => OptionValue[];
-    withMatchEmphasis: (text: string) => JSX.Element;
-  },
-) => React.ReactNode;
+type FunctionAsChild<OptionValue> = (params: {
+  SelectOption: React.ComponentClass<SelectOptionInterfaceProps<OptionValue>>;
+  SelectGroup?: React.ComponentClass<{ label: string }>;
+  inputValue: string;
+  basicOptionFilter: (options: OptionValue[]) => OptionValue[];
+  withMatchEmphasis: (text: string) => JSX.Element;
+}) => React.ReactNode;
 
 export type SharedSearchSelectProps<OptionValue> = {
   /**
@@ -115,6 +114,11 @@ export type SharedSearchSelectProps<OptionValue> = {
    * */
   omitIcon?: boolean;
 
+  /**
+   * Options to customize how dropdown is tethered to input
+   * */
+  tetherProps?: Partial<TetherComponentProps>;
+
   children: FunctionAsChild<OptionValue>;
 };
 
@@ -135,12 +139,17 @@ const DEFAULT_MAX_HEIGHT = 240;
 
 export class SearchSelect<OptionValue> extends Component<SearchSelectProps<OptionValue>, SearchSelectState> {
   tetherTarget: React.RefObject<HTMLDivElement>;
+
+  // This ref will be a button in the collapsed state and the input in the expanded state
+  inputRef = React.createRef<HTMLButtonElement | HTMLInputElement>();
+
   element: HTMLDivElement;
 
   static defaultProps: Partial<SearchSelectProps<any>> = {
     s: 'medium',
     maxDropdownHeight: DEFAULT_MAX_HEIGHT,
     renderLoading: defaultRenderLoading,
+    tetherProps: {},
   };
 
   constructor(props: SearchSelectProps<OptionValue>) {
@@ -166,6 +175,12 @@ export class SearchSelect<OptionValue> extends Component<SearchSelectProps<Optio
     this.setState({ isExpanded: false });
   };
 
+  componentDidUpdate(prevProps: SearchSelectProps<OptionValue>, prevState: SearchSelectState) {
+    if (prevState.isExpanded !== this.state.isExpanded) {
+      this.inputRef.current.focus();
+    }
+  }
+
   render() {
     const {
       name,
@@ -184,6 +199,7 @@ export class SearchSelect<OptionValue> extends Component<SearchSelectProps<Optio
       placeholder,
       defaultIsOpen,
       disabled,
+      tetherProps,
     } = this.props;
     const getOptionOrNullText = makeGuardedGetOptionText(getOptionText);
     return (
@@ -215,7 +231,7 @@ export class SearchSelect<OptionValue> extends Component<SearchSelectProps<Optio
             selectedItem,
             highlightedIndex,
             withMatchEmphasis,
-            getOptionText,
+            getOptionText: getOptionOrNullText,
             cb: () => {
               numRenderedOptions += 1;
             },
@@ -243,11 +259,25 @@ export class SearchSelect<OptionValue> extends Component<SearchSelectProps<Optio
               <div ref={this.tetherTarget}>
                 <SearchInput
                   {...getInputProps({
+                    onKeyUp: event => {
+                      if (event.key === 'Enter') {
+                        event.stopPropagation();
+                      }
+                    },
                     onBlur: () => {
-                      if (inputValue === '' && !alwaysExpandInput) {
+                      if (!inputValue && !alwaysExpandInput) {
                         this.collapseInput();
                       }
                       onBlur && onBlur(inputValue);
+                    },
+                    onKeyDown: event => {
+                      if (event.keyCode === KEY_CODES.ENTER && isOpen) {
+                        event.preventDefault();
+                      }
+
+                      if (event.keyCode === KEY_CODES.ESC) {
+                        this.inputRef.current.blur();
+                      }
                     },
                   })}
                   name={name}
@@ -260,10 +290,17 @@ export class SearchSelect<OptionValue> extends Component<SearchSelectProps<Optio
                   omitIcon={this.props.omitIcon}
                   placeholder={placeholder}
                   disabled={disabled}
+                  elementRef={this.inputRef}
+                  data-testid="search-select-input"
                 />
               </div>
               {shouldShowDropdown && (
-                <Tethered containerProps={{ zIndex: theme.zIndex.dropdown }} target={this.tetherTarget} matchWidth>
+                <Tethered
+                  containerProps={{ zIndex: theme.zIndex.dropdown }}
+                  target={this.tetherTarget}
+                  matchWidth
+                  {...tetherProps}
+                >
                   <SelectOptions role="listbox" position="static" maxHeight={maxDropdownHeight} s={size}>
                     {dropdownContent}
                   </SelectOptions>

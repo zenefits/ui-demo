@@ -1,4 +1,4 @@
-A variation of [Form.TextInput](Form.TextInput) that constrains user input. Useful for structured input like telephone numbers.
+A variation of [FormTextInput](FormTextInput) that constrains user input. Useful for structured input like telephone numbers.
 
 #### Examples
 
@@ -23,7 +23,7 @@ Uses the [text-mask](https://github.com/text-mask/text-mask/tree/master/react#re
 
 #### Related
 
-- [Form.TextInput](#!/Form.TextInput)
-- [Form.MoneyInput](#!/Form.MoneyInput)
-- [Form.NumberInput](#!/Form.NumberInput)
-- [Form.PercentageInput](#!/Form.PercentageInput)
+- [FormTextInput](#!/FormTextInput)
+- [FormMoneyInput](#!/FormMoneyInput)
+- [FormNumberInput](#!/FormNumberInput)
+- [FormPercentageInput](#!/FormPercentageInput)

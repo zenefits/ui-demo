@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 
-import { styled } from 'z-frontend-theme';
-import { space } from 'z-frontend-theme/utils';
-
 import { AppContentContainerBox, AppContentContainerBoxProps } from '../AppContentContainer';
 
 /** @component */
-const ProductPageContainerStyled = styled<AppContentContainerBoxProps>(AppContentContainerBox)`
-  padding-top: ${space(4)};
-  padding-bottom: ${space(4)};
-`;
-
 export default class ProductPageContainer extends Component<AppContentContainerBoxProps> {
+  static defaultProps = {
+    pt: 4,
+    pb: 4,
+  };
+
   render() {
-    const { children, ...rest } = this.props;
-    return <ProductPageContainerStyled {...rest}>{children}</ProductPageContainerStyled>;
+    return <AppContentContainerBox pl={0} {...this.props} />;
   }
 }

@@ -11,11 +11,25 @@ type FormRadioGroupProps = FormFieldProps & {
   name: string;
   /** The Form.Radio options to render. */
   children: React.ReactElement<FormRadio>[];
+  /** Test ID to find the group container in tests */
+  'data-testid'?: string;
+  /** Are all child radio inputs disabled? */
+  disabled?: boolean;
 };
 
 class FormRadioGroup extends Component<FormRadioGroupProps> {
   render() {
-    const { name, label, children, containerProps, optional, ...rest } = this.props;
+    const {
+      name,
+      label,
+      children,
+      containerProps,
+      optional,
+      helpText,
+      format,
+      'data-testid': dataTestId,
+      ...rest
+    } = this.props;
     return (
       <FieldArray
         name={name}
@@ -26,7 +40,9 @@ class FormRadioGroup extends Component<FormRadioGroupProps> {
             <FormFieldWrapper
               name={name}
               label={label}
+              helpText={helpText}
               error={error}
+              format={format}
               containerProps={containerProps}
               fieldType="radio"
               optional={optional}
@@ -35,6 +51,7 @@ class FormRadioGroup extends Component<FormRadioGroupProps> {
                 role="radiogroup"
                 aria-labelledby={getLabelId(name)}
                 aria-describedby={error ? getErrorId(name) : null}
+                data-testid={dataTestId}
               >
                 {React.Children.map(children, child => {
                   return React.cloneElement(child as React.ReactElement<any>, extraChildProps);

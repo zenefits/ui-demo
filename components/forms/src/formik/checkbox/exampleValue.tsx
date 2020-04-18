@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormCheckbox } from '../../..';
 
 export default () => (
   <Form initialValues={{ remember: true, twoFactor: false }} onSubmit={() => {}}>
-    <Form.Checkbox name="remember" label="Remember Me" />
-    <Form.Checkbox name="twoFactor" label="Two-Factor Auth" />
+    <FormCheckbox name="remember" label="Remember Me" />
+    <FormCheckbox name="twoFactor" label="Two-Factor Auth" />
   </Form>
 );

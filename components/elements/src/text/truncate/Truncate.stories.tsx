@@ -3,19 +3,10 @@ import React from 'react';
 import { Box, TextBlock } from 'zbase';
 
 import { storiesOf } from '../../../.storybook/storyHelpers';
-import { Link } from '../../../index';
 import Truncate from './Truncate';
 
 const defaultText =
-  'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?';
-
-function getCustomEllipsis() {
-  return (
-    <Link href="https://www.google.com/" target="_blank" fontSize__deprecated__doNotUse={0}>
-      Read more
-    </Link>
-  );
-}
+  'Uninitiated our because war, seven of and up, this relations the area objects little line it an gentlemen, over people I to our when table long both been have my of taken of move tag by the intention chance get the an his as the of bit real dresses getting self-interest. Caches I cheek, to smaller would of watching of chance display the said even feel the and space he could a all abundantly the it unavoidable, impatient my of human the this been to the offering point the that roman back traveler tones. Arranged kind lack good rain that.';
 
 storiesOf('elements|Truncate', module)
   .addDecorator((getStory: Function) => (
@@ -26,14 +17,15 @@ storiesOf('elements|Truncate', module)
   .add('default', () => <Truncate>{defaultText}</Truncate>)
   .add('alternative: TextBlock ellipsis', () => <TextBlock ellipsis>{defaultText}</TextBlock>)
   .add('centered', () => <Truncate textAlign="center">This is shorter to demonstrate centering.</Truncate>)
-  .add('specified number of lines', () => (
-    <Truncate lines={3} ellipsisText={getCustomEllipsis()}>
+  .add('custom ellipsis text', () => <Truncate ellipsisText="[...]">{defaultText}</Truncate>)
+  .add('lines', () => <Truncate lines={3}>{defaultText}</Truncate>)
+  .add('lines with custom ellipsis text', () => (
+    <Truncate lines={3} ellipsisText="[...]">
       {defaultText}
     </Truncate>
   ))
-  .add('custom ellipsis text', () => <Truncate ellipsisText={getCustomEllipsis()}>{defaultText}</Truncate>)
   .add('hide custom ellipsis on resize if the whole text fits', () => (
-    <Truncate ellipsisText={getCustomEllipsis()} isCustomEllipsisHiddenOnResize>
-      The custom ellipsis control will hide if you resize me to fit >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    <Truncate ellipsisText="[...]" isCustomEllipsisHiddenOnResize>
+      The custom ellipsis control will hide if you resize me to fit >>>>>>>>>>>>>>
     </Truncate>
   ));

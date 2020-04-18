@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box } from 'zbase';
+import { Example } from 'z-frontend-storybook-config';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
 import MentionTextarea from './MentionTextarea';
@@ -8,6 +9,14 @@ import MentionTextarea from './MentionTextarea';
 const text = `Hey [@234], can you take a look at this? [@4321] and [@11] will review once you are done.
 <p>I know that [@11] had concerns about the final section.
 I suggest we review that part thoroughly to avoid issues later on down the road. Please keep me updated.</p>`;
+
+const textWithNewlines = `Hey [@234], can you take a look at this? [@4321] and [@11] will review once you are done.
+
+I know that [@11] had concerns about the final section.
+I suggest we review that part thoroughly to avoid issues later on down the road.
+
+
+Please keep me updated.`;
 
 const options = [
   {
@@ -59,8 +68,20 @@ storiesOf('forms|MentionTextarea', module)
     </Box>
   ))
   .add('default', () => <MentionTextarea defaultValue="" options={options} />)
-  .add('lots of text', () => <MentionTextarea defaultValue={text} options={options} />)
-  .add('no options', () => <MentionTextarea defaultValue="Hello world!" options={[]} />)
+  .add('lots of text', () => (
+    <>
+      <Example label="Lots of text">
+        <MentionTextarea defaultValue={text} options={options} />
+      </Example>
+      <Example label="Text with newlines">
+        <MentionTextarea defaultValue={textWithNewlines} options={options} />
+      </Example>
+      <Example label="No options">
+        <MentionTextarea defaultValue="Hello world!" options={[]} />
+      </Example>
+    </>
+  ))
   .add('autofocus', () => <MentionTextarea autoFocus defaultValue="Hello world!" options={[]} />)
   .add('disabled', () => <MentionTextarea disabled defaultValue="Hello world!" options={[]} />)
-  .add('error', () => <MentionTextarea hasError defaultValue={text} options={options} />);
+  .add('error', () => <MentionTextarea hasError defaultValue={text} options={options} />)
+  .add('custom height', () => <MentionTextarea defaultValue="" height={150} options={options} />);

@@ -1,13 +1,13 @@
+/* eslint-disable prefer-destructuring */
 import React, { Component } from 'react';
 import { matchPath, withRouter, RouteComponentProps } from 'react-router-dom';
-import _ from 'lodash';
+import { cloneDeep, last } from 'lodash';
 
-import { LoadingSpinner } from 'z-frontend-elements';
+import { LoadingScreen, LoadingSpinner } from 'z-frontend-elements';
 import { Box, Flex } from 'zbase';
 import { styled } from 'z-frontend-theme';
 
 import { AppContentContainerFlex } from '../AppContentContainer';
-import { LoadingScreen } from '../../index';
 import WizardSideNav from './WizardSideNav';
 import { WizardFlowFragment, WizardSection, WizardServerState, WizardState, WizardStep } from './types';
 import markStepAsCurrent from './utils/markStepAsCurrent';
@@ -59,7 +59,7 @@ class Wizard extends Component<AllProps, Partial<WizardState>> {
     super(props);
 
     this.state = {
-      sectionsConfig: props.initialSectionsConfig ? _.cloneDeep(props.initialSectionsConfig) : [],
+      sectionsConfig: props.initialSectionsConfig ? cloneDeep(props.initialSectionsConfig) : [],
     };
   }
 
@@ -212,7 +212,8 @@ class Wizard extends Component<AllProps, Partial<WizardState>> {
     });
   }
 
-  componentWillReceiveProps(nextProps: AllProps) {
+  // tslint:disable-next-line:function-name
+  UNSAFE_componentWillReceiveProps(nextProps: AllProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
       this.onLocationChange(nextProps.location.pathname);
     }
@@ -225,7 +226,7 @@ class Wizard extends Component<AllProps, Partial<WizardState>> {
     transitionToOnComplete: string,
     sectionsConfigGenerator?: (serverState: WizardFlowFragment.Sections[]) => WizardSection[],
   ) {
-    const pathname = this.props.location.pathname;
+    const { pathname } = this.props.location;
 
     const { newWizardState, pathToPush } = await initState({
       sectionsConfig,
@@ -288,7 +289,7 @@ class Wizard extends Component<AllProps, Partial<WizardState>> {
     if (markStepAsComplete) {
       if (this.props.withServerState) {
         // reload server state
-        const pathname = this.props.location.pathname;
+        const { pathname } = this.props.location;
         const newData = await initState({
           pathname,
           wizardPath: this.props.wizardPath,
@@ -310,8 +311,7 @@ class Wizard extends Component<AllProps, Partial<WizardState>> {
       // go to next page (next step or final destination)
       const { wizardIsComplete, sections } = this.state;
       const isLastStep =
-        currentSection.path === _.last(sections).path &&
-        checkStepsMatchPaths(currentStep, _.last(_.last(sections).steps));
+        currentSection.path === last(sections).path && checkStepsMatchPaths(currentStep, last(last(sections).steps));
       if (wizardIsComplete && isLastStep) {
         // last step in wizard
 
@@ -388,8 +388,8 @@ class Wizard extends Component<AllProps, Partial<WizardState>> {
       return <LoadingScreen />;
     }
 
-    const wizardPath = this.props.wizardPath;
-    const sections = this.state.sections;
+    const { wizardPath } = this.props;
+    const { sections } = this.state;
     const currentPath = this.props.location.pathname;
     const currentSection = sections.find(s => s.isCurrent);
     const currentStep = currentSection.steps.find(s => s.isCurrent);
@@ -424,7 +424,7 @@ class Wizard extends Component<AllProps, Partial<WizardState>> {
         ) : (
           <Box w={[1, 1, 3 / 4, 10 / 12]} px={[1, 1, 3]}>
             <CurrentStepComponent
-              {...currentStep.props || {}}
+              {...(currentStep.props || {})}
               currentPath={currentPath}
               fullStepPath={fullStepPath}
               step={currentStep}

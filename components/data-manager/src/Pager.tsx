@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 
-import { Box, Flex, Icon, TextBlock } from 'zbase';
-import { Button } from 'z-frontend-elements';
-import { color } from 'z-frontend-theme/utils';
-import { styled } from 'z-frontend-theme';
+import { Box, Flex, TextBlock, TextInline } from 'zbase';
+import { IconButton } from 'z-frontend-elements';
 
 interface Props {
   onPageChange: (page: number) => void;
@@ -12,10 +10,6 @@ interface Props {
   totalItemsCount: number;
   s?: 'small' | 'medium' | 'large' | 'xsmall';
 }
-
-const StyledSpan = styled.span`
-  color: ${color('grayscale.d')};
-`;
 
 class Pager extends Component<Props> {
   onPageBackwards = () => {
@@ -31,9 +25,13 @@ class Pager extends Component<Props> {
   getItemRange = (currentPage: number, pageSize: number, totalItemsCount: number) => {
     const start = currentPage * pageSize - pageSize + 1;
     const end = Math.min(currentPage * pageSize, totalItemsCount);
+    const currentPageLabel = totalItemsCount > 0 ? `${start}-${end}` : '0';
     return (
-      <TextBlock my="auto">
-        {start}-{end} <StyledSpan>(of {totalItemsCount})</StyledSpan>
+      <TextBlock my="auto" color="text.light">
+        <TextInline bold color="text.dark">
+          {currentPageLabel}
+        </TextInline>{' '}
+        (of {totalItemsCount})
       </TextBlock>
     );
   };
@@ -42,22 +40,29 @@ class Pager extends Component<Props> {
     const { currentPage, pageSize, totalItemsCount, s: size = 'medium' } = this.props;
     return (
       <Flex align="center">
-        <Box order={[2, 1]} mr={[6, 2]} ml={[6, 0]}>
+        <Box order={[2, 1]} mr={[0, 3]} width={[1, 'auto']} textAlign={['center', 'right']}>
           {this.getItemRange(currentPage, pageSize, totalItemsCount)}
         </Box>
         <Box order={[1, 2]}>
-          <Button s={size} disabled={currentPage <= 1} onClick={this.onPageBackwards} mr={1}>
-            <Icon iconName="chevron-left" />
-          </Button>
+          <IconButton
+            iconName="chevron-left"
+            aria-label="Previous page"
+            mode="normal"
+            s={size}
+            disabled={currentPage <= 1}
+            onClick={this.onPageBackwards}
+            mr={2}
+          />
         </Box>
         <Box order={3}>
-          <Button
+          <IconButton
+            iconName="chevron-right"
+            aria-label="Next page"
+            mode="normal"
             s={size}
             disabled={currentPage >= Math.ceil(totalItemsCount / pageSize)}
             onClick={this.onPageForwards}
-          >
-            <Icon iconName="chevron-right" />
-          </Button>
+          />
         </Box>
       </Flex>
     );

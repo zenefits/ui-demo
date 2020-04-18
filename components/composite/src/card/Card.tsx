@@ -13,11 +13,15 @@ class Card extends React.Component<BoxProps> {
     border: true,
     mb: 3,
   };
+
   static Header = CardHeader;
+
   static Row = CardRow;
+
   static Footer = CardFooter;
+
   render() {
-    return <CardContainer {...this.props} />;
+    return <CardContainer data-testid="Card" {...this.props} />;
   }
 }
 

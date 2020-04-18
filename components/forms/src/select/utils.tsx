@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from 'lodash';
+import { flow, isEqual, isObject, values } from 'lodash';
 
 import { styled } from 'z-frontend-theme';
 import { color } from 'z-frontend-theme/utils';
@@ -19,7 +19,7 @@ type SelectControlKeyDownParams = {
 };
 
 export const getSelectControlKeyDown = ({ onClick, cb }: SelectControlKeyDownParams) => (e: any) => {
-  const keyCode = e.keyCode;
+  const { keyCode } = e;
   if (e.keyCode === KEY_CODES.ENTER) {
     onClick(e);
   } else if (e.keyCode === KEY_CODES.ESC) {
@@ -44,9 +44,10 @@ type Transformation = {
 };
 
 export const recursivelyTransformChildren = (children: React.ReactNode, transformations: Transformation[]) => {
-  const transform = _.flow(
+  const transform = flow(
     transformations.map(
       transformation =>
+        // eslint-disable-next-line func-names
         function(element: React.ReactElement<any>) {
           return transformation.condition(element) ? transformation.transformation(element) : element;
         },
@@ -55,7 +56,7 @@ export const recursivelyTransformChildren = (children: React.ReactNode, transfor
 
   const recurse = (children: React.ReactNode) => {
     return React.Children.map(children, child => {
-      if (!_.isObject(child)) return child;
+      if (!isObject(child)) return child;
 
       const childElement = child as React.ReactElement<any>;
       let transformedChild = transform(childElement);
@@ -74,15 +75,17 @@ const createStringChecker = (input: string) => (option: string | number) =>
     .toLowerCase()
     .includes(input.toLowerCase());
 
-export function createBasicOptionFilter<OptionValue>(inputValue: string) {
+export function createBasicOptionFilter<OptionValue>(inputValue: string | null) {
+  if (!inputValue) {
+    return (options: OptionValue[]) => options;
+  }
+
   const checkOptionString = createStringChecker(inputValue);
 
   return (options: OptionValue[]) => {
     return options.filter(option => {
-      if (!inputValue) {
-        return true;
-      } else if (typeof option === 'object') {
-        const searchable = _.values(option);
+      if (typeof option === 'object') {
+        const searchable = values(option);
         return searchable.some(checkOptionString);
       } else {
         return checkOptionString((option as any) as string);
@@ -94,7 +97,7 @@ export function createBasicOptionFilter<OptionValue>(inputValue: string) {
 export function createMultiOptionFilter<OptionValue>(inputValue: string, selectedItems: OptionValue[]) {
   const basicFilter = createBasicOptionFilter<OptionValue>(inputValue);
   return (options: OptionValue[]) => {
-    return basicFilter(options).filter(option => !selectedItems.includes(option));
+    return basicFilter(options).filter(option => !selectedItems.some(selectedItem => isEqual(option, selectedItem)));
   };
 }
 
@@ -114,7 +117,8 @@ const MatchCharacter = styled.span`
   color: ${color('grayscale.b')};
 `;
 
-export const createMatchEmphasisHelper = (inputValue: string) => (text: string) => {
+export const createMatchEmphasisHelper = (inputValueOrNull: string | null) => (text: string) => {
+  const inputValue = inputValueOrNull || '';
   const matchStart = text.toLowerCase().indexOf(inputValue.toLowerCase());
   const matchEnd = matchStart + inputValue.length;
   return (

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { identity } from 'lodash';
 import Downshift from 'downshift';
 
 import { theme } from 'z-frontend-theme';
+import { Tethered } from 'z-frontend-overlays';
 
 import {
   createSelectOptionInterface,
@@ -17,17 +18,14 @@ import { createCurrentWordFilter, createMatchEmphasisHelper, getDropdownContent 
 import { combineReducers, downshiftReducerCreators } from '../select/downshiftReducers';
 import Textarea from '../textarea/Textarea';
 import { getErrorId, getLabelId } from '../formik/FormFieldWrapper';
-import Tethered from '../tethered/Tethered';
 
-type FunctionAsChild = (
-  params: {
-    SelectOption: React.ComponentClass<{ option: string }>;
-    SelectGroup?: React.ComponentClass<{ label: string }>;
-    inputValue: string;
-    currentWordFilter: (suggestions: string[], waitForLength: number) => string[];
-    withMatchEmphasis: (text: string) => JSX.Element;
-  },
-) => React.ReactNode;
+type FunctionAsChild = (params: {
+  SelectOption: React.ComponentClass<{ option: string }>;
+  SelectGroup?: React.ComponentClass<{ label: string }>;
+  inputValue: string;
+  currentWordFilter: (suggestions: string[], waitForLength: number) => string[];
+  withMatchEmphasis: (text: string) => JSX.Element;
+}) => React.ReactNode;
 
 // Available on OpenListSelect and Form.OpenListSelect
 export type SharedTextareaTypeaheadProps = {
@@ -80,6 +78,7 @@ const DEFAULT_MAX_HEIGHT = 240;
 
 class TextareaTypeahead extends Component<TextareaTypeaheadProps> {
   tetherTarget: React.RefObject<HTMLDivElement>;
+
   element: HTMLDivElement;
 
   static defaultProps: Partial<TextareaTypeaheadProps> = {
@@ -121,7 +120,7 @@ class TextareaTypeahead extends Component<TextareaTypeaheadProps> {
     return (
       <Downshift
         inputValue={value}
-        itemToString={_.identity}
+        itemToString={identity}
         stateReducer={this.downshiftStateReducer}
         onInputValueChange={onChange}
         labelId={getLabelId(name)}
@@ -129,7 +128,7 @@ class TextareaTypeahead extends Component<TextareaTypeaheadProps> {
       >
         {({ getInputProps, getItemProps, inputValue, selectedItem, highlightedIndex, isOpen }) => {
           const OptionInterface = createSelectOptionInterface<string>();
-          const lastWord = this.getLastWord(inputValue || '').lastWord;
+          const { lastWord } = this.getLastWord(inputValue || '');
           const currentWordFilter = createCurrentWordFilter(lastWord);
           const withMatchEmphasis = createMatchEmphasisHelper(lastWord);
           const renderedChildren = this.props.children({
@@ -148,7 +147,7 @@ class TextareaTypeahead extends Component<TextareaTypeaheadProps> {
             selectedItem,
             highlightedIndex,
             withMatchEmphasis,
-            getOptionText: _.identity,
+            getOptionText: identity,
             cb: () => {
               numRenderedOptions += 1;
             },

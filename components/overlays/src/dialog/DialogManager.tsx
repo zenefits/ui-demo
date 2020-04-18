@@ -1,4 +1,4 @@
-import React, { Component, StatelessComponent } from 'react';
+import React, { Component } from 'react';
 
 export type DialogProps = {
   isVisible: boolean;
@@ -6,7 +6,6 @@ export type DialogProps = {
   close: () => Promise<{}>;
   controlEl: HTMLElement;
   setControlElement?: (source: any) => void;
-  IgnoreDialogUpdates?: StatelessComponent;
 };
 
 type DialogManagerProps = {
@@ -24,22 +23,7 @@ type DialogManagerProps = {
 export type DialogManagerState = {
   isDialogVisible: boolean;
   controlEl?: HTMLElement;
-  // We don't want setting control el to update content within IgnoreDialogUpdate
-  // controlElUpdateId can be used to determine if controlEl has been updated by setState
-  // (Can't compare values because controlEl may have been set to the same element)
-  controlElUpdateId?: number;
 };
-
-type UpdateGateProps = { shouldRerenderChildren: boolean };
-
-class UpdateGate extends Component<UpdateGateProps> {
-  shouldComponentUpdate(nextProps: UpdateGateProps) {
-    return nextProps.shouldRerenderChildren;
-  }
-  render() {
-    return this.props.children;
-  }
-}
 
 export class DialogManager extends Component<DialogManagerProps, DialogManagerState> {
   constructor(props: DialogManagerProps) {
@@ -47,20 +31,6 @@ export class DialogManager extends Component<DialogManagerProps, DialogManagerSt
     this.state = {
       isDialogVisible: !!props.openByDefault,
     };
-  }
-
-  dialogWasUpdated = false;
-
-  IgnoreDialogUpdates: StatelessComponent = ({ children }) => (
-    <UpdateGate shouldRerenderChildren={!this.dialogWasUpdated}>{children}</UpdateGate>
-  );
-
-  shouldComponentUpdate(nextProps: DialogManagerProps, nextState: DialogManagerState) {
-    this.dialogWasUpdated =
-      nextState.isDialogVisible !== this.state.isDialogVisible ||
-      nextState.controlElUpdateId !== this.state.controlElUpdateId;
-
-    return true;
   }
 
   open = (e?: any) =>
@@ -80,7 +50,6 @@ export class DialogManager extends Component<DialogManagerProps, DialogManagerSt
   setControlElement = (source: any) => {
     this.setState({
       controlEl: (source.target || source) as HTMLElement,
-      controlElUpdateId: Math.random(),
     });
   };
 
@@ -91,7 +60,6 @@ export class DialogManager extends Component<DialogManagerProps, DialogManagerSt
       close: this.close,
       controlEl: this.state.controlEl,
       setControlElement: this.setControlElement,
-      IgnoreDialogUpdates: this.IgnoreDialogUpdates,
     });
   }
 }

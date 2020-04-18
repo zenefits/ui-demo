@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import SignaturePad from 'signature_pad';
-import { ObjectOmit } from 'typelevel-ts';
 
 import { styled } from 'z-frontend-theme';
 import { Box, BoxProps, Flex } from 'zbase';
 import { color, radius, space } from 'z-frontend-theme/utils';
 import { IconButton } from 'z-frontend-elements';
 
-interface SignatureChange {
+import { validateSignature } from './signatureUtil';
+
+export type SignatureValue = {
   /** Signature image (in png format) as base 64 encoded data URL (https://mdn.io/todataurl). */
   dataUrl: string;
   /** Date the change happened. */
   date: Date;
-}
+  /** Whether the signature is valid. False if too small */
+  valid?: boolean;
+};
 
-type BoxFixedProps = ObjectOmit<BoxProps, 'width' | 'height'>;
+type BoxFixedProps = Omit<BoxProps, 'width' | 'height'>;
 
 export type SignatureProps = BoxFixedProps & {
   name?: string;
@@ -41,7 +44,7 @@ export type SignatureProps = BoxFixedProps & {
    */
   disabled?: boolean;
   /** Event handler for when the signature changes. */
-  onSignatureChange?: (signatureChange: SignatureChange) => void;
+  onSignatureChange?: (signatureChange: SignatureValue) => void;
   /** Event handler for when the signature is cleared. */
   onSignatureClear?: () => void;
   /**
@@ -97,6 +100,7 @@ const SignatureGuide = styled('div')`
 
 class Signature extends Component<SignatureProps> {
   canvas: React.RefObject<HTMLCanvasElement> = null;
+
   sigPad: SignaturePad = null;
 
   static defaultProps = {
@@ -127,10 +131,12 @@ class Signature extends Component<SignatureProps> {
       ? {
           dataUrl: '',
           date: null,
+          valid: false,
         }
       : {
           dataUrl: this.sigPad.toDataURL(), // should we trim whitespace from canvas? https://github.com/szimek/signature_pad/issues/49#issuecomment-260976909
           date: new Date(),
+          valid: validateSignature(this.sigPad.toData(), this.canvas.current.width, this.canvas.current.height),
         };
     this.props.onSignatureChange && this.props.onSignatureChange(onChangeData);
   };
@@ -140,16 +146,21 @@ class Signature extends Component<SignatureProps> {
     this.resizeCanvas();
     this.sigPad.clear();
     this.configureSignaturePad();
+
+    const { defaultSignatureImage } = this.props;
+    if (defaultSignatureImage) {
+      // only update on mount because treating as uncontrolled component
+      // (trying to control signature from outside can lead to multiple signatures on canvas)
+      this.sigPad.fromDataURL(defaultSignatureImage);
+    }
   }
 
   configureSignaturePad() {
-    const { onSignatureChange, defaultSignatureImage, disabled } = this.props;
+    const { onSignatureChange, disabled } = this.props;
     if (onSignatureChange) {
       this.sigPad.onEnd = this.onSignatureChange;
     }
-    if (defaultSignatureImage) {
-      this.sigPad.fromDataURL(defaultSignatureImage);
-    }
+
     if (disabled) {
       this.disable();
     } else {
@@ -218,7 +229,7 @@ class Signature extends Component<SignatureProps> {
           <StyledCanvas
             width={width}
             height={height}
-            innerRef={this.canvas as any} // until styled components 4
+            ref={this.canvas}
             aria-label={alt}
             role="img"
             // not much point in making canvas able to be focused

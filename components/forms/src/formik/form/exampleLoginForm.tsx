@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormCheckbox, FormSelectDeprecated, FormTextarea, FormTextInput } from '../../..';
 
 const loginOptions = [
   { value: 'login', label: 'Log in existing user' },
@@ -30,11 +30,11 @@ export default () => (
   >
     {props => (
       <>
-        <Form.SelectDeprecated name="type" options={loginOptions} />
-        <Form.TextInput name="email" type="email" label="Email" />
-        <Form.TextInput name="password" type="password" label="Password" />
-        <Form.Checkbox name="remember" label="Remember me" />
-        <Form.Textarea name="source" label="How did you hear about us?" />
+        <FormSelectDeprecated name="type" options={loginOptions} />
+        <FormTextInput name="email" type="email" label="Email" />
+        <FormTextInput name="password" type="password" label="Password" />
+        <FormCheckbox name="remember" label="Remember me" />
+        <FormTextarea name="source" label="How did you hear about us?" />
         <Form.Footer primaryText="Login" />
       </>
     )}

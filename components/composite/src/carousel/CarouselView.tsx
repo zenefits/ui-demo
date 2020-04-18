@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Swipeable from 'react-swipeable';
+import { Swipeable } from 'react-swipeable';
 
 import { Box } from 'zbase';
 import { styled } from 'z-frontend-theme';
@@ -15,8 +15,7 @@ const CarouselViewWrapper = styled(Box)`
   font-size: 0;
 `;
 
-const BoxWithPage = Box.extendProps<{ currentPage: number }>();
-const CarouselViewContainer = styled(BoxWithPage)`
+const CarouselViewContainer = styled<{ currentPage: number }>(Box)`
   transition: transform 0.4s ease 0s;
   transform: ${props => `translateX(${(props.currentPage - 1) * -100}%)`};
 
@@ -50,7 +49,7 @@ class CarouselView extends Component<CarouselViewProps> {
 
   render() {
     const {
-      items,
+      items = [],
       isEmpty,
       emptyRender,
       onSwipeLeft,
@@ -66,8 +65,8 @@ class CarouselView extends Component<CarouselViewProps> {
       <Swipeable trackMouse onSwipedLeft={onSwipeLeft} onSwipedRight={onSwipeRight} style={{ width: '100%' }}>
         <CarouselViewWrapper>
           <CarouselViewContainer currentPage={currentPage}>
-            {(items || []).map((item, i) => (
-              <CarouselItem key={i} width={`${itemWidth}%`}>
+            {items.map(item => (
+              <CarouselItem key={item.key} width={`${itemWidth}%`}>
                 {item}
               </CarouselItem>
             ))}

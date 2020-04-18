@@ -5,7 +5,8 @@ import { css, styled, theme } from 'z-frontend-theme';
 import { color, fontSizes, heights, radius, space } from 'z-frontend-theme/utils';
 import { Input as ZbaseInput, InputProps as ZbaseInputProps } from 'zbase';
 
-export type InputSize = 'small' | 'medium' | 'large'; // 'size' is taken and not compatible (number)
+import { sizeMap, InputSize } from './inputTypes';
+import InputWithPrefixSuffix from '../input-with-prefix-suffix/InputWithPrefixSuffix';
 
 export type CustomInputProps = {
   /**
@@ -18,35 +19,47 @@ export type CustomInputProps = {
    * @default false
    */
   hasError?: boolean;
+  /**
+   * Type of input (text, email, tel, etc)
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types
+   */
+  type?: string;
+  /**
+   * Align text to right, eg for numeric inputs in a table.
+   */
+  textAlignRight?: boolean;
+  /**
+   * custom prefix for the input eg: currency symbols
+   */
+  prefix?: string;
+  /**
+   * custom suffix for the input eg: percentage symbols
+   */
+  suffix?: string;
 };
+
+const horizontalPadding = '12px';
 
 export type InputProps = ZbaseInputProps & CustomInputProps;
 
-export const sizeMap: { [size in InputSize]: number } = {
-  small: 0,
-  medium: 1,
-  large: 2,
-};
-
-export const commonTextInputStyles: FlattenInterpolation<InputProps>[] = css`
-  font-size: ${props => fontSizes(sizeMap[props.s])};
+export const commonTextInputStyles: FlattenInterpolation<InputProps> = css`
+  font-size: ${(props: InputProps) => fontSizes(sizeMap[props.s])};
   font-weight: ${props => theme.weights[0]};
   border: 1px solid ${props => (props.hasError ? color('negation.a') : color('grayscale.f'))};
   border-radius: ${radius()};
   background-color: ${color('grayscale.white')};
   color: ${color('text.dark')};
-  padding-left: ${props => (props.s === 'small' ? space(2) : space(3))};
-  padding-right: ${props => (props.s === 'small' ? space(2) : space(3))};
+  padding-left: ${props => (props.s === 'small' ? space(2) : horizontalPadding)};
+  padding-right: ${props => (props.s === 'small' ? space(2) : horizontalPadding)};
   transition-property: box-shadow, border, background;
   transition-duration: 0.25s;
-
-  ::placeholder {
+  ${props => (props.textAlignRight ? 'text-align: right;' : '')} ::placeholder {
     color: ${color('text.off')};
   }
 
   :hover,
   :active {
-    border-color: ${props => (props.hasError ? color('negation.a') : color('grayscale.e'))};
+    border-color: ${(props: InputProps) => (props.hasError ? color('negation.a') : color('grayscale.e'))};
   }
 
   :focus {
@@ -68,7 +81,7 @@ export const commonTextInputStyles: FlattenInterpolation<InputProps>[] = css`
 
 const WrapperInput = ({ hasError, ...rest }: InputProps) => <ZbaseInput {...rest} />;
 
-const StyledInput = styled<InputProps>(WrapperInput)`
+const StyledInput = styled(WrapperInput)<InputProps>`
   ${commonTextInputStyles};
   height: ${props => heights(props.s)};
   line-height: 1.43;
@@ -84,12 +97,23 @@ class Input extends Component<InputProps> {
     // TODO: focus is broken due to bug in rebass
     // https://github.com/jxnblk/rebass/issues/329
     // this.input.focus();
-    // innerRef={el => (this.input = el)}
+    // ref={el => (this.input = el)}
   }
 
   render() {
-    const { s: size, hasError, ...rest } = this.props;
-    return <StyledInput s={size} aria-invalid={hasError ? true : null} hasError={hasError} {...rest} />;
+    const { s: size, hasError, prefix, suffix, ...rest } = this.props;
+    // This is needed as InputWithIcons children should be just inputs
+    const isInputWithPrefixSuffix = prefix || suffix;
+    const conditionalProps = {
+      'aria-invalid': hasError ? true : null,
+    };
+    return isInputWithPrefixSuffix ? (
+      <InputWithPrefixSuffix s={size} prefix={prefix} suffix={suffix}>
+        <StyledInput s={size} hasError={hasError} {...conditionalProps} {...rest} />
+      </InputWithPrefixSuffix>
+    ) : (
+      <StyledInput s={size} hasError={hasError} {...conditionalProps} {...rest} />
+    );
   }
 }
 

@@ -84,7 +84,7 @@ class CalendarMainContent<TCell, TRow extends { columns: TCell[] }, Source> exte
               const bgColor: ColorString = index % 2 ? colors.rowBgLight : colors.rowBgDark;
               return (
                 <CalendarRow<TCell, TRow>
-                  key={index}
+                  key={JSON.stringify(row)}
                   row={row}
                   cellTemplate={cellTemplate}
                   bgColor={bgColor}

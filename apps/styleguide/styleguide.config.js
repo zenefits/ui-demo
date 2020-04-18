@@ -1,11 +1,13 @@
 const path = require('path');
+const { withCustomConfig } = require('react-docgen-typescript');
 const {
   componentExportsMap,
   getComponentPathsFromPackageIndex,
   getPathFromPackage,
   loadExternalExamples,
+  componentStatus,
+  renameSubComponent,
 } = require('./config/styleguideHelpers');
-const { withCustomConfig } = require('react-docgen-typescript');
 
 const propsParserOptions = {
   // propFilter: {
@@ -17,7 +19,66 @@ const propsParserOptions = {
     const isAriaProp = props.name.startsWith('aria-'); // too many to show
     return !isAriaProp;
   },
+  savePropValueAsString: true, // see https://github.com/styleguidist/react-styleguidist/issues/1439
 };
+
+// for guides and examples for other components
+// after v9, RSG only puts current component in scope
+// do not put everything in context to avoid errors like `SyntaxError: Identifier 'Table' has already been declared`
+const componentsNeededGlobally = [
+  'Box',
+  'Button',
+  'Card',
+  'Form',
+  'Flex',
+  'Icon',
+  'NumberText',
+  'Render',
+  'Table',
+  'TextBlock',
+  'TextInline',
+];
+
+function getExampleContext() {
+  const map = Object.keys(componentStatus).reduce((memo, key) => {
+    if (componentsNeededGlobally.includes(key)) {
+      memo[key] = componentStatus[key].path; // eslint-disable-line no-param-reassign
+    }
+    return memo;
+  }, {});
+  return {
+    ...map,
+    ComponentStatus: require.resolve('./src/examples/ComponentStatus.tsx'),
+    ColorGuide: require.resolve('./src/examples/ColorGuide.tsx'),
+    IconGuide: require.resolve('./src/examples/IconGuide.tsx'),
+    TypographyGuide: require.resolve('./src/examples/TypographyGuide.tsx'),
+    ButtonGuide: require.resolve('./src/examples/ButtonGuide.tsx'),
+    SpacingGuide: require.resolve('./src/examples/SpacingGuide.tsx'),
+    BreakpointGuide: require.resolve('./src/examples/BreakpointGuide.tsx'),
+    DepthGuide: require.resolve('./src/examples/DepthGuide.tsx'),
+  };
+}
+
+const components = {
+  bootstrap: getComponentPathsFromPackageIndex('z-frontend-app-bootstrap'),
+  charts: getComponentPathsFromPackageIndex('z-frontend-charts'),
+  chat: getComponentPathsFromPackageIndex('z-frontend-chat'),
+  composites: getComponentPathsFromPackageIndex('z-frontend-composites'),
+  dataManager: getComponentPathsFromPackageIndex('z-frontend-data-manager'),
+  dragAndDrop: getComponentPathsFromPackageIndex('z-frontend-drag-and-drop'),
+  elements: getComponentPathsFromPackageIndex('z-frontend-elements'),
+  forms: getComponentPathsFromPackageIndex('z-frontend-forms'),
+  layout: getComponentPathsFromPackageIndex('z-frontend-layout'),
+  network: getComponentPathsFromPackageIndex('z-frontend-network'),
+  overlays: getComponentPathsFromPackageIndex('z-frontend-overlays'),
+  tables: getComponentPathsFromPackageIndex('z-frontend-tables'),
+  theme: getComponentPathsFromPackageIndex('z-frontend-theme'),
+  zbase: getComponentPathsFromPackageIndex('zbase'),
+};
+
+// so examples do not need to explicitly import common packages
+// note: this must come after creating `components` map
+const exampleContext = getExampleContext();
 
 module.exports = {
   title: 'Design System | Zenefits',
@@ -44,6 +105,7 @@ module.exports = {
   },
   ignore: ['**/*.test.{js,jsx,ts,tsx}', '**/*.stories.{js,jsx,ts,tsx}'],
   require: [path.resolve(__dirname, 'src/setup.ts')],
+  context: exampleContext,
   showUsage: true,
   pagePerSection: true,
   styleguideDir: 'dist', // build directory
@@ -63,17 +125,7 @@ module.exports = {
   updateExample: loadExternalExamples, // TODO: remove this once we switch all .md files away from using `loadExample`
   updateDocs(docs) {
     // show sub-components correctly in docs
-    // TODO: why is manual displayName on component not recognized?
-    if (/^Form[A-Z]/.test(docs.displayName)) {
-      // eslint-disable-next-line no-param-reassign
-      docs.displayName = docs.displayName.replace(/^Form/, 'Form.');
-    } else if (/^Chart[A-Z]/.test(docs.displayName)) {
-      // eslint-disable-next-line no-param-reassign
-      docs.displayName = docs.displayName.replace(/^Chart/, 'Chart.');
-    } else if (/^Table[A-Z]/.test(docs.displayName)) {
-      // eslint-disable-next-line no-param-reassign
-      docs.displayName = docs.displayName.replace(/^Table/, 'Table.');
-    }
+    docs.displayName = renameSubComponent(docs.displayName);
     return docs;
   },
   sections: [
@@ -97,6 +149,7 @@ module.exports = {
           content: './docs/component-status.md',
         },
       ],
+      sectionDepth: 0,
     },
     {
       name: 'Guides',
@@ -104,6 +157,10 @@ module.exports = {
         {
           name: 'Component Best Practices',
           content: '../../docs/component.md',
+        },
+        {
+          name: 'Coding Conventions',
+          content: '../../docs/coding-conventions.md',
         },
         {
           name: 'Design System Proposals',
@@ -130,6 +187,10 @@ module.exports = {
           content: '../../docs/storybook.md',
         },
         {
+          name: 'Deprecating Components',
+          content: '../../docs/deprecation.md',
+        },
+        {
           name: 'Testing',
           sections: [
             {
@@ -142,7 +203,7 @@ module.exports = {
             },
             {
               name: 'Cross Browser Testing',
-              content: '../../docs/vm.md',
+              content: '../../docs/cross-browser-testing.md',
             },
           ],
         },
@@ -151,6 +212,7 @@ module.exports = {
           content: '../../docs/uip-slas.md',
         },
       ],
+      sectionDepth: 1,
     },
     {
       name: 'Attributes',
@@ -180,69 +242,72 @@ module.exports = {
           content: './docs/depth.md',
         },
       ],
+      sectionDepth: 1,
     },
     {
       name: 'Components',
       sections: [
         {
           name: 'Chat',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-chat'),
+          components: () => components.chat,
         },
         {
           name: 'Charts',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-charts'),
+          components: () => components.charts,
         },
         {
           name: 'Composites',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-composites'),
+          components: () => components.composites,
         },
         {
           name: 'Data Manager',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-data-manager'),
+          components: () => components.dataManager,
         },
         {
           name: 'Drag and Drop',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-drag-and-drop'),
+          components: () => components.dragAndDrop,
         },
         {
           name: 'Elements',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-elements'),
+          components: () => components.elements,
         },
         {
           name: 'Forms',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-forms'),
+          components: () => components.forms,
         },
         {
           name: 'Layout',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-layout'),
+          components: () => components.layout,
         },
         {
           name: 'Overlays',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-overlays'),
+          components: () => components.overlays,
+        },
+        {
+          name: 'Network',
+          components: () => components.network,
         },
         {
           name: 'Tables',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-tables'),
+          components: () => components.tables,
         },
         {
           name: 'Theme',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-theme'),
+          components: () => components.theme,
         },
         {
           name: 'Utilities',
-          components: () => getComponentPathsFromPackageIndex('z-frontend-app-bootstrap'),
+          components: () => components.bootstrap,
         },
         {
           name: 'Zbase',
           content: getPathFromPackage('zbase', './docs/intro.md'),
-          components: () => getComponentPathsFromPackageIndex('zbase'),
+          components: () => components.zbase,
         },
       ],
+      sectionDepth: 2,
     },
   ],
-  editorConfig: {
-    theme: 'monokai', // default of base16-light has low contrast
-  },
   // allow template strings inside examples https://github.com/styleguidist/react-styleguidist/issues/720
   compilerConfig: {
     transforms: {
@@ -274,6 +339,7 @@ module.exports = {
   styleguideComponents: {
     Wrapper: path.join(__dirname, 'src/Wrapper'),
     StyleGuideRenderer: path.join(__dirname, 'src/components/StyleGuideRenderer'),
+    ComponentsList: path.join(__dirname, 'src/components/ComponentsList'),
     TableOfContentsRenderer: path.join(__dirname, 'src/components/TableOfContentsRenderer'),
     LinkRenderer: path.join(__dirname, 'src/components/LinkRenderer'),
     SectionHeadingRenderer: path.join(__dirname, 'src/components/SectionHeadingRenderer'),
@@ -281,10 +347,5 @@ module.exports = {
     ReactComponentRenderer: path.join(__dirname, 'src/components/ReactComponentRenderer'),
     TableRenderer: path.join(__dirname, 'src/components/TableRenderer'),
     PlaygroundRenderer: path.join(__dirname, 'src/components/PlaygroundRenderer'),
-  },
-  // Styleguidist puts all components in the global namespace, this causes an issue with heap-analytics since it overrides default window.Image
-  dangerouslyUpdateWebpackConfig(webpackConfig) {
-    webpackConfig.entry.push(path.join(__dirname, 'src/monkeyPatchImage'));
-    return webpackConfig;
   },
 };

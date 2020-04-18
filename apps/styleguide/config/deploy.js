@@ -15,10 +15,20 @@ function getDeployConfig(deployTarget) {
   ENV.build.environment = deployTarget;
 
   const customDomainUrl = ENV['github-deployment-status'].targetUrl.replace(
-    'beta.zenefits.com/app/styleguide',
+    'alpha.zenefits.com/app/styleguide',
     'ui.zenefits.com',
   );
   ENV['github-deployment-status'].targetUrl = customDomainUrl;
+
+  ENV.pipeline = {
+    alias: {
+      's3-index': undefined,
+    },
+  };
+  delete ENV['s3-unsupported'];
+  delete ENV['s3-django-partial'];
+  delete ENV['s3-assetMap'];
+
   return ENV;
 }
 

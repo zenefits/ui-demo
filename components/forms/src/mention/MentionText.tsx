@@ -16,7 +16,9 @@ type MentionOwnProps = {
 export type MentionProps = TextBlockProps & MentionOwnProps;
 
 // in the future, we may support types of mentions
-export const userMentionRegex = /(\[@\d+\])/g;
+export const userMentionRegex = /(\[@\w+\])/g;
+
+export const nonIDCharRegex = /\W/g;
 
 type SplitOptions = {
   usePlaceholders?: boolean;
@@ -30,15 +32,15 @@ export function splitIntoMentions(
   if (!text) {
     return [];
   }
-  return text.split(userMentionRegex).reduce((memo, current, i) => {
+  return text.split(userMentionRegex).reduce((memo, current) => {
     if (userMentionRegex.test(current)) {
-      const mentionKey = current.replace(/\D/g, ''); // strip all but ID
+      const mentionKey = current.replace(nonIDCharRegex, ''); // strip all but ID
       const mention = mentions[mentionKey];
       if (mention) {
         const entry = options.usePlaceholders ? (
           `<span class="mention-placeholder" data-mention="${mentionKey}">${mention.label}</span>`
         ) : (
-          <Mention key={i} data-mention={mentionKey} {...mention} />
+          <Mention key={mention.label} data-mention={mentionKey} {...mention} />
         );
         return memo.concat(entry);
       }

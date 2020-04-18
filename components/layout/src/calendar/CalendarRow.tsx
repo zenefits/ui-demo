@@ -52,7 +52,7 @@ class CalendarRow<TCell, TRow extends { columns: TCell[]; height?: string }> ext
           const cellPosition = { column: index, row: rowIndex };
 
           return (
-            <DragAndDrop.Target key={index} data={cellPosition}>
+            <DragAndDrop.Target key={JSON.stringify(cell)} data={cellPosition}>
               <CellContainer
                 style={cellContainerStyle}
                 bg={bgColor}
@@ -60,7 +60,7 @@ class CalendarRow<TCell, TRow extends { columns: TCell[]; height?: string }> ext
                 borderBottom
                 borderRight
                 borderColor={colors.border}
-                onClick={e => this.props.onCellClick(index)}
+                onClick={() => this.props.onCellClick(index)}
               >
                 {cell && cellTemplate({ cellPosition, cellData: cell, rowData: row })}
               </CellContainer>

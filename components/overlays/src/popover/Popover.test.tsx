@@ -1,32 +1,27 @@
 import React from 'react';
+import { cleanup, fireEvent } from '@testing-library/react';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 
 import Popover from './Popover';
-import BasePopper from './BasePopper';
 
 describe('Popover', () => {
-  it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<Popover event="click" targetBody={<h1>I am the target Body</h1>} />)).toHaveLength(1);
-  });
+  beforeEach(cleanup);
 
-  it('should render the targetBody content', () => {
-    const wrapper = mountWithTheme(<Popover event="click" targetBody={<h1>I am the target Body</h1>} />).find('Target');
-    expect(wrapper.childAt(0).text()).toEqual('I am the target Body');
+  it('should mount without throwing an error', () => {
+    const { getByText } = renderWithContext(<Popover event="click" targetBody={<h1>I am the target Body</h1>} />);
+    getByText('I am the target Body');
   });
 
   it('should render the Popover content', () => {
-    const wrapper = mountWithTheme(
-      <Popover showPopover targetBody={<span className="target">Target</span>} event="click">
+    const wrapper = renderWithContext(
+      <Popover targetBody={<h1 className="target">Target</h1>} event="click">
         <h1>I am the Popover</h1>
       </Popover>,
-    ).find(BasePopper);
+    );
 
-    expect(
-      wrapper
-        .childAt(0)
-        .childAt(1)
-        .text(),
-    ).toEqual('I am the Popover');
+    fireEvent.click(wrapper.getByText('Target'));
+
+    wrapper.getByText('I am the Popover');
   });
 });

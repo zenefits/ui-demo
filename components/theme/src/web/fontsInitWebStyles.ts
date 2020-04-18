@@ -1,11 +1,11 @@
+import { fontStyles, FontStyleString } from './fonts';
+import { theme } from './theme';
+
 require('material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.eot');
 require('material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.svg');
 const materialDesignIconicTtf = require('material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.ttf');
 const materialDesignIconicWoff = require('material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff');
 const materialDesignIconicWoff2 = require('material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff2');
-
-import { fontStyles, FontStyleString } from './fonts';
-import { theme } from './theme';
 const circularLightEot = require('../fonts/circular/lineto-circular-pro-book.eot');
 const circularLightSvg = require('../fonts/circular/lineto-circular-pro-book.svg');
 const circularLightTtf = require('../fonts/circular/lineto-circular-pro-book.ttf');
@@ -27,6 +27,7 @@ export const fontStyleTagMap: { [key: string]: FontStyleString } = {
 const fontFaceRules = `
   @font-face {
     font-family: 'Material-Design-Iconic-Font';
+    font-display: fallback;
     src: url('${materialDesignIconicWoff2}') format('woff2'), url('${materialDesignIconicWoff}') format('woff'), url('${materialDesignIconicTtf}') format('truetype');
     font-weight: normal;
     font-style: normal;
@@ -34,9 +35,9 @@ const fontFaceRules = `
 
   @font-face {
     font-family: 'Circular';
+    font-display: fallback;
     font-style: normal;
     font-weight: 600;
-    src: url('${circularMediumEot}') format('eot');
     src: url('${circularMediumEot}?#iefix') format('eot'),
     url('${circularMediumWoff}') format('woff'),
     url('${circularMediumTtf}') format('truetype'),
@@ -45,8 +46,8 @@ const fontFaceRules = `
 
   @font-face {
     font-family: 'Circular';
+    font-display: fallback;
     font-weight: 400;
-    src: url('${circularLightEot}') format('eot');
     src: url('${circularLightEot}?#iefix') format('eot'),
     url('${circularLightWoff}') format('woff'),
     url('${circularLightTtf}') format('truetype'),

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Box, Flex, TextBlock } from 'zbase';
 import { Button, Link } from 'z-frontend-elements';
-import { styled, RenderFor } from 'z-frontend-theme';
+import { styled, Render } from 'z-frontend-theme';
 
 import Card from '../card/Card';
 import TaskStatusIcon from './TaskStatusIcon';
@@ -24,7 +24,15 @@ export type TaskProps = {
   /**
    * Route to transition to when task "Start", "Resume" or "Review" button/link is clicked
    */
-  taskRoute: string;
+  taskRoute?: string;
+  /**
+   * URL to transition to when task "Start", "Resume" or "Review" button/link is clicked
+   */
+  taskUrl?: string;
+  /**
+   * Handler for when the button gets clicked
+   */
+  onEnter?: () => void;
 };
 
 const RightPositioned = styled(Flex)`
@@ -51,20 +59,28 @@ export default class TaskListItem extends Component<TaskProps> {
     const { state } = this.props;
 
     if (state === 'ready') {
-      return (
-        <Button.RouteLink to={this.props.taskRoute} mode="primary">
+      return this.props.taskRoute ? (
+        <Button.RouteLink to={this.props.taskRoute} mode="primary" onClick={this.props.onEnter}>
           Start
         </Button.RouteLink>
+      ) : (
+        <Button.Link href={this.props.taskUrl} mode="primary" onClick={this.props.onEnter}>
+          Start
+        </Button.Link>
       );
     } else if (state === 'started') {
-      return (
-        <Button.RouteLink to={this.props.taskRoute} mode="normal">
+      return this.props.taskRoute ? (
+        <Button.RouteLink to={this.props.taskRoute} mode="normal" onClick={this.props.onEnter}>
           Resume
         </Button.RouteLink>
+      ) : (
+        <Button.Link href={this.props.taskUrl} mode="normal" onClick={this.props.onEnter}>
+          Resume
+        </Button.Link>
       );
     } else if (state === 'completed') {
       return (
-        <Link fontStyle="paragraphs.m" to={this.props.taskRoute}>
+        <Link fontStyle="paragraphs.m" href={this.props.taskUrl} to={this.props.taskRoute} onClick={this.props.onEnter}>
           Review
         </Link>
       );
@@ -82,7 +98,7 @@ export default class TaskListItem extends Component<TaskProps> {
         <Flex align="center">
           <TaskStatusIcon state={state} />
 
-          <RenderFor breakpoints={[false, false, true, true, true]}>
+          <Render forBreakpoints={[false, false, true, true, true]}>
             <Title fontStyle="headings.s">{title}</Title>
 
             <RightPositioned align="center">
@@ -93,9 +109,9 @@ export default class TaskListItem extends Component<TaskProps> {
               )}
               <Box ml={3}>{action}</Box>
             </RightPositioned>
-          </RenderFor>
+          </Render>
 
-          <RenderFor breakpoints={[true, true]}>
+          <Render forBreakpoints={[true, true]}>
             <Box>
               <Title fontStyle="headings.s">{title}</Title>
               {descriptionText && (
@@ -108,7 +124,7 @@ export default class TaskListItem extends Component<TaskProps> {
             <RightPositioned align="center">
               <Box ml={3}>{action}</Box>
             </RightPositioned>
-          </RenderFor>
+          </Render>
         </Flex>
       </Card>
     );

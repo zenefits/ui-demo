@@ -9,16 +9,11 @@ const morningGlory = '#8BDDDF';
 const iceberg = '#D3F3F3';
 
 const black = '#000';
-// const mirage = '#1C2534';
-// const shuttleGray = '#53616E';
-// const regentGray = '#8D9BA7';
-// const submarine = '#B4BDC5';
-// const iron = '#DBDFE3';
 const white = '#FFF';
 
-const pacificBlue = '#009BC0';
-const deepCerulean = '#0081AA';
-const chathamsBlue = '#144E6F';
+const denim = '#1D71BF';
+const veniceBlue = '#0A499B';
+const scienceBlue = '#0051CB';
 const bossanova = '#4E2E5E';
 const eden = '#155457';
 const verdunGreen = '#3B7101';
@@ -48,9 +43,9 @@ const defaultNormal = '#D6DEE9';
 const defaultHover = '#C8D0DB';
 const defaultActive = '#BCC4CF';
 
-const mineShaft = '#333';
-const emperor = '#555';
-const boulder = '#777';
+const mineShaft = '#222';
+const emperor = '#444';
+const boulder = '#666';
 const dustyGray = '#999';
 const alto = '#DDD';
 const fog = '#f3f3f3';
@@ -132,23 +127,26 @@ export const colorsMap: { [key in ColorString]: string } = {
   'tertiary.b': morningGlory,
   'tertiary.c': iceberg,
 
-  'grayscale.b': mineShaft, // previously: mirage #1C2534
-  'grayscale.c': emperor, // previously: shuttleGray #53616E
-  'grayscale.d': boulder, // previously: regentGray #8D9BA7
-  'grayscale.e': dustyGray, // previously: submarine #B4BDC5
-  'grayscale.f': alto, // previously: iron #DBDFE3
+  'grayscale.b': mineShaft,
+  'grayscale.c': emperor,
+  'grayscale.d': boulder,
+  'grayscale.e': dustyGray,
+  'grayscale.f': alto,
   'grayscale.g': fog,
   'grayscale.white': white,
   'grayscale.black': black,
 
+  // NOTE: these must pass WCAG 2 for a11y
   'text.dark': mineShaft, // grayscale.b
   'text.default': emperor, // grayscale.c
   'text.light': boulder, // grayscale.d
+
   'text.off': dustyGray, // grayscale.e
 
-  'link.normal': pacificBlue,
-  'link.hover': deepCerulean,
-  'link.active': chathamsBlue,
+  // NOTE: these must pass WCAG 2 for a11y
+  'link.normal': denim,
+  'link.hover': veniceBlue,
+  'link.active': scienceBlue,
 
   'auxiliary.a': bossanova,
   'auxiliary.b': eden,

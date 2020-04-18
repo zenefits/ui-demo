@@ -1,60 +1,62 @@
+import { DocumentNode } from 'graphql';
+import { set } from 'lodash';
+
 import {
   createApolloClient,
-  createIntlProvider,
-  createLocaleReducer,
-  createReduxProvider,
-  createRouterProvider,
-  createRouteAnalyticsProvider,
-  getApollo,
-  getBrowserLocale,
-  renderBaseApp,
-  ApolloClientOptions,
-  AppSettings,
-  ReduxProviderFactoryOptions,
+  initializePerformanceAnalytics,
+  loadPolyfillsIfNeeded,
+  ApolloClient,
 } from 'z-frontend-app-bootstrap';
-import { createFireflyKeybinding, createFireflyProvider } from 'z-frontend-firefly';
-import { createThemeProvider } from 'z-frontend-theme';
-import { NotificationProvider } from 'z-frontend-elements';
 
-export default (
-  settings: AppSettings & {
-    reduxParams?: ReduxProviderFactoryOptions;
-    localeData: any;
-    apolloParams?: ApolloClientOptions;
-  },
-) => {
-  const { localeData, apolloParams } = settings;
-  const reduxParams = settings.reduxParams || {};
+import { RenderAppSettings } from './types';
 
-  const [ReduxProvider, reduxProps] = createReduxProvider({
-    reducers: {
-      ...(reduxParams.reducers || {}),
-      locale: createLocaleReducer(__DEVELOPMENT__ ? getBrowserLocale() : 'en'),
-    },
-    middleware: reduxParams.middleware || [],
-    composeFn: reduxParams.composeFn,
-  });
-
-  let providers = [
-    [ReduxProvider, reduxProps],
-    ...(settings.providers || []),
-    createApolloClient(apolloParams),
-    createIntlProvider(localeData),
-    createThemeProvider(),
-    createRouterProvider(),
-    NotificationProvider,
-  ];
-
-  if (!settings.disableRouteAnalytics) {
-    providers = [...providers, createRouteAnalyticsProvider()];
-  }
-
-  if (!settings.disableFirefly) {
-    providers = [...providers, createFireflyProvider(), createFireflyKeybinding(getApollo)];
-  }
-
-  return renderBaseApp({
-    ...(settings as AppSettings),
-    providers,
-  });
+type RenderAppSettingsWithQueries = RenderAppSettings & {
+  initialQueries?: DocumentNode[];
+  isNonLoggedInContext?: boolean;
 };
+
+async function doRender(settings: RenderAppSettingsWithQueries, apolloClient: ApolloClient<any>) {
+  /*
+   * To fire gql queries as quickly as possible we send them and then import the chunk in charge of rendering the page.
+   * This means we can avoid a long script parse/render cycle before sending these off
+   */
+
+  const renderApp = (
+    await import(/* webpackChunkName: "preload-perform-boot-render", webpackPreload: true */ './performRender')
+  ).default;
+  return renderApp({ ...settings, apolloClient });
+}
+
+export default async function create(settings: RenderAppSettingsWithQueries) {
+  initializePerformanceAnalytics(settings.boomerangOptions || {});
+
+  const apolloClient = createApolloClient({
+    ...settings.apolloParams,
+    redirectToLoginOnAuthError: !settings.isNonLoggedInContext,
+  });
+
+  let startPromise;
+  if (settings.initialQueries) {
+    startPromise = new Promise(resolve => {
+      const polyfillPromise = loadPolyfillsIfNeeded();
+      polyfillPromise.then(() => {
+        settings.initialQueries.forEach(query => {
+          apolloClient.query({ query });
+        });
+
+        // Wait till next tick so the queries have a chance to fire
+        setTimeout(async () => {
+          await doRender(settings, apolloClient);
+          resolve();
+        }, 0);
+      });
+    });
+  } else {
+    startPromise = doRender(settings, apolloClient);
+  }
+
+  if (window.__WITHIN_EMBER_APP__) {
+    // Wait till next tick so the queries have a chance to fire
+    set(window, `embeddedReactApps.${__APP_NAME__}.waitForReady`, startPromise);
+  }
+}

@@ -1,7 +1,18 @@
+import { images } from 'z-frontend-theme';
+
 function makeFakeRandomId() {
   return Math.random()
     .toString(36)
     .substring(7);
+}
+
+function makeFakeFetchResponse() {
+  return JSON.stringify({
+    file_url: images.pug, // fake with actual image to allow eg cropper to work
+    upload_url: 'fakeUploadURL',
+    random_key: makeFakeRandomId(),
+    file_id: makeFakeRandomId(),
+  });
 }
 
 export function fakeFetch(url: string, opts: RequestInit, onProgress: any) {
@@ -10,21 +21,16 @@ export function fakeFetch(url: string, opts: RequestInit, onProgress: any) {
     if (onProgress) {
       const timer = setInterval(() => {
         i += 1;
-        onProgress({ loaded: i * 10, total: 100 });
+        onProgress({ loaded: i * 25, total: 100 });
       }, 1000);
       setTimeout(() => {
         clearInterval(timer);
-        resolve(
-          JSON.stringify({
-            file_url: 'fakeFileURL',
-            upload_url: 'fakeUploadURL',
-            random_key: makeFakeRandomId(),
-            file_id: makeFakeRandomId(),
-          }),
-        );
-      }, 10000);
+        resolve(makeFakeFetchResponse());
+      }, 5000);
     } else {
-      setTimeout(resolve, 1000);
+      setTimeout(() => {
+        resolve(makeFakeFetchResponse());
+      }, 1000);
     }
   });
 }

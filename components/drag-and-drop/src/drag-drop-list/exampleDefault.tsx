@@ -69,9 +69,9 @@ class DragDropListExample extends Component<DragDropListExampleProps, DragDropLi
         <DragDropList.Context onDragEnd={this.onDragEnd}>
           <Box mb={3}>
             <DragDropList.List listId="top">
-              {top.map((item, index) => {
+              {top.map(item => {
                 return (
-                  <DragDropList.DraggableBox key={index} itemId={item} border borderColor="affirmation.b" p={2}>
+                  <DragDropList.DraggableBox key={item} itemId={item} border borderColor="affirmation.b" p={2}>
                     {item}
                   </DragDropList.DraggableBox>
                 );
@@ -80,9 +80,9 @@ class DragDropListExample extends Component<DragDropListExampleProps, DragDropLi
           </Box>
           <Box>
             <DragDropList.List listId="bottom">
-              {bottom.map((item, index) => {
+              {bottom.map(item => {
                 return (
-                  <DragDropList.DraggableBox key={index} itemId={item} border borderColor="affirmation.b" p={2}>
+                  <DragDropList.DraggableBox key={item} itemId={item} border borderColor="affirmation.b" p={2}>
                     {item}
                   </DragDropList.DraggableBox>
                 );

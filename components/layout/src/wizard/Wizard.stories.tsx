@@ -6,8 +6,9 @@ import { cloneDeep } from 'lodash';
 import { Box, Heading } from 'zbase';
 import { Button, Link } from 'z-frontend-elements';
 import { getApollo } from 'z-frontend-app-bootstrap';
+import { Query } from 'z-frontend-network';
 
-import { Query, Wizard, WizardFlowFragment, WizardSection, WizardStepComponentProps } from '../../index';
+import { TopNavBar, Wizard, WizardFlowFragment, WizardSection, WizardStepComponentProps } from '../../index';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
 
@@ -98,14 +99,9 @@ const flowQuery = gql`
 const RouteInfo = withRouter<{}>((props: RouteComponentProps<{}>) => <Box>{props.location.pathname}</Box>);
 
 storiesOf('layout|Wizard', module)
-  .add('server side state', () => (
+  .add('server side state with TopNavBar', () => (
     <Box>
-      <Link to="/" mr={3}>
-        Home
-      </Link>
-      <Link to="/test">Open the wizard</Link>
-      <RouteInfo />
-
+      <TopNavBar productTitleDefault="Product Title" />
       <Route
         path="/test"
         render={() => (
@@ -124,6 +120,11 @@ storiesOf('layout|Wizard', module)
           </Query>
         )}
       />
+      <Link to="/" mr={3}>
+        Home
+      </Link>
+      <Link to="/test">Open the wizard</Link>
+      <RouteInfo />
     </Box>
   ))
   .add('client side state (sequenceEnforced = true)', () => (

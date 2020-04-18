@@ -16,7 +16,8 @@ Step components receive props to control the wizard (`WizardStepComponentProps`)
 
 #### Implementation Notes
 
-By default the main content will be 10 columns wide on desktop. When using with a form the content should be made to be 8 columns wide.
+- By default the main content will be 10 columns wide on desktop. When using with a form the content should be made to be 8 columns wide.
+- Use this component directly after TopNavBar. If there is a gap between this component and TopNavBar, on mobile view the side nav may not fully move out.
 
 #### Examples
 

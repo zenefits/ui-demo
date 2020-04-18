@@ -6,6 +6,7 @@ class FormSubmitter extends Component<{ submitForm: () => void }> {
   componentDidMount() {
     this.props.submitForm();
   }
+
   render(): null {
     return null;
   }

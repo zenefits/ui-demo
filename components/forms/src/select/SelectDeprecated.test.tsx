@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import SelectDeprecated, { StyledSelect } from './SelectDeprecated';
 
@@ -9,7 +9,7 @@ const combobox = 'input[role="combobox"]';
 
 describe('Select', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<SelectDeprecated />).find(combobox)).toHaveLength(1);
+    expect(mountEnzymeWithTheme(<SelectDeprecated />).find(combobox)).toHaveLength(1);
   });
 
   // NOTE: would prefer to use toHaveStyleRule here, but cannot get it working for Select

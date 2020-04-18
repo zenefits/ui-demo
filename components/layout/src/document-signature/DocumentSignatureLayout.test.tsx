@@ -1,18 +1,21 @@
 import React from 'react';
+import { fireEvent } from '@testing-library/react';
 
-import { mountWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
+import { mountEnzymeWithThemeIntl } from 'z-frontend-theme/test-utils/intl';
+import { renderWithContext } from 'z-frontend-theme/test-utils/theme';
 import { Card } from 'z-frontend-composites';
-import { Form } from 'z-frontend-forms';
+import { Form, FormRadio, FormRadioGroup, FormSignature, FormTextInput } from 'z-frontend-forms';
 import { Button } from 'z-frontend-elements';
 
 import DocumentSignatureLayout from './DocumentSignatureLayout';
+
 const PDF_LINK =
   'https://zenefits.s3.amazonaws.com/media/plandetails/United/United_HMO%20Platinum%20Select%2020-10.pdf';
 
-function getWrapper(props: any) {
+function getWrapper(props: any, mountFn = mountEnzymeWithThemeIntl) {
   const { pdfDocumentViewerProps, onSubmit, ...rest } = props;
   const fallback = () => {};
-  return mountWithThemeIntl(
+  return mountEnzymeWithThemeIntl(
     <DocumentSignatureLayout
       pdfDocumentViewerProps={pdfDocumentViewerProps || { pdf: PDF_LINK }}
       onSubmit={onSubmit || fallback}
@@ -68,12 +71,12 @@ describe('DocumentSignatureLayout', () => {
   it('should contain two radio buttons for the signing method', () => {
     const wrapper = getWrapper({});
 
-    const formRadioGroup = wrapper.find(Form.RadioGroup);
+    const formRadioGroup = wrapper.find(FormRadioGroup);
     expect(formRadioGroup).toHaveLength(1);
 
-    expect(formRadioGroup.find(Form.Radio)).toHaveLength(2);
-    const onlineRadio = formRadioGroup.find(Form.Radio).first();
-    const uploadRadio = formRadioGroup.find(Form.Radio).last();
+    expect(formRadioGroup.find(FormRadio)).toHaveLength(2);
+    const onlineRadio = formRadioGroup.find(FormRadio).first();
+    const uploadRadio = formRadioGroup.find(FormRadio).last();
     expect(onlineRadio.text().trim()).toEqual('Sign online');
     expect(uploadRadio.text().trim()).toEqual('Upload signed copy');
   });
@@ -81,39 +84,28 @@ describe('DocumentSignatureLayout', () => {
   it('should show the correct form field if online radio button is checked', () => {
     const wrapper = getWrapper({});
 
-    expect(wrapper.find(Form.TextInput)).toHaveLength(2);
-    const nameTextInput = wrapper.find(Form.TextInput).first();
-    const titleTextInput = wrapper.find(Form.TextInput).last();
+    expect(wrapper.find(FormTextInput)).toHaveLength(2);
+    const nameTextInput = wrapper.find(FormTextInput).first();
+    const titleTextInput = wrapper.find(FormTextInput).last();
     expect(nameTextInput.text().trim()).toEqual('Full Name');
     expect(titleTextInput.text().trim()).toEqual('Title');
 
-    expect(wrapper.find(Form.Signature)).toHaveLength(1);
+    expect(wrapper.find(FormSignature)).toHaveLength(1);
     expect(
       wrapper
-        .find(Form.Signature)
+        .find(FormSignature)
         .text()
         .trim(),
     ).toEqual('Signature');
   });
 
   it('should show the correct form field if upload radio button is checked', () => {
-    const wrapper = getWrapper({ fileUploaderProps: {} });
-    const newStateValues: any = {
-      signingMethod: 'upload',
-      name: '',
-      title: '',
-      signature: '',
-      uploader: [],
-    };
+    const wrapper = renderWithContext(
+      <DocumentSignatureLayout pdfDocumentViewerProps={{ pdf: PDF_LINK }} onSubmit={() => {}} fileUploaderProps={{}} />,
+    );
 
-    // a bit of a hack, but simulates the radio button click for upload choice
-    const formikInstance = wrapper.find('Formik').instance();
-    formikInstance.setState({
-      values: newStateValues,
-    });
-    expect(formikInstance.state.values).toEqual(newStateValues);
+    fireEvent.click(wrapper.getByLabelText('Upload signed copy'));
 
-    const formFileUploader = wrapper.update().find(Form.FileUploader);
-    expect(formFileUploader).toHaveLength(1);
+    wrapper.findByText('Upload File');
   });
 });

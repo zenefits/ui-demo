@@ -9,6 +9,7 @@ class ActionModal extends Component<ActionModalProps> {
     buttons: [],
     keepMounted: false,
     omitCancelButton: false,
+    size: 'medium',
   };
 
   render() {
@@ -16,7 +17,12 @@ class ActionModal extends Component<ActionModalProps> {
     return (
       <Modal {...modalProps}>
         <Modal.Body>{children}</Modal.Body>
-        <Modal.Footer buttons={buttons} omitCancelButton={omitCancelButton} onCancel={modalProps.onCancel} />
+        <Modal.Footer
+          buttons={buttons}
+          omitCancelButton={omitCancelButton}
+          onCancel={modalProps.onCancel}
+          isSubmitting={modalProps.isSubmitting}
+        />
       </Modal>
     );
   }

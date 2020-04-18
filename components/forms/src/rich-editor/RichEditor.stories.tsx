@@ -15,6 +15,7 @@ const text =
 
 class ValueChangeExample extends Component {
   private count = 0;
+
   state = {
     text,
   };

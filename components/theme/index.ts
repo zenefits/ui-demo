@@ -11,7 +11,10 @@ export {
   keyframes,
   APP_STYLE_ROOT_CLASS,
   EMBEDDED_STYLEGUIDE_EXAMPLE_CLASS,
+  ZFrontendThemeContext as ThemeContext,
 } from './src/web/ThemeProvider';
+
+export { default as useUpdateThemePropWhileMounted } from './src/web/useUpdateThemePropWhileMounted';
 
 export { default as themeDecorator } from './src/themeDecorator';
 
@@ -26,6 +29,6 @@ export { theme, ThemeInterface } from './src/web/theme';
 export { default as images } from './src/images';
 /** @styleguide-autodiscovery-ignore-end */
 
-export { default as HideFor } from './src/responsive/HideFor';
-export { default as RenderFor } from './src/responsive/RenderFor';
-export { getMatches as getBreakpointMatches } from './src/responsive/responsive-utils';
+export { default as Hide } from './src/responsive/Hide';
+export { default as Render } from './src/responsive/Render';
+export { buildMediaQueries, getBreakpointMatches } from './src/responsive/responsive-utils';

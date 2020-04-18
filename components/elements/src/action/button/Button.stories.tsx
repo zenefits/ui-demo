@@ -1,3 +1,4 @@
+/* eslint-disable prefer-rest-params */
 import React, { Component } from 'react';
 import { HashRouter as Router } from 'react-router-dom';
 // @ts-ignore
@@ -8,6 +9,7 @@ import { Box, Flex, Heading } from 'zbase';
 import { storiesOf } from '../../../.storybook/storyHelpers';
 import { IconButton, Link } from '../../../index';
 import Button from './Button';
+import LinkButton from '../../link-button/LinkButton';
 
 class InProgressExample extends Component<{}, { inProgress: boolean }> {
   constructor(props: {}) {
@@ -59,7 +61,7 @@ storiesOf('elements|Button', module)
         <Button s="large" onClick={action('button clicked')} mr={2}>
           Button Large
         </Button>
-        <Button s="large" onClick={action('disabled button clicked')} disabled children="Can't touch this" />
+        <Button s="large" onClick={action('disabled button clicked')} disabled children="Can't touch this" mr={2} />
       </Box>
 
       <Box mb={3}>
@@ -80,27 +82,21 @@ storiesOf('elements|Button', module)
 
       <Box mb={3}>
         <Heading level={4} mb={2}>
-          Transparent Button Mode
+          LinkButton
         </Heading>
-        <Button s="large" mode="transparent" onClick={action('transparent button clicked')} mr={2}>
+        <LinkButton s="large" onClick={action('LinkButton clicked')} mr={2}>
           Button Large
-        </Button>
-        <Button
-          s="large"
-          mode="transparent"
-          onClick={action('disabled button clicked')}
-          disabled
-          children="Can't touch this"
-        />
+        </LinkButton>
+        <LinkButton s="large" onClick={action('disabled LinkButton clicked')} disabled children="Can't touch this" />
       </Box>
       <Box mb={1}>
         <Heading level={4} mb={2}>
           IconButton
         </Heading>
-        <IconButton s="large" iconName="edit" onClick={action('transparent iconbutton clicked')} mr={2}>
+        <IconButton s="large" iconName="edit" onClick={action('iconbutton clicked')} mr={2}>
           Edit
         </IconButton>
-        <IconButton s="large" iconName="edit" disabled onClick={action('disabled transparent iconbutton clicked')} />
+        <IconButton s="large" iconName="edit" disabled onClick={action('disabled iconbutton clicked')} />
       </Box>
     </Box>
   ))
@@ -116,10 +112,10 @@ storiesOf('elements|Button', module)
         <Button s="large" mode="primary" onClick={action('primary button clicked')} mr={2}>
           Primary
         </Button>
-        <Button s="large" mode="transparent" onClick={action('transparent button clicked')} mr={2}>
-          Transparent
-        </Button>
-        <IconButton s="large" iconName="edit" onClick={action('transparent iconbutton clicked')} mr={2} />
+        <LinkButton s="large" onClick={action('LinkButton clicked')} mr={2}>
+          Tertiary
+        </LinkButton>
+        <IconButton s="large" iconName="edit" onClick={action('IconButton clicked')} mr={2} />
       </Box>
 
       <Box mb={3}>
@@ -132,10 +128,14 @@ storiesOf('elements|Button', module)
         <Button mode="primary" onClick={action('primary button clicked')} mr={2}>
           Primary
         </Button>
-        <Button mode="transparent" onClick={action('transparent button clicked')} mr={2}>
-          Transparent
-        </Button>
-        <IconButton iconName="edit" onClick={action('transparent iconbutton clicked')} mr={2} />
+        <LinkButton
+          s="medium" // LinkButton default is inherit, so must specify here
+          onClick={action('LinkButton clicked')}
+          mr={2}
+        >
+          Tertiary
+        </LinkButton>
+        <IconButton iconName="edit" onClick={action('IconButton clicked')} mr={2} />
       </Box>
 
       <Box mb={3}>
@@ -148,10 +148,10 @@ storiesOf('elements|Button', module)
         <Button s="small" mode="primary" onClick={action('primary button clicked')} mr={2}>
           Primary
         </Button>
-        <Button s="small" mode="transparent" onClick={action('transparent button clicked')} mr={2}>
-          Transparent
-        </Button>
-        <IconButton s="small" iconName="edit" onClick={action('transparent iconbutton clicked')} mr={2} />
+        <LinkButton s="small" onClick={action('LinkButton clicked')} mr={2}>
+          Tertiary
+        </LinkButton>
+        <IconButton s="small" iconName="edit" onClick={action('IconButton clicked')} mr={2} />
       </Box>
 
       <Box>
@@ -164,10 +164,10 @@ storiesOf('elements|Button', module)
         <Button s="xsmall" mode="primary" onClick={action('primary button clicked')} mr={2}>
           Primary
         </Button>
-        <Button s="xsmall" mode="transparent" onClick={action('transparent button clicked')} mr={2}>
-          Transparent
-        </Button>
-        <IconButton s="xsmall" iconName="edit" onClick={action('transparent iconbutton clicked')} mr={2} />
+        <LinkButton s="xsmall" fontStyle="controls.s" onClick={action('LinkButton clicked')} mr={2}>
+          Tertiary
+        </LinkButton>
+        <IconButton s="xsmall" iconName="edit" onClick={action('IconButton clicked')} mr={2} />
       </Box>
     </Box>
   ))

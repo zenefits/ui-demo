@@ -4,9 +4,9 @@ const signalfx = require('signalfx');
 
 const client = new signalfx.Ingest('dvKRjMhtiAK4QDnurz8-CQ');
 
-module.exports = function sendToSignalfx(metricName, value, dimensions) {
-  // console.log(`send "${metricName}" metric with value "${value}"`, { dimensions, value });
-  client.send({
+module.exports = function sendGauge(metricName, value, dimensions) {
+  // console.log(`sending "${metricName}" metric with value "${value}"`, { dimensions, value });
+  const promise = client.send({
     gauges: [
       {
         metric: metricName,
@@ -19,4 +19,6 @@ module.exports = function sendToSignalfx(metricName, value, dimensions) {
       },
     ],
   });
+  // promise.then(() => console.log(`sent "${metricName}""`));
+  return promise;
 };

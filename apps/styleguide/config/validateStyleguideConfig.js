@@ -1,5 +1,5 @@
 const fs = require('fs');
-const getConfig = require('react-styleguidist/scripts/config'); // eslint-disable-line import/no-extraneous-dependencies
+const getConfig = require('react-styleguidist/lib/scripts/config').default; // eslint-disable-line import/no-extraneous-dependencies
 
 function validateConfigSection(config) {
   if (config.content) {

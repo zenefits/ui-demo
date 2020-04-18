@@ -6,6 +6,7 @@ import { styled } from 'z-frontend-theme';
 import { SearchOption, SearchOptions } from '../search/SearchSelectDeprecated';
 
 export type MentionOption = {
+  // [A-Za-z0-9_] is supported for id
   id: string;
   menuLabel: string;
   tagLabel: string;

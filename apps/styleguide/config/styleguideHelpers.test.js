@@ -5,6 +5,8 @@ import {
   convertIndexFileToAST,
   getComponentPathsFromPackageIndex,
   componentExportsMap,
+  renameSubComponent,
+  sortByComponentName,
 } from './styleguideHelpers';
 
 const fs = require('fs');
@@ -47,11 +49,11 @@ describe('styleguideHelpers', () => {
       // chose z-frontend-component-example to test as the index should not change as much for the expected value
       const componentPathList = getComponentPathsFromPackageIndex('z-frontend-component-example');
       expect(componentPathList).toHaveLength(1);
-      expect(componentPathList[0]).toMatch(/\/src\/MyComponent.tsx$/);
+      expect(componentPathList[0]).toMatch(/\/src\/my-component\/MyComponent.tsx$/);
     });
     it('should build the right componentsExportMap', () => {
       getComponentPathsFromPackageIndex('z-frontend-component-example');
-      const expected = { './src/MyComponent': ['default', 'MyComponent'] };
+      const expected = { './src/my-component/MyComponent': ['default', 'MyComponent'] };
       expect(componentExportsMap).toEqual(expected);
     });
   });
@@ -204,6 +206,35 @@ export default () => <ComponentExample />`;
       const withoutTypeAssertion = `<TextInline fontStyle={fs}>text</TextInline>`;
       const prepared = prepareExampleCode(withTypeAssertion);
       expect(prepared).toMatch(withoutTypeAssertion);
+    });
+  });
+
+  describe('renameSubComponent', () => {
+    it('should rename sub components correctly', () => {
+      expect(renameSubComponent('FormTextInput')).toBe('FormTextInput');
+      expect(renameSubComponent('FormSection')).toBe('Form.Section');
+    });
+
+    it('should not rename non-sub components', () => {
+      expect(renameSubComponent('Box')).toBe('Box');
+    });
+  });
+
+  describe('sortByComponentName', () => {
+    it('should sort Form components', () => {
+      const formComponentPaths = [
+        '/path/to/z-frontend/components/forms/src/formik/address/intl/FormAddressIntl.tsx',
+        '/path/to/z-frontend/components/forms/src/formik/error/FormError.tsx',
+        '/path/to/z-frontend/components/forms/src/formik/Form.tsx',
+        '/path/to/z-frontend/components/forms/src/formik/footer/FormFooter.tsx',
+      ];
+      const expectedComponentPaths = [
+        '/path/to/z-frontend/components/forms/src/formik/Form.tsx',
+        '/path/to/z-frontend/components/forms/src/formik/error/FormError.tsx',
+        '/path/to/z-frontend/components/forms/src/formik/footer/FormFooter.tsx',
+        '/path/to/z-frontend/components/forms/src/formik/address/intl/FormAddressIntl.tsx',
+      ];
+      expect(formComponentPaths.sort(sortByComponentName)).toEqual(expectedComponentPaths);
     });
   });
 });

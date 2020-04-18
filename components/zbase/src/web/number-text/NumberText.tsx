@@ -3,6 +3,7 @@ import { FormattedNumber } from 'react-intl';
 
 import withWebUtilProps, { ResultWebComponentProps, SpanProps } from '../withUtilPropsWeb';
 import { removeUtilProps } from '../../commonTypes';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 // from https://github.com/yahoo/react-intl/wiki/Components#formattednumber
 // and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
@@ -100,6 +101,15 @@ const TextContainer: StatelessComponent<NumberTextProps> = ({
   ...rest
 }) => {
   const propsWithNoUtils = removeUtilProps(rest);
+
+  const fractionDigitOverrides: Partial<AdditionalProps> = {};
+  if (style === 'currency' && minimumFractionDigits === undefined && maximumFractionDigits === undefined) {
+    // default to showing cents when they are relevant, ie not 00
+    const valueHasCents = value % 1 !== 0;
+    fractionDigitOverrides.minimumFractionDigits = valueHasCents ? 2 : 0;
+    fractionDigitOverrides.maximumFractionDigits = valueHasCents ? 2 : 0;
+  }
+
   return (
     <FormattedNumber
       {...propsWithNoUtils}
@@ -113,6 +123,7 @@ const TextContainer: StatelessComponent<NumberTextProps> = ({
       minimumIntegerDigits={minimumIntegerDigits}
       minimumFractionDigits={minimumFractionDigits}
       maximumFractionDigits={maximumFractionDigits}
+      {...fractionDigitOverrides}
       minimumSignificantDigits={minimumSignificantDigits}
       maximumSignificantDigits={maximumSignificantDigits}
     >
@@ -120,6 +131,9 @@ const TextContainer: StatelessComponent<NumberTextProps> = ({
     </FormattedNumber>
   );
 };
+
+export const NumberTextForDocs = makeDummyComponentForDocs<NumberTextProps>();
+NumberTextForDocs.displayName = 'NumberText';
 
 export default withWebUtilProps<SpanProps, AdditionalProps>({
   displayName: 'NumberText',

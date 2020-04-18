@@ -2,24 +2,24 @@ A component which displays helper content when a user hovers over or focuses on 
 
 #### Examples
 
-Hover over element to see tooltip. The direction is configurable.
+Hover to see the tooltip. The direction is configurable.
 
-```jsx
-// loadExample('./exampleHoverTop');
+```jsx noeditor
+<StorybookExample selectedKind="overlays|Tooltip" selectedStory="default" />
 ```
-
-See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=overlays|Tooltip).
 
 #### Usage
 
 - Use tooltips to display simple descriptive information for controls such as icons, buttons or labels
 - Don't use tooltips if the user needs to interact with the content (ex: no links)
 - Don't use for primary information that the user needs to know
-- In most cases tooltips should use a hover trigger event
 
 #### Related
 
 - [Popover](#!/Popover)
+- [InfoButton](#!/InfoButton)
+- [InformationPopover](#!/InformationPopover)
+- [Form `helpText`](#!/Form)
 
 #### Known issues
 

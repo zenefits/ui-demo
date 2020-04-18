@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Form } from '../Form';
+import { Form, FormMaskedInput } from '../../..';
 
 export default () => (
   <Form onSubmit={() => {}} initialValues={{ ein: '123456789' }}>
-    <Form.MaskedInput label="EIN" name="ein" mask={[/\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]} />
+    <FormMaskedInput label="EIN" name="ein" mask={[/\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]} />
   </Form>
 );

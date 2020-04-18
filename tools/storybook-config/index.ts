@@ -5,7 +5,9 @@ import './.storybook/addons';
 
 /** @styleguide-autodiscovery-ignore-start */
 export { setupStorybook } from './.storybook/loadStories';
-export { paddedBox } from './src/pageDecorator';
+export { paddedBox, paddedSizedBox } from './src/pageDecorator';
+export { default as Example } from './src/Example';
+export { default as FontReady } from './src/FontReady';
 
 export const apolloMockConfig = { typeDefs, resolvers, mocks };
 /** @styleguide-autodiscovery-ignore-end */

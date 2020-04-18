@@ -5,7 +5,7 @@ import { Box } from 'zbase';
 import { storiesOf } from '../../../.storybook/storyHelpers';
 import DefaultExample from './exampleDefault';
 import LabelExample from './exampleLabel';
-import { Form } from '../Form';
+import { Form, FormDateInput } from '../../..';
 
 storiesOf('forms|Form.DateInput', module)
   .addDecorator((getStory: Function) => (
@@ -19,7 +19,7 @@ storiesOf('forms|Form.DateInput', module)
 
 const today = new Date();
 const DisabledDaysExample = () => (
-  <Form onSubmit={() => {}} initialValues={{ date: '' }}>
-    <Form.DateInput name="date" label="Date" pickerOptions={{ disabledDays: [today] }} />
+  <Form onSubmit={() => {}} initialValues={{ date: '' }} validationSchema={{ date: Form.Yup.string().required() }}>
+    <FormDateInput name="date" label="Date" pickerOptions={{ disabledDays: [today] }} />
   </Form>
 );

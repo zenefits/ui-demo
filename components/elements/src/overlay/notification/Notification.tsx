@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Snackbar, { SnackbarProps } from '@material-ui/core/Snackbar';
-import { ObjectOmit } from 'typelevel-ts';
 
 import { styled } from 'z-frontend-theme';
 import { color, radius, space } from 'z-frontend-theme/utils';
@@ -9,7 +8,7 @@ import { Flex } from 'zbase';
 import { IconButton } from '../../../index';
 import { CloseReason } from './NotificationManager';
 
-type NotificationProps = ObjectOmit<SnackbarProps, keyof { onClose: any; open: any }> & {
+type NotificationProps = Omit<SnackbarProps, keyof { onClose: any; open: any }> & {
   /** If true, the Notification is open. */
   open: boolean;
   /**
@@ -37,6 +36,7 @@ class Notification extends Component<NotificationProps> {
   constructor(props: NotificationProps) {
     super(props);
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       open: false,
     };
   }

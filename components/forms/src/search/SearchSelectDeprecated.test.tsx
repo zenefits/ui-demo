@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactWrapper } from 'enzyme';
 
 import { Button } from 'z-frontend-elements';
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import SearchSelect, {
   BasicSearchSelect,
@@ -37,17 +37,9 @@ const runAfterPromisesResolve = (fn: Function, wrapper: ReactWrapper) => {
   jest.runOnlyPendingTimers();
 };
 
-// const splitResolver = (resolver, numSplits) => {
-//   const resolvers = [];
-//   const promises: Promise<{}>[] = [];
-
-//   for (let i = 0; i < numSplits; i += 1) {
-//     promises.push(new Promise(resolve => resolvers.push(resolve)));
-//   }
-//   Promise.all(promises).then(() => resolver());
-
-//   return resolvers;
-// };
+// Specifically setting debounceWaitTime to 100 here because the default 300
+// causes a bug, see https://github.com/facebook/jest/issues/3465
+const debounceWaitTime = 100;
 
 const mockChangeEvent = (value: string) => {
   return { target: { value } };
@@ -55,24 +47,25 @@ const mockChangeEvent = (value: string) => {
 
 describe('Search', () => {
   it('should mount without throwing an error', () => {
-    expect(mountWithTheme(<SearchSelect getOptions={getOptions} />)).toHaveLength(1);
+    expect(mountEnzymeWithTheme(<SearchSelect getOptions={getOptions} />)).toHaveLength(1);
   });
 
   it('should render input when the button is clicked', () => {
-    const wrapper = mountWithTheme(<SearchSelect getOptions={getOptions} />);
+    const wrapper = mountEnzymeWithTheme(<SearchSelect getOptions={getOptions} />);
     expect(wrapper.find(Button).length).toBe(1);
     expect(wrapper.find(combobox).length).toBe(0);
 
     wrapper.find(Button).simulate('click');
     expect(wrapper.find(Button).length).toBe(0);
     expect(wrapper.find(combobox).length).toBe(1);
+    expect(wrapper.find(combobox).props().value).toBe('');
   });
 
   describe('Async', () => {
     it('shows options after input changes', done => {
-      // Specifically setting debounceWaitTime to 200 here because the default 300
-      // causes a bug, see https://github.com/facebook/jest/issues/3465
-      const wrapper = mountWithTheme(<SearchSelect getOptions={getOptionsAsync} debounceWaitTime={200} />);
+      const wrapper = mountEnzymeWithTheme(
+        <SearchSelect getOptions={getOptionsAsync} debounceWaitTime={debounceWaitTime} />,
+      );
       wrapper.find(Button).simulate('click');
       wrapper.find(combobox).simulate('change', mockChangeEvent('Op'));
 
@@ -86,9 +79,9 @@ describe('Search', () => {
     });
 
     it('shows no results message', done => {
-      // Specifically setting debounceWaitTime to 200 here because the default 300
-      // causes a bug, see https://github.com/facebook/jest/issues/3465
-      const wrapper = mountWithTheme(<SearchSelect getOptions={getOptionsAsync} debounceWaitTime={200} />);
+      const wrapper = mountEnzymeWithTheme(
+        <SearchSelect getOptions={getOptionsAsync} debounceWaitTime={debounceWaitTime} />,
+      );
       wrapper.find(Button).simulate('click');
       wrapper.find(combobox).simulate('change', mockChangeEvent('Opz'));
       jest.runAllTimers();
@@ -102,7 +95,7 @@ describe('Search', () => {
 
 describe('BasicSearchSelect', () => {
   it('finds exact match', done => {
-    const wrapper = mountWithTheme(<BasicSearchSelect options={optionList} />);
+    const wrapper = mountEnzymeWithTheme(<BasicSearchSelect options={optionList} />);
     wrapper.find(Button).simulate('click');
     const searchValue = 'Option 1';
     wrapper.find(combobox).simulate('change', mockChangeEvent(searchValue));
@@ -115,7 +108,7 @@ describe('BasicSearchSelect', () => {
   });
 
   it('finds partial match', done => {
-    const wrapper = mountWithTheme(<BasicSearchSelect options={optionList} />);
+    const wrapper = mountEnzymeWithTheme(<BasicSearchSelect options={optionList} />);
     wrapper.find(Button).simulate('click');
     wrapper.find(combobox).simulate('change', mockChangeEvent('Option'));
     runAfterPromisesResolve(() => {
@@ -126,7 +119,7 @@ describe('BasicSearchSelect', () => {
   });
 
   it('finds case insensitive match', done => {
-    const wrapper = mountWithTheme(<BasicSearchSelect options={optionList} />);
+    const wrapper = mountEnzymeWithTheme(<BasicSearchSelect options={optionList} />);
     wrapper.find(Button).simulate('click');
     wrapper.find(combobox).simulate('change', mockChangeEvent('option'));
     jest.runAllTimers();

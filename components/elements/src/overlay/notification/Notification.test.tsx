@@ -1,7 +1,7 @@
 import React from 'react';
 import 'jest-styled-components';
 
-import { mountWithTheme } from 'z-frontend-theme/test-utils/theme';
+import { mountEnzymeWithTheme } from 'z-frontend-theme/test-utils/theme';
 
 import Notification from './Notification';
 
@@ -9,7 +9,7 @@ import Notification from './Notification';
 
 describe('Notification', () => {
   it('should mount without throwing an error', () => {
-    const mounted = mountWithTheme(<Notification open={false}>Task assigned.</Notification>);
+    const mounted = mountEnzymeWithTheme(<Notification open={false}>Task assigned.</Notification>);
     expect(mounted).toHaveLength(1);
   });
 });

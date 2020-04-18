@@ -9,6 +9,7 @@ import withWebUtilProps, {
   FlexItemProps,
   ResultWebComponentProps,
 } from '../withUtilPropsWeb';
+import { makeDummyComponentForDocs } from '../docsUtil';
 
 // NOTE: 'space-evenly' and 'stretch' are not widely supported so not included
 type FlexJustify = 'flex-start' | 'center' | 'flex-end' | 'space-around' | 'space-between';
@@ -52,6 +53,9 @@ const flexPropsMap: PropsMap = {
   ...flexItemPropsMap,
 };
 export type FlexProps = ResultWebComponentProps<DivProps, FlexAdditionalProps>;
+
+export const FlexForDocs = makeDummyComponentForDocs<FlexProps>();
+FlexForDocs.displayName = 'Flex';
 
 export default withWebUtilProps<DivProps, FlexAdditionalProps>({
   displayName: 'Flex',

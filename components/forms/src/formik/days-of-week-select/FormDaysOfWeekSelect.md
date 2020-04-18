@@ -16,8 +16,8 @@ Single weekday:
 
 #### Related
 
-- [Form.CircleButtonSelect](#!/Form.CircleButtonSelect)
-- [Form.RadioGroup](#!/Form.RadioGroup)
-- [Form.CheckboxGroup](#!/Form.CheckboxGroup)
-- [Form.Select](#!/Form.Select)
-- [Form.CustomTileInput](#!/Form.CustomTileInput)
+- [FormCircleButtonSelect](#!/FormCircleButtonSelect)
+- [FormRadioGroup](#!/FormRadioGroup)
+- [FormCheckboxGroup](#!/FormCheckboxGroup)
+- [FormSelect](#!/FormSelect)
+- [FormCustomTileInput](#!/FormCustomTileInput)

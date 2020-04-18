@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { matchPath } from 'react-router-dom';
-import _ from 'lodash';
+import { cloneDeep, sortBy } from 'lodash';
 
 import { getApollo } from 'z-frontend-app-bootstrap';
 
@@ -128,7 +128,7 @@ export default async function initState(params: {
     // const allFlowErrors = getApiDataFromState(getState(), 'flowError').data;
     // const flowErrors = (flow.errors || []).map(errorId => allFlowErrors[errorId]);
     if (sectionsConfigGenerator) {
-      sections = _.cloneDeep(sectionsConfigGenerator(flowSections));
+      sections = cloneDeep(sectionsConfigGenerator(flowSections));
       sections.forEach(newSection => {
         const oldSection = sectionsConfig.find(s => s.path === newSection.path);
         if (oldSection) {
@@ -154,12 +154,15 @@ export default async function initState(params: {
 
     sections = sections.map(sec => ({
       ...sec,
-      steps: sortSteps(sec.steps.filter(st => serverSteps[getStepFullName(st)]), flowSections),
+      steps: sortSteps(
+        sec.steps.filter(st => serverSteps[getStepFullName(st)]),
+        flowSections,
+      ),
     }));
 
     const allSteps: WizardStepWithComponent[] = sections.reduce((all, sec) => all.concat(sec.steps), []);
     let restOfFlowDisabled = false;
-    _.sortBy(flowSections, 'index').forEach(fs => {
+    sortBy(flowSections, 'index').forEach(fs => {
       const configStep = allSteps.find(s => isWizardStepMatchingServerStep(s, fs));
       if (!configStep) {
         return;
@@ -182,7 +185,7 @@ export default async function initState(params: {
     sec.isEntered = sec.steps.some(st => st.isEntered);
   });
 
-  ////////////////////////////////////////////////////////////////////////////////
+  // //////////////////////////////////////////////////////////////////////////////
 
   // if current location maps to an accessible step, then keep it and mark as current
   // otherwise send to first accessible step of current section if section is accessible

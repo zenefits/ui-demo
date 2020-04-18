@@ -1,12 +1,10 @@
-A component that truncates line(s) of text with ellipsis and provides a toggle link to expand the text inline.
+A component that truncates text to a certain number of lines and provides a "Show More" link to expand the text.
 
 #### Examples
 
-```jsx
-// loadExample('./exampleDefault')
+```jsx noeditor
+<StorybookExample selectedKind="elements|ReadMore" selectedStory="default" />
 ```
-
-See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=elements|ReadMore).
 
 #### Related
 

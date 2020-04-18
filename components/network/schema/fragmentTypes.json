@@ -1,0 +1,138 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "Plan_Rate",
+        "possibleTypes": [
+          {
+            "name": "StdPlanRate"
+          },
+          {
+            "name": "AddPlanRate"
+          },
+          {
+            "name": "LtdPlanRate"
+          },
+          {
+            "name": "LifePlanRate"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "PlanRate",
+        "possibleTypes": [
+          {
+            "name": "StdPlanRate"
+          },
+          {
+            "name": "AddPlanRate"
+          },
+          {
+            "name": "LtdPlanRate"
+          },
+          {
+            "name": "LifePlanRate"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "BenefitsPlan",
+        "possibleTypes": [
+          {
+            "name": "Plan"
+          },
+          {
+            "name": "DentalPlan"
+          },
+          {
+            "name": "VisionPlan"
+          },
+          {
+            "name": "LifePlanNew"
+          },
+          {
+            "name": "AddPlan"
+          },
+          {
+            "name": "StdPlanNew"
+          },
+          {
+            "name": "LtdPlanNew"
+          },
+          {
+            "name": "SupplementalPlan"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "QFQuestionResponse",
+        "possibleTypes": [
+          {
+            "name": "QFRatingResponse"
+          },
+          {
+            "name": "QFTextResponse"
+          },
+          {
+            "name": "QFCheckboxResponse"
+          },
+          {
+            "name": "GenericQFQuestionResponse"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "IQFQuestionResponse",
+        "possibleTypes": [
+          {
+            "name": "QFRatingResponse"
+          },
+          {
+            "name": "QFTextResponse"
+          },
+          {
+            "name": "QFCheckboxResponse"
+          },
+          {
+            "name": "GenericQFQuestionResponse"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "IQFSession",
+        "possibleTypes": [
+          {
+            "name": "QFSession"
+          },
+          {
+            "name": "ReviewSession"
+          },
+          {
+            "name": "WellbeingAssessmentSession"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "MarketplacePlan",
+        "possibleTypes": [
+          {
+            "name": "MarketplaceMedicalPlan"
+          },
+          {
+            "name": "MarketplaceDentalPlan"
+          },
+          {
+            "name": "MarketplaceVisionPlan"
+          }
+        ]
+      }
+    ]
+  }
+}

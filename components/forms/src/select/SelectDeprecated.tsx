@@ -2,7 +2,6 @@ import React, { Component, SelectHTMLAttributes, StatelessComponent } from 'reac
 import { omitBy, pickBy } from 'lodash';
 // @ts-ignore
 import ReactSelect, { Async } from 'react-select';
-import { ObjectOmit } from 'typelevel-ts';
 
 import { styled, theme } from 'z-frontend-theme';
 import { isUtilProp, Box, BoxProps } from 'zbase';
@@ -107,7 +106,7 @@ interface SelectOwnProps<ValueType = any> {
   openOnFocus?: boolean;
 }
 
-export type SelectProps<ItemType = any> = ObjectOmit<
+export type SelectProps<ItemType = any> = Omit<
   BoxProps & SelectHTMLAttributes<HTMLSelectElement>,
   keyof SelectOwnProps<ItemType>
 > &
@@ -126,7 +125,7 @@ const multiSelectItemsMarginsMap: { [size in SelectSize]: string } = {
   large: '10px',
 };
 
-const StyledSelectFunction = (select: StatelessComponent<SelectProps>) => styled<SelectProps>(select)`
+const StyledSelectFunction = (select: StatelessComponent<SelectProps>) => styled(select)<SelectProps>`
   .Select-control {
     cursor: default;
     display: table;
@@ -219,13 +218,13 @@ const StyledSelectFunction = (select: StatelessComponent<SelectProps>) => styled
     border-radius: 0 0 ${radius()} ${radius()};
     border-color: ${color('secondary.b')};
     box-shadow: none;
-    font-size: ${props => fontSizes(sizeMap[props.s])};
+    font-size: ${props => fontSizes(sizeMap[props.s as SelectSize])};
     margin-top: -1px;
   }
 
   &.Select--multi .Select-value {
     padding-left: 0;
-    margin-top: ${props => multiSelectItemsMarginsMap[props.s]};
+    margin-top: ${props => multiSelectItemsMarginsMap[props.s as SelectSize]};
     margin-left: 0;
     margin-right: 5px; /* same as react-select */
     color: ${color('link.normal')};
@@ -244,6 +243,9 @@ export const StyledSelect = StyledSelectFunction(ReactSelect);
 
 const StyledSelectAsync = StyledSelectFunction(Async);
 
+/**
+ * @deprecated Please use Form.Select instead
+ */
 class Select<ValueType = any> extends Component<SelectProps<ValueType>> {
   static defaultProps = {
     simpleValue: true,

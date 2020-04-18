@@ -1,33 +1,45 @@
 import React, { Component } from 'react';
-import { getIn, Field, FieldProps } from 'formik';
+import { getIn } from 'formik';
 
+import Field from '../Field';
 import MultiSelect, { SharedMultiSelectProps } from '../../select/MultiSelect';
 import FormFieldWrapper, { getErrorId, FormFieldProps } from '../FormFieldWrapper';
 
-type FormMultiSelectProps<OptionValue> = SharedMultiSelectProps<OptionValue> & FormFieldProps;
+export type FormMultiSelectProps<OptionValue> = SharedMultiSelectProps<OptionValue> & FormFieldProps;
 
 class FormMultiSelect<OptionValue> extends Component<FormMultiSelectProps<OptionValue>> {
   render() {
-    const { name, label, containerProps, optional, onChange, ...rest } = this.props;
+    const {
+      name,
+      label,
+      containerProps,
+      optional,
+      onChange,
+      limitRerender,
+      dependencies,
+      format,
+      helpText,
+      ...rest
+    } = this.props;
     return (
-      <Field
-        name={name}
-        render={({ field, form }: FieldProps) => {
+      <Field name={name} limitRerender={limitRerender} dependencies={dependencies}>
+        {({ field, form, setFieldValueAndTouched }) => {
           const error: any = getIn(form.touched, name) && getIn(form.errors, name);
           return (
             <FormFieldWrapper
               name={name}
               label={label}
+              helpText={helpText}
               error={error}
               containerProps={containerProps}
               optional={optional}
+              format={format}
             >
               <MultiSelect<OptionValue>
                 name={name}
                 value={field.value}
                 onChange={(value: OptionValue[]) => {
-                  form.setFieldValue(field.name, value);
-                  form.setFieldTouched(field.name);
+                  setFieldValueAndTouched(field.name, value);
                   onChange && onChange(value);
                 }}
                 onInputValueChange={this.props.onInputValueChange}
@@ -39,7 +51,7 @@ class FormMultiSelect<OptionValue> extends Component<FormMultiSelectProps<Option
             </FormFieldWrapper>
           );
         }}
-      />
+      </Field>
     );
   }
 }

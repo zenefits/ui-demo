@@ -40,4 +40,4 @@ These components should be used to specify options and groups respectively.
 
 #### Related
 
-- [Form.Select](#!/Form.Select)
+- [FormSelect](#!/FormSelect)

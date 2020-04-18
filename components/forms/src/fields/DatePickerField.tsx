@@ -1,7 +1,7 @@
 import React, { StatelessComponent } from 'react';
+// eslint-disable-next-line zenefits-custom-rules/import-filter
 import { Field, Validator, WrappedFieldProps } from 'redux-form';
 import moment, { Moment } from 'moment';
-import { ObjectOmit } from 'typelevel-ts';
 
 import { FieldFormatWrapper, FieldProps } from './FieldWrapper';
 import DateInput, { DateInputProps } from '../date-picker/DateInput';
@@ -14,7 +14,7 @@ type MinMaxDateValidationProps = {
   maxDate?: Date;
 };
 
-type AllInputProps = ObjectOmit<FieldProps, keyof DateInputProps> &
+type AllInputProps = Omit<FieldProps, keyof DateInputProps> &
   WrappedFieldProps &
   DateInputProps &
   MinMaxDateValidationProps;
@@ -33,7 +33,7 @@ const WrappedDateInput: StatelessComponent<AllInputProps> = ({
 }) => {
   const { touched, error } = meta;
   const finalErrorText = (touched && error) || errorText;
-  const resultPickerOptions = Object.assign({}, pickerOptions || {});
+  const resultPickerOptions = { ...(pickerOptions || {}) };
   if (rest.minDate || rest.maxDate) {
     resultPickerOptions.disabledDays = {
       before: rest.minDate && moment(rest.minDate).toDate(),
@@ -60,7 +60,7 @@ const WrappedDateInput: StatelessComponent<AllInputProps> = ({
   );
 };
 
-type DatePickerFieldProps = ObjectOmit<DateInputProps, keyof FieldProps> &
+type DatePickerFieldProps = Omit<DateInputProps, keyof FieldProps> &
   FieldProps &
   MinMaxDateValidationProps & {
     format?: string;
@@ -95,10 +95,8 @@ export function formatIsoString(date: Date | Moment | string): string {
     const parsed = moment(dateOnly, acceptableDateFormats, strictParse).startOf('day');
     if (parsed.isValid()) {
       return parsed.format(ISO_8601_DATE);
-    } else {
-      if (__DEVELOPMENT__ && __CLIENT__) {
-        console.warn(`received unrecognized date (${date}); returning null`);
-      }
+    } else if (__DEVELOPMENT__ && __CLIENT__) {
+      console.warn(`received unrecognized date (${date}); returning null`);
     }
   }
   return null; // do not default to today to avoid surprises

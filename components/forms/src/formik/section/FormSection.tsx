@@ -6,7 +6,7 @@ import { ScreenReaderOnly } from 'z-frontend-elements';
 
 type FormSectionProps = {
   /**
-   * Section heading label. To reveal only for screen readers, combine with `visuallyHidden`.
+   * Section heading label. To reveal only for screen readers, combine with `isLabelVisuallyHidden`.
    */
   label: string;
   /**
@@ -17,7 +17,7 @@ type FormSectionProps = {
    * Hide the label visually so that only screen readers can recognize it.
    * @default false
    */
-  visuallyHidden?: boolean;
+  isLabelVisuallyHidden?: boolean;
   /**
    * Padding bottom.
    * @default 4
@@ -40,11 +40,11 @@ const SectionHeading = styled(TextBlock)`
 class FormSection extends Component<FormSectionProps> {
   static defaultProps = {
     pb: 4,
-    visuallyHidden: false,
+    isLabelVisuallyHidden: false,
   };
 
   render() {
-    const { label, visuallyHidden, children, ...rest } = this.props;
+    const { label, isLabelVisuallyHidden, children, ...rest } = this.props;
     const headingBlock = (
       <SectionHeading tag="legend" fontStyle="headings.xs" color="grayscale.d" {...rest}>
         {label}
@@ -53,7 +53,7 @@ class FormSection extends Component<FormSectionProps> {
     const totalChildren = React.Children.count(children);
     return (
       <StyledFieldset>
-        {visuallyHidden ? <ScreenReaderOnly>{headingBlock}</ScreenReaderOnly> : headingBlock}
+        {isLabelVisuallyHidden ? <ScreenReaderOnly>{headingBlock}</ScreenReaderOnly> : headingBlock}
         {React.Children.map(children, (child, i) => {
           // remove mb on final child in a section
           // TODO: this doesn't work for multi-field components like Form.AddressUS

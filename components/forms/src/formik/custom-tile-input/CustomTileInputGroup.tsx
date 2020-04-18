@@ -1,14 +1,18 @@
 import React, { Component, ReactElement, ReactNode } from 'react';
+import { FieldArrayRenderProps } from 'formik';
 
 import { Box, Flex, TextBlock } from 'zbase';
 import { radius } from 'z-frontend-theme/utils';
-import { styled, HideFor } from 'z-frontend-theme';
+import { styled, Hide } from 'z-frontend-theme';
 
 import FormCustomTileInput, { FormCustomTileInputProps } from './FormCustomTileInput';
 import { StyledBox as CustomTileInputStyledBox } from '../../custom-tile-input/CustomTileInput';
+import { getCheckboxOnChange, GetCheckboxOnChangeParams } from '../checkbox/FormCheckboxGroup';
 
 type TileInputProps = FormCustomTileInputProps & {
-  name: string;
+  /**
+   * Label on the tile.
+   */
   label: string;
   children?: ReactNode;
 };
@@ -34,6 +38,16 @@ export type CustomTileInputGroupProps = {
    */
   lastInputLabel?: ReactNode;
   children: (props: React.FunctionComponent<TileInputProps>) => ReactElement<FormCustomTileInput>[];
+  limitRerender?: boolean;
+  dependencies?: string[];
+  /**
+   * Props passed down from Formik <FieldArray>'s render prop. This is only available in checkbox mode.
+   */
+  arrayHelpers?: FieldArrayRenderProps;
+  /**
+   * Array values for the group field. This is only available in checkbox mode.
+   */
+  arrayValues?: any[];
 };
 
 // Only outside corners should have a radius
@@ -63,24 +77,32 @@ const TileContainer = styled(Flex)`
 
 export default class CustomTileInputGroup extends Component<CustomTileInputGroupProps> {
   TileInput: React.FunctionComponent<TileInputProps> = (props: TileInputProps) => {
-    const { value, label, children, name, ...restProps } = props;
+    const { arrayHelpers, arrayValues, isCheckbox } = this.props;
+    const { value, label, children, name, dependencies, ...restProps } = props;
+
+    const propsForCheckboxMode = isCheckbox
+      ? getPropsForCheckboxMode({ arrayHelpers, arrayValues, checkboxName: name })
+      : {};
+
     // Allow tiles to be rendered with custom styling
     return (
       <TileContainer flex="1">
         <FormCustomTileInput
           boxProps={{ py: 3, height: '100%' }}
           containerProps={{ w: '100%', height: '100%', mb: 0 }}
-          isCheckbox={this.props.isCheckbox}
+          isCheckbox={isCheckbox}
           omitCheckIcon
           value={value}
           name={name}
           height="100%"
+          limitRerender={this.props.limitRerender}
+          dependencies={this.props.dependencies}
+          disableError
+          {...propsForCheckboxMode}
           {...restProps}
         >
-          {children ? (
-            children
-          ) : (
-            <Flex align="center" justify={'center'} height="100%">
+          {children || (
+            <Flex align="center" justify="center" height="100%">
               <TextBlock fontStyle="controls.s" color="text.light" textAlign="center">
                 {label}
               </TextBlock>
@@ -98,12 +120,12 @@ export default class CustomTileInputGroup extends Component<CustomTileInputGroup
       return null;
     }
     return (
-      <HideFor breakpoints={stackMobileVertically ? [true] : [false]}>
+      <Hide forBreakpoints={stackMobileVertically ? [true] : [false]}>
         <Flex mb={2} fontStyle="paragraphs.s" justify="space-between">
           <TextBlock>{firstInputLabel}</TextBlock>
           <TextBlock>{lastInputLabel}</TextBlock>
         </Flex>
-      </HideFor>
+      </Hide>
     );
   }
 
@@ -119,4 +141,15 @@ export default class CustomTileInputGroup extends Component<CustomTileInputGroup
       </Box>
     );
   }
+}
+
+function getPropsForCheckboxMode({ arrayHelpers, arrayValues, checkboxName }: GetCheckboxOnChangeParams) {
+  if (arrayHelpers && arrayValues) {
+    return {
+      onChange: getCheckboxOnChange({ arrayHelpers, arrayValues, checkboxName }),
+      checked: arrayValues.includes(checkboxName),
+    };
+  }
+
+  return {};
 }

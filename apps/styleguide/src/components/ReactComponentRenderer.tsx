@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Pathline from 'react-styleguidist/lib/rsg-components/Pathline';
+import Pathline from 'react-styleguidist/lib/client/rsg-components/Pathline';
 
 import { Card } from 'z-frontend-composites';
 import { styled } from 'z-frontend-theme';
@@ -9,6 +9,11 @@ import { Button } from 'z-frontend-elements';
 
 import DocEditLink from './DocEditLink';
 import { getImportPath, getStorybookLiveLink } from './rendererHelpers';
+
+// @ts-ignore
+import storybookIcon from '../images/storybook-icon.png';
+// @ts-ignore
+import storybookGitIcon from '../images/storybook-git.png';
 
 interface ReactComponentProps {
   name: string;
@@ -45,8 +50,17 @@ const StyledPropsTable = styled.div`
   }
 `;
 
+function hasTableProps(tabBody) {
+  try {
+    return (tabBody as any).props.props.props.props.length > 0;
+  } catch (error) {
+    console.warn('unable to determine if component has props - assuming true');
+    return true;
+  }
+}
+
 // override default to put everything in a Card and use <details> for props
-// https://github.com/styleguidist/react-styleguidist/blob/master/src/rsg-components/ReactComponent/ReactComponentRenderer.js
+// https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/ReactComponent/ReactComponentRenderer.js
 class ReactComponentRenderer extends Component<ReactComponentProps> {
   render() {
     const { name, heading, pathLine, filepath, description, docs, examples, tabButtons, tabBody } = this.props;
@@ -58,9 +72,9 @@ class ReactComponentRenderer extends Component<ReactComponentProps> {
     )}`;
     const liveStorybookLink = getStorybookLiveLink(pathLine, name);
     const storybookSourceLink = githubLink.replace(/\.tsx$/, '.stories.tsx');
-
+    const showTable = hasTableProps(tabBody);
     return (
-      <Card mt={3} id={name + '-container'}>
+      <Card mt={3} id={`${name}-container`}>
         <Card.Header>
           <Flex justify="space-between" align="flex-start">
             <Box>
@@ -69,18 +83,18 @@ class ReactComponentRenderer extends Component<ReactComponentProps> {
             </Box>
 
             <Flex justify="center">
-              <Button.Link s="small" mode="transparent" title="Live Storybook" href={liveStorybookLink} target="_blank">
-                <Image src="./images/storybook-icon.png" w="24px" />
+              <Button.Link s="small" mode="transparent" title="Live examples" href={liveStorybookLink} target="_blank">
+                <Image src={storybookIcon} w="24px" alt="Visit live examples" />
               </Button.Link>
 
               <Button.Link
                 s="small"
                 mode="transparent"
-                title="Storybook source code on GitHub"
+                title="Example code on GitHub"
                 href={storybookSourceLink}
                 target="_blank"
               >
-                <Image src="./images/storybook-git.png" w="19px" mt="3px" />
+                <Image src={storybookGitIcon} w="19px" mt="3px" alt="View example code on GitHub" />
               </Button.Link>
 
               <Button.Link
@@ -96,8 +110,7 @@ class ReactComponentRenderer extends Component<ReactComponentProps> {
             </Flex>
           </Flex>
         </Card.Header>
-        {/* TODO: hide props table entirely if no props documented */}
-        {tabButtons && (
+        {tabButtons && showTable && (
           <Card.Row pb={4}>
             {/* Props & methods button */}
             <div className="zsg-tabs">

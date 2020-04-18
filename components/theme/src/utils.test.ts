@@ -27,6 +27,7 @@ describe('utils#color', () => {
 
   it('supports opacity', () => {
     expect(color('primary.a', 0.5)(props as any)).toBe('rgba(255,255,255,0.5)');
+    expect(color('primary.a', 0)(props as any)).toBe('rgba(255,255,255,0)');
   });
 
   it('supports transparent', () => {

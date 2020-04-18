@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Box, TextInline } from 'zbase';
+import { Box } from 'zbase';
 import { Avatar, Card } from 'z-frontend-composites';
+import { List } from 'z-frontend-elements';
 
 import { storiesOf } from '../../.storybook/storyHelpers';
 import { NavBar } from '../../index';
@@ -17,13 +18,10 @@ const employee = {
 };
 
 const detailsRender = () => (
-  <TextInline>
-    {employee.title}{' '}
-    <TextInline color="grayscale.e" px={2}>
-      |
-    </TextInline>{' '}
-    Started in {employee.startDate}
-  </TextInline>
+  <List inline>
+    <List.Item>{employee.title}</List.Item>
+    <List.Item>Started in {employee.startDate}</List.Item>
+  </List>
 );
 
 const avatarRender = () => (

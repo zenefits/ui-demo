@@ -17,6 +17,11 @@ export type AddressHelperOptions = {
   includeName?: boolean;
 };
 
+export type AddressValidationOptions = {
+  includeName?: boolean;
+  includeCountry?: boolean;
+};
+
 export function getEmptyValue(options: AddressHelperOptions = {}): AddressValue {
   const emptyValue: AddressValue = {
     line1: '',
@@ -39,7 +44,10 @@ type AddressValidationType = { [key in string]: Yup.ObjectSchema<any> };
 
 const requiredMessage = (key: string): string => `${key} is a required field.`;
 
-export function getValidationSchema(namePrefix: string, options: AddressHelperOptions = {}): AddressValidationType {
+export function getValidationSchema(
+  namePrefix: string,
+  options: AddressValidationOptions = { includeCountry: true },
+): AddressValidationType {
   // TODO: schema error messages should use country-specific labels
   const schema: AddressValidationSchemaType = {
     line1: Yup.string().required(requiredMessage('Address Line 1')),
@@ -49,11 +57,20 @@ export function getValidationSchema(namePrefix: string, options: AddressHelperOp
         ? schema
         : schema.nullable(true).required(requiredMessage('State/Province'));
     }),
-    zip: Yup.string().required(requiredMessage('Code')),
-    country: Yup.string()
-      .nullable(true)
-      .required(requiredMessage('Country')),
+    zip: Yup.string()
+      .required(requiredMessage('Zip Code'))
+      .when('country', (country: string, schema: Yup.StringSchema) => {
+        return country === 'US'
+          ? schema.matches(/^[0-9]{5}(?:-[0-9]{4})?$/, { message: 'Invalid zip code.', excludeEmptyString: true })
+          : schema;
+      }),
+    country: options.includeCountry
+      ? Yup.string()
+          .nullable(true)
+          .required(requiredMessage('Country'))
+      : Yup.string().nullable(true),
   };
+
   if (options.includeName) {
     schema.name = Yup.string().required(requiredMessage('Name'));
   }

@@ -1,34 +1,12 @@
-Interactive text that references other sections or screens that the user can access with a mouse click, keypress, or touch. It typically has a distinct color to distinguish it from static text. Not all interactive text is necessarily a link, despite sharing link styling.
+Interactive text that references other sections or screens that the user can access with a mouse click, keypress, or touch. It typically has a distinct color to distinguish it from static text.
 
 This component wraps HTML's [`<a>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) element.
 
 #### Examples
 
-Standard link:
-
-```jsx
-// loadExample('./exampleHref')
+```jsx noeditor
+<StorybookExample selectedKind="elements|Link" selectedStory="types" />
 ```
-
-Route link (using `to` like [react-router](https://reacttraining.com/react-router/web/api/Link)):
-
-```jsx
-// loadExample('./exampleRoute')
-```
-
-External link:
-
-```jsx
-// loadExample('./exampleExternal')
-```
-
-Convenience links for emails and phone numbers:
-
-```jsx
-// loadExample('./exampleConvenience')
-```
-
-See [more examples](http://ui.zenefits.com/app/stories/?selectedKind=elements|Link).
 
 #### Usage
 

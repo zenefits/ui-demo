@@ -70,7 +70,7 @@ class CalendarRowHeaders<TCell, TRow extends { columns: TCell[] }> extends React
           const bgColor: ColorString = index % 2 ? colors.rowBgLight : colors.rowBgDark;
           return (
             <CalendarRowHeader<TCell, TRow>
-              key={index}
+              key={JSON.stringify(row)}
               row={row}
               rowHeaderTemplate={rowHeaderTemplate}
               bgColor={bgColor}

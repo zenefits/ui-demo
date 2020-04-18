@@ -1,15 +1,16 @@
 import React from 'react';
-import _ from 'lodash';
+import { isEqual, range } from 'lodash';
 // @ts-ignore
 import tabbable from 'tabbable';
 
-import { Box, BoxProps } from 'zbase';
+import { BoxProps } from 'zbase';
 
 // % operator handles negative weirdly in js
 const mod = (x: number, y: number) => (x + y) % y;
 
 export const KEY_CODES = {
   ENTER: 13,
+  SHIFT: 16,
   ESC: 27,
   SPACEBAR: 32,
   TAB: 9,
@@ -19,7 +20,10 @@ export const KEY_CODES = {
   DOWN_ARROW: 40,
 };
 
-export type CellType = 'read-only' | 'editable';
+export type CellType = 'read-only' | 'single-input' | 'single-checkbox' | 'action';
+const actionableCellTypes: CellType[] = ['single-input', 'single-checkbox', 'action'];
+const immediatelyFocusedCellTypes: CellType[] = ['single-input', 'single-checkbox'];
+const cellTypesWithEditMode: CellType[] = ['single-input', 'action'];
 
 export type HeaderType = 'row' | 'column';
 
@@ -28,7 +32,6 @@ export type CellParams = {
   rowIndex: number;
   contentType: CellType;
   headerType?: HeaderType;
-  headerDescribes?: number[];
   refPropName?: string;
   colSpan?: number;
   rowSpan?: number;
@@ -42,8 +45,18 @@ export type GridState = {
   activeRowIndex: number;
   activeColumnIndex: number;
   editingActiveCell: boolean;
+  // Whether the focus is inside grid
   hasFocus: boolean;
   latestUpdateTriggerEl?: HTMLElement;
+  primedForSkip: boolean;
+  // Whether the last key down is Tab key
+  lastKeyDownIsTab: boolean;
+};
+
+// Used externally to determine if rerenders should be blocked
+export const compareGridStates = (grid1: GridState, grid2: GridState) => {
+  const gridStateKeys: (keyof GridState)[] = ['activeRowIndex', 'activeColumnIndex', 'editingActiveCell', 'hasFocus'];
+  return gridStateKeys.some(property => grid1[property] !== grid2[property]);
 };
 
 type _GridState = {
@@ -51,21 +64,23 @@ type _GridState = {
   // Is not exposed to consumers to avoid confusion with activeRowIndex/activeColumnIndex
   keyboardRowIndex: number;
   keyboardColumnIndex: number;
+  /**
+   * Used in cell onBlur handler to decide whether it's changing focus to another row.
+   * @initial null
+   * It's set right before manually triggering .blur() when tabbing.
+   * It's reset to null after blur event.
+   *  */
+  nextActiveRowIndex?: number;
 } & GridState;
+
+export type OnLeaveRowEdit = (rowIndex: number) => void;
 
 type GridProps = {
   numRows: number;
   numColumns: number;
   disableMouseInteraction?: boolean;
-};
-
-const focusFirstElement = (el: HTMLElement) => {
-  const focusableEls = tabbable(el);
-  if (focusableEls.length === 0) {
-    console.warn("Can't find an element to focus");
-  } else {
-    focusableEls[0].focus();
-  }
+  onLeaveRowEdit?: OnLeaveRowEdit;
+  gridId?: string;
 };
 
 const ariaRolesForHeaderType = {
@@ -81,12 +96,29 @@ const getGridNumber = (() => {
   };
 })();
 
-export const AccessibleGridContext = React.createContext<
-  {
-    getGridProps?: (options: GridParams) => BoxProps;
-    getCellProps?: (options: CellParams) => BoxProps;
-  } & _GridState
->({} as any);
+export type GetGridAccessibilityHtmlProps = (options: GridParams) => BoxProps;
+export type GetCellAccessibilityHtmlProps = (options: CellParams) => BoxProps;
+export type GetCellState = (
+  cell: CellPosition,
+) => {
+  isActive: boolean;
+  isEditing: boolean;
+};
+type GetRowState = (rowIndex: number) => { hasFocus: boolean };
+
+export type GridHelpers = {
+  getGridHtmlProps: GetGridAccessibilityHtmlProps;
+  getCellHtmlProps: GetCellAccessibilityHtmlProps;
+  getCellState: GetCellState;
+  getRowState: GetRowState;
+};
+
+type GridContext = GridState & {
+  helpers: GridHelpers;
+};
+
+export const AccessibleGridHelpersContext = React.createContext<GridHelpers>({} as any);
+export const AccessibleGridStateContext = React.createContext<GridContext>({} as any);
 
 type CellSpan = {
   rowStarts: number;
@@ -95,31 +127,52 @@ type CellSpan = {
   columnEnds: number;
 };
 
+type CellPosition = {
+  rowIndex: number;
+  columnIndex: number;
+};
+
+const getBoundedNumber = (n: number, lowerBound: number, upperBound: number) =>
+  Math.max(lowerBound, Math.min(n, upperBound));
+
 export default class GridAccessibilityProvider extends React.Component<GridProps, _GridState> {
   globalGridNumber: number;
+
   gridRef: React.RefObject<any>;
-  cellRefs: React.RefObject<any>[][];
-  fullRowHeaderCells: {
-    [row: number]: number;
-  };
+
+  rowHeaderCells: Set<string>[];
+
+  columnHeaderCells: Set<string>[];
+
+  // Used to track which cell indexes are the start of spans
   spannedCells: {
     [key: string]: CellSpan;
   };
-  fullColumnHeaderCells: {
-    [column: number]: number;
+
+  // Uses to point cells included in spans to their object in spannedCells
+  // type: {
+  //   serialized cell position: serialized span start cell position
+  // }
+  spanReferences: {
+    [key: string]: string;
   };
-  partialRowHeaderCells: {
-    [row: number]: { headerIndex: number; describedColumns: number[] }[];
-  };
-  partialColumnHeaderCells: {
-    [column: number]: { headerIndex: number; describedRows: number[] }[];
-  };
+
   cellTypes: {
     [key: string]: CellType;
   };
+
   focusLoopTabListeners: {
     [key: string]: EventListener;
   };
+
+  static getDerivedStateFromProps(props: GridProps, state: _GridState) {
+    return {
+      activeRowIndex: getBoundedNumber(state.activeRowIndex, 0, props.numRows - 1),
+      keyboardRowIndex: getBoundedNumber(state.keyboardRowIndex, 0, props.numRows - 1),
+      activeColumnIndex: getBoundedNumber(state.activeColumnIndex, 0, props.numColumns - 1),
+      keyboardColumnIndex: getBoundedNumber(state.keyboardColumnIndex, 0, props.numColumns - 1),
+    };
+  }
 
   constructor(props: GridProps) {
     super(props);
@@ -130,42 +183,68 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
       keyboardColumnIndex: 0,
       editingActiveCell: false,
       hasFocus: false,
+      primedForSkip: false,
+      lastKeyDownIsTab: false,
+      nextActiveRowIndex: null,
     };
     this.globalGridNumber = getGridNumber();
     this.gridRef = React.createRef();
-    this.fullRowHeaderCells = {};
-    this.fullColumnHeaderCells = {};
-    this.partialRowHeaderCells = {};
-    this.partialColumnHeaderCells = {};
+    this.rowHeaderCells = range(props.numRows).map(i => new Set());
+    this.columnHeaderCells = range(props.numColumns).map(i => new Set());
     this.cellTypes = {};
     this.focusLoopTabListeners = {};
     this.spannedCells = {};
-    this.resetRefs();
+    this.spanReferences = {};
   }
 
-  getCellType = (row: number, column: number) => this.cellTypes[`${row}-${column}`];
-  setCellType = (type: CellType, row: number, column: number) => {
-    this.cellTypes[`${row}-${column}`] = type;
+  getCellType = (cell: CellPosition) => this.cellTypes[`${cell.rowIndex}-${cell.columnIndex}`];
+
+  getActiveCellType = () =>
+    this.getCellType({ rowIndex: this.state.activeRowIndex, columnIndex: this.state.activeColumnIndex });
+
+  setCellType = (cell: CellPosition, type: CellType) => {
+    this.cellTypes[`${cell.rowIndex}-${cell.columnIndex}`] = type;
   };
 
-  resetRefs = () => {
-    this.cellRefs = [];
-    _.range(this.props.numRows).forEach(() => {
-      const rowRefs: React.RefObject<any>[] = [];
-      _.range(this.props.numColumns).forEach(() => {
-        rowRefs.push(React.createRef());
-      });
-      this.cellRefs.push(rowRefs);
-    });
+  static focusFirstMaxRetries = 20;
+
+  focusFirstRetries = 0;
+
+  focusFirstTimeout: number;
+
+  focusFirstElement = (el: HTMLElement) => {
+    clearTimeout(this.focusFirstTimeout);
+
+    if (!el) {
+      return;
+    }
+
+    const focusableEls = tabbable(el);
+
+    // If the element isn't on the dom yet, poll until the element is there (or until we hit max retries)
+    if (focusableEls.length === 0) {
+      this.focusFirstRetries += 1;
+      if (this.focusFirstRetries < GridAccessibilityProvider.focusFirstMaxRetries) {
+        this.focusFirstTimeout = setTimeout(() => {
+          this.focusFirstElement(el);
+        }, 100);
+      }
+    } else {
+      this.focusFirstRetries = 0;
+      focusableEls[0].focus();
+    }
   };
 
   shift = (direction: 'column' | 'row', offset: number) => {
+    clearTimeout(this.focusFirstTimeout);
+
     const { keyboardRowIndex, keyboardColumnIndex } = this.state;
+
     this.gridRef.current.focus();
 
     let shiftedPosition = (direction === 'column' ? keyboardColumnIndex : keyboardRowIndex) + offset;
 
-    const currentCellSpan = this.spannedCells[`${keyboardRowIndex}-${keyboardColumnIndex}`];
+    const currentCellSpan = this.getCellSpan({ rowIndex: keyboardRowIndex, columnIndex: keyboardColumnIndex });
 
     if (currentCellSpan) {
       const starts = direction === 'column' ? currentCellSpan.columnStarts : currentCellSpan.rowStarts;
@@ -178,8 +257,8 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
 
     const nextCellSpan =
       direction === 'column'
-        ? this.spannedCells[`${keyboardRowIndex}-${shiftedPosition}`]
-        : this.spannedCells[`${shiftedPosition}-${keyboardColumnIndex}`];
+        ? this.getCellSpan({ rowIndex: keyboardRowIndex, columnIndex: shiftedPosition })
+        : this.getCellSpan({ rowIndex: shiftedPosition, columnIndex: keyboardColumnIndex });
 
     const nextKeyboardRow = direction === 'row' ? mod(shiftedPosition, this.props.numRows) : keyboardRowIndex;
     const nextKeyboardColumn =
@@ -187,7 +266,13 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
     const nextActiveRow = nextCellSpan ? nextCellSpan.rowStarts : nextKeyboardRow;
     const nextActiveColumn = nextCellSpan ? nextCellSpan.columnStarts : nextKeyboardColumn;
 
-    this.cellRefs[nextActiveRow][nextActiveColumn].current.scrollIntoView();
+    // getActiveCelEl does not currently work in cypress
+    this.getActiveCellEl() && this.getActiveCellEl().scrollIntoView({ behavior: 'smooth' });
+
+    const cellType = this.getCellType({ rowIndex: nextActiveRow, columnIndex: nextActiveColumn });
+    if (immediatelyFocusedCellTypes.includes(cellType)) {
+      this.focusActiveCell();
+    }
 
     this.setState(state => ({
       keyboardRowIndex: nextKeyboardRow,
@@ -199,44 +284,55 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
   };
 
   shiftRow = (offset: number) => this.shift('row', offset);
+
   shiftColumn = (offset: number) => this.shift('column', offset);
 
-  getGridId = () => `accessible-grid-${this.globalGridNumber}`;
-  getRowId = (row: number) => `accessible-grid-${this.globalGridNumber}-row-${row}`;
-  getCellId = (row: number, column: number) => `accessible-grid-${this.globalGridNumber}-cell-${row}-${column}`;
+  getGridId = () => this.props.gridId || `accessible-grid-${this.globalGridNumber}`;
 
-  getOwnedCellIdsForRow = (row: number) =>
-    _.range(this.props.numColumns)
-      .map(col => this.getCellId(row, col))
+  getRowId = (row: number) => `${this.getGridId()}-row-${row}`;
+
+  getCellId = (cell: CellPosition) => `${this.getGridId()}-cell-${cell.rowIndex}-${cell.columnIndex}`;
+
+  getOwnedCellIdsForRow = (rowIndex: number) =>
+    range(this.props.numColumns)
+      .map(columnIndex => this.getCellId({ rowIndex, columnIndex }))
       .join(' ');
 
   getGridRowIds = () =>
-    _.range(this.props.numRows)
+    range(this.props.numRows)
       .map(row => this.getRowId(row))
       .join(' ');
 
+  serializeCell = (cell: CellPosition) => `${cell.rowIndex}-${cell.columnIndex}`;
+
+  deserializeCell = (serializedCell: string) => {
+    return {
+      rowIndex: parseInt(serializedCell.split('-')[0], 10),
+      columnIndex: parseInt(serializedCell.split('-')[1], 10),
+    };
+  };
+
   getHeaderIdsForCell = (row: number, column: number) => {
     const headers: string[] = [];
-    if (this.fullRowHeaderCells[row]) {
-      headers.push(this.getCellId(row, this.fullRowHeaderCells[row]));
+    if (this.rowHeaderCells[row].size) {
+      this.rowHeaderCells[row].forEach(serializedCell => {
+        headers.push(this.getCellId(this.deserializeCell(serializedCell)));
+      });
     }
-    if (this.fullColumnHeaderCells[column]) {
-      headers.push(this.getCellId(this.fullColumnHeaderCells[column], column));
-    }
-    if (this.partialRowHeaderCells[row]) {
-      this.partialRowHeaderCells[row]
-        .filter(header => header.describedColumns.includes(column))
-        .forEach(header => headers.push(this.getCellId(row, header.headerIndex)));
-    }
-    if (this.partialColumnHeaderCells[column]) {
-      this.partialColumnHeaderCells[column]
-        .filter(header => header.describedRows.includes(row))
-        .forEach(header => headers.push(this.getCellId(header.headerIndex, column)));
+    if (this.columnHeaderCells[column].size) {
+      this.rowHeaderCells[row].forEach(serializedCell => {
+        headers.push(this.getCellId(this.deserializeCell(serializedCell)));
+      });
     }
     return headers.join(' ');
   };
 
-  getGridProps = (options: GridParams): BoxProps => {
+  getCellSpan = (cell: CellPosition) => {
+    const spanPosition = this.spanReferences[this.serializeCell(cell)];
+    return spanPosition && this.spannedCells[spanPosition];
+  };
+
+  getGridHtmlProps = (options: GridParams): BoxProps => {
     const refPropName = options.refPropName || 'ref';
     const { activeRowIndex, activeColumnIndex, hasFocus } = this.state;
 
@@ -245,42 +341,56 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
       role: 'grid',
       [refPropName]: this.gridRef,
       tabIndex: 0,
-      onFocus: () => {
-        this.setState({
-          hasFocus: true,
-        });
+      onMouseDown: (e: React.MouseEvent) => {
+        if (this.props.disableMouseInteraction) {
+          // Avoid triggering the focus event
+          e.preventDefault();
+        }
+      },
+      onFocus: (e: React.FocusEvent) => {
+        if (e.target === this.gridRef.current) {
+          this.setState({
+            hasFocus: true,
+          });
+        }
       },
       onKeyDown: this.onGridKeyDown as any,
       'aria-owns': this.getGridRowIds(),
     };
 
     if (hasFocus) {
-      gridElProps['aria-activedescendant'] = this.getCellId(activeRowIndex, activeColumnIndex);
+      gridElProps['aria-activedescendant'] = this.getCellId({
+        rowIndex: activeRowIndex,
+        columnIndex: activeColumnIndex,
+      });
     }
 
     return gridElProps;
   };
 
-  getCellProps = (params: CellParams): BoxProps => {
+  getCellHtmlProps = (
+    params: CellParams,
+  ): BoxProps & {
+    rowSpan?: number;
+    colSpan?: number;
+    'data-is-cell': true;
+    'data-cell-content-type': CellType;
+    'data-cell-row-index': number;
+    'data-cell-column-index': number;
+  } => {
     // NOTE: HEADERS MUST BE RENDERED BEFORE THE CELLS THEY DESCRIBE
-    const { rowIndex, columnIndex, headerType, headerDescribes, contentType, rowSpan, colSpan } = params;
-    const refPropName = params.refPropName || 'ref';
+    const { rowIndex, columnIndex, headerType, contentType, rowSpan, colSpan } = params;
+
+    const serializedCell = this.serializeCell({ rowIndex, columnIndex });
 
     const ariaRole = headerType ? ariaRolesForHeaderType[headerType] : 'gridcell';
     if (headerType === 'row') {
-      if (headerDescribes) {
-        this.partialRowHeaderCells[rowIndex].push({ headerIndex: columnIndex, describedColumns: headerDescribes });
-      } else {
-        this.fullRowHeaderCells[rowIndex] = columnIndex;
-      }
-    } else if (headerType === 'column') {
-      if (headerDescribes) {
-        this.partialColumnHeaderCells[columnIndex].push({ headerIndex: rowIndex, describedRows: headerDescribes });
-      } else {
-        this.fullColumnHeaderCells[columnIndex] = rowIndex;
-      }
+      this.rowHeaderCells[rowIndex].add(this.serializeCell({ rowIndex, columnIndex }));
+    } else {
+      this.columnHeaderCells[columnIndex].add(this.serializeCell({ rowIndex, columnIndex }));
     }
 
+    const existingSpan = this.spannedCells[serializedCell];
     // Keep track of all the cell that are in spans and where they start and end
     if (rowSpan || colSpan) {
       const rowSpanEnd = rowSpan ? rowIndex + rowSpan - 1 : rowIndex;
@@ -292,30 +402,50 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
         rowEnds: rowSpanEnd,
       };
 
-      for (let x = rowIndex; x <= rowSpanEnd; x += 1) {
-        for (let y = columnIndex; y <= colSpanEnd; y += 1) {
-          this.spannedCells[`${x}-${y}`] = span;
+      if (!isEqual(span, existingSpan)) {
+        this.spannedCells[serializedCell] = span;
+
+        for (let x = rowIndex; x <= rowSpanEnd; x += 1) {
+          for (let y = columnIndex; y <= colSpanEnd; y += 1) {
+            this.spanReferences[this.serializeCell({ rowIndex: x, columnIndex: y })] = serializedCell;
+          }
+        }
+      }
+    } else {
+      if (existingSpan) {
+        // This cell no longer has a span, so remove it from our object
+        this.spannedCells[serializedCell] = null;
+      }
+
+      const spanForCell = this.getCellSpan({ rowIndex, columnIndex });
+      if (spanForCell) {
+        // Check to make sure cell is still in the right span
+        if (
+          spanForCell.rowStarts < rowIndex ||
+          spanForCell.rowEnds > rowIndex ||
+          spanForCell.columnStarts < columnIndex ||
+          spanForCell.columnEnds > columnIndex
+        ) {
+          this.spanReferences[serializedCell] = null;
         }
       }
     }
 
-    this.setCellType(contentType, rowIndex, columnIndex);
+    this.setCellType({ rowIndex, columnIndex }, contentType);
 
     return {
+      rowSpan,
+      colSpan,
       role: ariaRole,
-      [refPropName]: this.cellRefs[rowIndex][columnIndex],
-      id: this.getCellId(rowIndex, columnIndex),
+      id: this.getCellId({ rowIndex, columnIndex }),
       'aria-describedby': this.getHeaderIdsForCell(rowIndex, columnIndex),
-      onMouseDown: (e: React.MouseEvent) => {
+      'data-cell-content-type': contentType,
+      'data-is-cell': true,
+      'data-cell-row-index': rowIndex,
+      'data-cell-column-index': columnIndex,
+      onClick: (e: React.MouseEvent) => {
         if (this.props.disableMouseInteraction) {
-          e.stopPropagation();
-          e.preventDefault();
           return;
-        }
-
-        if (contentType !== 'read-only') {
-          e.stopPropagation();
-          e.preventDefault();
         }
 
         this.setState({
@@ -324,33 +454,91 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
           activeRowIndex: rowIndex,
           keyboardColumnIndex: columnIndex,
           keyboardRowIndex: rowIndex,
-          editingActiveCell: contentType === 'editable',
+          editingActiveCell: actionableCellTypes.includes(contentType),
           latestUpdateTriggerEl: e.target as any,
         });
       },
-      onKeyDown: (e: React.KeyboardEvent) => {
-        if (contentType === 'editable' && this.state.editingActiveCell) {
-          const focusableEls = tabbable(this.cellRefs[rowIndex][columnIndex].current);
-          if (e.keyCode === KEY_CODES.TAB) {
-            e.preventDefault();
-            const NO_FOCUSABLE_ELEMENTS_WARNING =
-              'There is a focus loop in your dom tree, but none of the contained elements can receive focus';
-            if (focusableEls.length === 0) {
-              console.warn(NO_FOCUSABLE_ELEMENTS_WARNING);
-            } else {
-              const currentFocusIndex: number = Array.from(focusableEls).indexOf(document.activeElement as HTMLElement);
-              const nextFocusIndex: number = (currentFocusIndex + (e.shiftKey ? -1 : 1)) % focusableEls.length;
-              focusableEls[nextFocusIndex].focus();
-            }
+      onBlur: (e: React.FocusEvent) => {
+        const { nextActiveRowIndex, activeRowIndex } = this.state;
+
+        let shouldCallLeaveRowEdit = false;
+        // relatedTarget is the target receiving focus.
+        if (e.relatedTarget) {
+          const cellPosition = this.findCellPositionForElement(e.relatedTarget as HTMLElement);
+          if (cellPosition) {
+            shouldCallLeaveRowEdit = cellPosition.rowIndex !== activeRowIndex;
+          } else {
+            shouldCallLeaveRowEdit = true;
           }
+        } else if (!nextActiveRowIndex || (nextActiveRowIndex && nextActiveRowIndex !== activeRowIndex)) {
+          // Existing nextActiveRowIndex means the blur is manually triggered by calling .blur() after Tab key pressed.
+          // Therefore there is no relatedTarget to the event.
+          shouldCallLeaveRowEdit = true;
         }
+
+        shouldCallLeaveRowEdit && this.props.onLeaveRowEdit && this.props.onLeaveRowEdit(this.state.activeRowIndex);
       },
     };
   };
 
+  getCellState = (cell: CellPosition) => {
+    const isActive =
+      this.state.hasFocus &&
+      this.state.activeRowIndex === cell.rowIndex &&
+      this.state.activeColumnIndex === cell.columnIndex;
+    return {
+      isActive,
+      isEditing: isActive && this.state.editingActiveCell,
+    };
+  };
+
+  getRowState = (rowIndex: number) => {
+    return {
+      hasFocus: this.state.activeRowIndex === rowIndex,
+    };
+  };
+
   onGridKeyDown = (e: KeyboardEvent) => {
-    const { activeRowIndex, activeColumnIndex, editingActiveCell } = this.state;
-    if (!editingActiveCell) {
+    const { editingActiveCell, primedForSkip } = this.state;
+    const cellType = this.getActiveCellType();
+
+    if (this.props.numRows === 0 || this.props.numColumns === 0) {
+      return;
+    }
+
+    if (e.keyCode === KEY_CODES.ESC) {
+      this.setState({
+        primedForSkip: true,
+      });
+    } else if (e.keyCode !== KEY_CODES.SHIFT) {
+      this.setState({
+        primedForSkip: false,
+      });
+    }
+
+    if (e.keyCode === KEY_CODES.TAB) {
+      this.setState({ lastKeyDownIsTab: true });
+    } else {
+      this.setState({ lastKeyDownIsTab: false });
+    }
+
+    if (e.keyCode === KEY_CODES.TAB) {
+      e.preventDefault();
+
+      if (primedForSkip) {
+        if (e.getModifierState('Shift')) {
+          this.focusPreviousTabbableElementOutsideTable();
+        } else {
+          this.focusNextTabbableElementOutsideTable();
+        }
+
+        this.setState({
+          hasFocus: false,
+        });
+      } else {
+        this.focusNextTabbableElementInTable(e.getModifierState('Shift'));
+      }
+    } else if (!editingActiveCell) {
       switch (e.keyCode) {
         case KEY_CODES.LEFT_ARROW:
           this.shiftColumn(-1);
@@ -365,20 +553,18 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
           this.shiftRow(1);
           break;
         case KEY_CODES.ENTER:
-          if (this.getCellType(activeRowIndex, activeColumnIndex) === 'editable') {
+          if (cellTypesWithEditMode.includes(cellType)) {
             this.setState({
               editingActiveCell: true,
               latestUpdateTriggerEl: null,
             });
           }
           break;
-        case KEY_CODES.TAB:
-          e.preventDefault();
-          this.findNextTabbableElement().focus();
-
-          this.setState({
-            hasFocus: false,
-          });
+        default:
+          if (cellType === 'single-input' && e.keyCode !== KEY_CODES.ESC) {
+            // After doing a keystroke, arrow keys won't work as normal
+            this.setState({ editingActiveCell: true });
+          }
       }
     } else if (e.keyCode === KEY_CODES.ESC) {
       this.setState({
@@ -389,7 +575,144 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
     }
   };
 
-  findNextTabbableElement() {
+  getPreviousCell(cell: CellPosition) {
+    const { numColumns } = this.props;
+    const atFirstRow = cell.rowIndex === 0;
+    const atFirstColumn = cell.columnIndex === 0;
+
+    if (atFirstRow && atFirstColumn) {
+      return { rowIndex: -1, columnIndex: -1 };
+    } else if (atFirstColumn) {
+      return { rowIndex: cell.rowIndex - 1, columnIndex: numColumns - 1 };
+    } else {
+      return { rowIndex: cell.rowIndex, columnIndex: cell.columnIndex - 1 };
+    }
+  }
+
+  findCellPositionForElement = (el: HTMLElement) => {
+    let { parentElement } = el;
+    while (parentElement && !parentElement.matches('[data-is-cell]')) {
+      // eslint-disable-next-line prefer-destructuring
+      parentElement = parentElement.parentElement;
+    }
+
+    if (parentElement) {
+      return {
+        rowIndex: parseInt(parentElement.dataset.cellRowIndex, 10),
+        columnIndex: parseInt(parentElement.dataset.cellColumnIndex, 10),
+      };
+    } else {
+      return null;
+    }
+  };
+
+  getNextCell(cell: CellPosition) {
+    const { numRows, numColumns } = this.props;
+    const atLastRow = cell.rowIndex === numRows - 1;
+    const atLastColumn = cell.columnIndex === numColumns - 1;
+
+    if (atLastRow && atLastColumn) {
+      return { rowIndex: -1, columnIndex: -1 };
+    } else if (atLastColumn) {
+      return { rowIndex: cell.rowIndex + 1, columnIndex: 0 };
+    } else {
+      return { rowIndex: cell.rowIndex, columnIndex: cell.columnIndex + 1 };
+    }
+  }
+
+  getPreviousActionableCell(): CellPosition {
+    let previousPosition = this.getPreviousCell({
+      rowIndex: this.state.activeRowIndex,
+      columnIndex: this.state.activeColumnIndex,
+    });
+
+    while (previousPosition.rowIndex !== -1 && !actionableCellTypes.includes(this.getCellType(previousPosition))) {
+      previousPosition = this.getPreviousCell(previousPosition);
+    }
+
+    return previousPosition;
+  }
+
+  getNextActionableCell(): CellPosition {
+    let nextPosition = this.getNextCell({
+      rowIndex: this.state.activeRowIndex,
+      columnIndex: this.state.activeColumnIndex,
+    });
+
+    while (nextPosition.rowIndex !== -1 && !actionableCellTypes.includes(this.getCellType(nextPosition))) {
+      nextPosition = this.getNextCell(nextPosition);
+    }
+
+    return nextPosition;
+  }
+
+  focusPreviousTabbableElementOutsideTable() {
+    const tabbableGridElements = tabbable(this.gridRef.current);
+    const allTabbableElements = tabbable(document.body);
+    let previousTabbableIndex: number;
+
+    if (tabbableGridElements.length > 0) {
+      const firstTabbableGridElement = tabbableGridElements[0];
+      // Have to subtract 2 because grid isn't included in tabbableGridElements
+      previousTabbableIndex = allTabbableElements.indexOf(firstTabbableGridElement) - 2;
+    } else {
+      previousTabbableIndex = allTabbableElements.indexOf(this.gridRef.current) - 1;
+    }
+
+    const previousElementOutsideTable =
+      allTabbableElements[previousTabbableIndex < allTabbableElements.length ? previousTabbableIndex : 0];
+    if (previousElementOutsideTable) {
+      previousElementOutsideTable.focus();
+    }
+  }
+
+  /**
+   * isPrevious: When true, focus the previous tabbable element in table instead of the next.
+   */
+  focusNextTabbableElementInTable(isPrevious?: boolean) {
+    // When focus is in an editable cell with one or more tabbable element, and we aren't currently focusing the last (first if
+    // isPrevious is true) one, then focus the next (previous if isPrevious is true) element in the cell
+    const allTabbableElementsInCell = tabbable(this.getActiveCellEl());
+    const indexDelta = isPrevious ? -1 : 1;
+    const nextTabbableElementInCell =
+      allTabbableElementsInCell[allTabbableElementsInCell.indexOf(document.activeElement) + indexDelta];
+    if (window.document.activeElement === nextTabbableElementInCell) {
+      nextTabbableElementInCell.focus();
+    }
+
+    // Otherwise, find the next actionable cell and focus it
+    const { rowIndex: nextRowIndex, columnIndex: nextColumnIndex } = isPrevious
+      ? this.getPreviousActionableCell()
+      : this.getNextActionableCell();
+    if (nextRowIndex === -1) {
+      // TODO: focusPreviousTabbableElementOutsideTable and focusNextTabbableElementOutsideTable are similar. Consider
+      // abstract them to one function, similar to isPrevious in focusNextTabbableElementInTable.
+      isPrevious ? this.focusPreviousTabbableElementOutsideTable() : this.focusNextTabbableElementOutsideTable();
+    } else {
+      const nextState: Partial<_GridState> = {
+        activeRowIndex: nextRowIndex,
+        activeColumnIndex: nextColumnIndex,
+        keyboardRowIndex: nextRowIndex,
+        keyboardColumnIndex: nextColumnIndex,
+        latestUpdateTriggerEl: null,
+        nextActiveRowIndex: null,
+      };
+
+      if (nextRowIndex !== this.state.activeRowIndex) {
+        // Moving focus to a different row. Need to call .blur explicitly before setting the new focus.
+        // Otherwise TimeInput will not get onBlur event before unmounting when hovering is on another row.
+        this.setState({ nextActiveRowIndex: nextRowIndex }, () => {
+          blurActiveElement();
+          this.setState(nextState as _GridState);
+        });
+      } else {
+        // Moving focus in the same row. Not necessary to manually call .blur. Inputs will not be unmounted.
+        this.setState(nextState as _GridState);
+      }
+    }
+  }
+
+  focusNextTabbableElementOutsideTable() {
     const tabbableGridElements = tabbable(this.gridRef.current);
     const allTabbableElements = tabbable(document.body);
     let nextTabbableIndex: number;
@@ -401,45 +724,54 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
       nextTabbableIndex = allTabbableElements.indexOf(this.gridRef.current) + 1;
     }
 
-    return allTabbableElements[nextTabbableIndex < allTabbableElements.length ? nextTabbableIndex : 0];
-  }
+    const nextElementOutsideTable =
+      allTabbableElements[nextTabbableIndex < allTabbableElements.length ? nextTabbableIndex : 0];
 
-  shouldComponentUpdate(nextProps: GridProps) {
-    if (this.props.numRows !== nextProps.numRows || this.props.numColumns !== nextProps.numColumns) {
-      this.resetRefs();
-    }
-
-    return true;
+    nextElementOutsideTable.focus();
   }
 
   handleClickAway = (e: MouseEvent) => {
     // Grid will have pseudo focus when one of it's child elements has true focus, so we can't rely on blur for this
     // functionality
-    if (!this.gridRef.current.contains(e.target)) {
+    if (this.gridRef.current && !this.gridRef.current.contains(e.target)) {
       this.setState({
+        latestUpdateTriggerEl: null,
         hasFocus: false,
         editingActiveCell: false,
       });
     }
   };
 
+  getActiveCellEl = () => {
+    return document.getElementById(
+      this.getCellId({
+        rowIndex: this.state.activeRowIndex,
+        columnIndex: this.state.activeColumnIndex,
+      }),
+    );
+  };
+
   // In the case where a cell was entered by clicking a focusable element within the cell, we don't want to take
   // focus away from that element.
   wasLatestUpdateTriggerFocusable = () => {
-    const { activeRowIndex, activeColumnIndex, latestUpdateTriggerEl } = this.state;
-    const allTabbableElementsInCell = tabbable(this.cellRefs[activeRowIndex][activeColumnIndex].current);
-    return allTabbableElementsInCell.includes(latestUpdateTriggerEl);
+    // getActiveCellEl fails in cypress
+    if (!this.getActiveCellEl()) {
+      return false;
+    }
+    const allTabbableElementsInCell = tabbable(this.getActiveCellEl());
+    return allTabbableElementsInCell.includes(this.state.latestUpdateTriggerEl);
   };
 
   focusActiveCell = () => {
-    const { activeRowIndex, activeColumnIndex, editingActiveCell, latestUpdateTriggerEl } = this.state;
-    const activeCellType = this.getCellType(activeRowIndex, activeColumnIndex);
+    const { editingActiveCell, latestUpdateTriggerEl } = this.state;
+    const activeCellType = this.getActiveCellType();
 
-    const shouldFocusChild = activeCellType === 'editable' && editingActiveCell;
+    const shouldFocusChild =
+      immediatelyFocusedCellTypes.includes(activeCellType) || (activeCellType === 'action' && editingActiveCell);
 
     if (shouldFocusChild) {
       if (!this.wasLatestUpdateTriggerFocusable()) {
-        focusFirstElement(this.cellRefs[activeRowIndex][activeColumnIndex].current);
+        this.focusFirstElement(this.getActiveCellEl());
       } else if (document.activeElement !== latestUpdateTriggerEl) {
         // Clicking an element that is focusable doesn't always focus it
         latestUpdateTriggerEl.focus();
@@ -447,22 +779,44 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
     }
   };
 
+  resizeHeaderCellMap() {
+    if (this.props.numRows > this.rowHeaderCells.length) {
+      range(this.rowHeaderCells.length, this.props.numRows).forEach(() => {
+        this.rowHeaderCells.push(new Set());
+      });
+    } else if (this.props.numRows < this.rowHeaderCells.length) {
+      this.rowHeaderCells = this.rowHeaderCells.slice(0, this.props.numRows);
+    }
+
+    if (this.props.numColumns > this.columnHeaderCells.length) {
+      range(this.columnHeaderCells.length, this.props.numColumns).forEach(() => {
+        this.columnHeaderCells.push(new Set());
+      });
+    } else if (this.props.numColumns < this.columnHeaderCells.length) {
+      this.columnHeaderCells = this.columnHeaderCells.slice(0, this.props.numColumns);
+    }
+  }
+
   componentDidMount() {
-    document.body.addEventListener('click', this.handleClickAway);
+    document.addEventListener('click', this.handleClickAway);
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener('click', this.handleClickAway);
+    document.removeEventListener('click', this.handleClickAway);
   }
 
   componentDidUpdate(prevProps: GridProps, prevState: _GridState) {
     const { activeRowIndex, activeColumnIndex, hasFocus, editingActiveCell } = this.state;
-    if (
-      hasFocus !== prevState.hasFocus ||
+
+    const hasFocusShifted =
+      (hasFocus && !prevState.hasFocus) ||
       activeRowIndex !== prevState.activeRowIndex ||
       activeColumnIndex !== prevState.activeColumnIndex ||
-      editingActiveCell !== prevState.editingActiveCell
-    ) {
+      (editingActiveCell && !prevState.editingActiveCell);
+
+    const isTableEmpty = this.props.numRows === 0 || this.props.numColumns === 0;
+
+    if (hasFocusShifted && !isTableEmpty) {
       this.focusActiveCell();
     }
   }
@@ -470,31 +824,34 @@ export default class GridAccessibilityProvider extends React.Component<GridProps
   render() {
     const { children } = this.props;
 
+    this.resizeHeaderCellMap();
+
     // Since header info is populated during render, the headers to be rendered first
     // TO-DO see if there is a way around this, maybe manually update dom with correct aria tags on update
-    this.fullRowHeaderCells = {};
-    this.fullColumnHeaderCells = {};
-    this.partialRowHeaderCells = {};
-    this.partialColumnHeaderCells = {};
-    this.spannedCells = {};
+    const helpers = {
+      getCellHtmlProps: this.getCellHtmlProps,
+      getGridHtmlProps: this.getGridHtmlProps,
+      getCellState: this.getCellState,
+      getRowState: this.getRowState,
+    };
 
     return (
-      <AccessibleGridContext.Provider
-        value={{
-          getGridProps: this.getGridProps,
-          getCellProps: this.getCellProps,
-          ...this.state,
-        }}
-      >
-        {children}
+      <>
+        <AccessibleGridStateContext.Provider value={{ ...this.state, helpers }}>
+          <AccessibleGridHelpersContext.Provider value={helpers}>{children}</AccessibleGridHelpersContext.Provider>
+        </AccessibleGridStateContext.Provider>
 
         {/* The aria spec requires cells to be owned by rows.  Requiring users to specify the elements with row accessibility
           markup as part of this API seems redundant because the row information is provided on each cell.  Instead we can create
           the necessary row mark-up automatically and be unopinionate about how API consumers visually lay out their cells  */}
-        {_.range(this.props.numRows).map(row => (
-          <Box key={row} id={this.getRowId(row)} role="row" aria-owns={this.getOwnedCellIdsForRow(row)} />
+        {range(this.props.numRows).map(row => (
+          <div key={row} id={this.getRowId(row)} role="row" aria-owns={this.getOwnedCellIdsForRow(row)} />
         ))}
-      </AccessibleGridContext.Provider>
+      </>
     );
   }
+}
+
+function blurActiveElement() {
+  document.activeElement && (document.activeElement as HTMLElement).blur();
 }

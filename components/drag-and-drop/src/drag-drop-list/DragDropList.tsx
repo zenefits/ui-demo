@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Box, Flex } from 'zbase';
 
+import { styled } from 'z-frontend-theme';
+
 import { DragDropListContext } from './Context';
 import { DroppableList } from './List';
 
@@ -20,15 +22,15 @@ interface DraggableProps {
   isDragging?: boolean;
 }
 
-const DraggableBox = Box.extendProps<DraggableProps>();
-const DraggableFlex = Flex.extendProps<DraggableProps>();
-
 // Make it a component so that styleguide can pick up documentation
 class DragDropList extends React.Component<{}, {}> {
   static Context = DragDropListContext;
+
   static List = DroppableList;
-  static DraggableBox = DraggableBox;
-  static DraggableFlex = DraggableFlex;
+
+  static DraggableBox = styled(Box)<DraggableProps>``;
+
+  static DraggableFlex = styled(Flex)<DraggableProps>``;
 }
 
 export default DragDropList;
